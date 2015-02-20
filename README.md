@@ -1,4 +1,6 @@
-# Adic - Another Dependency Injector Container
+# Adic
+
+**Another Dependency Injector Container for Unity 3D and beyond**
 
 ## Contents
 
