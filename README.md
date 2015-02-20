@@ -24,7 +24,7 @@
 
 ## <a id="introduction"></a>Introduction
 
-**Adic** is a lightweight dependency injection container for Unity 3D.
+*Adic* is a lightweight dependency injection container for Unity 3D.
 
 Based on studies from [StrangeIoC](http://strangeioc.github.io/strangeioc/) and the proof-of-concept container from [Sebastiano Mandalà](http://blog.sebaslab.com/ioc-container-for-unity3d-part-1/), the ideia of the project was to create a dependency injection container that is simple to use and extend, having on its roots the simplicity of the work of Mandalà and the extensibility of StrangeIoC.
 
@@ -50,11 +50,12 @@ The project was tested on Unity 4.3+ and should work on lower versions of the 4 
 * **Binder**: binds a type to another type or instance with inject conditions.
 * **Injector**: resolves and injects dependencies.
 * **Context Root**: main context in which the containers are in. Acts as an entry point for the game. It's implemented through an <a href="#extension-context-root">extension</a>.
+* **Extensions**: provide additional features to containers.
 
 ### <a id="types-of-bindings"></a>Types of bindings
 
-* **Transient**: a new instance is created each time a dependency needs to be resolved;
-* **Singleton**: a single instance is created and used on any dependency resolution;
+* **Transient**: a new instance is created each time a dependency needs to be resolved.
+* **Singleton**: a single instance is created and used on any dependency resolution.
 * **Factory**: creates the instance and returns it to the container.
 
 ### <a id="pipeline"></a>Pipeline
@@ -95,6 +96,8 @@ namespace MyNamespace {
 3\. Create the context root (e. g. GameRoot.cs) of your scene by inheriting from `Intentor.Adic.ContextRoot`.
 
 **NOTE**: there should be only one context root per scene.
+
+**HINT**: when using a context root for each scene of your game, to make the project more organized, on `Scripts` folder create folders for each of your scenes that will hold their own scripts and context roots.
    
 ```cs
 using UnityEngine;
@@ -115,7 +118,7 @@ namespace MyNamespace {
 }
 ```
    
-4\. On `SetupContainers()` method, add any contexts you may have created by calling `this.Add<ContainerType>()`.
+4\. On `SetupContainers()` method, add any contexts you may have created by calling `Add<ContainerType>()`.
 
 5\. On the `Init()` method, place any codes to start your game.
 
@@ -127,7 +130,7 @@ namespace MyNamespace {
 
 ## <a id="container-extensions"></a>Extensions
 
-Extensions are a way to enhance **Adic** without having to edit it to suit different needs. By using extensions, the core of **Adic** is kept agnostic, so it can be used on any C# environment.
+Extensions are a way to enhance *Adic* without having to edit it to suit different needs. By using extensions, the core of *Adic* is kept agnostic, so it can be used on any C# environment.
 
 ## <a id="available-extensions"></a>Available extensions
 
@@ -139,13 +142,13 @@ Provides an entry point for the game on Unity 3D.
 
 1. When adding a container using `AddContainer()`, it's possible to keep it alive between scenes by setting the `destroyOnLoad` to `false`.
 
-**Dependencies**: none.
+**Dependencies**: none
 
 ### <a id="extension-mono-injection">Mono Injection
 
 Allows injection on MonoBehaviours by provinding an `Inject` method to `UnityEngine.MonoBehaviour`.
 
-**Dependencies**: Context Root.
+**Dependencies**: <a href="#extension-context-root">Context Root</a>
 
 ### <a id="extension-unity-binding">Unity Binding
 
@@ -153,13 +156,13 @@ Provides Unity 3D bindings to the container.
 
 #### Notes
 
-1. ALWAYS CALL Inject FROM Start! (use the MonoInjection Extension).
+1. ALWAYS CALL Inject FROM 'Start'! (use the <a href="#extension-mono-injection">Mono Injection</a> Extension).
 
-**Dependencies**: none.
+**Dependencies**: none
 
 ## <a id="creating-extensions"></a>Creating extensions
 
-Extensions on Adic can be made through 3 ways:
+Extensions on *Adic* can be created in 3 ways:
 
 1. Creating a framework extension extending the base APIs through their interfaces;
 2. Creating extension methods to any part of the framework;
@@ -167,11 +170,11 @@ Extensions on Adic can be made through 3 ways:
 
 Basically, to create a *container extension*, you have to:
 
-1\. Create the extension class with `ContainerExtension` sufix;
+1\. Create the extension class with `ContainerExtension` sufix.
 
-2\. Implement `Intentor.Adic.IContainerExtension`;
+2\. Implement `Intentor.Adic.IContainerExtension`.
 
-3\. Subscribe to any events on the container on OnRegister method;
+3\. Subscribe to any events on the container on OnRegister method.
 
 ```cs
 public void OnRegister(IInjectionContainer container) {
@@ -216,39 +219,39 @@ All events are available through `Intentor.Adic.InjectionContainer`.
 
 ## <a id="examples"></a>Examples
 
-There are some examples that are bundled to the main package that teach the basics and beyond of **Adic**.
+There are some examples that are bundled to the main package that teach the basics and beyond of *Adic*.
 
-**Note**: these examples are not yet implemented on the current version.
+**NOTE**: these examples are not yet implemented on the current version.
 
-### Hello World
+**Hello World**
 
 Simple binding a dependency to a MonoBehaviour that displays "Hello World".
 
 Shows the basics of how to setup a scene for dependency using the ContextRoot.
 
-### Binding Game Objects
+**Binding Game Objects**
 
 Binds MonoBehaviours to new and existing game objects and allows them to share dependencies.
 
-### Binding Interfaces
+**Binding Interfaces**
 
 Binds interfaces to MonoBehaviours and regular classes
 
-### Using conditions
+**Using conditions**
 
 Exemplify the use of identifiers and conditions for a better dependency injection
 
-### Prefabs
+**Prefabs**
 
 Exemplify the use of binding to prefabs
 
-## Commander
+**Commander**
 
 Exemplify the binding and using of commands to execute complex actions.
 
-### InjectCrush
+**InjectCrush**
 
-A very simple Candy Crush like game to exemplify the complete use of the framework and its extensions
+A very simple Candy Crush like game to exemplify the complete use of the framework and its extensions.
 
 ## <a id="license"></a>License
 
