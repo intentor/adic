@@ -1,4 +1,6 @@
-# Adic - Another Dependency Injector Container
+# Adic
+
+**Another Dependency Injector Container for Unity 3D and beyond**
 
 ## Contents
 
@@ -10,14 +12,15 @@
 	* <a href="#pipeline">Pipeline
 * <a href="#how-to-use">How to use</a>
 * <a href="#notes">Notes</a>
-* <a href="#examples">Examples</a>
+* <a href="#example">Example</a>
+* <a href="#support">Support</a>
 * <a href="#license">License</a>
 
 ## <a id="introduction"></a>Introduction
 
 Adic is a lightweight dependency injection container for Unity 3D.
 
-Based on studies from [StrangeIoC](http://strangeioc.github.io/strangeioc/) and the proof-of-concept container from [Sebastiano Mandal‡](http://blog.sebaslab.com/ioc-container-for-unity3d-part-1/), the ideia of the project was to create a dependency injection container that is simple to use and extend, having on its roots the simplicity of the work of Mandal‡ and the extensibility of StrangeIoC.
+Based on studies from [StrangeIoC](http://strangeioc.github.io/strangeioc/) and the proof-of-concept container from [Sebastiano Mandal√†](http://blog.sebaslab.com/ioc-container-for-unity3d-part-1/), the ideia of the project was to create a dependency injection container that is simple to use and extend, having on its roots the simplicity of the work of Mandal√† and the extensibility of StrangeIoC.
 
 The project was tested on Unity 4.3+ and should work on lower versions of the 4 cicle.
 
@@ -118,9 +121,15 @@ namespace MyNamespace {
 1. If an instance is not found, it will be resolved to NULL;
 2. Adic relies on Unity Test Tools for unit testing. You can download it at [Unity Asset Store](https://www.assetstore.unity3d.com/#!/content/13802).
 
-## <a id="examples"></a>Example
+## <a id="example"></a>Example
 
 The provided example shows the basics of how to setup a scene for dependency injection and the use of the context root.
+
+## <a id="support"></a>Support
+
+Found a bug? Please create an issue on the [GitHub project page](https://github.com/intentor/adic/) or send a pull request if have a fix or extension.
+
+You can also send me a message at andre@intentor.com.br to discuss more obscure matters about *Adic*.
 
 ## <a id="license"></a>License
 
