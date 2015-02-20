@@ -1,0 +1,44 @@
+================================================================================
+ ADIC - ROADMAP
+================================================================================
+
+--------------------------------------------------------------------------------
+ CONTAINER
+--------------------------------------------------------------------------------
+
+Unity binding with FindWithTag().
+	container.Bind<Transform>().ToGameObjectWithTag<Transform>(GameTag.SHIP);
+
+--------------------------------------------------------------------------------
+ EXTENSIONS
+--------------------------------------------------------------------------------
+	
+Commander
+	Adds itself to the container (so everyone can acess it) and allows 
+	registration, dispatch and cache of commands.
+
+	Dependencies: none
+
+Disposable
+	Holds references to any object that has IDisposable so it can dispose them 
+	when the container is destroyed.
+
+	Dependencies: none
+
+UnityBinding
+	Dependencies: none		
+
+Updateable
+	Calls update on any class that implements IUpdateable/IFixedUpdate.
+
+	Dependencies: none
+
+BindingsPrinter (Editor only, runtime)
+	Prints all bindings on any containers on the ContextRoot.
+
+	Dependencies: ContextRoot Extension
+
+ObjectGraphPrinter ? (Editor only, runtime)
+	Prints the entire dependencies through all types on the binder.
+
+	Dependencies: ContextRoot Extension

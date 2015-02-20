@@ -1,8 +1,8 @@
 using System;
-using Adic;
+using Intentor.Adic;
 using NUnit.Framework;
 
-namespace Adic.Tests {
+namespace Intentor.Adic.Tests {
 	[TestFixture]
 	public class InjectorTests {
 		/// <summary>Injector used on tests.</summary>
@@ -12,57 +12,80 @@ namespace Adic.Tests {
 
 		[SetUp]
 		public void Init() {
-			this.injector = new InjectorBinder();
+			this.injector = new InjectionContainer();
 			this.binder = this.injector as IBinder;
 
 			//Binds some objects to use on tests.
-			binder.Bind<IMockInterface>().To<MockClassWithoutAtrributes>();
-			binder.Bind("singleton").AsSingleton<MockClassWithoutAtrributes>();
+			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
+			binder.Bind<MockIClassWithoutAttributes>().ToSingleton().As("singleton");
+			binder.Bind<MockIClass>().ToSingleton();
 		}
 		
 		[Test]
-		public void TestResolveByInterface() {
+		public void TestResolveByGenerics() {
 			var instance = this.injector.Resolve<IMockInterface>();
 
-			Assert.AreEqual(typeof(MockClassWithoutAtrributes), instance.GetType());
+			Assert.AreEqual(typeof(MockIClassWithAttributes), instance.GetType());
 		}
 		
 		[Test]
 		public void TestResolveByType() {
 			var instance = this.injector.Resolve(typeof(IMockInterface));
 			
-			Assert.AreEqual(typeof(MockClassWithoutAtrributes), instance.GetType());
+			Assert.AreEqual(typeof(MockIClassWithAttributes), instance.GetType());
 		}
 		
 		[Test]
-		public void TestResolveByName() {
-			var instance = this.injector.Resolve("singleton");
+		public void TestResolveSingleton() {
+			var singleton = this.binder.GetBindingsFor<MockIClass>()[0].value;
+			var instance = this.injector.Resolve<MockIClass>();
 			
-			Assert.AreEqual(typeof(MockClassWithoutAtrributes), instance.GetType());
+			Assert.AreEqual(singleton, instance);
 		}
 		
 		[Test]
-		public void TestResolveFromNoBindedType() {
+		public void TestResolveMultiple() {
+			var container = new InjectionContainer();
+
+			container.Bind<IMockInterface>().To<MockIClass>();
+			container.Bind<IMockInterface>().To<MockIClassWithAttributes>();
+			container.Bind<IMockInterface>().To<MockIClassWithoutAttributes>();
+
+			var instance = container.Resolve<MockClassMultiple>();
+			
+			Assert.AreEqual(3, instance.list.Length);
+			Assert.AreEqual(typeof(MockIClass), instance.list[0].GetType());
+			Assert.AreEqual(typeof(MockIClassWithAttributes), instance.list[1].GetType());
+			Assert.AreEqual(typeof(MockIClassWithoutAttributes), instance.list[2].GetType());
+		}
+		
+		[Test]
+		public void TestResolveFromNoBoundType() {
+			var mockInterface = this.binder.GetBindingsFor<IMockInterface>()[0].value;
+			var singleton = this.binder.GetBindingsFor<MockIClassWithoutAttributes>()[0].value;
+
 			var instance = this.injector.Resolve<MockClassWithDependencies>();
 
 			Assert.AreEqual(typeof(MockClassWithDependencies), instance.GetType());
-			Assert.NotNull(instance.dependency);
-			Assert.AreEqual(instance.propertyMockInterface.GetType(), this.binder.GetBinding<IMockInterface>().value);
-			Assert.AreEqual(instance.propertySingleton, this.binder.GetBinding("singleton").value);
-			Assert.AreEqual(instance.fieldMockInterface.GetType(), this.binder.GetBinding<IMockInterface>().value);
-			Assert.AreEqual(instance.fieldSingleton, this.binder.GetBinding("singleton").value);
+			Assert.NotNull(instance.dependencyFromConstructor);
+			Assert.AreEqual(instance.fieldMockInterface.GetType(), mockInterface);
+			Assert.AreEqual(instance.fieldSingleton, singleton);
+			Assert.AreEqual(instance.propertyMockInterface.GetType(), mockInterface);
+			Assert.AreEqual(instance.propertySingleton, singleton);
 		}
 
 		[Test]
 		public void TestInjectOnInstance() {
-			var instance = new MockClassWithDependencies();
+			var mockInterface = this.binder.GetBindingsFor<IMockInterface>()[0].value;
+			var singleton = this.binder.GetBindingsFor<MockIClassWithoutAttributes>()[0].value;
 
+			var instance = new MockClassWithDependencies();
 			this.injector.Inject<MockClassWithDependencies>(instance);
 
-			Assert.AreEqual(instance.propertyMockInterface.GetType(), this.binder.GetBinding<IMockInterface>().value);
-			Assert.AreEqual(instance.propertySingleton, this.binder.GetBinding("singleton").value);
-			Assert.AreEqual(instance.fieldMockInterface.GetType(), this.binder.GetBinding<IMockInterface>().value);
-			Assert.AreEqual(instance.fieldSingleton, this.binder.GetBinding("singleton").value);
+			Assert.AreEqual(instance.fieldMockInterface.GetType(), mockInterface);
+			Assert.AreEqual(instance.fieldSingleton, singleton);
+			Assert.AreEqual(instance.propertyMockInterface.GetType(), mockInterface);
+			Assert.AreEqual(instance.propertySingleton, singleton);
 		}
 		
 		[Test]
@@ -70,8 +93,8 @@ namespace Adic.Tests {
 			var instance = new MockClassWithPostConstruct();
 
 			instance = this.injector.Inject<MockClassWithPostConstruct>(instance);
-
-			Assert.AreEqual(true, instance.hasCalledPostConstructor);
+			
+			Assert.IsTrue(instance.hasCalledPostConstructor);
 		}
 	}
 }
