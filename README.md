@@ -20,6 +20,7 @@
 		* <a id="injector-events">Injector events</a>
 * <a href="#notes">Notes</a>
 * <a href="#examples">Examples</a>
+* <a href="#support">Support</a>
 * <a href="#license">License</a>
 
 ## <a id="introduction"></a>Introduction
@@ -223,35 +224,41 @@ There are some examples that are bundled to the main package that teach the basi
 
 **NOTE**: these examples are not yet implemented on the current version.
 
-**Hello World**
+### Hello World
 
 Simple binding a dependency to a MonoBehaviour that displays "Hello World".
 
 Shows the basics of how to setup a scene for dependency using the ContextRoot.
 
-**Binding Game Objects**
+### Binding Game Objects
 
 Binds MonoBehaviours to new and existing game objects and allows them to share dependencies.
 
-**Binding Interfaces**
+### Binding Interfaces
 
 Binds interfaces to MonoBehaviours and regular classes
 
-**Using conditions**
+### Using conditions
 
 Exemplify the use of identifiers and conditions for a better dependency injection
 
-**Prefabs**
+### Prefabs
 
 Exemplify the use of binding to prefabs
 
-**Commander**
+### Commander
 
 Exemplify the binding and using of commands to execute complex actions.
 
-**InjectCrush**
+### InjectCrush
 
 A very simple Candy Crush like game to exemplify the complete use of the framework and its extensions.
+
+## <a id="support"></a>Support
+
+Found a bug? Please create an issue on the [GitHub project page](https://github.com/intentor/adic/) or send a pull request if have a fix or extension.
+
+You can also send me a message at andre@intentor.com.br to discuss more obscure matters about *Adic*.
 
 ## <a id="license"></a>License
 
