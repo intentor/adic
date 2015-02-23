@@ -101,7 +101,7 @@ namespace MyNamespace {
 }
 ```
    
-2\. Setup all your dependencies on the `SetupBindings()` method.
+2\. Setup all your <a href="#bindings">bindings</a> on the `SetupBindings()` method.
 
 3\. Create the context root (e. g. GameRoot.cs) of your scene by inheriting from `Intentor.Adic.ContextRoot`.
 
