@@ -9,12 +9,12 @@ namespace Intentor.Adic.Examples.HelloWorld {
 		public override void SetupContainers() {
 			//Creates the container.
 			var container = new InjectionContainer();
-			//Adds any extensions the container may use.
-			container.RegisterExtension<UnityBindingContainerExtension>();
 
-			//Binds a MonoBehaviour to a GameObject.
-			//The GameObject will be automaticaly created by the UnityBinding extension.
-			container.Bind<HelloWorld>().ToGameObject();
+			//Binds a class to itself.
+			container.Bind<HelloWorld>().ToSelf();
+			//Resolves the class and calls its "HelloWorld" method, which will display
+			//"Hello World!" on the console.
+			container.Resolve<HelloWorld>().DisplayHelloWorld();
 
 			//Adds the container to the context.
 			this.AddContainer(container);
