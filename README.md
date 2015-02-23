@@ -499,7 +499,7 @@ container.Bind<SomeInterface>().To<SomeClass>().When(context =>
 
 The context provides the following fields:
 
-1. **member** (`InjectionMember`): the class member in which the injection is occuring (*None*, *Constructor*, *Field* or *Property*).
+1. **member** (`Intentor.Adic.InjectionMember`): the class member in which the injection is occuring (*None*, *Constructor*, *Field* or *Property*).
 2. **memberType** (`System.Type`): the type of the member in which the injection is occuring.
 3. **identifier** (`object`): the identifier of the member in which the injection is occuring (from InjectAttribute).
 4. **parentType** (`object`): the type of the object in which the injection is occuring.
