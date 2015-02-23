@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Intentor.Adic.BindingGameObjects {
+namespace Intentor.Adic.Examples.BindingGameObjects {
 	/// <summary>
 	/// Game object rotator script.
 	/// </summary>

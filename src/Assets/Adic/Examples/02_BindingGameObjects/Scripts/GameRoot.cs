@@ -1,7 +1,7 @@
 using UnityEngine;
 using Intentor.Adic;
 
-namespace Intentor.Adic.BindingGameObjects {
+namespace Intentor.Adic.Examples.BindingGameObjects {
 	/// <summary>
 	/// Game context root.
 	/// </summary>

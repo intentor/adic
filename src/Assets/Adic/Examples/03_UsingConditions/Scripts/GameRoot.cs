@@ -1,7 +1,7 @@
 using UnityEngine;
 using Intentor.Adic;
 
-namespace Intentor.Adic.UsingConditions {
+namespace Intentor.Adic.Examples.UsingConditions {
 	/// <summary>
 	/// Game context root.
 	/// </summary>
