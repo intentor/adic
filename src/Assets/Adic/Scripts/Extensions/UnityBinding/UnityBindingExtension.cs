@@ -130,7 +130,7 @@ namespace Intentor.Adic {
 		/// <param name="tag">The GameObject tag.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
 		public static IBindingConditionFactory ToGameObjectWithTag(this IBindingFactory bindingFactory, string tag) {
-			return bindingFactory.ToGameObjectWithTag(tag, bindingFactory.bindingType);
+			return bindingFactory.ToGameObjectWithTag(bindingFactory.bindingType, tag);
 		}
 		
 		/// <summary>
@@ -146,7 +146,7 @@ namespace Intentor.Adic {
 		/// <param name="tag">The GameObject tag.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
 		public static IBindingConditionFactory ToGameObjectWithTag<T>(this IBindingFactory bindingFactory, string tag) where T : Component {
-			return bindingFactory.ToGameObjectWithTag(tag, typeof(T));
+			return bindingFactory.ToGameObjectWithTag(typeof(T), tag);
 		}
 		
 		/// <summary>
