@@ -226,33 +226,29 @@ There are some examples that are bundled to the main package that teach the basi
 
 **NOTE**: these examples are not yet implemented on the current version.
 
-### Hello World
+### 1. Hello World
 
-Simple binding a dependency to a MonoBehaviour that displays "Hello World".
+Binds and resolves a dependency that writes "Hello, world" on the console.
 
-Shows the basics of how to setup a scene for dependency using the ContextRoot.
+Shows the basics of how to setup a scene for dependency injection using the ContextRoot.
 
-### Binding Game Objects
+### 2. Binding Game Objects
 
-Binds MonoBehaviours to new and existing game objects and allows them to share dependencies.
+Binds components to new and existing game objects and allows them to share dependencies.
 
-### Binding Interfaces
-
-Binds interfaces to MonoBehaviours and regular classes
-
-### Using conditions
+### 3. Using conditions
 
 Exemplify the use of identifiers and conditions for a better dependency injection
 
-### Prefabs
+### 4. Prefabs
 
-Exemplify the use of binding to prefabs
+Exemplify the binding to prefabs.
 
-### Commander
+### 5. Commander
 
 Exemplify the binding and using of commands to execute complex actions.
 
-### InjectCrush
+### 6. InjectCrush
 
 A very simple Candy Crush like game to exemplify the complete use of the framework and its extensions.
 
