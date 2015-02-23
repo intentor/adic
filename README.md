@@ -16,6 +16,7 @@
 	* <a href="#constructor-injection">Constructor injection</a>
 	* <a href="#member-injection">Member injection</a>
 	* <a href="#multiple-constructors">Multiple constructors</a>
+	* <a href="#multiple-injection">Multiple injection</a>
 	* <a href="#monobehaviour-injection">MonoBehaviour injection</a>
 	* <a href="#conditions">Conditions</a>
 	* <a href="#manual-type-resolution">Manual type resolution</a>
@@ -401,7 +402,36 @@ namespace MyNamespace {
 }
 ```
 
+### <a id="multiple-injection"></a>Multiple injection
 
+It's possible to inject multiple objects of the same type by creating a series of bindings of the same key type. In this case, the injection occurs on an array of the key type.
+
+Binding multiple objects to the same key:
+
+```cs
+container.Bind<GameObject>.ToGameObject("Enemy1");
+container.Bind<GameObject>.ToGameObject("Enemy2");
+container.Bind<GameObject>.ToGameObject("Enemy3");
+container.Bind<GameObject>.ToGameObject("Enemy4");
+container.Bind<GameObject>.ToGameObject("Enemy5");
+```
+
+Multiple injection on a field:
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My class summary.
+	/// </summary>
+	public class MyClass {
+		/// <summary>Enemies on the game.</summary>
+		[Inject]
+		public GameObject[] enemies;
+	}
+}
+```
+
+It's possible to manual resolve multiple objects. Please see <a href="#manual-type-resolution">Manual type resolution</a> for more information.
 
 ### <a id="monobehaviour-injection"></a>MonoBehaviour injection
 
@@ -515,6 +545,15 @@ If you need to get a type from the container but do not want to use injection th
 var instance = container.Resolve<Type>();
 //...or by type instance.
 instance = container.Resolve(typeInstance);
+```
+
+It's also possible to resolve all objects of a given type:
+
+```cs
+//Resolving all objects using generics...
+var instances = container.ResolveAll<Type>();
+//...or by type instance.
+instances = container.ResolveAll(typeInstance);
 ```
 
 **Note**: currently manual resolution of bindings that has conditions is not supported.

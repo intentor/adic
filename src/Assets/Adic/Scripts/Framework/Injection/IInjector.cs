@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace Intentor.Adic {
 	/// <summary>
@@ -16,16 +15,6 @@ namespace Intentor.Adic {
 		event InstanceInjectionHandler beforeInject;
 		/// <summary>Occurs after an instance receives injection.</summary>
 		event InstanceInjectionHandler afterInject;
-
-		/// <summary>
-		/// Resolves an instance for a specified type.
-		/// </summary>
-		/// <remarks>
-		/// If the type has multiple instances, it will return an IList<[type]>.
-		/// </remarks>
-		/// <param name="type">Type to be resolved.</param>
-		/// <returns>The instance or NULL.</returns>
-		object Resolve(Type type);
 		
 		/// <summary>
 		/// Resolves an instance for a specified type.
@@ -36,13 +25,30 @@ namespace Intentor.Adic {
 		/// <typeparam name="T">Type to be resolved.</typeparam>
 		/// <returns>The instance or NULL.</returns>
 		T Resolve<T>();
+		
+		/// <summary>
+		/// Resolves an instance for a specified type.
+		/// </summary>
+		/// <remarks>
+		/// If the type has multiple instances, it will return an IList<[type]>.
+		/// </remarks>
+		/// <param name="type">Type to be resolved.</param>
+		/// <returns>The instance or NULL.</returns>
+		object Resolve(Type type);
 
 		/// <summary>
 		/// Resolves a list of instances for a specified type.
 		/// </summary>
 		/// <typeparam name="T">Type to be resolved.</typeparam>
 		/// <returns>The list of instances or NULL if there are no instances.</returns>
-		IList<T> ResolveAll<T>();
+		T[] ResolveAll<T>();
+		
+		/// <summary>
+		/// Resolves a list of instances for a specified type.
+		/// </summary>
+		/// <param name="type">Type to be resolved.</param>
+		/// <returns>The list of instances or NULL if there are no instances.</returns>
+		object[] ResolveAll(Type type);
 		
 		/// <summary>
 		/// Injects dependencies on an instance of an object.

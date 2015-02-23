@@ -184,17 +184,21 @@ namespace Intentor.Adic {
 			add { this.injector.afterInject += value; }
 			remove { this.injector.afterInject -= value; }
 		}
+		
+		public T Resolve<T>() {
+			return this.injector.Resolve<T>();
+		}
 
 		public object Resolve(Type type) {
 			return this.injector.Resolve(type);
 		}
 
-		public T Resolve<T>() {
-			return this.injector.Resolve<T>();
-		}
-
-		public IList<T> ResolveAll<T>() {
+		public T[] ResolveAll<T>() {
 			return this.injector.ResolveAll<T>();
+		}
+		
+		public object[] ResolveAll(Type type) {
+			return this.injector.ResolveAll(type);
 		}
 
 		public T Inject<T>(T instance) where T : class {

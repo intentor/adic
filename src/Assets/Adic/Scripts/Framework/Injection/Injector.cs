@@ -38,18 +38,6 @@ namespace Intentor.Adic {
 		/// Resolves an instance for a specified type.
 		/// </summary>
 		/// <remarks>
-		/// If the type has multiple instances, it will return an IList<[type]>.
-		/// </remarks>
-		/// <param name="type">Type to be resolved.</param>
-		/// <returns>The instance or NULL.</returns>
-		public object Resolve(Type type) {
-			return this.Resolve(type, InjectionMember.None, null, null);
-		}
-		
-		/// <summary>
-		/// Resolves an instance for a specified type.
-		/// </summary>
-		/// <remarks>
 		/// If the type has multiple instances, please use ResolveAll<T>().
 		/// </remarks>
 		/// <typeparam name="T">Type to be resolved.</typeparam>
@@ -59,21 +47,52 @@ namespace Intentor.Adic {
 		}
 		
 		/// <summary>
+		/// Resolves an instance for a specified type.
+		/// </summary>
+		/// <remarks>
+		/// If the type has multiple instances, it will return an IList<[type]>.
+		/// </remarks>
+		/// <param name="type">Type to be resolved.</param>
+		/// <returns>The instance or NULL.</returns>
+		public object Resolve(Type type) {
+			return this.Resolve(type, InjectionMember.None, null, null);
+		}
+		
+		/// <summary>
 		/// Resolves a list of instances for a specified type.
 		/// </summary>
 		/// <typeparam name="T">Type to be resolved.</typeparam>
 		/// <returns>The list of instances or NULL if there are no instances.</returns>
-		public IList<T> ResolveAll<T>() {
+		public T[] ResolveAll<T>() {
 			var instance = this.Resolve(typeof(T));
 			
 			if (instance == null) {
 				return null;
-			} else if (instance is List<T>) {
-				return (instance as List<T>);
+			} else if (!instance.GetType().IsArray) {
+				var array = Array.CreateInstance(instance.GetType(), 1);
+				array.SetValue(instance, 0);
+				return (T[])array;
 			} else {
-				var instances = new List<T>(1);
-				instances.Add((T)instance);
-				return instances;
+				return (T[])instance;
+			}
+		}
+		
+		/// <summary>
+		/// Resolves a list of instances for a specified type.
+		/// </summary>
+		/// <param name="type">Type to be resolved.</param>
+		/// <returns>The list of instances or NULL if there are no instances.</returns>
+		public object[] ResolveAll(Type type) {
+			var instance = this.Resolve(type);
+			
+			if (instance == null) {
+				return null;
+			} else if (!instance.GetType().IsArray) {
+				var array = Array.CreateInstance(instance.GetType(), 1);
+				array.SetValue(instance, 0);
+				return (object[])array;
+			} else {
+				return (object[])instance;
 			}
 		}
 
