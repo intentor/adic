@@ -80,7 +80,7 @@ namespace Intentor.Adic {
 			return this.CreateBinding(type, BindingInstance.Transient);
 		}
 		
-		// <summary>
+		/// <summary>
 		/// Binds the key type to an <paramref name="instance"/>.
 		/// </summary>
 		/// <typeparam name="T">The related type.</typeparam>
@@ -90,7 +90,7 @@ namespace Intentor.Adic {
 			return this.To(typeof(T), instance);
 		}
 
-		// <summary>
+		/// <summary>
 		/// Binds the key type to an <paramref name="instance"/>.
 		/// </summary>
 		/// <param name="type">The related type.</typeparam>
