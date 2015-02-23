@@ -116,6 +116,74 @@ namespace Intentor.Adic {
 		}
 
 		/// <summary>
+		/// Binds the key type to a singleton <see cref="UnityEngine.Component"/>
+		/// of itself on a GameObject of a given <paramref name="tag"/>.
+		/// 
+		/// If more than one object is returned, just the first one will be binded.
+		/// 
+		/// The key type must be derived either from <see cref="UnityEngine.GameObject"/>
+		/// or <see cref="UnityEngine.Component"/>.
+		/// 
+		/// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
+		/// </summary>
+		/// <param name="bindingFactory">The original binding factory.</param>
+		/// <param name="tag">The GameObject tag.</param>
+		/// <returns>The binding condition object related to this binding.</returns>
+		public static IBindingConditionFactory ToGameObjectWithTag(this IBindingFactory bindingFactory, string tag) {
+			return bindingFactory.ToGameObjectWithTag(tag, bindingFactory.bindingType);
+		}
+		
+		/// <summary>
+		/// Binds the key type to a singleton <see cref="UnityEngine.Component"/>
+		/// of <typeparamref name="T"/> on a GameObject with a given <paramref name="tag"/>.
+		/// 
+		/// If more than one object is returned, just the first one will be binded.
+		/// 
+		/// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
+		/// </summary>
+		/// <typeparam name="Type">The component type to bind the GameObject to.</typeparam>
+		/// <param name="bindingFactory">The original binding factory.</param>
+		/// <param name="tag">The GameObject tag.</param>
+		/// <returns>The binding condition object related to this binding.</returns>
+		public static IBindingConditionFactory ToGameObjectWithTag<T>(this IBindingFactory bindingFactory, string tag) where T : Component {
+			return bindingFactory.ToGameObjectWithTag(tag, typeof(T));
+		}
+		
+		/// <summary>
+		/// Binds the key type to a singleton  <paramref name="type"/> on a GameObject 
+		/// with a given <paramref name="tag"/>.
+		/// 
+		/// If more than one object is returned, just the first one will be binded.
+		/// 
+		/// If <paramref name="type"/> is <see cref="UnityEngine.GameObject"/>, binds the
+		/// key to the GameObject itself.
+		/// 
+		/// If <paramref name="type"/> is see cref="UnityEngine.Component"/>, binds the key
+		/// to the the instance of the component.
+		/// 
+		/// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
+		/// </summary>
+		/// <param name="bindingFactory">The original binding factory.</param>
+		/// <param name="type">The component type.</param>
+		/// <param name="tag">The GameObject tag.</param>
+		/// <returns>The binding condition object related to this binding.</returns>
+		public static IBindingConditionFactory ToGameObjectWithTag(this IBindingFactory bindingFactory, string tag, Type type) {
+			if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
+				throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
+			}
+			
+			var isGameObject = TypeUtils.IsAssignable(typeof(GameObject), type);
+			var isComponent = TypeUtils.IsAssignable(typeof(Component), type);
+			if (!isGameObject && !isComponent) {
+				throw new BindingException(TYPE_NOT_COMPONENT);
+			}
+			
+			GameObject gameObject = GameObject.FindWithTag(tag);
+			
+			return CreateSingletonBinding(bindingFactory, gameObject, type, isGameObject);
+		}
+
+		/// <summary>
 		/// Binds the key type to a transient of itself on the prefab.
 		/// 
 		/// The key type must be derived either from <see cref="UnityEngine.GameObject"/>
