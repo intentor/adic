@@ -167,7 +167,7 @@ namespace Intentor.Adic {
 		/// <param name="type">The component type.</param>
 		/// <param name="tag">The GameObject tag.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObjectWithTag(this IBindingFactory bindingFactory, string tag, Type type) {
+		public static IBindingConditionFactory ToGameObjectWithTag(this IBindingFactory bindingFactory, Type type, string tag) {
 			if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
 				throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
 			}
