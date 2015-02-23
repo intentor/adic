@@ -35,7 +35,7 @@ The project was tested on Unity 4.3+ and should work on lower versions of the 4 
 
 ## <a id="features"></a>Features
 
-* Binds transient types, singleton instances, factories, game objects and prefabs.
+* Binds types, singleton instances, factories, game objects and prefabs.
 * Instance resolution by type, identifier and complex conditions.
 * Injection on constructor, fields and properties.
 * Can inject multiple objects of the same type.
@@ -53,7 +53,7 @@ The project was tested on Unity 4.3+ and should work on lower versions of the 4 
 * **Binder**: binds a type to another type or instance with inject conditions.
 * **Injector**: resolves and injects dependencies.
 * **Context Root**: main context in which the containers are in. Acts as an entry point for the game. It's implemented through an <a href="#extension-context-root">extension</a>.
-* **Extensions**: provide additional features to containers.
+* **Extensions**: provides additional features to containers.
 
 ### <a id="types-of-bindings"></a>Types of bindings
 
@@ -65,11 +65,11 @@ The project was tested on Unity 4.3+ and should work on lower versions of the 4 
 
 1. Unity Awake()
 2. ContextRoot calls SetupContainers()
-3. Container generates cache for its types
+3. ContextRoot asks for each container to generate cache for its types
 4. ContextRoot calls Init()
 5. Unity Start() on all MonoBehaviours
 6. Injection on MonoBehaviours
-7. Unity Update() is called, which results in Tick() being called for all ITickable objects (in the order specified in the installers)?
+7. Unity Update() is called on every object that implemented IUpdateable
 8. Scene is destroyed
 9. Dispose() is called on every object that implemented IDispose
 
@@ -88,7 +88,7 @@ namespace MyNamespace {
 	/// </summary>
 	public class GameContainer : Intentor.Adic.Container {
 		public override void SetupBindings() {
-
+			//Setup any bindings.
 		}
 	}
 }
@@ -115,7 +115,7 @@ namespace MyNamespace {
 		}
 
 		public override void Init() {
-			//Start the game.
+			//Init the game.
 		}
 	}
 }
