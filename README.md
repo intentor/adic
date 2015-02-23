@@ -329,9 +329,9 @@ namespace MyNamespace {
 	public class MyClass {
 		/// <summary>Field to be injected.</summary>
 		[Inject]
-		public SomeClass fieldToInject
+		public SomeClass fieldToInject;
 		/// <summary>Field NOT to be injected.</summary>
-		public SomeClass fieldNotToInject
+		public SomeClass fieldNotToInject;
 
 		/// <summary>Property to be injected.</summary>
 		[Inject]
@@ -352,7 +352,7 @@ namespace MyNamespace {
 	public class MyClass {
 		/// <summary>Field to be injected.</summary>
 		[Inject]
-		public SomeClass fieldToInject
+		public SomeClass fieldToInject;
 
 		/// <summary>
 		/// Class constructor.
@@ -417,7 +417,7 @@ namespace MyNamespace {
 	public class MyBehaviour : MonoBehaviour {
 		/// <summary>Field to be injected.</summary>
 		[Inject]
-		public SomeClass fieldToInject
+		public SomeClass fieldToInject;
 
 		protected void Start() {
 			this.Inject();
@@ -450,7 +450,61 @@ namespace MyNamespace {
 
 ### <a id="conditions"></a>Conditions
 
-In development.
+Conditions allow a more customized approach when injecting dependencies into constructors and fields/properties.
+
+Using conditions you can:
+
+1\. Tag a binding with an identifier, so you can indicate it as a parameter in the `Inject` attribute on fields/properties:
+
+When binding:
+
+```cs
+container.Bind<SomeInterface>().To<SomeClass>().As("Identifier");
+```
+
+When injecting:
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My class summary.
+	/// </summary>
+	public class MyClass {
+		/// <summary>Field to be injected.</summary>
+		[Inject("Identifier")]
+		public SomeInterface field;
+	}
+}
+```
+
+2\. Indicate in which objects a binding can be injected, by type or instance:
+
+```cs
+//Using generics...
+container.Bind<SomeInterface>().To<SomeClass>().WhenOn<MyClass>();
+//...or type instance...
+container.Bind<SomeInterface>().To<SomeClass>().WhenOn(myClassInstanceType);
+//...or by a given instance.
+container.Bind<SomeInterface>().To<SomeClass>().WhenOnInstance(myClassInstanceType);
+```
+
+3\. Create complex conditions by using an anonymous method:
+
+```cs
+container.Bind<SomeInterface>().To<SomeClass>().When(context => 
+		context.member.Equals(InjectionMember.Field) &&
+        context.parentType.Equals(typeof(MyClass))
+	);
+```
+
+The context provides the following fields:
+
+1. **member** (`InjectionMember`): the class member in which the injection is occuring (*None*, *Constructor*, *Field* or *Property*).
+2. **memberType** (`System.Type`): the type of the member in which the injection is occuring.
+3. **identifier** (`object`): the identifier of the member in which the injection is occuring (from InjectAttribute).
+4. **parentType** (`object`): the type of the object in which the injection is occuring.
+5. **parentInstance** (`object`): the instance of the object in which the injection is occuring.
+6. **injectType** (`System.Type`): the type of the object being injected.
 
 ### <a id="manual-type-resolution"></a>Manual type resolution
 
@@ -612,18 +666,6 @@ Exemplifies the use of condition identifiers on injections.
 ### 4. Prefabs
 
 Exemplifies how to bind to prefabs and the use of PostConstruct as a second constructor.
-
-### 5. Commander
-
-Exemplifies the binding and using of commands to execute complex actions.
-
-*Not yet implemented*
-
-### 6. InjectCrush
-
-A very simple Candy Crush like game to exemplify the complete use of the framework and its extensions.
-
-*Not yet implemented*
 
 ## <a id="support"></a>Support
 
