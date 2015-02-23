@@ -22,10 +22,7 @@ Disposable
 	Holds references to any object that has IDisposable so it can dispose them 
 	when the container is destroyed.
 
-	Dependencies: none
-
-UnityBinding
-	Dependencies: none		
+	Dependencies: none	
 
 Updateable
 	Calls update on any class that implements IUpdateable/IFixedUpdate.
@@ -37,7 +34,7 @@ BindingsPrinter (Editor only, runtime)
 
 	Dependencies: ContextRoot Extension
 
-ObjectGraphPrinter ? (Editor only, runtime)
+ObjectGraphPrinter (Editor only, runtime)
 	Prints the entire dependencies through all types on the binder.
 
 	Dependencies: ContextRoot Extension
