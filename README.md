@@ -163,19 +163,19 @@ You can also bind a Unity component to a game object that has that particular co
 container.Bind<Transform>().ToGameObject("GameObjectNameOnHierarchy");
 ```
 
-Of a prefab on some `Prefabs/Whatever` resources folder:
+Or a prefab on some `Prefabs/Whatever` resources folder:
 
 ```cs
 container.Bind<Transform>().ToPrefab("Prefabs/Whatever/MyPrefab");
 ```
 
-And, if needed, non generics version of bindings' methods are also available:
+And, if needed, non generics versions of bindings' methods are also available:
 
 ```cs
 container.Bind(someType).To(anotherType);
 ```
 
-The next sections will cover all the available bindings that *Adic* provides.
+The next sections will cover all the available bindings *Adic* provides.
 
 #### To Self
 
@@ -234,7 +234,7 @@ container.Bind<InterfaceType>.ToFactory(factoryInstance);
 
 See <a href="#factories">Factories</a> for more information.
 
-#### To game objects from the key type
+#### To game object from the key type
 
 Binds the key type to a singleton of itself or some type on a new game object.
 
@@ -268,6 +268,8 @@ container.Bind<SomeInterface>.ToGameObject(someMonoBehaviourType, "GameObjectNam
 
 Binds the key type to a singleton `UnityEngine.Component` of itself or some type on a game object of a given tag.
 
+If the component is not found on the game object, it will be added.
+
 ```cs
 //Binding to itself by tag...
 container.Bind<SomeMonoBehaviour>.ToGameObjectWithTag("Tag");
@@ -279,7 +281,9 @@ container.Bind<SomeInterface>.ToGameObjectWithTag(someMonoBehaviourType, "Tag");
 
 #### To prefab transient
 
-Binds the key type to a transient of itself or some type on the prefab.
+Binds the key type to a transient `UnityEngine.Component` of itself or some type on the prefab.
+
+If the component is not found on the game object, it will be added.
 
 ```cs
 //Binding prefab to itself...
@@ -292,7 +296,7 @@ container.Bind<SomeInterface>.ToPrefab(someMonoBehaviourType, "Tag");
 
 #### To prefab singleton
 
-Binds the key type to a singleton of itself on a newly instantiated prefab.
+Binds the key type to a singleton `UnityEngine.Component` of itself or some type on a newly instantiated prefab.
 
 ```cs
 //Binding singleton prefab to itself...
@@ -307,13 +311,15 @@ container.Bind<SomeInterface>.ToPrefabSingleton(someMonoBehaviourType, "Tag");
 
 *Adic* will always try to resolve any dependencies the constructor may need, using information from its bindings or trying to instantiate any types that are unknown to the binder.
 
-**Note 1**: there's no need to decorate constructors' parameteres with `Inject` attributes.
+**Note 1**: if there's more than one constructor, *Adic* always look for the one with less parameteres. However, <a href="#multiple-constructors">it's possible to indicate which constructor will be used</a> on a multi constructor class.
 
-**Note 2**: currently, injection identifiers are not supported on construtors. However any conditions on types are also applied to the constructor parameters.
+**Note 2**: there's no need to decorate constructors' parameteres with `Inject` attributes.
+
+**Note 3**: currently, injection identifiers are not supported on construtors. However any conditions (that are not identifiers) on types are also applied to the constructor parameters.
 
 ### <a id="member-injection"></a>Member injection
 
-*Adic* car perform dependency injection on public **fields** and **properties** of classes. To make it happen, just decorate the members with the `Inject` attribute:
+*Adic* car perform dependency injection on public fields and properties of classes. To make it happen, just decorate the members with the `Inject` attribute:
 
 ```cs
 namespace MyNamespace {
@@ -336,7 +342,7 @@ namespace MyNamespace {
 }
 ```
 
-If you need to perform actions after all the injections, create a method and decorate it with the `PostConstruct` attribute:
+If you need to perform actions after all the injections took place, create a method and decorate it with the `PostConstruct` attribute:
 
 ```cs
 namespace MyNamespace {
@@ -399,7 +405,7 @@ namespace MyNamespace {
 
 ### <a id="monobehaviour-injection"></a>MonoBehaviour injection
 
-It's possible to perform injection on custom MonoBehaviour fields and properties by using the extension <a id="extension-mono-injection">Mono Injection</a>, which is enabled by default, by calling `this.Inject` on the `Start()` method of the MonoBehaviour:
+It's possible to perform injection on custom MonoBehaviour fields and properties by using the extension <a id="extension-mono-injection">Mono Injection</a>, which is enabled by default, by calling `this.Inject()` on the `Start()` method of the MonoBehaviour:
 
 ```cs
 using Unity.Engine;
@@ -457,7 +463,7 @@ var instance = container.Resolve<Type>();
 instance = container.Resolve(typeInstance);
 ```
 
-**Note**: currently it's not possible to manually resolve a binding that has conditions.
+**Note**: currently manual resolution of bindings that has conditions is not supported.
 
 ### <a id="factories"></a>Factories
 
@@ -483,6 +489,7 @@ namespace MyNamespace {
 		}
 	}
 }
+```
 
 ## <a id="pipeline"></a>Pipeline
 
@@ -590,8 +597,6 @@ All events are available through `Intentor.Adic.InjectionContainer`.
 
 There are some examples that are bundled to the main package that teach the basics and beyond of *Adic*.
 
-**Note**: these examples are not yet implemented on the current version.
-
 ### 1. Hello World
 
 Exemplifies the basics of how to setup a scene for dependency injection using the ContextRoot.
@@ -612,9 +617,13 @@ Exemplifies how to bind to prefabs and the use of PostConstruct as a second cons
 
 Exemplifies the binding and using of commands to execute complex actions.
 
+*Not yet implemented*
+
 ### 6. InjectCrush
 
 A very simple Candy Crush like game to exemplify the complete use of the framework and its extensions.
+
+*Not yet implemented*
 
 ## <a id="support"></a>Support
 
