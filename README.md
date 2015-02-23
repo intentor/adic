@@ -228,25 +228,23 @@ There are some examples that are bundled to the main package that teach the basi
 
 ### 1. Hello World
 
-Binds and resolves a dependency that writes "Hello, world" on the console.
-
-Shows the basics of how to setup a scene for dependency injection using the ContextRoot.
+Exemplifies the basics of how to setup a scene for dependency injection using the ContextRoot.
 
 ### 2. Binding Game Objects
 
-Binds components to new and existing game objects and allows them to share dependencies.
+Exemplifies how to bind components to new and existing game objects and allows them to share dependencies.
 
 ### 3. Using conditions
 
-Exemplify the use of identifiers and conditions for a better dependency injection
+Exemplifies the use of condition identifiers on injections.
 
 ### 4. Prefabs
 
-Exemplify the binding to prefabs.
+Exemplifies how to bind to prefabs.
 
 ### 5. Commander
 
-Exemplify the binding and using of commands to execute complex actions.
+Exemplifies the binding and using of commands to execute complex actions.
 
 ### 6. InjectCrush
 
