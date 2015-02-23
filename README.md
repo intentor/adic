@@ -13,11 +13,11 @@
 * <a href="#quick-start">Quick start</a>
 * <a href="#api">API</a>
 	* <a href="#bindings">Bindings</a>
-	* <a href="#conditions">Conditions</a>
 	* <a href="#constructor-injection">Constructor injection</a>
 	* <a href="#member-injection">Member injection</a>
 	* <a href="#multiple-constructors">Multiple constructors</a>
 	* <a href="#monobehaviour-injection">MonoBehaviour injection</a>
+	* <a href="#conditions">Conditions</a>
 	* <a href="#manual-type-resolution">Manual type resolution</a>
 	* <a href="#factories">Factories</a>
 * <a href="#pipeline">Pipeline
@@ -104,9 +104,9 @@ namespace MyNamespace {
 
 3\. Create the context root (e. g. GameRoot.cs) of your scene by inheriting from `Intentor.Adic.ContextRoot`.
 
-**NOTE**: there should be only one context root per scene.
+**Note**: there should be only one context root per scene.
 
-**HINT**: when using a context root for each scene of your game, to make the project more organized, on `Scripts` folder create folders for each of your scenes that will hold their own scripts and context roots.
+**Hint**: when using a context root for each scene of your game, to make the project more organized, on `Scripts` folder create folders for each of your scenes that will hold their own scripts and context roots.
    
 ```cs
 using UnityEngine;
@@ -131,7 +131,7 @@ namespace MyNamespace {
 
 5\. On the `Init()` method, place any codes to start your game.
 
-**NOTE**: the idea of this method is to work as an entry point for your game.
+**Note**: the idea of this method is to work as an entry point for your game.
 
 6\. Attach the context root created by you on an empty GameObject at your scene.
 
@@ -139,7 +139,350 @@ namespace MyNamespace {
 
 ## <a id="api"></a>API
 
+### <a id="bindings"></a>Bindings
+
+Binding is the action of linking a type to another type or instance. *Adic* makes it simple by providing different ways to create your bindings.
+
+Every binding must occur on a certain key by calling the `Bind()` method of the container. 
+
+The simple way to bind e.g. some interface to its class implementation is as below:
+   
+```cs
+container.Bind<SomeInterface>().To<ClassImplementation>();
+```
+
+It's possible to bind a class to an existing instance too:
+
+```cs
+container.Bind<SomeInterface>().To(someInstance);
+```
+
+You can also bind a Unity component to a game object that has that particular component:
+
+```cs
+container.Bind<Transform>().ToGameObject("GameObjectNameOnHierarchy");
+```
+
+Of a prefab on some `Prefabs/Whatever` resources folder:
+
+```cs
+container.Bind<Transform>().ToPrefab("Prefabs/Whatever/MyPrefab");
+```
+
+And, if needed, non generics version of bindings' methods are also available:
+
+```cs
+container.Bind(someType).To(anotherType);
+```
+
+The next sections will cover all the available bindings that *Adic* provides.
+
+#### To Self
+
+Binds the key type to a transient of itself. The key must be a class.
+
+```cs
+container.Bind<ClassType>.ToSelf();
+```
+
+#### To Singleton
+
+Binds the key type to a singleton of itself. The key must be a class.
+
+```cs
+container.Bind<ClassType>.ToSingleton();
+```
+
+It's also possible to create a singleton of the key type to another type. In this case, the key may not be a class.
+
+```cs
+//Using generics...
+container.Bind<InterfaceType>.ToSingleton<ClassType>();
+//..or instance type.
+container.Bind<InterfaceType>.ToSingleton(classTypeObject);
+```
+
+#### To another type
+
+Binds the key type to a transient of another type. In this case, the *To* type will be instantiated every time a resolution of the key type is asked.
+
+```cs
+//Using generics...
+container.Bind<InterfaceType>.To<ClassType>();
+//..or instance type.
+container.Bind<InterfaceType>.To(classTypeObject);
+```
+
+#### To instance
+
+Binds the key type to an instance.
+
+```cs
+//Using generics...
+container.Bind<InterfaceType>.To<ClassType>(instanceOfClassType);
+//..or instance type.
+container.Bind<InterfaceType>.To(classTypeObject, instanceOfClassType);
+```
+
+#### To a Factory
+
+Binds the key type to a factory. The factory must implement `Intentor.Adic.IFactory` interface.
+
+```cs
+container.Bind<InterfaceType>.ToFactory(factoryInstance);
+```
+
+See <a href="#factories">Factories</a> for more information.
+
+#### To game objects from the key type
+
+Binds the key type to a singleton of itself or some type on a new game object.
+
+```cs
+//Binding to itself...
+container.Bind<SomeMonoBehaviour>.ToGameObject();
+//...or some other component using generics...
+container.Bind<SomeInterface>.ToGameObject<SomeMonoBehaviour>();
+//..or some other component by instance type.
+container.Bind<SomeInterface>.ToGameObject(someMonoBehaviourType);
+```
+
+The newly created game object will have the same name as the key type.
+
+#### To game object by name
+
+Binds the key type to a singleton `UnityEngine.Component` of itself or some type on a game object of a given name.
+
+If the component is not found on the game object, it will be added.
+
+```cs
+//Binding to itself by name...
+container.Bind<SomeMonoBehaviour>.ToGameObject("GameObjectName");
+//...or some other component using generics and name...
+container.Bind<SomeInterface>.ToGameObject<SomeMonoBehaviour>("GameObjectName");
+//..or some other component by instance type and name.
+container.Bind<SomeInterface>.ToGameObject(someMonoBehaviourType, "GameObjectName");
+```
+
+#### To game object with tag
+
+Binds the key type to a singleton `UnityEngine.Component` of itself or some type on a game object of a given tag.
+
+```cs
+//Binding to itself by tag...
+container.Bind<SomeMonoBehaviour>.ToGameObjectWithTag("Tag");
+//...or some other component using generics and tag...
+container.Bind<SomeInterface>.ToGameObjectWithTag<SomeMonoBehaviour>("Tag");
+//..or some other component by instance type and tag.
+container.Bind<SomeInterface>.ToGameObjectWithTag(someMonoBehaviourType, "Tag");
+```
+
+#### To prefab transient
+
+Binds the key type to a transient of itself or some type on the prefab.
+
+```cs
+//Binding prefab to itself...
+container.Bind<SomeMonoBehaviour>.ToPrefab("Prefabs/Whatever/MyPrefab");
+//...or to another component on the prefab using generics...
+container.Bind<SomeInterface>.ToPrefab<SomeMonoBehaviour>("Prefabs/Whatever/MyPrefab");
+//...or to another component on the prefab using instance tyoe.
+container.Bind<SomeInterface>.ToPrefab(someMonoBehaviourType, "Tag");
+```
+
+#### To prefab singleton
+
+Binds the key type to a singleton of itself on a newly instantiated prefab.
+
+```cs
+//Binding singleton prefab to itself...
+container.Bind<SomeMonoBehaviour>.ToPrefabSingleton("Prefabs/Whatever/MyPrefab");
+//...or to another component on the prefab using generics...
+container.Bind<SomeInterface>.ToPrefabSingleton<SomeMonoBehaviour>("Prefabs/Whatever/MyPrefab");
+//...or to another component on the prefab using instance tyoe.
+container.Bind<SomeInterface>.ToPrefabSingleton(someMonoBehaviourType, "Tag");
+```
+
+### <a id="constructor-injection"></a>Constructor injection
+
+*Adic* will always try to resolve any dependencies the constructor may need, using information from its bindings or trying to instantiate any types that are unknown to the binder.
+
+**Note 1**: there's no need to decorate constructors' parameteres with `Inject` attributes.
+
+**Note 2**: currently, injection identifiers are not supported on construtors. However any conditions on types are also applied to the constructor parameters.
+
+### <a id="member-injection"></a>Member injection
+
+*Adic* car perform dependency injection on public **fields** and **properties** of classes. To make it happen, just decorate the members with the `Inject` attribute:
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My class summary.
+	/// </summary>
+	public class MyClass {
+		/// <summary>Field to be injected.</summary>
+		[Inject]
+		public SomeClass fieldToInject
+		/// <summary>Field NOT to be injected.</summary>
+		public SomeClass fieldNotToInject
+
+		/// <summary>Property to be injected.</summary>
+		[Inject]
+		public SomeOtherClass propertyToInject { get; set; }		
+		/// <summary>Property NOT to be injected.</summary>
+		public SomeOtherClass propertyNotToInject { get; set; }
+	}
+}
+```
+
+If you need to perform actions after all the injections, create a method and decorate it with the `PostConstruct` attribute:
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My class summary.
+	/// </summary>
+	public class MyClass {
+		/// <summary>Field to be injected.</summary>
+		[Inject]
+		public SomeClass fieldToInject
+
+		/// <summary>
+		/// Class constructor.
+		/// </summary>
+		public MyClass() {
+			...
+		}
+
+		/// <summary>
+		/// Class post constructor, called after all the dependencies have been resolved.
+		/// </summary>
+		[PostConstruct]
+		public void PostConstruct() {
+			...
+		}
+	}
+}
+```
+
+### <a id="multiple-constructors"></a>Multiple constructors
+
+In case you have multiple constructors, it's possible to indicate to *Adic* which one should be used by decorating it with the `Construct` attribute:
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My class summary.
+	/// </summary>
+	public class MyClass {
+		/// <summary>
+		/// Class constructor.
+		/// </summary>
+		public MyClass() {
+			...
+		}
+
+		/// <summary>
+		/// Class constructor.
+		/// </summary>
+		/// <param name="parameterName">Parameter description</param>
+		[Construct]
+		public MyClass(Type parameterName) {
+			...
+		}
+	}
+}
+```
+
+
+
+### <a id="monobehaviour-injection"></a>MonoBehaviour injection
+
+It's possible to perform injection on custom MonoBehaviour fields and properties by using the extension <a id="extension-mono-injection">Mono Injection</a>, which is enabled by default, by calling `this.Inject` on the `Start()` method of the MonoBehaviour:
+
+```cs
+using Unity.Engine;
+
+namespace MyNamespace {
+	/// <summary>
+	/// My MonoBehaviour summary.
+	/// </summary>
+	public class MyBehaviour : MonoBehaviour {
+		/// <summary>Field to be injected.</summary>
+		[Inject]
+		public SomeClass fieldToInject
+
+		protected void Start() {
+			this.Inject();
+		}
+	}
+}
+```
+
+To make injection even simpler, create a base behaviour from which all your MonoBehaviour will inherit:
+
+```cs
+using Unity.Engine;
+
+namespace MyNamespace {
+	/// <summary>
+	/// Base MonoBehaviour.
+	/// </summary>
+	public abstract class BaseBehaviour : MonoBehaviour {
+		/// <summary>
+		/// Called when the component is starting.
+		/// 
+		/// If overriden on derived classes, always call base.Start().
+		/// </summary>
+		protected virtual void Start() {
+			this.Inject();
+		}
+	}
+}
+```
+
+### <a id="conditions"></a>Conditions
+
 In development.
+
+### <a id="manual-type-resolution"></a>Manual type resolution
+
+If you need to get a type from the container but do not want to use injection through constructor or fields/properties, it's possible to execute a manual resolution directly by calling the `Resolve()` method:
+
+```cs
+//Resolving using generics...
+var instance = container.Resolve<Type>();
+//...or by type instance.
+instance = container.Resolve(typeInstance);
+```
+
+**Note**: currently it's not possible to manually resolve a binding that has conditions.
+
+### <a id="factories"></a>Factories
+
+When you need to handle the instantiation of an object manually, it's possible to create a factory class by inheriting from `Intentor.Adic.IFactory`:
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My factory.
+	/// </summary>
+	public class MyFactory : Intentor.Adic.IFactory {
+		/// <summary>Type the factory creates.</summary>
+		Type factoryType { 
+			get { return typeof(FactoryObjectType); } 
+		}
+
+		/// <summary>
+		/// Creates an instance of the object of the type created by the factory.
+		/// </summary>
+		/// <returns>The instance.</returns>
+		public object Create() {
+			...
+		}
+	}
+}
 
 ## <a id="pipeline"></a>Pipeline
 
@@ -223,18 +566,18 @@ All events are available through `Intentor.Adic.InjectionContainer`.
 
 ### <a id="binder-events"></a>Binder events
 
-* `beforeAddBinding`: Occurs before a binding is added.
-* `afterAddBinding`: Occurs after a binding is added.
-* `beforeRemoveBinding`: Occurs before a binding is removed.
-* `afterRemoveBinding`: Occurs after a binding is removed.
+* `beforeAddBinding`: occurs before a binding is added.
+* `afterAddBinding`: occurs after a binding is added.
+* `beforeRemoveBinding`: occurs before a binding is removed.
+* `afterRemoveBinding`: occurs after a binding is removed.
 
 ### <a id="injector-events"></a>Injector events
 
-* `beforeResolve`: Occurs before a type is resolved.
-* `afterResolve`: Occurs after a type is resolved.
-* `bindingEvaluation`: Occurs when a binding is available for resolution.
-* `beforeInject`: Occurs before an instance receives injection.
-* `afterInject`: Occurs after an instance receives injection.
+* `beforeResolve`: occurs before a type is resolved.
+* `afterResolve`: occurs after a type is resolved.
+* `bindingEvaluation`: occurs when a binding is available for resolution.
+* `beforeInject`: occurs before an instance receives injection.
+* `afterInject`: occurs after an instance receives injection.
 
 ## <a id="notes"></a>Notes
 
@@ -247,7 +590,7 @@ All events are available through `Intentor.Adic.InjectionContainer`.
 
 There are some examples that are bundled to the main package that teach the basics and beyond of *Adic*.
 
-**NOTE**: these examples are not yet implemented on the current version.
+**Note**: these examples are not yet implemented on the current version.
 
 ### 1. Hello World
 
