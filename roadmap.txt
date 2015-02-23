@@ -6,8 +6,7 @@
  CONTAINER
 --------------------------------------------------------------------------------
 
-Unity binding with FindWithTag().
-	container.Bind<Transform>().ToGameObjectWithTag<Transform>(GameTag.SHIP);
+-
 
 --------------------------------------------------------------------------------
  EXTENSIONS
