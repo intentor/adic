@@ -20,7 +20,7 @@
 	* <a href="#conditions">Conditions</a>
 	* <a href="#manual-type-resolution">Manual type resolution</a>
 	* <a href="#factories">Factories</a>
-* <a href="#pipeline">Pipeline
+* <a href="#order-of-events">Order of events
 * <a href="#container-extensions">Extensions</a>
 	* <a href="#available-extensions">Available extensions</a>
 		* <a href="#extension-context-root">Context Root</a>
@@ -491,7 +491,7 @@ namespace MyNamespace {
 }
 ```
 
-## <a id="pipeline"></a>Pipeline
+## <a id="order-of-events"></a>Order of events
 
 1. Unity Awake()
 2. ContextRoot calls SetupContainers()
