@@ -57,13 +57,13 @@ The project was tested on Unity 4.3+ and should work on lower versions of the 4 
 
 ## <a id="concepts"></a>Concepts
 
-### <a id="what-is">What is a dependency injection container?
+### <a id="what-is"></a>What is a dependency injection container?
 
 A *dependency injection container* is a piece of software that handles the resolution of dependencies of objects. It's related to the (dependency injection)[http://en.wikipedia.org/wiki/Dependency_injection] and (inversion of control)[http://en.wikipedia.org/wiki/Inversion_of_control] design patterns.
 
 The idea is that any dependency an object may need should be resolved by an external entity rather than the own object. Practically speaking, a object should not use `new` to create the objects it uses, having those instances *injected* into it by another object whose sole existance is to resolve dependencies.
 
-So, a *dependency injection container* holds information about dependencies (the *bindings*) that can be injected on other objects by demand (e.g. injecting into existing or objects) or during resolution (e.g. when you are creating a new object of some type).
+So, a *dependency injection container* holds information about dependencies (the *bindings*) that can be injected into another objects by demand (injecting into existing objects) or during resolution (when you are creating a new object of some type).
 
 ### <a id="structure"></a>Structure
 
@@ -159,7 +159,7 @@ Extensions are a way to enhance *Adic* without having to edit it to suit differe
 
 ## <a id="available-extensions"></a>Available extensions
 
-### <a id="extension-context-root">Context Root
+### <a id="extension-context-root"></a>Context Root
 
 Provides an entry point for the game on Unity 3D.
 
@@ -169,13 +169,13 @@ Provides an entry point for the game on Unity 3D.
 
 **Dependencies**: none
 
-### <a id="extension-mono-injection">Mono Injection
+### <a id="extension-mono-injection"></a>Mono Injection
 
 Allows injection on MonoBehaviours by provinding an `Inject` method to `UnityEngine.MonoBehaviour`.
 
 **Dependencies**: <a href="#extension-context-root">Context Root</a>
 
-### <a id="extension-unity-binding">Unity Binding
+### <a id="extension-unity-binding"></a>Unity Binding
 
 Provides Unity 3D bindings to the container.
 
