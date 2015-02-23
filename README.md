@@ -1,16 +1,26 @@
 # Adic
 
-**Another Dependency Injector Container for Unity 3D and beyond**
+**Another Dependency Injection Container for Unity 3D and beyond**
 
 ## Contents
 
 * <a href="#introduction">Introduction</a>
 * <a href="#features">Features</a>
 * <a href="#concepts">Concepts</a>
+	* <a href="#what-is">What is a dependency injector container?
 	* <a href="#structure">Structure
 	* <a href="#types-of-bindings">Types of bindings
-	* <a href="#pipeline">Pipeline
 * <a href="#quick-start">Quick start</a>
+* <a href="#api">API</a>
+	* <a href="#bindings">Bindings</a>
+	* <a href="#conditions">Conditions</a>
+	* <a href="#constructor-injection">Constructor injection</a>
+	* <a href="#member-injection">Member injection</a>
+	* <a href="#multiple-constructors">Multiple constructors</a>
+	* <a href="#monobehaviour-injection">MonoBehaviour injection</a>
+	* <a href="#manual-type-resolution">Manual type resolution</a>
+	* <a href="#factories">Factories</a>
+* <a href="#pipeline">Pipeline
 * <a href="#container-extensions">Extensions</a>
 	* <a href="#available-extensions">Available extensions</a>
 		* <a href="#extension-context-root">Context Root</a>
@@ -47,33 +57,29 @@ The project was tested on Unity 4.3+ and should work on lower versions of the 4 
 
 ## <a id="concepts"></a>Concepts
 
+### <a id="what-is">What is a dependency injection container?
+
+A *dependency injection container* is a piece of software that handles the resolution of dependencies of objects. It's related to the (dependency injection)[http://en.wikipedia.org/wiki/Dependency_injection] and (inversion of control)[http://en.wikipedia.org/wiki/Inversion_of_control] design patterns.
+
+The idea is that any dependency an object may need should be resolved by an external entity rather than the own object. Practically speaking, a object should not use `new` to create the objects it uses, having those instances *injected* into it by another object whose sole existance is to resolve dependencies.
+
+So, a *dependency injection container* holds information about dependencies (the *bindings*) that can be injected on other objects by demand (e.g. injecting into existing or objects) or during resolution (e.g. when you are creating a new object of some type).
+
 ### <a id="structure"></a>Structure
 
-* **InjectionContainer/Container**: binds, resolves, injects and holds dependencies.
-* **Binder**: binds a type to another type or instance with inject conditions.
-* **Injector**: resolves and injects dependencies.
-* **Context Root**: main context in which the containers are in. Acts as an entry point for the game. It's implemented through an <a href="#extension-context-root">extension</a>.
-* **Extensions**: provides additional features to containers.
+The structure of *Adic* is divided into five parts:
+
+1. **InjectionContainer/Container**: binds, resolves, injects and holds dependencies. Technically, the container is a *Binder* and an *Injector* at the same time.
+2. **Binder**: binds a type to another type or instance with inject conditions.
+3. **Injector**: resolves and injects dependencies.
+4. **Context Root**: main context in which the containers are in. Acts as an entry point for the game. It's implemented through an <a href="#extension-context-root">extension</a>.
+5. **Extensions**: provides additional features to the framework.
 
 ### <a id="types-of-bindings"></a>Types of bindings
 
 * **Transient**: a new instance is created each time a dependency needs to be resolved.
 * **Singleton**: a single instance is created and used on any dependency resolution.
 * **Factory**: creates the instance and returns it to the container.
-
-### <a id="pipeline"></a>Pipeline
-
-1. Unity Awake()
-2. ContextRoot calls SetupContainers()
-3. ContextRoot asks for each container to generate cache for its types
-4. ContextRoot calls Init()
-5. Unity Start() on all MonoBehaviours
-6. Injection on MonoBehaviours
-7. Unity Update() is called on every object that implemented IUpdateable
-8. Scene is destroyed
-9. Dispose() is called on every object that implemented IDispose
-
-Order of bindings is controlled by just reordering the bindings
 
 ## <a id="quick-start"></a>Quick start
 
@@ -130,6 +136,22 @@ namespace MyNamespace {
 6\. Attach the context root created by you on an empty GameObject at your scene.
 
 7\. Start dependency injecting!
+
+## <a id="api"></a>API
+
+In development.
+
+## <a id="pipeline"></a>Pipeline
+
+1. Unity Awake()
+2. ContextRoot calls SetupContainers()
+3. ContextRoot asks for each container to generate cache for its types
+4. ContextRoot calls Init()
+5. Unity Start() on all MonoBehaviours
+6. Injection on MonoBehaviours
+7. Unity Update() is called on every object that implemented IUpdateable
+8. Scene is destroyed
+9. Dispose() is called on every object that implemented IDispose
 
 ## <a id="container-extensions"></a>Extensions
 
@@ -218,7 +240,8 @@ All events are available through `Intentor.Adic.InjectionContainer`.
 
 1. If an instance is not found, it will be resolved to NULL;
 2. Multiple injections should occur on an array of the desired type;
-3. Adic relies on Unity Test Tools for unit testing. You can download it at [Unity Asset Store](https://www.assetstore.unity3d.com/#!/content/13802).
+3. Order of bindings is controlled by just reordering the bindings;
+4. Adic relies on Unity Test Tools for unit testing. You can download it at [Unity Asset Store](https://www.assetstore.unity3d.com/#!/content/13802).
 
 ## <a id="examples"></a>Examples
 
