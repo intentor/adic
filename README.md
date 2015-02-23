@@ -431,7 +431,7 @@ namespace MyNamespace {
 }
 ```
 
-It's possible to manual resolve multiple objects. Please see <a href="#manual-type-resolution">Manual type resolution</a> for more information.
+It's possible to manually resolve multiple objects. Please see <a href="#manual-type-resolution">Manual type resolution</a> for more information.
 
 ### <a id="monobehaviour-injection"></a>MonoBehaviour injection
 
