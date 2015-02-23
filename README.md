@@ -60,7 +60,7 @@ The project was tested on Unity 4.3+ and should work on lower versions of the 4 
 
 ### <a id="what-is"></a>What is a dependency injection container?
 
-A *dependency injection container* is a piece of software that handles the resolution of dependencies of objects. It's related to the (dependency injection)[http://en.wikipedia.org/wiki/Dependency_injection] and (inversion of control)[http://en.wikipedia.org/wiki/Inversion_of_control] design patterns.
+A *dependency injection container* is a piece of software that handles the resolution of dependencies of objects. It's related to the [dependency injection](http://en.wikipedia.org/wiki/Dependency_injection) and [inversion of control](http://en.wikipedia.org/wiki/Inversion_of_control) design patterns.
 
 The idea is that any dependency an object may need should be resolved by an external entity rather than the own object. Practically speaking, a object should not use `new` to create the objects it uses, having those instances *injected* into it by another object whose sole existance is to resolve dependencies.
 
