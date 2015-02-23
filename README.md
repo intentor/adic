@@ -240,7 +240,7 @@ Exemplifies the use of condition identifiers on injections.
 
 ### 4. Prefabs
 
-Exemplifies how to bind to prefabs.
+Exemplifies how to bind to prefabs and the use of PostConstruct as a second constructor.
 
 ### 5. Commander
 
