@@ -649,7 +649,7 @@ None
 
 ### <a id="extension-event-caller"></a>Event Caller
 
-Calls events on classes bound to containers that implements certain interfaces.
+Calls events on classes that implement certain interfaces. The classes must be bound to a container.
 
 #### Available events
 
@@ -668,6 +668,7 @@ namespace MyNamespace {
 		}
 	}
 }
+```
 
 ##### Dispose
 
@@ -684,6 +685,7 @@ namespace MyNamespace {
 		}
 	}
 }
+```
 
 #### Configuration
 
