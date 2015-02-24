@@ -618,7 +618,7 @@ To open the Bindings Printer windows, click on *Windows/Adic/Bindings Printer* m
 **Format:**
 
 ```
-[Container Type Full Name] (index: [Container Index on `ContextRoot`], [destroy on load/singleton])
+[Container Type Full Name] (index: [Container Index on ContextRoot], [destroy on load/singleton])
 
 	[For each binding]
 	Type: [Binding Type Full Name]
