@@ -10,6 +10,7 @@
 	* <a href="#what-is">What is a dependency injector container?
 	* <a href="#structure">Structure
 	* <a href="#types-of-bindings">Types of bindings
+	* <a href="#namespace-conventions">Namespace conventions
 * <a href="#quick-start">Quick start</a>
 * <a href="#api">API</a>
 	* <a href="#bindings">Bindings</a>
@@ -82,32 +83,22 @@ The structure of *Adic* is divided into five parts:
 * **Singleton**: a single instance is created and used on any dependency resolution.
 * **Factory**: creates the instance and returns it to the container.
 
+### <a id="namespace-conventions"></a>Namespace conventions
+
+*Adic* is organized internally into different namespaces that representes the framework components. However, the components commonly used are under `Adic` namespace:
+
+1. Attributes (`Inject`, `Construct`, `PostConstruct`);
+2. `InjectionContainer`;
+3. `IFactory`;
+4. Extensions (like `ContextRoot` and `UnityBinding`).
+
 ## <a id="quick-start"></a>Quick start
 
-1\. Create your own dependency injection contexts (e. g. GameContainer.cs) by inheriting from `Adic.Container`.
-   
-```cs
-using UnityEngine;
-
-namespace MyNamespace {
-	/// <summary>
-	/// Dependency injection container.
-	/// </summary>
-	public class GameContainer : Adic.Container {
-		public override void SetupBindings() {
-			//Setup any bindings.
-		}
-	}
-}
-```
-   
-2\. Setup all your <a href="#bindings">bindings</a> on the `SetupBindings()` method.
-
-3\. Create the context root (e. g. GameRoot.cs) of your scene by inheriting from `Adic.ContextRoot`.
+1\. Create the context root (e. g. GameRoot.cs) of your scene by inheriting from `Adic.ContextRoot`.
 
 **Note**: there should be only one context root per scene.
 
-**Hint**: when using a context root for each scene of your game, to make the project more organized, on `Scripts` folder create folders for each of your scenes that will hold their own scripts and context roots.
+**Hint**: when using a context root for each scene of your game, to make the project more organized, on `Scripts` folder create folders for each of your scenes that will hold their own scripts and context root.
    
 ```cs
 using UnityEngine;
@@ -118,7 +109,7 @@ namespace MyNamespace {
 	/// </summary>
 	public class GameRoot : Adic.ContextRoot {
 		public override void SetupContainers() {
-			this.AddContainer<GameContainer>();
+			//Setup the containers.
 		}
 
 		public override void Init() {
@@ -128,15 +119,30 @@ namespace MyNamespace {
 }
 ```
    
-4\. On `SetupContainers()` method, add any contexts you may have created by calling `Add<ContainerType>()`.
+2\. On `SetupContainers()` method, create and add any containers will may need.
 
-5\. On the `Init()` method, place any codes to start your game.
+```cs
+public override void SetupContainers() {
+	//Create a container.
+	var container = new Adic.InjectionContainer();
 
-**Note**: the idea of this method is to work as an entry point for your game.
+	//Setup bindinds.
+	container.Bind<Whatever>().ToSelf();
 
-6\. Attach the context root created by you on an empty GameObject at your scene.
+	//Add the container to the context.
+	this.AddContainer(container);
+}
+```
 
-7\. Start dependency injecting!
+**Hint**: on *Adic* the lifetime of your bindings is the lifetime of your containers. So, you can create as much containers as you want to hold your dependencies!
+
+3\. On the `Init()` method, place any codes to start your game.
+
+**Note**: the idea of this method is to work as an entry point for your game, like a `main()` method on console applications.
+
+4\. Attach the context root created by you on an empty game object in your scene.
+
+5\. Start dependency injecting!
 
 ## <a id="api"></a>API
 
@@ -511,11 +517,11 @@ namespace MyNamespace {
 
 ```cs
 //Using generics...
-container.Bind<SomeInterface>().To<SomeClass>().WhenOn<MyClass>();
+container.Bind<SomeInterface>().To<SomeClass>().WhenInto<MyClass>();
 //...or type instance...
-container.Bind<SomeInterface>().To<SomeClass>().WhenOn(myClassInstanceType);
+container.Bind<SomeInterface>().To<SomeClass>().WhenInto(myClassInstanceType);
 //...or by a given instance.
-container.Bind<SomeInterface>().To<SomeClass>().WhenOnInstance(myClassInstanceType);
+container.Bind<SomeInterface>().To<SomeClass>().WhenIntoInstance(myClassInstanceType);
 ```
 
 3\. Create complex conditions by using an anonymous method:
@@ -636,11 +642,13 @@ Extensions on *Adic* can be created in 3 ways:
 2. Creating extension methods to any part of the framework;
 3. Creating a container extension, which allows for the interception of internal events, which can alter the inner workings of the framework.
 
-Basically, to create a *container extension*, you have to:
+Always place extensions into *Adic* namespace.
+
+To create a *container extension*, which can intercept internal *Adic* events, you have to:
 
 1\. Create the extension class with `ContainerExtension` sufix.
 
-2\. Implement `Adic.IContainerExtension`.
+2\. Implement `Adic.Container.IContainerExtension`.
 
 3\. Subscribe to any events on the container on OnRegister method.
 
