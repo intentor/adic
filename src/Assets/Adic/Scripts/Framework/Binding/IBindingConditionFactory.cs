@@ -20,26 +20,26 @@ namespace Adic.Binding {
 		IBindingConditionFactory When(BindingCondition condition);
 
 		/// <summary>
-		/// Conditions the binding to be injected only when on an object of a certain type <typeparamref name="T">.
+		/// Conditions the binding to be injected only when into an object of a certain type <typeparamref name="T">.
 		/// </summary>
 		/// <typeparam name="T">The enclosing type.</typeparam>
 		/// <returns>The current binding condition.</returns>
-		IBindingConditionFactory WhenOn<T>();
+		IBindingConditionFactory WhenInto<T>();
 		
 		/// <summary>
-		/// Conditions the binding to be injected only when on an object of a certain type <paramref name="type"/>.
+		/// Conditions the binding to be injected only when into an object of a certain type <paramref name="type"/>.
 		/// </summary>
 		/// </summary>
 		/// <param name="type">The enclosing type.</param>
 		/// <returns>The current binding condition.</returns>
-		IBindingConditionFactory WhenOn(Type type);
+		IBindingConditionFactory WhenInto(Type type);
 		
 		/// <summary>
-		/// Conditions the binding to be injected only when on a certain <paramref name="instance"/>.
+		/// Conditions the binding to be injected only when into a certain <paramref name="instance"/>.
 		/// </summary>
 		/// </summary>
 		/// <param name="instance">The enclosing instance.</param>
 		/// <returns>The current binding condition.</returns>
-		IBindingConditionFactory WhenOnInstance(object instance);
+		IBindingConditionFactory WhenIntoInstance(object instance);
 	}
 }

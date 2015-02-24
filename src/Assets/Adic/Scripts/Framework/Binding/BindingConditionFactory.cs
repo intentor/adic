@@ -28,19 +28,19 @@ namespace Adic.Binding {
 			return this;
 		}
 		
-		public IBindingConditionFactory WhenOn<T>() {
+		public IBindingConditionFactory WhenInto<T>() {
 			this.binding.condition = context => context.parentType.Equals(typeof(T));
 			
 			return this;
 		}
 		
-		public IBindingConditionFactory WhenOn(Type type) {
+		public IBindingConditionFactory WhenInto(Type type) {
 			this.binding.condition = context => context.parentType.Equals(type);
 			
 			return this;
 		}
 		
-		public IBindingConditionFactory WhenOnInstance(object instance) {
+		public IBindingConditionFactory WhenIntoInstance(object instance) {
 			this.binding.condition = context => context.parentInstance.Equals(instance);
 			
 			return this;

@@ -24,8 +24,8 @@ namespace Adic.Tests {
 		public void TestBindWhenOnByGenerics() {
 			var container = new InjectionContainer();
 
-			container.Bind<IMockInterface>().To<MockIClassWithAttributes>().WhenOn<MockClassVerySimple>();
-			container.Bind<IMockInterface>().To<MockIClassWithoutAttributes>().WhenOn<MockClassSimple>();
+			container.Bind<IMockInterface>().To<MockIClassWithAttributes>().WhenInto<MockClassVerySimple>();
+			container.Bind<IMockInterface>().To<MockIClassWithoutAttributes>().WhenInto<MockClassSimple>();
 			
 			var instance1 = container.Resolve<MockClassVerySimple>();
 			var instance2 = container.Resolve<MockClassSimple>();
@@ -38,8 +38,8 @@ namespace Adic.Tests {
 		public void TestBindWhenOnByType() {
 			var container = new InjectionContainer();
 
-			container.Bind<IMockInterface>().To<MockIClassWithAttributes>().WhenOn(typeof(MockClassVerySimple));
-			container.Bind<IMockInterface>().To<MockIClassWithoutAttributes>().WhenOn(typeof(MockClassSimple));
+			container.Bind<IMockInterface>().To<MockIClassWithAttributes>().WhenInto(typeof(MockClassVerySimple));
+			container.Bind<IMockInterface>().To<MockIClassWithoutAttributes>().WhenInto(typeof(MockClassSimple));
 			
 			var instance1 = container.Resolve<MockClassVerySimple>();
 			var instance2 = container.Resolve<MockClassSimple>();
@@ -55,8 +55,8 @@ namespace Adic.Tests {
 
 			var container = new InjectionContainer();
 
-			container.Bind<IMockInterface>().To<MockIClassWithAttributes>().WhenOnInstance(instance1);
-			container.Bind<IMockInterface>().To<MockIClassWithoutAttributes>().WhenOnInstance(instance2);
+			container.Bind<IMockInterface>().To<MockIClassWithAttributes>().WhenIntoInstance(instance1);
+			container.Bind<IMockInterface>().To<MockIClassWithoutAttributes>().WhenIntoInstance(instance2);
 
 			container.Inject(instance1);
 			container.Inject(instance2);
@@ -70,11 +70,11 @@ namespace Adic.Tests {
 			var container = new InjectionContainer();
 			
 			container.Bind<IMockInterface>()
-				.To<MockIClassWithAttributes>().WhenOn<MockClassVerySimple>();
+				.To<MockIClassWithAttributes>().WhenInto<MockClassVerySimple>();
 			container.Bind<IMockInterface>()
-				.To<MockIClassWithoutAttributes>().WhenOn<MockClassSimple>().As("singleton");
+				.To<MockIClassWithoutAttributes>().WhenInto<MockClassSimple>().As("singleton");
 			container.Bind<IMockInterface>()
-				.To<MockIClass>().WhenOn<MockClassSimple>().As("test");
+				.To<MockIClass>().WhenInto<MockClassSimple>().As("test");
 			
 			var instance1 = container.Resolve<MockClassVerySimple>();
 			var instance2 = container.Resolve<MockClassSimple>();
@@ -89,11 +89,11 @@ namespace Adic.Tests {
 			var container = new InjectionContainer();
 			
 			container.Bind<IMockInterface>()
-				.To<MockIClassWithAttributes>().WhenOn(typeof(MockClassVerySimple));
+				.To<MockIClassWithAttributes>().WhenInto(typeof(MockClassVerySimple));
 			container.Bind<IMockInterface>()
-				.To<MockIClassWithoutAttributes>().WhenOn(typeof(MockClassSimple)).As("singleton");
+				.To<MockIClassWithoutAttributes>().WhenInto(typeof(MockClassSimple)).As("singleton");
 			container.Bind<IMockInterface>()
-				.To<MockIClass>().WhenOn(typeof(MockClassSimple)).As("test");
+				.To<MockIClass>().WhenInto(typeof(MockClassSimple)).As("test");
 			
 			var instance1 = container.Resolve<MockClassVerySimple>();
 			var instance2 = container.Resolve<MockClassSimple>();
@@ -111,11 +111,11 @@ namespace Adic.Tests {
 			var container = new InjectionContainer();
 			
 			container.Bind<IMockInterface>()
-				.To<MockIClassWithAttributes>().WhenOnInstance(instance1);
+				.To<MockIClassWithAttributes>().WhenIntoInstance(instance1);
 			container.Bind<IMockInterface>()
-				.To<MockIClassWithoutAttributes>().WhenOnInstance(instance2).As("singleton");
+				.To<MockIClassWithoutAttributes>().WhenIntoInstance(instance2).As("singleton");
 			container.Bind<IMockInterface>()
-				.To<MockIClass>().WhenOn<MockClassSimple>().WhenOnInstance(instance2).As("test");
+				.To<MockIClass>().WhenInto<MockClassSimple>().WhenIntoInstance(instance2).As("test");
 			
 			container.Inject(instance1);
 			container.Inject(instance2);
