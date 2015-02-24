@@ -242,7 +242,7 @@ container.Bind<InterfaceType>.ToFactory(factoryInstance);
 
 See <a href="#factories">Factories</a> for more information.
 
-#### To game object from the key type
+#### To game object
 
 Binds the key type to a singleton of itself or some type on a new game object.
 
