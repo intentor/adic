@@ -20,6 +20,8 @@
 	* <a href="#multiple-injection">Multiple injection</a>
 	* <a href="#monobehaviour-injection">MonoBehaviour injection</a>
 	* <a href="#conditions">Conditions</a>
+	* <a href="#update">Update</a>
+	* <a href="#dispose">Dispose</a>
 	* <a href="#manual-type-resolution">Manual type resolution</a>
 	* <a href="#factories">Factories</a>
 * <a href="#order-of-events">Order of events
@@ -543,6 +545,18 @@ The context provides the following fields:
 4. **parentType** (`object`): the type of the object in which the injection is occuring.
 5. **parentInstance** (`object`): the instance of the object in which the injection is occuring.
 6. **injectType** (`System.Type`): the type of the object being injected.
+
+### <a id="update"></a>Update
+
+It's possible to have an `Update()` method on regular classes (that don't inherit from `UnityEngine.MonoBehaviour`) by implementing the `Adic.IUpdateable' interface.
+
+See <a href="#extension-event-caller">Event Caller</a> for more information.
+
+### <a id="dispose"></a>Dispose
+
+When a scene is destroyed, it's possible to have a method that can be called to e.g. free up resources. To do it, implement the `System.IDisposable` interface on any class that you want to have this option.
+
+See <a href="#extension-event-caller">Event Caller</a> for more information.
 
 ### <a id="manual-type-resolution"></a>Manual type resolution
 

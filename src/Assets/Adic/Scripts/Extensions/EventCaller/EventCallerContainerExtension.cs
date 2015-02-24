@@ -16,7 +16,7 @@ namespace Adic {
 		/// <summary>The disposable objects.</summary>
 		public static List<IDisposable> disposable = new List<IDisposable>();
 		/// <summary>The updateable objects.</summary>
-		public static List<IUpdateable> updateable = new List<IUpdateable>();
+		public static List<IUpdatable> updateable = new List<IUpdatable>();
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.EventCallerContainerExtension"/> class.
@@ -50,8 +50,8 @@ namespace Adic {
 				if (binding.value is IDisposable) {
 					disposable.Add((IDisposable)binding.value);
 				}
-				if (binding.value is IUpdateable) {
-					updateable.Add((IUpdateable)binding.value);
+				if (binding.value is IUpdatable) {
+					updateable.Add((IUpdatable)binding.value);
 				}
 			}
 		}
@@ -68,8 +68,8 @@ namespace Adic {
 			if (instance is IDisposable) {
 				disposable.Add((IDisposable)instance);
 			}
-			if (instance is IUpdateable) {
-				updateable.Add((IUpdateable)instance);
+			if (instance is IUpdatable) {
+				updateable.Add((IUpdatable)instance);
 			}
 		}
 	}
