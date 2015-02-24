@@ -614,7 +614,7 @@ namespace MyNamespace {
 4. ContextRoot calls Init()
 5. Unity Start() on all MonoBehaviours
 6. Injection on MonoBehaviours
-7. Unity Update() is called on every object that implemented `Adic.IUpdateable`
+7. Update() is called on every object that implemented `Adic.IUpdateable`
 8. Scene is destroyed
 9. Dispose() is called on every object that implemented `System.IDisposable`
 
