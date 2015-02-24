@@ -15,6 +15,8 @@ namespace Adic.Injection {
 		public event TypeResolutionHandler afterResolve;
 		/// <summary>Occurs when a binding is available for resolution.</summary>
 		public event BindingEvaluationHandler bindingEvaluation;
+		/// <summary>Occurs when a binding is resolved to an instance.</summary>
+		public event BindingResolutionHandler bindingResolution;
 		/// <summary>Occurs before an instance receives injection.</summary>
 		public event InstanceInjectionHandler beforeInject;
 		/// <summary>Occurs after an instance receives injection.</summary>
@@ -310,6 +312,10 @@ namespace Adic.Injection {
 					
 					instance = binding.value;
 				}
+			}
+
+			if (this.bindingResolution != null) {
+				this.bindingResolution(this, ref binding, ref instance);
 			}
 
 			return instance;

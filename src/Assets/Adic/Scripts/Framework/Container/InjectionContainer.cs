@@ -180,6 +180,10 @@ namespace Adic {
 			add { this.injector.bindingEvaluation += value; }
 			remove { this.injector.bindingEvaluation -= value; }
 		}
+		public event BindingResolutionHandler bindingResolution {
+			add { this.injector.bindingResolution += value; }
+			remove { this.injector.bindingResolution -= value; }
+		}
 		public event InstanceInjectionHandler beforeInject {
 			add { this.injector.beforeInject += value; }
 			remove { this.injector.beforeInject -= value; }

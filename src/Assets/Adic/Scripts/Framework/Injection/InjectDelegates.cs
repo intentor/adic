@@ -30,7 +30,7 @@ namespace Adic.Injection {
 	/// Binding evaluation handler, called for each binding that is available to a certain
 	/// resolution evaluation.
 	/// 
-	/// The event is dispatched inside the Resolve method right after all the resolution
+	/// The event is dispatched inside the ResolveBinding method right after all the resolution
 	/// conditions have been fulfilled and before the instance is actually resolved.
 	/// 
 	/// This handler can be used e.g. to alter the instance before it's actually resolved.
@@ -39,7 +39,20 @@ namespace Adic.Injection {
 	/// <param name="binding">The binding to have an instance resolved.</param>
 	/// <returns>The evaluated instance or NULL if the evaluation should occur by the injector.</returns>
 	public delegate object BindingEvaluationHandler(IInjector source,
-		ref BindingInfo binding);
+        ref BindingInfo binding);
+	
+	/// <summary>
+	/// Binding resolution handler, called for each instance that is resolved from a certain binding.
+	/// 
+	/// The event is dispatched inside the ResolveBinding method right after the instance is 
+	/// actually resolved.
+	/// </summary>
+	/// <param name="source">The source of the event.</param>
+	/// <param name="binding">The binding from which the instance has been resolved.</param>
+	/// <param name="instance">The resolved instance.</param>
+	public delegate void BindingResolutionHandler(IInjector source,
+        ref BindingInfo binding,
+        ref object instance);
 
 	/// <summary>
 	/// Instance injection handler.

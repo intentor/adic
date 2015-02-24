@@ -11,6 +11,8 @@ namespace Adic.Injection {
 		event TypeResolutionHandler afterResolve;
 		/// <summary>Occurs when a binding is available for resolution.</summary>
 		event BindingEvaluationHandler bindingEvaluation;
+		/// <summary>Occurs when a binding is resolved to an instance.</summary>
+		event BindingResolutionHandler bindingResolution;
 		/// <summary>Occurs before an instance receives injection.</summary>
 		event InstanceInjectionHandler beforeInject;
 		/// <summary>Occurs after an instance receives injection.</summary>

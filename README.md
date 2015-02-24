@@ -27,6 +27,7 @@
 	* <a href="#available-extensions">Available extensions</a>
 		* <a href="#extension-bindings-printer">Bindings Printer</a>
 		* <a href="#extension-context-root">Context Root</a>
+		* <a href="#extension-event-caller">Event Caller</a>
 		* <a href="#extension-mono-injection">Mono Injection</a>
 		* <a href="#extension-unity-binding">Unity Binding</a>
 	* <a href="#creating-extensions">Creating extensions</a>
@@ -599,7 +600,7 @@ namespace MyNamespace {
 4. ContextRoot calls Init()
 5. Unity Start() on all MonoBehaviours
 6. Injection on MonoBehaviours
-7. ~~Unity Update() is called on every object that implemented IUpdateable~~ (not yet implemented)
+7. Unity Update() is called on every object that implemented IUpdateable
 8. Scene is destroyed
 9. ~~Dispose() is called on every object that implemented IDispose~~ (not yet implemented)
 
@@ -634,25 +635,102 @@ To open the Bindings Printer windows, click on *Windows/Adic/Bindings Printer* m
 
 Provides an entry point for the game on Unity 3D.
 
+#### Configuration
+
 Please see <a href="#quick-start">Quick start</a> for more information.
 
 #### Notes
 
 1. When adding a container using `AddContainer()`, it's possible to keep it alive between scenes by setting the `destroyOnLoad` to `false`.
 
-**Dependencies**: none
+#### Dependencies
+
+None
+
+### <a id="extension-event-caller"></a>Event Caller
+
+Calls events on classes bound to containers that implements certain interfaces.
+
+#### Available events
+
+##### Update
+
+Calls `Update()` method on classes that implement `Adic.IUpdateable` interface.
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My updateable class.
+	/// </summary>
+	public class MyUpdateableClass : Adic.IUpdateable {
+		public void Update() {
+			//Update code.
+		}
+	}
+}
+
+##### Dispose
+
+When a scene is destroyed, calls `Dispose()` method on classes that implement `System.IDisposable` interface.
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My disposable class.
+	/// </summary>
+	public class MyDisposableClass : System.IDisposable {
+		public void Dispose() {
+			//Dispose code.
+		}
+	}
+}
+
+#### Configuration
+
+Register the extension on any containers that will use it:
+
+```cs
+//Creates the container.
+var container = new InjectionContainer();
+//Register any extensions the container may use.
+container.RegisterExtension<EventCallerContainerExtension>();
+```
+
+#### Notes
+
+1. Currently, any objects that are updateable are not removed from the update's list when they're not in use anymore. So, it's recommended to implement the `Adic.IUpdateable` interface only on singleton or transient objects that will live until the scene is destroyed;
+2. When the scene is destroyed, the update's list is cleared. So, any objects that will live between scenes that implement the `Adic.IUpdateable` interface will not be readded to the list. **It's recommeded to use updateable objects only on the context of a single scene**.
+
+#### Dependencies
+
+None
 
 ### <a id="extension-mono-injection"></a>Mono Injection
 
 Allows injection on MonoBehaviours by provinding an `Inject` method to `UnityEngine.MonoBehaviour`.
 
+#### Configuration
+
 Please see <a href="#monobehaviour-injection">MonoBehaviour injection</a> for more information.
 
-**Dependencies**: <a href="#extension-context-root">Context Root</a>
+#### Dependencies
+
+<a href="#extension-context-root">Context Root</a>
 
 ### <a id="extension-unity-binding"></a>Unity Binding
 
 Provides Unity 3D bindings to the container.
+
+#### Configuration
+
+Register the extension on any containers that you may use it:
+
+```cs
+//Creates the container.
+var container = new InjectionContainer();
+//Register any extensions the container may use.
+container.RegisterExtension<UnityBindingContainerExtension>();
+```
 
 Please see <a href="#bindings">Bindings</a> for more information.
 
@@ -660,7 +738,9 @@ Please see <a href="#bindings">Bindings</a> for more information.
 
 1. ALWAYS CALL Inject FROM 'Start'! (use the <a href="#extension-mono-injection">Mono Injection</a> Extension).
 
-**Dependencies**: none
+#### Dependencies
+
+None
 
 ## <a id="creating-extensions"></a>Creating extensions
 
@@ -712,6 +792,7 @@ All events are available through `Adic.InjectionContainer`.
 * `beforeResolve`: occurs before a type is resolved.
 * `afterResolve`: occurs after a type is resolved.
 * `bindingEvaluation`: occurs when a binding is available for resolution.
+* `bindingResolution`: occures when a binding is resolved to an instance.
 * `beforeInject`: occurs before an instance receives injection.
 * `afterInject`: occurs after an instance receives injection.
 

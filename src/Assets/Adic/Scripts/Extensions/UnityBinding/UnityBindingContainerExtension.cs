@@ -25,6 +25,13 @@ namespace Adic {
 			container.beforeAddBinding -= this.OnBeforeAddBinding;
 		}
 
+		/// <summary>
+		/// Handles the before add binding container event.
+		/// 
+		/// Used to ensure the binding value is a <see cref="UnityEngine.MonoBehaviour"/>.
+		/// </summary>
+		/// <param name="source">Source.</param>
+		/// <param name="binding">Binding.</param>
 		protected void OnBeforeAddBinding(IBinder source, ref BindingInfo binding) {
 			if (binding.value is Type &&
 			    TypeUtils.IsAssignable(typeof(MonoBehaviour), binding.value as Type)) {
@@ -32,6 +39,13 @@ namespace Adic {
 			}
 		}
 
+		/// <summary>
+		/// Handles the binding evaluation container event.
+		/// 
+		/// Used to instantiate prefabs.
+		/// </summary>
+		/// <param name="source">Source.</param>
+		/// <param name="binding">Binding.</param>
 		protected object OnBindingEvaluation(IInjector source, ref BindingInfo binding) {
 			//Checks whether a prefab should be instantiated.
 			if (binding.value is PrefabBinding &&
