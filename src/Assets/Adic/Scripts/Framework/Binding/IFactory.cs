@@ -1,6 +1,6 @@
 using System;
 
-namespace Intentor.Adic {
+namespace Adic {
 	/// <summary>
 	/// Defines a factory of instances.
 	/// </summary>

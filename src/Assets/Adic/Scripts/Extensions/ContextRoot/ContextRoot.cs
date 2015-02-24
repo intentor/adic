@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Adic.Container;
 
-namespace Intentor.Adic {
+namespace Adic {
 	/// <summary>
 	/// Context root MonoBehaviour.
 	/// </summary>
@@ -16,7 +17,7 @@ namespace Intentor.Adic {
 			public bool destroyOnLoad;
 			
 			/// <summary>
-			/// Initializes a new instance of <see cref="Intentor.Adic.ContextRoot+InjectionContainerData"/>.
+			/// Initializes a new instance of <see cref="Adic.ContextRoot+InjectionContainerData"/>.
 			/// </summary>
 			/// <param name="container">The injection container.</param>
 			/// <param name="destroyOnLoad">Indicates whether the container should be destroyed on load.</param>

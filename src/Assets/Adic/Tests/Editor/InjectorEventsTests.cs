@@ -1,8 +1,11 @@
 ﻿using System;
-using Intentor.Adic;
+using Adic;
+using Adic.Binding;
+using Adic.Cache;
+using Adic.Injection;
 using NUnit.Framework;
 
-namespace Intentor.Adic.Tests {
+namespace Adic.Tests {
 	[TestFixture]
 	public class InjectorEventsTests {
 		[Test]
@@ -117,7 +120,7 @@ namespace Intentor.Adic.Tests {
 			IBinder binder = new Binder();
 			IInjector injector = new Injector(cache, binder);
 
-			injector.bindingEvaluation += delegate(IInjector source, ref Binding binding) {
+			injector.bindingEvaluation += delegate(IInjector source, ref BindingInfo binding) {
 				Assert.AreEqual(injector, source);
 				Assert.NotNull(binding);
 

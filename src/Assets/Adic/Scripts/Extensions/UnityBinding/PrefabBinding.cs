@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Intentor.Adic {
+namespace Adic {
 	/// <summary>
 	/// Represents a prefab binding.
 	/// </summary>
@@ -11,7 +11,7 @@ namespace Intentor.Adic {
 		public System.Type type { get; set; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Intentor.Adic.PrefabBinding"/> class.
+		/// Initializes a new instance of the <see cref="Adic.PrefabBinding"/> class.
 		/// </summary>
 		/// <param name="prefab">The prefab to be instantiated.</param>
 		/// <param name="type">The type that will be resolved from the prefab.</param>

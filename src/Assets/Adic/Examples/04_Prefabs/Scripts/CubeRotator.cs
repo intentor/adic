@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Intentor.Adic.Examples.Prefabs {
+namespace Adic.Examples.Prefabs {
 	/// <summary>
 	/// Cube rotator script.
 	/// </summary>

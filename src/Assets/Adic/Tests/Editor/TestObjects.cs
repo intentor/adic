@@ -1,9 +1,9 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
-using Intentor.Adic;
+using Adic;
+using UnityEngine;
 
-namespace Intentor.Adic.Tests {
+namespace Adic.Tests {
 	/// <summary>
 	/// Interface for tests.
 	/// </summary>

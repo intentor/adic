@@ -1,6 +1,8 @@
 using System;
+using Adic.Binding;
+using Adic.Injection;
 
-namespace Intentor.Adic {
+namespace Adic.Container {
 	/// <summary>
 	/// Defines a container for dependency injection.
 	/// 

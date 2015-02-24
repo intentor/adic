@@ -40,7 +40,7 @@
 
 *Adic* is a lightweight dependency injection container for Unity 3D.
 
-Based on studies from [StrangeIoC](http://strangeioc.github.io/strangeioc/) and the proof-of-concept container from [Sebastiano Mandalà](http://blog.sebaslab.com/ioc-container-for-unity3d-part-1/), the ideia of the project was to create a dependency injection container that is simple to use and extend, having on its roots the simplicity of the work of Mandalà and the extensibility of StrangeIoC.
+Based on studies from [StrangeIoC](http://strangeioc.github.io/strangeioc/) and the proof of concept container from [Sebastiano Mandalà](http://blog.sebaslab.com/ioc-container-for-unity3d-part-1/), the ideia of the project was to create a dependency injection container that is simple to use and extend, having on its roots the simplicity of the work of Mandalà and the extensibility of StrangeIoC.
 
 The project was tested on Unity 4.3+ and should work on lower versions of the 4 cicle.
 
@@ -84,7 +84,7 @@ The structure of *Adic* is divided into five parts:
 
 ## <a id="quick-start"></a>Quick start
 
-1\. Create your own dependency injection contexts (e. g. GameContainer.cs) by inheriting from `Intentor.Adic.Container`.
+1\. Create your own dependency injection contexts (e. g. GameContainer.cs) by inheriting from `Adic.Container`.
    
 ```cs
 using UnityEngine;
@@ -93,7 +93,7 @@ namespace MyNamespace {
 	/// <summary>
 	/// Dependency injection container.
 	/// </summary>
-	public class GameContainer : Intentor.Adic.Container {
+	public class GameContainer : Adic.Container {
 		public override void SetupBindings() {
 			//Setup any bindings.
 		}
@@ -103,7 +103,7 @@ namespace MyNamespace {
    
 2\. Setup all your <a href="#bindings">bindings</a> on the `SetupBindings()` method.
 
-3\. Create the context root (e. g. GameRoot.cs) of your scene by inheriting from `Intentor.Adic.ContextRoot`.
+3\. Create the context root (e. g. GameRoot.cs) of your scene by inheriting from `Adic.ContextRoot`.
 
 **Note**: there should be only one context root per scene.
 
@@ -116,7 +116,7 @@ namespace MyNamespace {
 	/// <summary>
 	/// Game context root.
 	/// </summary>
-	public class GameRoot : Intentor.Adic.ContextRoot {
+	public class GameRoot : Adic.ContextRoot {
 		public override void SetupContainers() {
 			this.AddContainer<GameContainer>();
 		}
@@ -227,7 +227,7 @@ container.Bind<InterfaceType>.To(classTypeObject, instanceOfClassType);
 
 #### To a Factory
 
-Binds the key type to a factory. The factory must implement `Intentor.Adic.IFactory` interface.
+Binds the key type to a factory. The factory must implement `Adic.IFactory` interface.
 
 ```cs
 container.Bind<InterfaceType>.ToFactory(factoryInstance);
@@ -529,7 +529,7 @@ container.Bind<SomeInterface>().To<SomeClass>().When(context =>
 
 The context provides the following fields:
 
-1. **member** (`Intentor.Adic.InjectionMember`): the class member in which the injection is occuring (*None*, *Constructor*, *Field* or *Property*).
+1. **member** (`Adic.InjectionMember`): the class member in which the injection is occuring (*None*, *Constructor*, *Field* or *Property*).
 2. **memberType** (`System.Type`): the type of the member in which the injection is occuring.
 3. **identifier** (`object`): the identifier of the member in which the injection is occuring (from InjectAttribute).
 4. **parentType** (`object`): the type of the object in which the injection is occuring.
@@ -560,14 +560,14 @@ instances = container.ResolveAll(typeInstance);
 
 ### <a id="factories"></a>Factories
 
-When you need to handle the instantiation of an object manually, it's possible to create a factory class by inheriting from `Intentor.Adic.IFactory`:
+When you need to handle the instantiation of an object manually, it's possible to create a factory class by inheriting from `Adic.IFactory`:
 
 ```cs
 namespace MyNamespace {
 	/// <summary>
 	/// My factory.
 	/// </summary>
-	public class MyFactory : Intentor.Adic.IFactory {
+	public class MyFactory : Adic.IFactory {
 		/// <summary>Type the factory creates.</summary>
 		Type factoryType { 
 			get { return typeof(FactoryObjectType); } 
@@ -640,7 +640,7 @@ Basically, to create a *container extension*, you have to:
 
 1\. Create the extension class with `ContainerExtension` sufix.
 
-2\. Implement `Intentor.Adic.IContainerExtension`.
+2\. Implement `Adic.IContainerExtension`.
 
 3\. Subscribe to any events on the container on OnRegister method.
 
@@ -662,7 +662,7 @@ public void OnUnregister(IInjectionContainer container) {
 
 Container events provide a way to intercept internal actions of the container and change its inner workings to suit the needs of your extension.
 
-All events are available through `Intentor.Adic.InjectionContainer`.
+All events are available through `Adic.InjectionContainer`.
 
 ### <a id="binder-events"></a>Binder events
 

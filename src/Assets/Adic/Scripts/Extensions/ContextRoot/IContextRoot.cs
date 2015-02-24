@@ -1,6 +1,7 @@
 using System;
+using Adic.Container;
 
-namespace Intentor.Adic {
+namespace Adic {
 	/// <summary>
 	/// Defines the context root.
 	/// 

@@ -1,6 +1,6 @@
 using UnityEngine;
 using System;
-using Intentor.Adic;
+using Adic;
 
 /// <summary>
 /// Provides an Inject method to <see cref="UnityEngine.MonoBehaviour"/>.

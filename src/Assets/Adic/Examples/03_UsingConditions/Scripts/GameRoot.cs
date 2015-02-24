@@ -1,11 +1,11 @@
 using UnityEngine;
-using Intentor.Adic;
+using Adic;
 
-namespace Intentor.Adic.Examples.UsingConditions {
+namespace Adic.Examples.UsingConditions {
 	/// <summary>
 	/// Game context root.
 	/// </summary>
-	public class GameRoot : Intentor.Adic.ContextRoot {
+	public class GameRoot : ContextRoot {
 		public override void SetupContainers() {
 			//Creates the container.
 			var container = new InjectionContainer();

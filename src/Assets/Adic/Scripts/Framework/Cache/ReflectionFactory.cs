@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Intentor.Adic {
+namespace Adic.Cache {
 	/// <summary>
 	/// Factory for <see cref="IReflectedClass"/>.
 	/// </summary>

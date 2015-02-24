@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace Intentor.Adic {
+namespace Adic.Cache {
 	/// <summary>
 	/// Defines a factory for <see cref="IReflectedClass"/>.
 	/// </summary>

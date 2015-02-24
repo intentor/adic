@@ -1,6 +1,6 @@
 using System;
 
-namespace Intentor.Adic {
+namespace Adic.Exceptions {
 	/// <summary>
 	/// Injector exception.
 	/// </summary>

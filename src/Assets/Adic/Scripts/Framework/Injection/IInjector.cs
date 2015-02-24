@@ -1,6 +1,6 @@
 using System;
 
-namespace Intentor.Adic {
+namespace Adic.Injection {
 	/// <summary>
 	/// Defines a dependency injector which injects dependencies on instances.
 	/// </summary>

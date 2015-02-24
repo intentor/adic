@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using Intentor.Adic;
+using Adic;
 using NUnit.Framework;
 
-namespace Intentor.Adic.Tests {
+namespace Adic.Tests {
 	/// <summary>
 	/// These tests are just to analyse Adic's performance and present
 	/// no real unit testing to the component.

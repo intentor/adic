@@ -1,6 +1,6 @@
 using System;
 
-namespace Intentor.Adic {
+namespace Adic.Binding {
 	/// <summary>
 	/// Binding instance type.
 	/// </summary>

@@ -1,8 +1,10 @@
 using System;
-using Intentor.Adic;
+using Adic;
+using Adic.Binding;
+using Adic.Injection;
 using NUnit.Framework;
 
-namespace Intentor.Adic.Tests {
+namespace Adic.Tests {
 	[TestFixture]
 	public class InjectorTests {
 		/// <summary>Injector used on tests.</summary>

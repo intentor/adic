@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Intentor.Adic.Examples.UsingConditions {
+namespace Adic.Examples.UsingConditions {
 	/// <summary>
 	/// Game object rotator script.
 	/// </summary>

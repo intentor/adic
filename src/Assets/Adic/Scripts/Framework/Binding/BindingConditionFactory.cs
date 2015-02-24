@@ -1,18 +1,18 @@
 using System;
 
-namespace Intentor.Adic {
+namespace Adic.Binding {
 	/// <summary>
 	/// Binding condition factory.
 	/// </summary>
 	public class BindingConditionFactory : IBindingConditionFactory {
 		/// <summary>The binding to have its conditions defined.</summary>
-		protected Binding binding;
+		protected BindingInfo binding;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Intentor.Adic.BindingConditionFactory"/> class.
+		/// Initializes a new instance of the <see cref="Adic.BindingConditionFactory"/> class.
 		/// </summary>
 		/// <param name="binding">The binding to have its conditions settled.</param>
-		public BindingConditionFactory(Binding binding) {
+		public BindingConditionFactory(BindingInfo binding) {
 			this.binding = binding;
 		}
 

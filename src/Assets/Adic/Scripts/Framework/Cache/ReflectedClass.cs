@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Intentor.Adic {
+namespace Adic.Cache {
 	/// <summary>
 	/// Basic reflected class.
 	/// </summary>

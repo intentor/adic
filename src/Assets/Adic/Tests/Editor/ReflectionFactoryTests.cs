@@ -1,8 +1,9 @@
 using System;
-using Intentor.Adic;
+using Adic;
+using Adic.Cache;
 using NUnit.Framework;
 
-namespace Intentor.Adic.Tests {
+namespace Adic.Tests {
 	[TestFixture]
 	public class ReflectionFactoryTests {
 		[Test]

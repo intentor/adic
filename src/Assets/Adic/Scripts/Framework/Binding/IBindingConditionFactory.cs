@@ -1,6 +1,6 @@
 using System;
 
-namespace Intentor.Adic {
+namespace Adic.Binding {
 	/// <summary>
 	/// Defines the conditions of a binding.
 	/// </summary>

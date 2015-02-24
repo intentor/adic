@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using Adic.Binding;
+using Adic.Exceptions;
+using Adic.Util;
 
-namespace Intentor.Adic {
+namespace Adic {
 	/// <summary>
 	/// Provides binding capabilities to Unity entities.
 	/// </summary>

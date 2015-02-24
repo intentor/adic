@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Adic.Binding;
+using Adic.Cache;
 
-namespace Intentor.Adic {
+namespace Adic.Injection {
 	/// <summary>
 	/// Type resolution handler.
 	/// </summary>
@@ -37,7 +39,7 @@ namespace Intentor.Adic {
 	/// <param name="binding">The binding to have an instance resolved.</param>
 	/// <returns>The evaluated instance or NULL if the evaluation should occur by the injector.</returns>
 	public delegate object BindingEvaluationHandler(IInjector source,
-		ref Binding binding);
+		ref BindingInfo binding);
 
 	/// <summary>
 	/// Instance injection handler.

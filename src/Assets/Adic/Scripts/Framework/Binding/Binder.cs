@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Adic.Exceptions;
 
-namespace Intentor.Adic {
+namespace Adic.Binding {
 	/// <summary>
 	/// Binds a type to another type or an instance.
 	/// </summary>
@@ -16,7 +17,7 @@ namespace Intentor.Adic {
 		public event BindingRemovedHandler afterRemoveBinding;
 
 		/// <summary>Type bindings of the binder.</summary>
-		protected Dictionary<Type, IList<Binding>> typeBindings = new Dictionary<Type, IList<Binding>>();
+		protected Dictionary<Type, IList<BindingInfo>> typeBindings = new Dictionary<Type, IList<BindingInfo>>();
 		
 		/// <summary>
 		/// Binds a type to another type or instance.
@@ -40,7 +41,7 @@ namespace Intentor.Adic {
 		/// Adds a binding.
 		/// </summary>
 		/// <param name="binding">The binding to be added.</param>
-		public void AddBinding(Binding binding) {
+		public void AddBinding(BindingInfo binding) {
 			if (binding == null) {
 				throw new BinderException(BinderException.NULL_BINDING);
 			} else if (binding.value is Type && (binding.value as Type).IsInterface) {
@@ -54,7 +55,7 @@ namespace Intentor.Adic {
 			if (this.typeBindings.ContainsKey(binding.type)) {
 				this.typeBindings[binding.type].Add(binding);
 			} else {
-				var bindingList = new List<Binding>(1);
+				var bindingList = new List<BindingInfo>(1);
 				bindingList.Add(binding);
 				this.typeBindings.Add(binding.type, bindingList);
 			}
@@ -68,8 +69,8 @@ namespace Intentor.Adic {
 		/// Gets all bindings.
 		/// </summary>
 		/// <returns>Bindings list.</returns>
-		public IList<Binding> GetBindings() {
-			var bindings = new List<Binding>();
+		public IList<BindingInfo> GetBindings() {
+			var bindings = new List<BindingInfo>();
 			
 			foreach (var binding in this.typeBindings) {
 				bindings.AddRange(binding.Value);
@@ -83,7 +84,7 @@ namespace Intentor.Adic {
 		/// </summary>
 		/// <typeparam name="T">The type to get the bindings from.</typeparam>
 		/// <returns>The bindings for the desired type.</returns>
-		public IList<Binding> GetBindingsFor<T>() {
+		public IList<BindingInfo> GetBindingsFor<T>() {
 			return this.GetBindingsFor(typeof(T));
 		}
 		
@@ -92,7 +93,7 @@ namespace Intentor.Adic {
 		/// </summary>
 		/// <param name="type">The type to get the bindings from.</param>
 		/// <returns>The bindings for the desired type.</returns>
-		public IList<Binding> GetBindingsFor(Type type) {
+		public IList<BindingInfo> GetBindingsFor(Type type) {
 			if (this.typeBindings.ContainsKey(type)) {
 				return this.typeBindings[type];
 			} else {

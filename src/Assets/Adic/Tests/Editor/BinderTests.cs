@@ -1,8 +1,9 @@
 using System;
-using Intentor.Adic;
+using Adic;
+using Adic.Binding;
 using NUnit.Framework;
 
-namespace Intentor.Adic.Tests {
+namespace Adic.Tests {
 	[TestFixture]
 	public class BinderTests {
 

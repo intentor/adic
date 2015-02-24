@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Intentor.Adic.Examples.HelloWorld {
+namespace Adic.Examples.HelloWorld {
 	/// <summary>
 	/// Simple class that displays "Hello, world!".
 	/// </summary>

@@ -1,6 +1,6 @@
 using System;
 
-namespace Intentor.Adic {
+namespace Adic.Injection {
 	/// <summary>
 	/// Injection context.
 	/// </summary>

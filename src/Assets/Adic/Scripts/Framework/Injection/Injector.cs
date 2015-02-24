@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Adic.Binding;
+using Adic.Cache;
+using Adic.Exceptions;
 
-namespace Intentor.Adic {
+namespace Adic.Injection {
 	/// <summary>
 	/// An injector that uses a binder to resolve bindings.
 	/// </summary>
@@ -23,7 +26,7 @@ namespace Intentor.Adic {
 		public IBinder binder { get; private set; }
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Intentor.Adic.InjectorBinder"/> class.
+		/// Initializes a new instance of the <see cref="Adic.InjectorBinder"/> class.
 		/// </summary>
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		/// <param name="binder">Binder used to resolved bindings.</param>
@@ -252,7 +255,7 @@ namespace Intentor.Adic {
 		/// <param name="parentInstance">Parent object in which the resolve is occuring.</param>
 		/// <param name="identifier">The binding identifier to be looked for.</param>
 		/// <returns>The resolved instance from the binding.</returns>
-		protected object ResolveBinding(Binding binding, 
+		protected object ResolveBinding(BindingInfo binding, 
 			Type type,
 			InjectionMember member,
 			object parentInstance,
@@ -351,7 +354,7 @@ namespace Intentor.Adic {
 		/// </summary>
 		/// <param name="source">The source of the event.</param>
 		/// <param name="binding">The binding to be added, by reference.</param>
-		protected void OnBeforeAddBinding(IBinder source, ref Binding binding) {
+		protected void OnBeforeAddBinding(IBinder source, ref BindingInfo binding) {
 			if (binding.instanceType == BindingInstance.Singleton) {
 				if (binding.value is Type) {
 					var value = this.Resolve(binding.value as Type);

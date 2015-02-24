@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Adic.Binding;
 
-namespace Intentor.Adic {
+namespace Adic.Cache {
 	/// <summary>
 	/// Basic cache for reflection data.
 	/// 
@@ -10,7 +11,7 @@ namespace Intentor.Adic {
 	/// it's automatically created on the cache.
 	/// </summary>
 	public class ReflectionCache : IReflectionCache {
-		/// <summary>Gets the <see cref="Intentor.Adic.ReflectedClass"/> with the specified type.</summary>
+		/// <summary>Gets the <see cref="Adic.ReflectedClass"/> with the specified type.</summary>
 		public ReflectedClass this[Type type] { get { return this.GetClass(type); } }
 
 		/// <summary>Reflection factory used to generate items on the cache.</summary>

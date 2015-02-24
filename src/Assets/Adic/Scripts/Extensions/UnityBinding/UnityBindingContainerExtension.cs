@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using Adic.Binding;
+using Adic.Container;
+using Adic.Exceptions;
+using Adic.Injection;
+using Adic.Util;
 
-namespace Intentor.Adic {
+namespace Adic {
 	/// <summary>
 	/// Container extension for the Unity Binding Adic Extension.
 	/// 
@@ -20,14 +25,14 @@ namespace Intentor.Adic {
 			container.beforeAddBinding -= this.OnBeforeAddBinding;
 		}
 
-		protected void OnBeforeAddBinding(IBinder source, ref Binding binding) {
+		protected void OnBeforeAddBinding(IBinder source, ref BindingInfo binding) {
 			if (binding.value is Type &&
 			    TypeUtils.IsAssignable(typeof(MonoBehaviour), binding.value as Type)) {
 				throw new BindingException(CANNOT_RESOLVE_MONOBEHAVIOUR);
 			}
 		}
 
-		protected object OnBindingEvaluation(IInjector source, ref Binding binding) {
+		protected object OnBindingEvaluation(IInjector source, ref BindingInfo binding) {
 			//Checks whether a prefab should be instantiated.
 			if (binding.value is PrefabBinding &&
 			    binding.instanceType == BindingInstance.Transient) {

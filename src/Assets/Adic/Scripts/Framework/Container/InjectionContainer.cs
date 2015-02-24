@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Adic.Binding;
+using Adic.Cache;
+using Adic.Container;
+using Adic.Injection;
 
-namespace Intentor.Adic {
+namespace Adic {
 	/// <summary>
 	/// A dependency injector container.
 	/// 
@@ -21,7 +25,7 @@ namespace Intentor.Adic {
 		private List<IContainerExtension> extensions;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Intentor.Adic.InjectionContainer"/> class.
+		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
 		/// </summary>
 		/// <remarks>
 		/// When passing no parameters to the constructor, default internal objects are created.
@@ -33,7 +37,7 @@ namespace Intentor.Adic {
 		}
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Intentor.Adic.InjectionContainer"/> class.
+		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
 		/// </summary>
 		/// <remarks>
 		/// <remarks>
@@ -47,7 +51,7 @@ namespace Intentor.Adic {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Intentor.Adic.InjectionContainer"/> class.
+		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
 		/// </summary>
 		/// <remarks>
 		/// <param name="cache">Reflection cache used to get type info.</param>
@@ -60,7 +64,7 @@ namespace Intentor.Adic {
 		}
 
 		/// <summary>
-		/// Releases all resources used by the <see cref="Intentor.Adic.InjectionContainer"/> object.
+		/// Releases all resources used by the <see cref="Adic.InjectionContainer"/> object.
 		/// </summary>
 		public void Dispose() {
 			this.cache = null;
@@ -138,19 +142,19 @@ namespace Intentor.Adic {
 			return this.binder.Bind(type);
 		}
 
-		public void AddBinding(Binding binding){
+		public void AddBinding(BindingInfo binding){
 			this.binder.AddBinding(binding);
 		}
 
-		public IList<Binding> GetBindings(){
+		public IList<BindingInfo> GetBindings(){
 			return this.binder.GetBindings();
 		}
 
-		public IList<Binding> GetBindingsFor<T>(){
+		public IList<BindingInfo> GetBindingsFor<T>(){
 			return this.binder.GetBindingsFor<T>();
 		}
 
-		public IList<Binding> GetBindingsFor(Type type) {
+		public IList<BindingInfo> GetBindingsFor(Type type) {
 			return this.binder.GetBindingsFor(type);
 		}
 		

@@ -1,6 +1,7 @@
 using System;
+using Adic.Binding;
 
-namespace Intentor.Adic {
+namespace Adic.Cache {
 	/// <summary>
 	/// Defines a cache for reflection data.
 	/// 
@@ -9,7 +10,7 @@ namespace Intentor.Adic {
 	/// The cache should always look for constructors and Inject attributes.
 	/// </summary>
 	public interface IReflectionCache {
-		/// <summary>Gets the <see cref="Intentor.Adic.ReflectedClass"/> with the specified type.</summary>
+		/// <summary>Gets the <see cref="Adic.ReflectedClass"/> with the specified type.</summary>
 		ReflectedClass this[Type type] { get; }
 
 		/// <summary>Reflection factory used to generate items on the cache.</summary>

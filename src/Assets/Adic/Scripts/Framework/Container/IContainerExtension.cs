@@ -1,8 +1,8 @@
 using System;
 
-namespace Intentor.Adic {
+namespace Adic.Container {
 	/// <summary>
-	/// Defines an extension for an <see cref="Intentor.Adic.InjectionContainer"/>.
+	/// Defines an extension for an <see cref="Adic.InjectionContainer"/>.
 	/// </summary>
 	public interface IContainerExtension {
 		/// <summary>

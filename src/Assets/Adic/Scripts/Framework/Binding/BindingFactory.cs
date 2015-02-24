@@ -1,6 +1,8 @@
 using System;
+using Adic.Exceptions;
+using Adic.Util;
 
-namespace Intentor.Adic {
+namespace Adic.Binding {
 	/// <summary>
 	/// Binding types to another types or instances.
 	/// </summary>
@@ -11,7 +13,7 @@ namespace Intentor.Adic {
 		public Type bindingType { get; private set; }
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Intentor.Adic.BindingFactory"/> class.
+		/// Initializes a new instance of the <see cref="Adic.BindingFactory"/> class.
 		/// </summary>
 		/// <param name="bindingType">The type being bound.</param>
 		/// <param name="binder">The binder that will bind this binding.</param>
@@ -126,7 +128,7 @@ namespace Intentor.Adic {
 		/// <param name="value">Binding value.</param>
 		/// <param name="instanceType">Binding instance type.</param>
 		public IBindingConditionFactory CreateBinding(object value, BindingInstance instanceType) {
-			var binding = new Binding(this.bindingType, value, instanceType);
+			var binding = new BindingInfo(this.bindingType, value, instanceType);
 			this.binder.AddBinding(binding);
 
 			return this.BindingConditionFactoryProvider(binding);
@@ -148,7 +150,7 @@ namespace Intentor.Adic {
 		/// </summary>
 		/// <param name="type">The type being bound.</param>
 		/// <returns>The binding provider.</returns>
-		protected virtual IBindingConditionFactory BindingConditionFactoryProvider(Binding binding) {
+		protected virtual IBindingConditionFactory BindingConditionFactoryProvider(BindingInfo binding) {
 			return new BindingConditionFactory(binding);
 		}
 	}

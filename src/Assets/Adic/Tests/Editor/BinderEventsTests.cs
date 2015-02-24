@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Intentor.Adic;
+using Adic;
+using Adic.Binding;
 using NUnit.Framework;
 
-namespace Intentor.Adic.Tests {
+namespace Adic.Tests {
 	[TestFixture]
 	public class BinderEventsTests {
 		[Test]
@@ -11,7 +12,7 @@ namespace Intentor.Adic.Tests {
 			var eventCalled = false;
 
 			IBinder binder = new Binder();
-			binder.beforeAddBinding += delegate(IBinder source, ref Binding binding) {
+			binder.beforeAddBinding += delegate(IBinder source, ref BindingInfo binding) {
 				Assert.AreEqual(binder, source);
 				Assert.AreEqual(typeof(IMockInterface), binding.type);
 				Assert.AreEqual(0, binder.GetBindings().Count);
@@ -29,7 +30,7 @@ namespace Intentor.Adic.Tests {
 			var eventCalled = false;
 			
 			IBinder binder = new Binder();
-			binder.afterAddBinding += delegate(IBinder source, ref Binding binding) {
+			binder.afterAddBinding += delegate(IBinder source, ref BindingInfo binding) {
 				Assert.AreEqual(binder, source);
 				Assert.AreEqual(typeof(IMockInterface), binding.type);
 				Assert.AreEqual(1, binder.GetBindings().Count);
@@ -47,7 +48,7 @@ namespace Intentor.Adic.Tests {
 			var eventCalled = false;
 			
 			IBinder binder = new Binder();
-			binder.beforeRemoveBinding += delegate(IBinder source, Type type, IList<Binding> bindings) {
+			binder.beforeRemoveBinding += delegate(IBinder source, Type type, IList<BindingInfo> bindings) {
 				Assert.AreEqual(binder, source);
 				Assert.AreEqual(typeof(IMockInterface), type);
 				Assert.AreEqual(1, bindings.Count);
@@ -68,7 +69,7 @@ namespace Intentor.Adic.Tests {
 			var eventCalled = false;
 			
 			IBinder binder = new Binder();
-			binder.afterRemoveBinding += delegate(IBinder source, Type type, IList<Binding> bindings) {
+			binder.afterRemoveBinding += delegate(IBinder source, Type type, IList<BindingInfo> bindings) {
 				Assert.AreEqual(binder, source);
 				Assert.AreEqual(typeof(IMockInterface), type);
 				Assert.AreEqual(1, bindings.Count);

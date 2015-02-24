@@ -1,6 +1,6 @@
 using System;
 
-namespace Intentor.Adic {
+namespace Adic.Util {
 	/// <summary>
 	/// Uutility class for types.
 	/// </summary>

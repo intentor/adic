@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Intentor.Adic {
+namespace Adic.Binding {
 	/// <summary>
 	/// Defines a binder that binds a type to another type or instance.
 	/// </summary>
@@ -33,27 +33,27 @@ namespace Intentor.Adic {
 		/// Adds a binding.
 		/// </summary>
 		/// <param name="binding">The binding to be added.</param>
-		void AddBinding(Binding binding);
+		void AddBinding(BindingInfo binding);
 		
 		/// <summary>
 		/// Gets all bindings.
 		/// </summary>
 		/// <returns>Bindings list.</returns>
-		IList<Binding> GetBindings();
+		IList<BindingInfo> GetBindings();
 		
 		/// <summary>
 		/// Gets the bindings for a certain <typeparamref name="T"/>.
 		/// </summary>
 		/// <typeparam name="T">The type to get the bindings from.</typeparam>
 		/// <returns>The bindings for the desired type.</returns>
-		IList<Binding> GetBindingsFor<T>();
+		IList<BindingInfo> GetBindingsFor<T>();
 		
 		/// <summary>
 		/// Gets the bindings for a certain <param name="type">.
 		/// </summary>
 		/// <param name="type">The type to get the bindings from.</param>
 		/// <returns>The bindings for the desired type.</returns>
-		IList<Binding> GetBindingsFor(Type type);
+		IList<BindingInfo> GetBindingsFor(Type type);
 		
 		/// <summary>
 		/// Unbinds any bindings to a certain <typeparamref name="T"/>.

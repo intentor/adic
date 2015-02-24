@@ -1,6 +1,6 @@
 using System;
 
-namespace Intentor.Adic {
+namespace Adic.Injection {
 	/// <summary>
 	/// Class members in which injection can occur.
 	/// </summary>
