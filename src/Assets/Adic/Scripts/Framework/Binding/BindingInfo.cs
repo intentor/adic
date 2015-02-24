@@ -27,5 +27,25 @@ namespace Adic.Binding {
 			this.value = value;
 			this.instanceType = instanceType;
 		}
+
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="Adic.Binding.BindingInfo"/>.
+		/// </summary>
+		/// <returns>This object to string.</returns>
+		public override string ToString() {
+			return string.Format(
+				"Type: {0}\n" + 
+				"Bound to: {1} ({2})\n" + 
+				"Binding type: {3}\n" + 
+				"Identifier: {4}\n" + 
+				"Conditions: {5}\n",
+				this.type.FullName,
+				(this.value == null ? "-" : this.value.GetType().FullName),
+				(this.value is Type ? "type" : "instance"),
+				this.instanceType.ToString(),
+				(this.identifier == null ? "-" : this.identifier.ToString()),
+				(this.condition == null ? "no" : "yes")
+			);
+		}
 	}
 }

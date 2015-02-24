@@ -25,6 +25,7 @@
 * <a href="#order-of-events">Order of events
 * <a href="#container-extensions">Extensions</a>
 	* <a href="#available-extensions">Available extensions</a>
+		* <a href="#extension-bindings-printer">Bindings Printer</a>
 		* <a href="#extension-context-root">Context Root</a>
 		* <a href="#extension-mono-injection">Mono Injection</a>
 		* <a href="#extension-unity-binding">Unity Binding</a>
@@ -608,9 +609,32 @@ Extensions are a way to enhance *Adic* without having to edit it to suit differe
 
 ## <a id="available-extensions"></a>Available extensions
 
+### <a id="extension-bindings-printer"></a>Bindings Printer
+
+Prints all bindings on any containers on the current `ContextRoot`. It must be executed on Play Mode.
+
+To open the Bindings Printer windows, click on *Windows/Adic/Bindings Printer* menu.
+
+**Format:**
+
+```
+[Container Type Full Name] (index: [Container Index on `ContextRoot`], [destroy on load/singleton])
+
+	[For each binding]
+	Type: [Binding Type Full Name]
+	Bound to: [Bound To Type Full Name] ([type/instance])
+	Binding type: [Transient/Singleton/Factory]
+	Identifier [Identifier/-]
+	Conditions: [yes/no]
+```
+
+**Dependencies**: <a href="#extension-context-root">Context Root</a>
+
 ### <a id="extension-context-root"></a>Context Root
 
 Provides an entry point for the game on Unity 3D.
+
+Please see <a href="#quick-start">Quick start</a> for more information.
 
 #### Notes
 
@@ -622,11 +646,15 @@ Provides an entry point for the game on Unity 3D.
 
 Allows injection on MonoBehaviours by provinding an `Inject` method to `UnityEngine.MonoBehaviour`.
 
+Please see <a href="#monobehaviour-injection">MonoBehaviour injection</a> for more information.
+
 **Dependencies**: <a href="#extension-context-root">Context Root</a>
 
 ### <a id="extension-unity-binding"></a>Unity Binding
 
 Provides Unity 3D bindings to the container.
+
+Please see <a href="#bindings">Bindings</a> for more information.
 
 #### Notes
 

@@ -28,7 +28,7 @@ namespace Adic {
 		}
 		
 		/// <summary>Internal containers list that will be kept through scenes.</summary>
-		internal static List<InjectionContainerData> containersData { get; set; }
+		public static List<InjectionContainerData> containersData { get; set; }
 
 		/// <summary>Containers list.</summary>
 		public IInjectionContainer[] containers { 

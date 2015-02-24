@@ -28,13 +28,3 @@ Updateable
 	Calls update on any class that implements IUpdateable/IFixedUpdate.
 
 	Dependencies: none
-
-BindingsPrinter (Editor only, runtime)
-	Prints all bindings on any containers on the ContextRoot.
-
-	Dependencies: ContextRoot Extension
-
-ObjectGraphPrinter (Editor only, runtime)
-	Prints the entire dependencies through all types on the binder.
-
-	Dependencies: ContextRoot Extension
