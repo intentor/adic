@@ -548,7 +548,7 @@ The context provides the following fields:
 
 ### <a id="update"></a>Update
 
-It's possible to have an `Update()` method on regular classes (that don't inherit from `UnityEngine.MonoBehaviour`) by implementing the `Adic.IUpdateable' interface.
+It's possible to have an `Update()` method on regular classes (that don't inherit from `UnityEngine.MonoBehaviour`) by implementing the `Adic.IUpdateable` interface.
 
 See <a href="#extension-event-caller">Event Caller</a> for more information.
 
@@ -614,9 +614,9 @@ namespace MyNamespace {
 4. ContextRoot calls Init()
 5. Unity Start() on all MonoBehaviours
 6. Injection on MonoBehaviours
-7. Unity Update() is called on every object that implemented IUpdateable
+7. Unity Update() is called on every object that implemented `Adic.IUpdateable`
 8. Scene is destroyed
-9. ~~Dispose() is called on every object that implemented IDispose~~ (not yet implemented)
+9. Dispose() is called on every object that implemented `System.IDisposable`
 
 ## <a id="container-extensions"></a>Extensions
 
