@@ -7,18 +7,18 @@ namespace Adic.Examples.BindingGameObjects {
 	/// </summary>
 	public class GameRoot : ContextRoot {
 		public override void SetupContainers() {
-			//Creates the container.
+			//Create the container.
 			var container = new InjectionContainer();
-			//Adds any extensions the container may use.
+			//Register any extensions the container may use.
 			container.RegisterExtension<UnityBindingContainerExtension>();
 
-			//Binds a Transform component to the "Cube" GameObject.
+			//Bind a Transform component to the "Cube" GameObject.
 			container.Bind<Transform>().ToGameObject("Cube");
-			//Binds the "GameObjectRotator" component to a new GameObject of the same name.
+			//Bind the "GameObjectRotator" component to a new GameObject of the same name.
 			//This component will then receive the reference above so it can rotate the cube.
 			container.Bind<GameObjectRotator>().ToGameObject();
 			
-			//Adds the container to the context.
+			//Add the container to the context.
 			this.AddContainer(container);
 		}
 		
