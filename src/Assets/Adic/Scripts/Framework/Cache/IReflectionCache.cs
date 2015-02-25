@@ -29,7 +29,7 @@ namespace Adic.Cache {
 		void Remove(Type type);
 
 		/// <summary>
-		/// Gets an<see cref="IoC.IReflectedClass"/> for a certain type.
+		/// Gets an<see cref="Adic.Cache.IReflectedClass"/> for a certain type.
 		/// </summary>
 		/// <remarks>If the type being getted doesn't exist, it'll be created.</remarks>
 		/// <param name="type">Type to look for.</param>

@@ -10,7 +10,7 @@ namespace Adic.Exceptions {
 		public const string FACTORY_TYPE_INCORRECT = "The type and the factory are not the same.";
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="IoC.BindingException"/> class.
+		/// Initializes a new instance of the <see cref="Adic.Exceptions.BindingException"/> class.
 		/// </summary>
 		/// <param name="message">Exception message.</param>
 		public BindingException(string message) : base(message) { }

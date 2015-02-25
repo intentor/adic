@@ -21,7 +21,7 @@ namespace Adic.Cache {
 		private Dictionary<Type, ReflectedClass> classes = new Dictionary<Type, ReflectedClass>();
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="IoC.ReflectionCache"/> class.
+		/// Initializes a new instance of the <see cref="Adic.Cache.ReflectionCache"/> class.
 		/// </summary>
 		public ReflectionCache() {
 			this.reflectionFactory = this.ReflectionFactoryProvider();
@@ -52,7 +52,7 @@ namespace Adic.Cache {
 		}
 		
 		/// <summary>
-		/// Gets an<see cref="IoC.ReflectedClass"/> for a certain type.
+		/// Gets an<see cref="Adic.Cache.ReflectedClass"/> for a certain type.
 		/// </summary>
 		/// <remarks>If the type being getted doesn't exist, it'll be created.</remarks>
 		/// <param name="type">Type to look for.</param>

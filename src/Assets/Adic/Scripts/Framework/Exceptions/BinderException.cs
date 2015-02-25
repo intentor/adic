@@ -10,7 +10,7 @@ namespace Adic.Exceptions {
 		public const string BINDING_TO_INTERFACE = "It's not possible to bind a key to an interface.";
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="IoC.BinderException"/> class.
+		/// Initializes a new instance of the <see cref="Adic.Exceptions.BinderException"/> class.
 		/// </summary>
 		/// <param name="message">Exception message.</param>
 		public BinderException(string message) : base(message) { }
