@@ -34,6 +34,8 @@ namespace Adic {
 			this.cache = new ReflectionCache();
 			this.binder = new Binder();
 			this.injector = new Injector(this.cache, this.binder);
+			
+			this.RegisterItself();
 		}
 		
 		/// <summary>
@@ -48,6 +50,8 @@ namespace Adic {
 			this.cache = cache;
 			this.binder = new Binder();
 			this.injector = new Injector(this.cache, this.binder);
+			
+			this.RegisterItself();
 		}
 
 		/// <summary>
@@ -61,6 +65,8 @@ namespace Adic {
 			this.cache = cache;
 			this.binder = binder;
 			this.injector = injector;
+
+			this.RegisterItself();
 		}
 
 		/// <summary>
@@ -113,6 +119,16 @@ namespace Adic {
 			
 			this.extensions.Remove(extension);
 			extension.OnUnregister(this);
+		}
+
+		/* Container */
+
+		/// <summary>
+		/// Registers the container on itself, so any object that want to receive
+		/// a reference to it just reference <see cref="Adic.Container.IInjectionContainer"/>.
+		/// </summary>
+		protected void RegisterItself() {
+			this.Bind<IInjectionContainer>().To<InjectionContainer>(this);
 		}
 
 		/* IBinder */
