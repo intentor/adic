@@ -17,14 +17,3 @@ Commander
 	registration, dispatch and cache of commands.
 
 	Dependencies: none
-
-Disposable
-	Holds references to any object that has IDisposable so it can dispose them 
-	when the container is destroyed.
-
-	Dependencies: none	
-
-Updateable
-	Calls update on any class that implements IUpdateable/IFixedUpdate.
-
-	Dependencies: none

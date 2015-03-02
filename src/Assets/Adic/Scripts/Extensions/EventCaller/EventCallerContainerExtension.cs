@@ -46,7 +46,10 @@ namespace Adic {
 		/// <param name="source">Source.</param>
 		/// <param name="binding">Binding.</param>
 		protected void OnAfterAddBinding(IBinder source, ref BindingInfo binding) {
-			if (binding.instanceType == BindingInstance.Singleton) {
+			if (binding.instanceType == BindingInstance.Singleton) {				
+				//Do not add commands.
+				if (binding.value is ICommand) return;
+
 				if (binding.value is IDisposable) {
 					disposable.Add((IDisposable)binding.value);
 				}
@@ -65,6 +68,9 @@ namespace Adic {
 		/// <param name="binding">Binding.</param>
 		/// <param name="instance">Instance.</param>
 		protected void OnBindingResolution(IInjector source, ref BindingInfo binding, ref object instance) {
+			//Do not add commands.
+			if (instance is ICommand) return;
+
 			if (instance is IDisposable) {
 				disposable.Add((IDisposable)instance);
 			}

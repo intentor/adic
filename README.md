@@ -24,10 +24,12 @@
 	* <a href="#dispose">Dispose</a>
 	* <a href="#manual-type-resolution">Manual type resolution</a>
 	* <a href="#factories">Factories</a>
+	* <a href="#using-commands">Using commands</a>
 * <a href="#order-of-events">Order of events
 * <a href="#container-extensions">Extensions</a>
 	* <a href="#available-extensions">Available extensions</a>
 		* <a href="#extension-bindings-printer">Bindings Printer</a>
+		* <a href="#extension-commander">Commander</a>
 		* <a href="#extension-context-root">Context Root</a>
 		* <a href="#extension-event-caller">Event Caller</a>
 		* <a href="#extension-mono-injection">Mono Injection</a>
@@ -606,6 +608,22 @@ namespace MyNamespace {
 }
 ```
 
+### <a id="using-commands"></a>Using commands
+
+Commands are a simple way to dispatch events and actions into your game.
+
+The idea is to let objects take care of themselves. However, when an action has to be raised or an event informed, that is the moment the commands are handy.
+
+They decouple your code and focus on the action/event itself, rather than attaching that code to some class that may need many more information just because of that
+
+Suppose you have a event of an enemy destroyed. When that occurs, you have to update UI, dispose the enemy, eventually spawn some particles and other effects. You could place all of this on the enemy class; however it will hits single responsibility of the enemy class. Or you could have a game controller that handle this (and so many other things). Or, better, you can use commands, centralizing events actions on a single place
+
+When registering a command, it's placed on the container, so it's easier to resolve it and its dependencies.
+
+When dispatching a command, it's placed on a list on the CommandDispatcher, which is the one responsible for pooling and managing existing commands.
+
+Commands on the pool that are not singleton are "reinjected" every time they are executed.
+
 ## <a id="order-of-events"></a>Order of events
 
 1. Unity Awake()
@@ -630,7 +648,7 @@ Prints all bindings on any containers on the current `ContextRoot`. It must be e
 
 To open the Bindings Printer windows, click on *Windows/Adic/Bindings Printer* menu.
 
-**Format:**
+#### Format
 
 ```
 [Container Type Full Name] (index: [Container Index on ContextRoot], [destroy on load/singleton])
@@ -643,7 +661,40 @@ To open the Bindings Printer windows, click on *Windows/Adic/Bindings Printer* m
 	Conditions: [yes/no]
 ```
 
-**Dependencies**: <a href="#extension-context-root">Context Root</a>
+#### Dependencies
+
+* <a href="#extension-context-root">Context Root</a>
+
+### <a id="extension-commander"></a>Commander
+
+Provides dispatching of commands, with pooling for better performance.
+
+For more information on commands, see <a href="#using-commands">Using commands</a>.
+
+#### Configuration
+
+Register the extension on any containers that will use it:
+
+```cs
+//Creates the container.
+var container = new InjectionContainer();
+//Register any extensions the container may use.
+container.RegisterExtension<CommanderContainerExtension>();
+```
+
+If you use `IDiposable` or `IUpdatable` events, also registers the <a href="#extension-event-caller">Event Caller</a> extension:
+
+```cs
+//Creates the container.
+var container = new InjectionContainer();
+//Register any extensions the container may use.
+container.RegisterExtension<CommanderContainerExtension>();
+container.RegisterExtension<EventCallerContainerExtension>();
+```
+
+#### Dependencies
+
+* <a href="#extension-event-caller">Event Caller</a> (only if using `IDiposable` or `IUpdatable` events)
 
 ### <a id="extension-context-root"></a>Context Root
 
@@ -731,7 +782,7 @@ Please see <a href="#monobehaviour-injection">MonoBehaviour injection</a> for mo
 
 #### Dependencies
 
-<a href="#extension-context-root">Context Root</a>
+* <a href="#extension-context-root">Context Root</a>
 
 ### <a id="extension-unity-binding"></a>Unity Binding
 
