@@ -99,10 +99,7 @@ namespace Adic {
 		private void CacheBindings() {
 			for (var containerIndex = 0; containerIndex < containersData.Count; containerIndex++) {
 				var container = containersData[containerIndex].container;
-
-				if (container is InjectionContainer) {
-					((InjectionContainer)container).cache.CacheFromBinder(container);
-				}
+				container.cache.CacheFromBinder(container);
 			}
 		}
 	}
