@@ -40,7 +40,7 @@ namespace Adic.Binding {
 				"Identifier: {4}\n" + 
 				"Conditions: {5}\n",
 				this.type.FullName,
-				(this.value == null ? "-" : this.value.GetType().FullName),
+				(this.value == null ? "-" : this.value.ToString()),
 				(this.value is Type ? "type" : "instance"),
 				this.instanceType.ToString(),
 				(this.identifier == null ? "-" : this.identifier.ToString()),
