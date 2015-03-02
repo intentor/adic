@@ -173,7 +173,15 @@ namespace Adic {
 		public IList<BindingInfo> GetBindingsFor(Type type) {
 			return this.binder.GetBindingsFor(type);
 		}
-		
+
+		public bool ContainsBindingFor<T>() {
+			return this.binder.ContainsBindingFor<T>();
+		}
+
+		public bool ContainsBindingFor(Type type) {
+			return this.binder.ContainsBindingFor(type);
+		}
+
 		public void Unbind<T>() {
 			this.binder.Unbind<T>();
 		}

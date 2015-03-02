@@ -100,6 +100,24 @@ namespace Adic.Binding {
 				return null;
 			}
 		}
+
+		/// <summary>
+		/// Checks whether this binder contains a binding for a given <typeparamref name="T"/>.
+		/// </summary>
+		/// <typeparam name="type">The type to be checked.</typeparam>
+		/// <returns><c>true</c>, if binding was contained, <c>false</c> otherwise.</returns>
+		public bool ContainsBindingFor<T>() {
+			return this.ContainsBindingFor(typeof(T));
+		}
+		
+		/// <summary>
+		/// Checks whether this binder contains a binding for a given <paramref name="type"/>.
+		/// </summary>
+		/// <param name="type">The type to be checked.</param>
+		/// <returns><c>true</c>, if binding was contained, <c>false</c> otherwise.</returns>
+		public bool ContainsBindingFor(Type type) {
+			return this.typeBindings.ContainsKey(type);
+		}
 		
 		/// <summary>
 		/// Unbinds any bindings to a certain <typeparamref name="T"/>.
@@ -114,7 +132,7 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="type">The type to be unbound.</param>
 		public void Unbind(Type type) {
-			if (!this.typeBindings.ContainsKey(type)) return;
+			if (!this.ContainsBindingFor(type)) return;
 
 			var bindings = this.GetBindingsFor(type);
 

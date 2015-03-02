@@ -54,6 +54,30 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
+		public void TestContainsByGenerics() {
+			var binder = new Binder();
+			
+			binder.Bind<MockClassToDepend>().ToSelf();
+			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
+
+			var contains = binder.ContainsBindingFor<IMockInterface>();
+			
+			Assert.AreEqual(true, contains);
+		}
+		
+		[Test]
+		public void TestContainsByType() {
+			var binder = new Binder();
+			
+			binder.Bind<MockClassToDepend>().ToSelf();
+			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
+
+			var contains = binder.ContainsBindingFor(typeof(IMockInterface));
+			
+			Assert.AreEqual(true, contains);
+		}
+		
+		[Test]
 		public void TestUnbindByGenerics() {
 			var binder = new Binder();
 			
