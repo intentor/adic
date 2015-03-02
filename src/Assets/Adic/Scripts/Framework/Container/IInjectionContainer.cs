@@ -1,5 +1,6 @@
 using System;
 using Adic.Binding;
+using Adic.Cache;
 using Adic.Injection;
 
 namespace Adic.Container {
@@ -9,6 +10,9 @@ namespace Adic.Container {
 	/// A container holds binding references, resolves types and injects dependencies.
 	/// </summary>
 	public interface IInjectionContainer : IBinder, IInjector, IDisposable {
+		/// <summary>Reflection cache used to get type info.</summary>
+		IReflectionCache cache { get; }
+
 		/// <summary>
 		/// Registers a container extension.
 		/// </summary>
