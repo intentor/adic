@@ -890,6 +890,10 @@ Exemplifies the use of condition identifiers on injections.
 
 Exemplifies how to bind to prefabs and the use of `PostConstruct` as a second constructor.
 
+### 5. Commander
+
+Exemplifies the use of commands through a simple spawner of a prefab.
+
 ## <a id="support"></a>Support
 
 Found a bug? Please create an issue on the [GitHub project page](https://github.com/intentor/adic/) or send a pull request if have a fix or extension.
