@@ -23,6 +23,7 @@ namespace Adic {
 
 		public void OnUnregister(IInjectionContainer container) {
 			container.beforeAddBinding -= this.OnBeforeAddBinding;
+			container.bindingEvaluation -= this.OnBindingEvaluation;
 		}
 
 		/// <summary>
