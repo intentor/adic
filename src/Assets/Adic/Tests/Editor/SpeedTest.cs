@@ -29,12 +29,12 @@ namespace Adic.Tests {
 			
 			object instance = null;
 			for (int i = 0; i < 1000; i++) {
-				instance = this.container.Resolve<MockClassVerySimple>();
+				instance = this.container.Resolve<IMockInterface>();
 			}
 			
 			stopwatch.Stop();
 			
-			UnityEngine.Debug.Log(string.Format("1 thousand resolves in {0}s", stopwatch.Elapsed));
+			UnityEngine.Debug.Log(string.Format("1 thousand simple resolves in {0}s", stopwatch.Elapsed));
 		}
 
 		#pragma warning disable 0219
@@ -46,12 +46,46 @@ namespace Adic.Tests {
 
 			object instance = null;
 			for (int i = 0; i < 1000000; i++) {
-				instance = this.container.Resolve<MockClassVerySimple>();
+				instance = this.container.Resolve<IMockInterface>();
 			}
 
 			stopwatch.Stop();
 
-			UnityEngine.Debug.Log(string.Format("1 million resolves in {0}s", stopwatch.Elapsed));
+			UnityEngine.Debug.Log(string.Format("1 million simple resolves in {0}s", stopwatch.Elapsed));
+		}
+
+		#pragma warning disable 0219
+		[Test]
+		public void Test1ThousandMoreComplexResolves() {
+			var stopwatch = new Stopwatch();
+			
+			stopwatch.Start();
+			
+			object instance = null;
+			for (int i = 0; i < 1000; i++) {
+				instance = this.container.Resolve<MockClassVerySimple>();
+			}
+			
+			stopwatch.Stop();
+			
+			UnityEngine.Debug.Log(string.Format("1 thousand more complex resolves in {0}s", stopwatch.Elapsed));
+		}
+		
+		#pragma warning disable 0219
+		[Test]
+		public void Test1MillionMoreComplexResolves() {
+			var stopwatch = new Stopwatch();
+			
+			stopwatch.Start();
+			
+			object instance = null;
+			for (int i = 0; i < 1000000; i++) {
+				instance = this.container.Resolve<MockClassVerySimple>();
+			}
+			
+			stopwatch.Stop();
+			
+			UnityEngine.Debug.Log(string.Format("1 million more complex resolves in {0}s", stopwatch.Elapsed));
 		}
 	}
 }
