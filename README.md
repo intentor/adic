@@ -678,14 +678,14 @@ namespace MyNamespace {
 }
 ```
 
-<small style="font-size: 0.8em">
+<sup>
 <sup><a id="about-performance-tests">\*</a></sup> See *Tests/Editor/SpeedTest.cs* for more details on performance tests. Tested on a MacBook Pro late 2014 (i7 2.5/3.7 GHz).
 
 * 1 thousand simple resolves in 00:00:00.0023210s
 * 1 million simple resolves in 00:00:02.3380960s
 * 1 thousand more complex resolves in 00:00:00.0045590s
 * 1 million more complex resolves in 00:00:04.8917720s
-</small>
+</sup>
 
 ## <a id="container-extensions"></a>Extensions
 
