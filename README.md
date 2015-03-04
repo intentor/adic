@@ -642,7 +642,7 @@ Commands on the pool that are not singleton are "reinjected" every time they are
 
 ## <a id="performance"></a>Performance
 
-*Adic* was created with performance in mind, using internal cache to minimize the use of [reflection](http://en.wikipedia.org/wiki/Reflection_%28computer_programming%29) (which is usually slow), ensuring a good performance when resolving and injecting into objects, allowing the container to resolve a 1.000 objects in 0.002s and a 1.000.000 in 2s <sup><a href="#about-performance-tests">\*</a></sup>.
+*Adic* was created with performance in mind, using internal cache to minimize the use of [reflection](http://en.wikipedia.org/wiki/Reflection_%28computer_programming%29) (which is usually slow), ensuring a good performance when resolving and injecting into objects, allowing the container to resolve a 1.000 objects in 0.002s and a 1.000.000 in 2s <a href="#about-performance-tests">\*</a>.
 
 To maximize performance, always bind all types that will be resolved/injected on the <a href="#quick-start">ContextRoot</a>, so *Adic* can generate cache of the objects and use that information during runtime.
 
@@ -678,14 +678,12 @@ namespace MyNamespace {
 }
 ```
 
-<sup>
-<sup><a id="about-performance-tests">\*</a></sup> See *Tests/Editor/SpeedTest.cs* for more details on performance tests. Tested on a MacBook Pro late 2014 (i7 2.5/3.7 GHz).
+<sup><a id="about-performance-tests">\*</a> See *Tests/Editor/SpeedTest.cs* for more details on performance tests. Tested on a MacBook Pro late 2014 (i7 2.5/3.7 GHz).</sup>
 
-* 1 thousand simple resolves in 00:00:00.0023210s
-* 1 million simple resolves in 00:00:02.3380960s
-* 1 thousand more complex resolves in 00:00:00.0045590s
-* 1 million more complex resolves in 00:00:04.8917720s
-</sup>
+* <sup>1 thousand simple resolves in 00:00:00.0023210s</sup>
+* <sup>1 million simple resolves in 00:00:02.3380960s</sup>
+* <sup>1 thousand more complex resolves in 00:00:00.0045590s</sup>
+* <sup>1 million more complex resolves in 00:00:04.8917720s</sup>
 
 ## <a id="container-extensions"></a>Extensions
 
