@@ -26,6 +26,7 @@
 	* <a href="#factories">Factories</a>
 	* <a href="#using-commands">Using commands</a>
 * <a href="#order-of-events">Order of events
+* <a href="#performance">Performance
 * <a href="#container-extensions">Extensions</a>
 	* <a href="#available-extensions">Available extensions</a>
 		* <a href="#extension-bindings-printer">Bindings Printer</a>
@@ -57,7 +58,8 @@ The project was tested on Unity 4.3+ and should work on lower versions of the 4 
 * Instance resolution by type, identifier and complex conditions.
 * Injection on constructor, fields and properties.
 * Can inject multiple objects of the same type.
-* Fast dependency resolution with internal cache.
+* Can resolve and inject instances from types that are not bound to the container.
+* Fast dependency resolution with internal cache. <a href=#performance>*</a>
 * Use of attributes to indicate injections, preferable construtors and post constructors.
 * Can be easily extented through extensions.
 * Framework decoupled from Unity - all Unity based API is achieved through extensions.
@@ -624,6 +626,8 @@ When dispatching a command, it's placed on a list on the CommandDispatcher, whic
 
 Commands on the pool that are not singleton are "reinjected" every time they are executed.
 
+
+
 ## <a id="order-of-events"></a>Order of events
 
 1. Unity Awake()
@@ -635,6 +639,53 @@ Commands on the pool that are not singleton are "reinjected" every time they are
 7. Update() is called on every object that implemented `Adic.IUpdateable`
 8. Scene is destroyed
 9. Dispose() is called on every object that implemented `System.IDisposable`
+
+## <a id="performance"></a>Performance
+
+*Adic* was created with performance in mind, using internal cache to minimize the use of [reflection](http://en.wikipedia.org/wiki/Reflection_%28computer_programming%29) (which is usually slow), ensuring a good performance when resolving and injecting into objects, allowing the container to resolve a 1.000 objects in 0.002s and a 1.000.000 in 2s <sup><a href="#about-performance-tests">\*</a></sup>.
+
+To maximize performance, always bind all types that will be resolved/injected on the <a href="#quick-start">ContextRoot</a>, so *Adic* can generate cache of the objects and use that information during runtime.
+
+If you have more than one container on the same scene, it's possible to share the cache between them, allowing for an even greater performance. To do so, first instantiate an instance of `Adic.Cache.ReflectionCache` and pass it to any container you create:
+
+```cs
+using UnityEngine;
+
+namespace MyNamespace {
+	/// <summary>
+	/// Game context root.
+	/// </summary>
+	public class GameRoot : Adic.ContextRoot {
+		public override void SetupContainers() {
+			//Create the reflection cache.
+			var cache = new ReflectionCache();
+
+			//Create a new container.
+			var container1 = new InjectionContainer(cache);
+
+			//Container bindings...
+
+			//Create a new container.
+			var container2 = new InjectionContainer(cache);
+
+			//Container bindings...
+		}
+
+		public override void Init() {
+			//Init the game.
+		}
+	}
+}
+```
+
+<small>
+<sup><a id="about-performance-tests">\*</a></sup> See *Tests/Editor/SpeedTest.cs* for more details on performance tests. Tested on a MacBook Pro late 2014 (i7 2.5/3.7 GHz).
+
+* 1 thousand simple resolves in 00:00:00.0023210s
+* 1 million simple resolves in 00:00:02.3380960s
+* 1 thousand more complex resolves in 00:00:00.0045590s
+* 1 million more complex resolves in 00:00:04.8917720s
+</small>
 
 ## <a id="container-extensions"></a>Extensions
 
