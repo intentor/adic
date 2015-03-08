@@ -19,11 +19,11 @@ namespace Adic {
 		/// of your command, there's no need to reinject every dependency or all parameters the command needs
 		/// are passed through the <code>Execute()</code> method.
 		/// </summary>
-		public bool singleton { get { return false; } }
-		/// <summary>The quantity of the command to preload on pool.</summary>
-		public int preloadPoolSize { get { return 1; } }
-		/// <summary>The maximum size pool for this command.</summary>
-		public int maxPoolSize { get { return 10; } }
+		public virtual bool singleton { get { return false; } }
+		/// <summary>The quantity of the command to preload on pool (default: 1).</summary>
+		public virtual int preloadPoolSize { get { return 1; } }
+		/// <summary>The maximum size pool for this command (default: 10).</summary>
+		public virtual int maxPoolSize { get { return 10; } }
 		
 		/// <summary>
 		/// Executes the command.
@@ -35,14 +35,14 @@ namespace Adic {
 		/// 
 		/// Always call Release() after the command has terminated.
 		/// </summary>
-		public void Retain() {
+		public virtual void Retain() {
 			this.keepAlive = true;
 		}
 		
 		/// <summary>
 		/// Release this command.
 		/// </summary>
-		public void Release() {
+		public virtual void Release() {
 			this.keepAlive = false;
 
 			this.dispatcher.Release(this);
