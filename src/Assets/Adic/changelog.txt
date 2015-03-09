@@ -1,0 +1,10 @@
+ADIC CHANGELOG
+
+Version 2.0 (2015-03-08)
+- New framework architecture.
+
+Version 1.0 (2015-02-19)
+- Initial release.
+
+Version 0.1 (2014-08-01)
+- First fully functional version.
