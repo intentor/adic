@@ -1014,7 +1014,7 @@ container.RegisterExtension<UnityBindingContainerExtension>();
 
 #### Notes
 
-1. **ALWAYS CALL Inject FROM 'Start'**! (use the <a href="#extension-mono-injection">Mono Injection</a> Extension).
+1. **ALWAYS CALL `Inject()` FROM 'Start'**! (use the <a href="#extension-mono-injection">Mono Injection</a> Extension).
 
 #### Dependencies
 
