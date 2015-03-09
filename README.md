@@ -39,7 +39,7 @@
 	* <a href="#container-events">Container events</a>
 		* <a href="#binder-events">Binder events</a>
 		* <a href="#injector-events">Injector events</a>
-* <a href="#notes">Notes</a>
+* <a href="#general-notes">General notes</a>
 * <a href="#examples">Examples</a>
 * <a href="#support">Support</a>
 * <a href="#license">License</a>
@@ -54,12 +54,12 @@ The project is compatible with Unity 3D 5 and 4 and possibly 3 (not tested) and 
 
 ## <a id="features"></a>Features
 
-* Binds types, singleton instances, factories, game objects and prefabs.
+* Bind types, singleton instances, factories, game objects and prefabs.
 * Instance resolution by type, identifier and complex conditions.
 * Injection on constructor, fields and properties.
 * Can inject multiple objects of the same type.
 * Can resolve and inject instances from types that are not bound to the container.
-* Fast dependency resolution with internal cache. <a href=#performance>\*</a>
+* Fast dependency resolution with internal cache.<a href=#performance>\*</a>
 * Use of attributes to indicate injections, preferable construtors and post constructors.
 * Can be easily extented through extensions.
 * Framework decoupled from Unity - all Unity based API is achieved through extensions.
@@ -71,7 +71,7 @@ The project is compatible with Unity 3D 5 and 4 and possibly 3 (not tested) and 
 
 A *dependency injection container* is a piece of software that handles the resolution of dependencies of objects. It's related to the [dependency injection](http://en.wikipedia.org/wiki/Dependency_injection) and [inversion of control](http://en.wikipedia.org/wiki/Inversion_of_control) design patterns.
 
-The idea is that any dependency an object may need should be resolved by an external entity rather than the own object. Practically speaking, a object should not use `new` to create the objects it uses, having those instances *injected* into it by another object whose sole existance is to resolve dependencies.
+The idea is that any dependency an object may need should be resolved by an external entity rather than the own object. Practically speaking, an object should not use `new` to create the objects it uses, having those instances *injected* into it by another object whose sole existence is to resolve dependencies.
 
 So, a *dependency injection container* holds information about dependencies (the *bindings*) that can be injected into another objects by demand (injecting into existing objects) or during resolution (when you are creating a new object of some type).
 
@@ -142,9 +142,9 @@ public override void SetupContainers() {
 }
 ```
 
-**Hint**: on *Adic* the lifetime of your bindings is the lifetime of your containers. So, you can create as much containers as you want to hold your dependencies!
+**Hint**: on *Adic* the lifetime of your bindings is the lifetime of your containers. So, you can create as many containers as you want to hold your dependencies.
 
-3\. On the `Init()` method, place any codes to start your game.
+3\. On the `Init()` method, place any code to start your game.
 
 **Note**: the idea of this method is to work as an entry point for your game, like a `main()` method on console applications.
 
@@ -158,7 +158,7 @@ public override void SetupContainers() {
 
 Binding is the action of linking a type to another type or instance. *Adic* makes it simple by providing different ways to create your bindings.
 
-Every binding must occur on a certain key by calling the `Bind()` method of the container. 
+Every binding must occur on a certain key type by calling the `Bind()` method of the container. 
 
 The simple way to bind e.g. some interface to its class implementation is as below:
    
@@ -166,7 +166,7 @@ The simple way to bind e.g. some interface to its class implementation is as bel
 container.Bind<SomeInterface>().To<ClassImplementation>();
 ```
 
-It's possible to bind a class to an existing instance too:
+It's also possible to bind a class to an existing instance:
 
 ```cs
 container.Bind<SomeInterface>().To(someInstance);
@@ -197,7 +197,7 @@ The next sections will cover all the available bindings *Adic* provides.
 Binds the key type to a transient of itself. The key must be a class.
 
 ```cs
-container.Bind<ClassType>.ToSelf();
+container.Bind<ClassType>().ToSelf();
 ```
 
 #### To Singleton
@@ -205,16 +205,16 @@ container.Bind<ClassType>.ToSelf();
 Binds the key type to a singleton of itself. The key must be a class.
 
 ```cs
-container.Bind<ClassType>.ToSingleton();
+container.Bind<ClassType>().ToSingleton();
 ```
 
 It's also possible to create a singleton of the key type to another type. In this case, the key may not be a class.
 
 ```cs
 //Using generics...
-container.Bind<InterfaceType>.ToSingleton<ClassType>();
-//..or instance type.
-container.Bind<InterfaceType>.ToSingleton(classTypeObject);
+container.Bind<InterfaceType>().ToSingleton<ClassType>();
+//...or instance type.
+container.Bind<InterfaceType>().ToSingleton(classTypeObject);
 ```
 
 #### To another type
@@ -223,9 +223,9 @@ Binds the key type to a transient of another type. In this case, the *To* type w
 
 ```cs
 //Using generics...
-container.Bind<InterfaceType>.To<ClassType>();
+container.Bind<InterfaceType>().To<ClassType>();
 //..or instance type.
-container.Bind<InterfaceType>.To(classTypeObject);
+container.Bind<InterfaceType>().To(classTypeObject);
 ```
 
 #### To instance
@@ -234,17 +234,17 @@ Binds the key type to an instance.
 
 ```cs
 //Using generics...
-container.Bind<InterfaceType>.To<ClassType>(instanceOfClassType);
+container.Bind<InterfaceType>().To<ClassType>(instanceOfClassType);
 //..or instance type.
-container.Bind<InterfaceType>.To(classTypeObject, instanceOfClassType);
+container.Bind<InterfaceType>().To(classTypeObject, instanceOfClassType);
 ```
 
 #### To a Factory
 
-Binds the key type to a factory. The factory must implement `Adic.IFactory` interface.
+Binds the key type to a factory. The factory must implement the `Adic.IFactory` interface.
 
 ```cs
-container.Bind<InterfaceType>.ToFactory(factoryInstance);
+container.Bind<InterfaceType>().ToFactory(factoryInstance);
 ```
 
 See <a href="#factories">Factories</a> for more information.
@@ -255,11 +255,11 @@ Binds the key type to a singleton of itself or some type on a new game object.
 
 ```cs
 //Binding to itself...
-container.Bind<SomeMonoBehaviour>.ToGameObject();
+container.Bind<SomeMonoBehaviour>().ToGameObject();
 //...or some other component using generics...
-container.Bind<SomeInterface>.ToGameObject<SomeMonoBehaviour>();
+container.Bind<SomeInterface>().ToGameObject<SomeMonoBehaviour>();
 //..or some other component by instance type.
-container.Bind<SomeInterface>.ToGameObject(someMonoBehaviourType);
+container.Bind<SomeInterface>().ToGameObject(someMonoBehaviourType);
 ```
 
 The newly created game object will have the same name as the key type.
@@ -272,11 +272,11 @@ If the component is not found on the game object, it will be added.
 
 ```cs
 //Binding to itself by name...
-container.Bind<SomeMonoBehaviour>.ToGameObject("GameObjectName");
+container.Bind<SomeMonoBehaviour>().ToGameObject("GameObjectName");
 //...or some other component using generics and name...
-container.Bind<SomeInterface>.ToGameObject<SomeMonoBehaviour>("GameObjectName");
+container.Bind<SomeInterface>().ToGameObject<SomeMonoBehaviour>("GameObjectName");
 //..or some other component by instance type and name.
-container.Bind<SomeInterface>.ToGameObject(someMonoBehaviourType, "GameObjectName");
+container.Bind<SomeInterface>()().ToGameObject(someMonoBehaviourType, "GameObjectName");
 ```
 
 #### To game object with tag
@@ -287,11 +287,11 @@ If the component is not found on the game object, it will be added.
 
 ```cs
 //Binding to itself by tag...
-container.Bind<SomeMonoBehaviour>.ToGameObjectWithTag("Tag");
+container.Bind<SomeMonoBehaviour>().ToGameObjectWithTag("Tag");
 //...or some other component using generics and tag...
-container.Bind<SomeInterface>.ToGameObjectWithTag<SomeMonoBehaviour>("Tag");
+container.Bind<SomeInterface>().ToGameObjectWithTag<SomeMonoBehaviour>("Tag");
 //..or some other component by instance type and tag.
-container.Bind<SomeInterface>.ToGameObjectWithTag(someMonoBehaviourType, "Tag");
+container.Bind<SomeInterface>().ToGameObjectWithTag(someMonoBehaviourType, "Tag");
 ```
 
 #### To prefab transient
@@ -302,11 +302,11 @@ If the component is not found on the game object, it will be added.
 
 ```cs
 //Binding prefab to itself...
-container.Bind<SomeMonoBehaviour>.ToPrefab("Prefabs/Whatever/MyPrefab");
+container.Bind<SomeMonoBehaviour>().ToPrefab("Prefabs/Whatever/MyPrefab");
 //...or to another component on the prefab using generics...
-container.Bind<SomeInterface>.ToPrefab<SomeMonoBehaviour>("Prefabs/Whatever/MyPrefab");
+container.Bind<SomeInterface>().ToPrefab<SomeMonoBehaviour>("Prefabs/Whatever/MyPrefab");
 //...or to another component on the prefab using instance tyoe.
-container.Bind<SomeInterface>.ToPrefab(someMonoBehaviourType, "Tag");
+container.Bind<SomeInterface>().ToPrefab(someMonoBehaviourType, "Tag");
 ```
 
 #### To prefab singleton
@@ -315,22 +315,22 @@ Binds the key type to a singleton `UnityEngine.Component` of itself or some type
 
 ```cs
 //Binding singleton prefab to itself...
-container.Bind<SomeMonoBehaviour>.ToPrefabSingleton("Prefabs/Whatever/MyPrefab");
+container.Bind<SomeMonoBehaviour>().ToPrefabSingleton("Prefabs/Whatever/MyPrefab");
 //...or to another component on the prefab using generics...
-container.Bind<SomeInterface>.ToPrefabSingleton<SomeMonoBehaviour>("Prefabs/Whatever/MyPrefab");
+container.Bind<SomeInterface>().ToPrefabSingleton<SomeMonoBehaviour>("Prefabs/Whatever/MyPrefab");
 //...or to another component on the prefab using instance tyoe.
-container.Bind<SomeInterface>.ToPrefabSingleton(someMonoBehaviourType, "Tag");
+container.Bind<SomeInterface>().ToPrefabSingleton(someMonoBehaviourType, "Tag");
 ```
 
 ### <a id="constructor-injection"></a>Constructor injection
 
-*Adic* will always try to resolve any dependencies the constructor may need, using information from its bindings or trying to instantiate any types that are unknown to the binder.
+*Adic* will always try to resolve any dependencies the constructor may need by using information from its bindings or trying to instantiate any types that are unknown to the binder.
 
 **Note 1**: if there's more than one constructor, *Adic* always look for the one with less parameteres. However, <a href="#multiple-constructors">it's possible to indicate which constructor will be used</a> on a multi constructor class.
 
 **Note 2**: there's no need to decorate constructors' parameteres with `Inject` attributes.
 
-**Note 3**: currently, injection identifiers are not supported on construtors. However any conditions (that are not identifiers) on types are also applied to the constructor parameters.
+**Note 3**: currently, injection identifiers are not supported on construtors. However, <a href="#conditions">any conditions</a> (that are not identifiers) on types are also applied to the constructor parameters.
 
 ### <a id="member-injection"></a>Member injection
 
@@ -423,11 +423,11 @@ It's possible to inject multiple objects of the same type by creating a series o
 Binding multiple objects to the same key:
 
 ```cs
-container.Bind<GameObject>.ToGameObject("Enemy1");
-container.Bind<GameObject>.ToGameObject("Enemy2");
-container.Bind<GameObject>.ToGameObject("Enemy3");
-container.Bind<GameObject>.ToGameObject("Enemy4");
-container.Bind<GameObject>.ToGameObject("Enemy5");
+container.Bind<GameObject>().ToGameObject("Enemy1");
+container.Bind<GameObject>().ToGameObject("Enemy2");
+container.Bind<GameObject>().ToGameObject("Enemy3");
+container.Bind<GameObject>().ToGameObject("Enemy4");
+container.Bind<GameObject>().ToGameObject("Enemy5");
 ```
 
 Multiple injection on a field:
@@ -449,7 +449,7 @@ It's possible to manually resolve multiple objects. Please see <a href="#manual-
 
 ### <a id="monobehaviour-injection"></a>MonoBehaviour injection
 
-It's possible to perform injection on custom MonoBehaviour fields and properties by using the extension <a id="extension-mono-injection">Mono Injection</a>, which is enabled by default, by calling `this.Inject()` on the `Start()` method of the MonoBehaviour:
+It's possible to perform injection on custom MonoBehaviour fields and properties by using the <a href="#extension-mono-injection">Mono Injection</a> extension, which is enabled by default, by calling `this.Inject()` on the `Start()` method of the MonoBehaviour:
 
 ```cs
 using Unity.Engine;
@@ -543,16 +543,16 @@ container.Bind<SomeInterface>().To<SomeClass>().When(context =>
 
 The context provides the following fields:
 
-1. **member** (`Adic.InjectionMember`): the class member in which the injection is occuring (*None*, *Constructor*, *Field* or *Property*).
+1. **member** (`Adic.InjectionMember` enum): the class member in which the injection is occuring (*None*, *Constructor*, *Field* or *Property*).
 2. **memberType** (`System.Type`): the type of the member in which the injection is occuring.
-3. **identifier** (`object`): the identifier of the member in which the injection is occuring (from InjectAttribute).
+3. **identifier** (`object`): the identifier of the member in which the injection is occuring (from `InjectAttribute`).
 4. **parentType** (`object`): the type of the object in which the injection is occuring.
 5. **parentInstance** (`object`): the instance of the object in which the injection is occuring.
 6. **injectType** (`System.Type`): the type of the object being injected.
 
 ### <a id="update"></a>Update
 
-It's possible to have an `Update()` method on regular classes (that don't inherit from `UnityEngine.MonoBehaviour`) by implementing the `Adic.IUpdateable` interface.
+It's possible to have an `Update()` method on regular classes (that don't inherit from `UnityEngine.MonoBehaviour`) by implementing the `Adic.IUpdatable` interface.
 
 See <a href="#extension-event-caller">Event Caller</a> for more information.
 
@@ -622,7 +622,7 @@ Suppose you have an event of enemy destroyed. When that occurs, you have to upda
 
 #### Creatings commands
 
-To create a command, inherit from `Adic.Command` and override the `Execute()` method, where you will place all the code needed to execute the command. If you have any dependency to be injected before executing the command, add them as fields or properties and decorate them with an `Inject` attribute:
+To create a command, inherit from `Adic.Command` and override the `Execute()` method, where you will place all the code needed to execute the command. If you have any dependencies to be injected before executing the command, add them as fields or properties and decorate them with an `Inject` attribute:
 
 ```cs
 namespace MyNamespace.Commands {
@@ -643,9 +643,9 @@ namespace MyNamespace.Commands {
 	}
 }
 ```
-It's also possible to wire any dependencies through constructor. However, in this case the dependencies will only be resolved once, during instantiation.
+**Hint**: it's also possible to wire any dependencies through constructor. However, in this case the dependencies will only be resolved once, during instantiation.
 
-It's a good practice to place all your commands under the same namespace, so it's easy to register them.
+**Note**: it's a good practice to place all your commands under the same namespace, so it's easy to register them.
 
 ##### Types of commands
 
@@ -662,9 +662,9 @@ namespace MyNamespace.Commands {
 	/// </summary>
 	public class MyCommand : Adic.Command {
 		/// <summary>The quantity of the command to preload on pool (default: 1).</summary>
-		public override int preloadPoolSize { get { return 1; } }
+		public override int preloadPoolSize { get { return 5; } }
 		/// <summary>The maximum size pool for this command (default: 10).</summary>
-		public override int maxPoolSize { get { return 10; } }
+		public override int maxPoolSize { get { return 20; } }
 
 		/// <summary>
 		/// Executes the command.
@@ -699,11 +699,11 @@ namespace MyNamespace.Commands {
 }
 ```
 
-When using singleton commands, injection is done only through constructors or injection after command instantiation.
+**Note**: When using singleton commands, injection is done only through constructors or injection after command instantiation.
 
 #### Registering commands
 
-To register a command, call the `Register` method on the container, usually on the `ContextRoot`:
+To register a command, call the `Register()` method on the container, usually on the context root:
 
 ```cs
 using UnityEngine;
@@ -746,7 +746,7 @@ public override void SetupContainers() {
 }
 ```
 
-When registering a command, it's placed on the container, so it's easier to resolve it and its dependencies.
+**Note**: when registering a command, it's placed on the container, so it's easier to resolve it and its dependencies.
 
 #### Dispatching commands
 
@@ -786,9 +786,9 @@ namespace MyNamespace {
 }
 ```
 
-When dispatching a command, it's placed in a list in the `CommandDispatcher`, which is the one responsible for pooling and managing existing commands.
+**Note 1**: when dispatching a command, it's placed in a list in the `CommandDispatcher`, which is the one responsible for pooling and managing existing commands.
 
-Commands on the pool that are not singleton are "reinjected" every time they are executed.
+**Note 2**: commands in the pool that are not singleton are *reinjected* every time they are executed.
 
 ## <a id="order-of-events"></a>Order of events
 
@@ -804,11 +804,11 @@ Commands on the pool that are not singleton are "reinjected" every time they are
 
 ## <a id="performance"></a>Performance
 
-*Adic* was created with speed in mind, using internal cache to minimize the use of [reflection](http://en.wikipedia.org/wiki/Reflection_%28computer_programming%29) (which is usually slow), ensuring a good performance when resolving and injecting into objects - the container can resolve a 1.000 objects in 0.002s and a 1.000.000 in 2s <a href="#about-performance-tests">\*</a>.
+*Adic* was created with speed in mind, using internal cache to minimize the use of [reflection](http://en.wikipedia.org/wiki/Reflection_%28computer_programming%29) (which is usually slow), ensuring a good performance when resolving and injecting into objects - the container can resolve a 1.000 objects in 0.002s and a 1.000.000 in 2s<a href="#about-performance-tests">\*</a>.
 
 To maximize performance, always bind all types that will be resolved/injected on the <a href="#quick-start">ContextRoot</a>, so *Adic* can generate cache of the objects and use that information during runtime.
 
-If you have more than one container on the same scene, it's possible to share the cache between them. To do so, instantiate an instance of `Adic.Cache.ReflectionCache` and pass it to any container you create:
+If you have more than one container on the same scene, it's possible to share the cache between them. To do so, create an instance of `Adic.Cache.ReflectionCache` and pass it to any container you create:
 
 ```cs
 using UnityEngine;
@@ -893,7 +893,7 @@ var container = new InjectionContainer();
 container.RegisterExtension<CommanderContainerExtension>();
 ```
 
-If you use `IDiposable` or `IUpdatable` events, also registers the <a href="#extension-event-caller">Event Caller</a> extension:
+If you use `IDiposable` or `IUpdatable` events, also register the <a href="#extension-event-caller">Event Caller</a> extension:
 
 ```cs
 //Creates the container.
@@ -917,7 +917,7 @@ Please see <a href="#quick-start">Quick start</a> for more information.
 
 #### Notes
 
-1. When adding a container using `AddContainer()`, it's possible to keep it alive between scenes by setting the `destroyOnLoad` to `false`.
+1. When adding containers using `AddContainer()`, it's possible to keep them alive between scenes by setting the `destroyOnLoad` to `false`.
 
 #### Dependencies
 
@@ -931,14 +931,14 @@ Calls events on classes that implement certain interfaces. The classes must be b
 
 ##### Update
 
-Calls `Update()` method on classes that implement `Adic.IUpdateable` interface.
+Calls `Update()` method on classes that implement `Adic.IUpdatable` interface.
 
 ```cs
 namespace MyNamespace {
 	/// <summary>
 	/// My updateable class.
 	/// </summary>
-	public class MyUpdateableClass : Adic.IUpdateable {
+	public class MyUpdateableClass : Adic.IUpdatable {
 		public void Update() {
 			//Update code.
 		}
@@ -976,8 +976,8 @@ container.RegisterExtension<EventCallerContainerExtension>();
 
 #### Notes
 
-1. Currently, any objects that are updateable are not removed from the update's list when they're not in use anymore. So, it's recommended to implement the `Adic.IUpdateable` interface only on singleton or transient objects that will live until the scene is destroyed;
-2. When the scene is destroyed, the update's list is cleared. So, any objects that will live between scenes that implement the `Adic.IUpdateable` interface will not be readded to the list. **It's recommeded to use updateable objects only on the context of a single scene**.
+1. Currently, any objects that are updateable are not removed from the update's list when they're not in use anymore. So, it's recommended to implement the `Adic.IUpdatable` interface only on singleton or transient objects that will live until the scene is destroyed;
+2. When the scene is destroyed, the update's list is cleared. So, any objects that will live between scenes that implement the `Adic.IUpdatable` interface will not be readded to the list. **It's recommeded to use updateable objects only on the context of a single scene**.
 
 #### Dependencies
 
@@ -999,6 +999,8 @@ Please see <a href="#monobehaviour-injection">MonoBehaviour injection</a> for mo
 
 Provides Unity 3D bindings to the container.
 
+Please see <a href="#bindings">Bindings</a> for more information.
+
 #### Configuration
 
 Register the extension on any containers that you may use it:
@@ -1010,11 +1012,9 @@ var container = new InjectionContainer();
 container.RegisterExtension<UnityBindingContainerExtension>();
 ```
 
-Please see <a href="#bindings">Bindings</a> for more information.
-
 #### Notes
 
-1. ALWAYS CALL Inject FROM 'Start'! (use the <a href="#extension-mono-injection">Mono Injection</a> Extension).
+1. **ALWAYS CALL Inject FROM 'Start'**! (use the <a href="#extension-mono-injection">Mono Injection</a> Extension).
 
 #### Dependencies
 
@@ -1028,7 +1028,7 @@ Extensions on *Adic* can be created in 3 ways:
 2. Creating extension methods to any part of the framework;
 3. Creating a container extension, which allows for the interception of internal events, which can alter the inner workings of the framework.
 
-Always place extensions into *Adic* namespace.
+**Note**: always place the public parts of extensions into *Adic* namespace.
 
 To create a *container extension*, which can intercept internal *Adic* events, you have to:
 
@@ -1074,7 +1074,7 @@ All events are available through `Adic.InjectionContainer`.
 * `beforeInject`: occurs before an instance receives injection.
 * `afterInject`: occurs after an instance receives injection.
 
-## <a id="notes"></a>Notes
+## * <a id="general-notes">General notes</a>
 
 1. If an instance is not found, it will be resolved to NULL;
 2. Multiple injections should occur on an array of the desired type;
