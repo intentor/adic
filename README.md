@@ -1109,7 +1109,7 @@ Exemplifies the use of commands through a simple spawner of a prefab.
 
 Found a bug? Please create an issue on the [GitHub project page](https://github.com/intentor/adic/) or send a pull request if have a fix or extension.
 
-You can also send me a message at andre@intentor.com.br to discuss more obscure matters about *Adic*.
+You can also send me a message at support@intentor.com.br to discuss more obscure matters about *Adic*.
 
 ## <a id="license"></a>License
 
