@@ -1,55 +1,48 @@
 using System;
 using Adic;
+using Adic.Binding;
+using Adic.Exceptions;
 using NUnit.Framework;
 using UnityEngine;
 
 namespace Adic.Tests {
 	[TestFixture]
-	public class BindingNegativeTests  {		
+	public class BindingNegativeTests  {
 		[Test]
 		[ExpectedException(typeof(BinderException))]
-		public void TestBindToInterface() {
+		public void TestBindToInterfaceSelf() {
+			var binder = new Binder();
+			
+			binder.Bind<IMockInterface>().ToSelf();
+		}
+
+		[Test]
+		[ExpectedException(typeof(BinderException))]
+		public void TestBindToInterfaceSingleton() {
+			var binder = new Binder();
+			
+			binder.Bind<IMockInterface>().ToSingleton();
+		}
+
+		[Test]
+		[ExpectedException(typeof(BinderException))]
+		public void TestBindToInterfaceTransient() {
 			var binder = new Binder();
 			
 			binder.Bind<IMockInterface>().To<IMockInterface>();
 		}
-
+		
 		[Test]
 		[ExpectedException(typeof(BindingException))]
-		public void TestBindNameWithSingletonWithoutType() {
+		public void TestBindNotAssignableKeyTypeToSingleton() {
 			var binder = new Binder();
 			
-			binder.Bind("test").AsSingleton();
+			binder.Bind<IMockInterface>().ToSingleton<MockClassToDepend>();
 		}
 		
 		[Test]
 		[ExpectedException(typeof(BindingException))]
-		public void TestBindSameKey() {
-			var binder = new Binder();
-			
-			binder.Bind<IMockInterface>().AsSingleton<MockClassToDepend>();
-			binder.Bind<IMockInterface>().To<MockClassToDepend>();
-		}
-		
-		[Test]
-		[ExpectedException(typeof(BindingException))]
-		public void TestSingletonToNotAssignable() {
-			var binder = new Binder();
-			
-			binder.Bind<IMockInterface>().AsSingleton<MockClassToDepend>();
-		}
-		
-		[Test]
-		[ExpectedException(typeof(BindingException))]
-		public void TestSingletonToMonoBehaviour() {
-			var binder = new Binder();
-
-			binder.Bind<IMockInterface>().AsSingleton<MonoBehaviour>();
-		}
-		
-		[Test]
-		[ExpectedException(typeof(BindingException))]
-		public void TestBindToNotAssignable() {
+		public void TestBindNotAssignableKeyTypeToTransient() {
 			var binder = new Binder();
 			
 			binder.Bind<IMockInterface>().To<MockClassToDepend>();
@@ -57,19 +50,20 @@ namespace Adic.Tests {
 		
 		[Test]
 		[ExpectedException(typeof(BindingException))]
-		public void TestBindToMonoBehaviour() {
-			var binder = new Binder();
-			
-			binder.Bind<IMockInterface>().To<MonoBehaviour>();
-		}
-		
-		[Test]
-		[ExpectedException(typeof(BindingException))]
-		public void TestBindToNotAssignableInstance() {
+		public void TestBindNotAssignableKeyTypeToInstance() {
 			var binder = new Binder();
 
 			var instance = new MockClassToDepend();
-			binder.Bind<IMockInterface>().To(instance);
+			binder.Bind<IMockInterface>().To<MockClassToDepend>(instance);
+		}
+		
+		[Test]
+		[ExpectedException(typeof(BindingException))]
+		public void TestBindNotAssignableInstanceTypeToInstance() {
+			var binder = new Binder();
+
+			var instance = new MockClassToDepend();
+			binder.Bind<MockClassToDepend>().To(typeof(MockClassVerySimple), instance);
 		}
 		
 		[Test]

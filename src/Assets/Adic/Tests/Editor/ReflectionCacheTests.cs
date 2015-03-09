@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using Adic;
+using Adic.Binding;
+using Adic.Cache;
 using NUnit.Framework;
 
 namespace Adic.Tests {
@@ -13,14 +15,14 @@ namespace Adic.Tests {
 			this.binder = new Binder();
 			
 			//Binds some objects to use on tests.
-			binder.Bind<IMockInterface>().To<MockClassWithoutAtrributes>();
-			binder.Bind("test").To<MockClassWithDependencies>();
+			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
+			binder.Bind(typeof(MockClassWithDependencies)).ToSelf();
 		}
 
 		[Test]
 		public void TestAddType() {
 			var cache = new ReflectionCache();
-			var type = typeof(MockClassWithoutAtrributes);
+			var type = typeof(MockIClassWithoutAttributes);
 
 			cache.Add(type);
 			
@@ -30,7 +32,7 @@ namespace Adic.Tests {
 		[Test]
 		public void TestRemoveType() {
 			var cache = new ReflectionCache();
-			var type = typeof(MockClassWithoutAtrributes);
+			var type = typeof(MockIClassWithoutAttributes);
 			
 			cache.Add(type);
 			cache.Remove(type);
@@ -44,7 +46,7 @@ namespace Adic.Tests {
 
 			cache.CacheFromBinder(this.binder);
 			
-			Assert.True(cache.Contains(typeof(MockClassWithoutAtrributes)));
+			Assert.True(cache.Contains(typeof(MockIClassWithAttributes)));
 			Assert.True(cache.Contains(typeof(MockClassWithDependencies)));
 		}
 	}
