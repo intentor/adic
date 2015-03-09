@@ -37,8 +37,8 @@
 		* <a href="#extension-unity-binding">Unity Binding</a>
 	* <a href="#creating-extensions">Creating extensions</a>
 	* <a href="#container-events">Container events</a>
-		* <a id="binder-events">Binder events</a>
-		* <a id="injector-events">Injector events</a>
+		* <a href="#binder-events">Binder events</a>
+		* <a href="#injector-events">Injector events</a>
 * <a href="#notes">Notes</a>
 * <a href="#examples">Examples</a>
 * <a href="#support">Support</a>
@@ -612,20 +612,183 @@ namespace MyNamespace {
 
 ### <a id="using-commands"></a>Using commands
 
-Commands are a simple way to dispatch events and actions into your game.
+#### What are commands?
 
-The idea is to let objects take care of themselves. However, when an action has to be raised or an event informed, that is the moment the commands are handy.
+Commands are actions executed by your game, usually in response to an event.
 
-They decouple your code and focus on the action/event itself, rather than attaching that code to some class that may need many more information just because of that
+The concept of commands is to place everything the action/event needs in a single place, so it's easy to understand and maintain it.
 
-Suppose you have a event of an enemy destroyed. When that occurs, you have to update UI, dispose the enemy, eventually spawn some particles and other effects. You could place all of this on the enemy class; however it will hits single responsibility of the enemy class. Or you could have a game controller that handle this (and so many other things). Or, better, you can use commands, centralizing events actions on a single place
+Suppose you have an event of enemy destroyed. When that occurs, you have to update UI, dispose the enemy, spawn some particles and save statistics somewhere. One approach would be dispatch the event to every object that has to do something about it, which is fine given it keeps single responsibility by allowing every object to take care of their part on the event. However, when your project grows, it can be a nightmare to find every place a given event is handled. That's when commands come in handy: you place all the code and dependencies for a certain action/event in a single place.
+
+#### Creatings commands
+
+To create a command, inherit from `Adic.Command` and override the `Execute()` method, where you will place all the code needed to execute the command. If you have any dependency to be injected before executing the command, add them as fields or properties and decorate them with an `Inject` attribute:
+
+```cs
+namespace MyNamespace.Commands {
+	/// <summary>
+	/// My command.
+	/// </summary>
+	public class MyCommand : Adic.Command {
+		/// <summary>Some dependency to be injected.</summary>
+		[Inject]
+		public object someDependency;
+
+		/// <summary>
+		/// Executes the command.
+		/// <param name="parameters">Command parameters.</param>
+		public override void Execute(params object[] parameters) {
+			//Execution code.
+		}
+	}
+}
+```
+It's also possible to wire any dependencies through constructor. However, in this case the dependencies will only be resolved once, during instantiation.
+
+It's a good practice to place all your commands under the same namespace, so it's easy to register them.
+
+##### Types of commands
+
+###### Pooled
+
+The command is kept in a pool for reuse, avoiding new instantiations. It's useful for commands that need to maintain state when executing. This is the default behaviour.
+
+When creating pooled commands, it's possible to set the initial and maximum size of the pool for a particular command by setting, respectively, the `preloadPoolSize` and `maxPoolSize` properties:
+
+```cs
+namespace MyNamespace.Commands {
+	/// <summary>
+	/// My command.
+	/// </summary>
+	public class MyCommand : Adic.Command {
+		/// <summary>The quantity of the command to preload on pool (default: 1).</summary>
+		public override int preloadPoolSize { get { return 1; } }
+		/// <summary>The maximum size pool for this command (default: 10).</summary>
+		public override int maxPoolSize { get { return 10; } }
+
+		/// <summary>
+		/// Executes the command.
+		/// <param name="parameters">Command parameters.</param>
+		public override void Execute(params object[] parameters) {
+			//Execution code.
+		}
+	}
+}
+```
+
+###### Singleton
+
+There's only one copy of the command available, which is used every time the command is dispatched. It's useful for commands that don't need state or every dependency the command needs is given during execution. To make a command singleton, return `true` in the `singleton` property of the command:
+
+```cs
+namespace MyNamespace.Commands {
+	/// <summary>
+	/// My command.
+	/// </summary>
+	public class MyCommand : Adic.Command {
+		/// <summary>Indicates whether this command is a singleton (there's only one instance of it).</summary>
+		public override bool singleton { get { return true; } }
+
+		/// <summary>
+		/// Executes the command.
+		/// <param name="parameters">Command parameters.</param>
+		public override void Execute(params object[] parameters) {
+			//Execution code.
+		}
+	}
+}
+```
+
+When using singleton commands, injection is done only through constructors or injection after command instantiation.
+
+#### Registering commands
+
+To register a command, call the `Register` method on the container, usually on the `ContextRoot`:
+
+```cs
+using UnityEngine;
+
+namespace MyNamespace {
+	/// <summary>
+	/// Game context root.
+	/// </summary>
+	public class GameRoot : Adic.ContextRoot {
+		public override void SetupContainers() {
+			//Create the container.
+			var container = new InjectionContainer();
+			//Register any extensions the container may use.
+			container.RegisterExtension<CommanderContainerExtension>();
+
+			//Registering by generics...
+			container.RegisterCommand<MyCommand>();
+			//...or by type.
+			container.RegisterCommand(typeof(MyCommand));
+		}
+
+		public override void Init() {
+			//Init the game.
+		}
+	}
+}
+```
+
+It's also possible to register all commands under the same namespace by calling the `RegisterCommands()` method on the container and passing the full name of the namespace:
+
+```cs
+public override void SetupContainers() {
+	//Create the container.
+	var container = new InjectionContainer();
+	//Register any extensions the container may use.
+	container.RegisterExtension<CommanderContainerExtension>();
+
+	//Register all commands under the namespace "MyNamespace.Commands".
+	container.RegisterCommands("MyNamespace.Commands");
+}
+```
 
 When registering a command, it's placed on the container, so it's easier to resolve it and its dependencies.
 
-When dispatching a command, it's placed on a list on the CommandDispatcher, which is the one responsible for pooling and managing existing commands.
+#### Dispatching commands
+
+To dispatch a command, just call the `Dispatch()` method on the `Adic.CommandDispatcher`, using either the generics or the by `System.Type` versions:
+
+```cs
+/// <summary>
+/// My method that dispatches a command.
+/// </summary>
+public void MyMethodThatDispatchesCommands() {
+	//Dispatching by generics...
+	dispatcher.Dispatch<MyCommand>();
+	//...or by type.
+	dispatcher.Dispatch(typeof(MyCommand));
+}
+```
+
+To use the `CommandDispatcher`, you have to inject it wherever you need to use it:
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My class that dispatches commands.
+	/// </summary>
+	public class MyClassThatDispatchesCommands {
+		/// <summary>The command dispatcher.</summary>
+		[Inject]
+		public CommandDispatcher dispatcher;
+
+		/// <summary>
+		/// My method that dispatches a command.
+		/// </summary>
+		public void MyMethodThatDispatchesCommands() {
+			this.dispatcher.Dispatch<MyCommand>();
+		}
+	}
+}
+```
+
+When dispatching a command, it's placed in a list in the `CommandDispatcher`, which is the one responsible for pooling and managing existing commands.
 
 Commands on the pool that are not singleton are "reinjected" every time they are executed.
-
 
 ## <a id="order-of-events"></a>Order of events
 
@@ -635,7 +798,7 @@ Commands on the pool that are not singleton are "reinjected" every time they are
 4. ContextRoot calls Init()
 5. Unity Start() on all MonoBehaviours
 6. Injection on MonoBehaviours
-7. Update() is called on every object that implemented `Adic.IUpdateable`
+7. Update() is called on every object that implemented `Adic.IUpdatable`
 8. Scene is destroyed
 9. Dispose() is called on every object that implemented `System.IDisposable`
 
@@ -645,7 +808,7 @@ Commands on the pool that are not singleton are "reinjected" every time they are
 
 To maximize performance, always bind all types that will be resolved/injected on the <a href="#quick-start">ContextRoot</a>, so *Adic* can generate cache of the objects and use that information during runtime.
 
-If you have more than one container on the same scene, it's possible to share the cache between them. To do so, first instantiate an instance of `Adic.Cache.ReflectionCache` and pass it to any container you create:
+If you have more than one container on the same scene, it's possible to share the cache between them. To do so, instantiate an instance of `Adic.Cache.ReflectionCache` and pass it to any container you create:
 
 ```cs
 using UnityEngine;
