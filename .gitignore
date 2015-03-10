@@ -23,6 +23,7 @@ src/sysinfo.txt
 
 # Vendor
 
+src/Assets/AssetStoreTools*
 src/Assets/Vendor/AssetStoreTools*
 src/Assets/Vendor/UnityTestTools*
 
