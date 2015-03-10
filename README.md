@@ -795,9 +795,9 @@ namespace MyNamespace {
 
 #### Retaining commands
 
-When a command needs to continue its execution beyond the `Execute()` method, it has to be retained. This way the `CommandDispatcher` knows that the command should only be pooled/disposed when it finishes its execution.
+When a command needs to continue its execution beyond the `Execute()` method, it has to be retained. This way the `CommandDispatcher` knows the command should only be pooled/disposed when it finishes its execution.
 
-This is useful not only for commands that implements `Adic.IUpdatable`, but also for commands that have to wait until certain actions (e.g. some network call) are completed.
+This is useful not only for commands that implement `Adic.IUpdatable`, but also for commands that have to wait until certain actions (e.g. some network call) are completed.
 
 To retain a command, just call the `Retain()` method during main execution:
 
