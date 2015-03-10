@@ -7,8 +7,8 @@ namespace Adic {
 	/// <summary>
 	/// Dispatches, handles execution and release of commands.
 	/// </summary>
-	public class CommandDispatcher {
-		/// <summary>The commands list.</summary>
+	public class CommandDispatcher : IDisposable {
+		/// <summary>The available commands, including singletons and pooled.</summary>
 		protected Dictionary<Type, object> commands;
 		/// <summary>The container from which the command dispatcher was created.</summary>
 		protected IInjectionContainer container;
@@ -62,7 +62,7 @@ namespace Adic {
 						EventCallerContainerExtension.updateable.Add((IUpdatable)command);
 					}
 				} else {
-					command.running = false;
+					this.Release(command);
 				}
 			} else {
 				throw new CommandException(
@@ -80,6 +80,10 @@ namespace Adic {
 			//If the command has IUpdatable interface, and is on the EventCaller extension, removes it.
 			if (command is IUpdatable && !EventCallerContainerExtension.updateable.Contains((IUpdatable)command)) {
 				EventCallerContainerExtension.updateable.Remove((IUpdatable)command);
+			}
+			//If the command has IDisposable interface, calls the Dispose() method. 
+			if (command is IDisposable) {
+				((IDisposable)command).Dispose();
 			}
 
 			command.running = false;
@@ -130,6 +134,39 @@ namespace Adic {
 					this.commands.Add(commandType, commandPool);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Releases all resource used by the <see cref="Adic.CommandDispatcher"/> object.
+		/// </summary>
+		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="Adic.CommandDispatcher"/>. The
+		/// <see cref="Dispose"/> method leaves the <see cref="Adic.CommandDispatcher"/> in an unusable state. After calling
+		/// <see cref="Dispose"/>, you must release all references to the <see cref="Adic.CommandDispatcher"/> so the garbage
+		/// collector can reclaim the memory that the <see cref="Adic.CommandDispatcher"/> was occupying.</remarks>
+		public void Dispose() {
+			int count = 0;
+
+			//Dispose all commands.
+			foreach (var command in commands) {
+				if (command.Value is ICommand) {
+					if (((ICommand)command.Value).running) {
+						this.Release((ICommand)command.Value);
+						count++;
+					}
+				} else {
+					var pool = (List<ICommand>)command.Value;
+					for (var cmdIndex = 0; cmdIndex < pool.Count; cmdIndex++) {
+						var pooledCommand = (ICommand)pool[cmdIndex];
+
+						if (pooledCommand.running) {
+							this.Release(pooledCommand);
+							count++;
+						}
+					}
+				}
+			}
+
+			this.commands.Clear();
 		}
 
 		/// <summary>

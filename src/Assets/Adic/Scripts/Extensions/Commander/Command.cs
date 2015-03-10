@@ -47,15 +47,5 @@ namespace Adic {
 
 			this.dispatcher.Release(this);
 		}
-		
-		/// <summary>
-		/// Dispose this command.
-		/// 
-		/// When overriding, always call <code>base.Dispose()</code>.
-		/// </summary>
-		public virtual void Dispose() {
-			this.running = false;
-			this.keepAlive = false;
-		}
 	}
 }
