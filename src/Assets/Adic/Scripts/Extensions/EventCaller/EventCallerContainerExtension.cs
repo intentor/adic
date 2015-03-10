@@ -18,17 +18,28 @@ namespace Adic {
 		/// <summary>The updateable objects.</summary>
 		public static List<IUpdatable> updateable = new List<IUpdatable>();
 
+		public GameObject eventCaller;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.EventCallerContainerExtension"/> class.
 		/// </summary>
 		public EventCallerContainerExtension() {
 			//Creates a new game object for UpdateableBehaviour.
-			var gameObject = new GameObject();
-			gameObject.name = "EventCaller";
-			gameObject.AddComponent<EventCallerBehaviour>();
+			this.eventCaller = new GameObject();
+			this.eventCaller.name = "EventCaller";
+			this.eventCaller.AddComponent<EventCallerBehaviour>();
 		}
 
 		public void OnRegister(IInjectionContainer container) {
+			//Adds the container to the disposable list.
+			disposable.Add(container);
+
+			//Checks whether a binding for the CommandDispatcher exists.
+			if (container.ContainsBindingFor<CommandDispatcher>()) {
+				var dispatcher = container.Resolve<CommandDispatcher>();
+				disposable.Add(dispatcher);
+			}
+
 			container.afterAddBinding += this.OnAfterAddBinding;
 			container.bindingResolution += this.OnBindingResolution;
 		}
@@ -36,6 +47,10 @@ namespace Adic {
 		public void OnUnregister(IInjectionContainer container) {
 			container.afterAddBinding -= this.OnAfterAddBinding;
 			container.bindingResolution -= this.OnBindingResolution;
+
+			disposable.Clear();
+			updateable.Clear();
+			MonoBehaviour.Destroy(this.eventCaller);
 		}
 
 		/// <summary>
@@ -69,7 +84,7 @@ namespace Adic {
 		/// <param name="instance">Instance.</param>
 		protected void OnBindingResolution(IInjector source, ref BindingInfo binding, ref object instance) {
 			//Do not add commands.
-			if (instance is ICommand) return;
+			if (binding.instanceType == BindingInstance.Singleton || instance is ICommand) return;
 
 			if (instance is IDisposable) {
 				disposable.Add((IDisposable)instance);
