@@ -943,7 +943,7 @@ container.RegisterExtension<EventCallerContainerExtension>();
 
 #### Dependencies
 
-* <a href="#extension-event-caller">Event Caller</a> (only if using `IDiposable` or `IUpdatable` events)
+* <a href="#extension-event-caller">Event Caller</a>
 
 ### <a id="extension-context-root"></a>Context Root
 
@@ -1016,6 +1016,7 @@ container.RegisterExtension<EventCallerContainerExtension>();
 
 1. Currently, any objects that are updateable are not removed from the update's list when they're not in use anymore. So, it's recommended to implement the `Adic.IUpdatable` interface only on singleton or transient objects that will live until the scene is destroyed;
 2. When the scene is destroyed, the update's list is cleared. So, any objects that will live between scenes that implement the `Adic.IUpdatable` interface will not be readded to the list. **It's recommeded to use updateable objects only on the context of a single scene**.
+3. Be aware of singleton objects on containers that will live through scenes. Eventually these objects may try to use references that may not exist anymore.
 
 #### Dependencies
 
