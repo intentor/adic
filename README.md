@@ -668,6 +668,7 @@ namespace MyNamespace.Commands {
 
 		/// <summary>
 		/// Executes the command.
+		/// </summary>
 		/// <param name="parameters">Command parameters.</param>
 		public override void Execute(params object[] parameters) {
 			//Execution code.
@@ -789,6 +790,41 @@ namespace MyNamespace {
 **Note 1**: when dispatching a command, it's placed in a list in the `CommandDispatcher`, which is the one responsible for pooling and managing existing commands.
 
 **Note 2**: commands in the pool that are not singleton are *reinjected* every time they are executed.
+
+#### Retaining commands
+
+When a command needs to continue its execution beyond the `Execute()` method, it has to be retained. This way the `CommandDispatcher` knows that the command should only be pooled/disposed when it finishes its execution.
+
+This is useful not only for commands that implements `Adic.IUpdatable`, but also for commands that have to wait until certain actions (e.g. some network call) are completed.
+
+To retain a command, just call the `Retain()` method during main execution:
+
+```cs
+/// <summary>
+/// Executes the command.
+/// </summary>
+/// <param name="parameters">Command parameters.</param>
+public override void Execute(params object[] parameters) {
+	//Execution code.
+
+	//Retains the command until some long action is being completed.
+	this.Retain();
+}
+```
+
+If a command is retained, it has to be released. The `CommandDispatcher` will automatically release commands during the destruction of scenes, however in some situations you may want to release it manually (e.g. after some network call is completed).
+
+To release a command, just call the `Release()` method when the execution is finished:
+
+```cs
+/// <summary>
+/// Called when some action is finished.
+/// </summary>
+public void OnSomeActionFinished() {
+	//Releases the command.
+	this.Release();
+}
+```
 
 ## <a id="order-of-events"></a>Order of events
 
