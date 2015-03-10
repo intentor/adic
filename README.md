@@ -61,7 +61,7 @@ The project is compatible with Unity 3D 5 and 4 and possibly 3 (not tested) and 
 * Can resolve and inject instances from types that are not bound to the container.
 * Fast dependency resolution with internal cache.<a href=#performance>\*</a>
 * Use of attributes to indicate injections, preferable construtors and post constructors.
-* Can be easily extented through extensions.
+* Can be easily extended through extensions.
 * Framework decoupled from Unity - all Unity based API is achieved through extensions.
 * Organized and well documented code written in C#.
 
