@@ -828,6 +828,12 @@ public void OnSomeActionFinished() {
 }
 ```
 
+#### A note about scene destruction and commands
+
+When a scene is destroyed, all the commands will be released and all the registrations will be disposed.
+
+So, if you're using a <a href="#static-containers">container that will live through scenes</a>, be aware that all the commands will have to registered again.
+
 ## <a id="order-of-events"></a>Order of events
 
 1. Unity Awake()
@@ -953,7 +959,7 @@ Provides an entry point for the game on Unity 3D.
 
 Please see <a href="#quick-start">Quick start</a> for more information.
 
-#### Notes
+#### <a id="static-containers"></a>Notes
 
 1. When adding containers using `AddContainer()`, it's possible to keep them alive between scenes by setting the `destroyOnLoad` to `false`.
 
