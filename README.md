@@ -636,6 +636,7 @@ namespace MyNamespace.Commands {
 
 		/// <summary>
 		/// Executes the command.
+		/// </summary>
 		/// <param name="parameters">Command parameters.</param>
 		public override void Execute(params object[] parameters) {
 			//Execution code.
@@ -692,6 +693,7 @@ namespace MyNamespace.Commands {
 
 		/// <summary>
 		/// Executes the command.
+		/// </summary>
 		/// <param name="parameters">Command parameters.</param>
 		public override void Execute(params object[] parameters) {
 			//Execution code.
