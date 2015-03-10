@@ -1,10 +1,25 @@
 ADIC CHANGELOG
 
+Version 2.0.1 (?)
+
+Commander extension
+- Added System.IDisposable interface to the CommandDispatcher so it can release commands when the scene is destroyed.
+- Fixed problem that prevented commands that implemented System.IDisposable to actually be disposed.
+- Removed Dispose() method from Adic.Command. To make commands disposable, implement System.IDisposable.
+- Now the Commander extension always depends on the EventCaller extension.
+
+Event Caller extension
+- Added evaluation of important disposable objects (IInjectorContainer and CommandDispatcher) during registration to avoid the need for following a specific order when registering extensions.
+- Fixed problem in which objects were being added twice in the disposable/updateable lists.
+
 Version 2.0 (2015-03-08)
+
 - New framework architecture.
 
 Version 1.0 (2015-02-19)
+
 - Initial release.
 
 Version 0.1 (2014-08-01)
+
 - First fully functional version.
