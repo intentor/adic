@@ -60,7 +60,7 @@ The project is compatible with Unity 3D 5 and 4 and possibly 3 (not tested) and 
 * Can inject multiple objects of the same type.
 * Can resolve and inject instances from types that are not bound to the container.
 * Fast dependency resolution with internal cache.<a href=#performance>\*</a>
-* Use of attributes to indicate injections, preferable construtors and post constructors.
+* Use of attributes to indicate injections, preferable constructors and post constructors.
 * Can be easily extended through extensions.
 * Framework decoupled from Unity - all Unity based API is achieved through extensions.
 * Organized and well documented code written in C#.
@@ -330,7 +330,7 @@ container.Bind<SomeInterface>().ToPrefabSingleton(someMonoBehaviourType, "Tag");
 
 **Note 2**: there's no need to decorate constructors' parameteres with `Inject` attributes.
 
-**Note 3**: currently, injection identifiers are not supported on construtors. However, <a href="#conditions">any conditions</a> (that are not identifiers) on types are also applied to the constructor parameters.
+**Note 3**: currently, injection identifiers are not supported on constructors. However, <a href="#conditions">any conditions</a> (that are not identifiers) on types are also applied to the constructor parameters.
 
 ### <a id="member-injection"></a>Member injection
 
