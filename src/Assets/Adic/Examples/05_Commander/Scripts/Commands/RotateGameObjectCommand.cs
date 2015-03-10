@@ -16,6 +16,9 @@ namespace Adic.Examples.Commander.Commands {
 		public override void Execute(params object[] parameters) {
 			this.objectToRotate = (Transform)parameters[0];
 
+			//Call "Retain()" to keep the command running
+			//after the "Execute()" method is called.
+			//This way the command can receive update events.
 			this.Retain();
 		}
 
