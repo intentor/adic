@@ -78,7 +78,7 @@ namespace Adic {
 			if (!command.running) return;
 
 			//If the command has IUpdatable interface, and is on the EventCaller extension, removes it.
-			if (command is IUpdatable && !EventCallerContainerExtension.updateable.Contains((IUpdatable)command)) {
+			if (command is IUpdatable && EventCallerContainerExtension.updateable.Contains((IUpdatable)command)) {
 				EventCallerContainerExtension.updateable.Remove((IUpdatable)command);
 			}
 			//If the command has IDisposable interface, calls the Dispose() method. 
