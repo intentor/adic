@@ -809,12 +809,12 @@ To retain a command, just call the `Retain()` method during main execution:
 public override void Execute(params object[] parameters) {
 	//Execution code.
 
-	//Retains the command until some long action is being completed.
+	//Retains the command until some long action is completed.
 	this.Retain();
 }
 ```
 
-If a command is retained, it has to be released. The `CommandDispatcher` will automatically release commands during the destruction of scenes, however in some situations you may want to release it manually (e.g. after some network call is completed).
+If a command is retained, it has to be released. The `CommandDispatcher` will automatically releases commands during the destruction of scenes. However, in some situations you may want to release it manually (e.g. after some network call is completed).
 
 To release a command, just call the `Release()` method when the execution is finished:
 
@@ -832,7 +832,7 @@ public void OnSomeActionFinished() {
 
 When a scene is destroyed, all the commands will be released and all the registrations will be disposed.
 
-So, if you're using a <a href="#static-containers">container that will live through scenes</a>, be aware that all the commands will have to registered again.
+So, if you're using a <a href="#static-containers">container that will live through scenes</a>, be aware that all commands will have to be registered again.
 
 ## <a id="order-of-events"></a>Order of events
 
