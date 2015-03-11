@@ -3,7 +3,7 @@ ADIC CHANGELOG
 Version 2.0.1 (?)
 
 Framework
-- Added overloads by generics and type instance for ToFactory() binding method.
+- Added at ToFactory() binding method overloads by generics and type instance.
 
 Commander extension
 - Added System.IDisposable interface to the CommandDispatcher so it can release commands when the scene is destroyed.
