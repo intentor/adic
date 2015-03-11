@@ -769,7 +769,7 @@ public override void SetupContainers() {
 
 #### Dispatching commands
 
-To dispatch a command, just call the `Dispatch()` method on the `Adic.CommandDispatcher`, using either the generics or the by `System.Type` versions:
+To dispatch a command, just call the `Dispatch()` method on `Adic.ICommandDispatcher`, using either the generics or the by `System.Type` versions:
 
 ```cs
 /// <summary>
@@ -783,7 +783,7 @@ public void MyMethodThatDispatchesCommands() {
 }
 ```
 
-To use the `CommandDispatcher`, you have to inject it wherever you need to use it:
+To use `Adic.ICommandDispatcher`, you have to inject it wherever you need to use it:
 
 ```cs
 namespace MyNamespace {
@@ -793,7 +793,7 @@ namespace MyNamespace {
 	public class MyClassThatDispatchesCommands {
 		/// <summary>The command dispatcher.</summary>
 		[Inject]
-		public CommandDispatcher dispatcher;
+		public ICommandDispatcher dispatcher;
 
 		/// <summary>
 		/// My method that dispatches a command.
@@ -805,13 +805,15 @@ namespace MyNamespace {
 }
 ```
 
-**Note 1**: when dispatching a command, it's placed in a list in the `CommandDispatcher`, which is the one responsible for pooling and managing existing commands.
+**Hint**: commands already have a reference to its dispatcher (`this.dispatcher`).
+
+**Note 1**: when dispatching a command, it's placed in a list in the command dispatcher object, which is the one responsible for pooling and managing existing commands.
 
 **Note 2**: commands in the pool that are not singleton are *reinjected* every time they are executed.
 
 #### Retaining commands
 
-When a command needs to continue its execution beyond the `Execute()` method, it has to be retained. This way the `CommandDispatcher` knows the command should only be pooled/disposed when it finishes its execution.
+When a command needs to continue its execution beyond the `Execute()` method, it has to be retained. This way the command dispatcher knows the command should only be pooled/disposed when it finishes its execution.
 
 This is useful not only for commands that implement `Adic.IUpdatable`, but also for commands that have to wait until certain actions (e.g. some network call) are completed.
 
@@ -830,7 +832,7 @@ public override void Execute(params object[] parameters) {
 }
 ```
 
-If a command is retained, it has to be released. The `CommandDispatcher` will automatically releases commands during the destruction of scenes. However, in some situations you may want to release it manually (e.g. after some network call is completed).
+If a command is retained, it has to be released. The command dispatcher will automatically releases commands during the destruction of scenes. However, in some situations you may want to release it manually (e.g. after some network call is completed).
 
 To release a command, just call the `Release()` method when the execution is finished:
 
