@@ -71,6 +71,34 @@ namespace Adic.Tests {
 			Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
 			Assert.AreEqual(instance, bindings[0].value);
 		}
+
+		[Test]
+		public void TestBindingToFactoryGenericsFromInterface() {
+			var binder = new Binder();
+			
+			var type = typeof(MockFactory);
+			binder.Bind<IMockInterface>().ToFactory<MockFactory>();
+			var bindings = binder.GetBindingsFor<IMockInterface>();
+			
+			Assert.AreEqual(1, bindings.Count);
+			Assert.AreEqual(BindingInstance.Factory, bindings[0].instanceType);
+			Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
+			Assert.AreEqual(type, bindings[0].value.GetType());
+		}
+		
+		[Test]
+		public void TestBindingToFactoryTypeFromInterface() {
+			var binder = new Binder();
+			
+			var type = typeof(MockFactory);
+			binder.Bind<IMockInterface>().ToFactory(type);
+			var bindings = binder.GetBindingsFor<IMockInterface>();
+			
+			Assert.AreEqual(1, bindings.Count);
+			Assert.AreEqual(BindingInstance.Factory, bindings[0].instanceType);
+			Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
+			Assert.AreEqual(type, bindings[0].value.GetType());
+		}
 		
 		[Test]
 		public void TestBindingToFactoryInstanceFromInterface() {
