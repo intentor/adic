@@ -48,7 +48,7 @@
 
 *Adic* is a lightweight dependency injection container for Unity 3D.
 
-Based on studies from [StrangeIoC](http://strangeioc.github.io/strangeioc/) and the proof of concept container from [Sebastiano Mandalà](http://blog.sebaslab.com/ioc-container-for-unity3d-part-1/), the ideia of the project was to create a dependency injection container that is simple to use and extend, having on its roots the simplicity of the work of Mandalà and the extensibility of StrangeIoC.
+Based on the proof of concept container from [Sebastiano Mandalà](http://blog.sebaslab.com/ioc-container-for-unity3d-part-1/) and studies of [StrangeIoC](http://strangeioc.github.io/strangeioc/), the intention of the project is to create a dependency injection container that is simple to use and extend, having on its roots the simplicity of the work of Mandalà and the extensibility of StrangeIoC (with some ideas from the classic [Unity Application Block](https://unity.codeplex.com/)).
 
 The project is compatible with Unity 3D 5 and 4 and possibly 3 (not tested) and should work on all available platforms (tested on Windows/Mac/Linux, Android, iOS and Web Player).
 
@@ -93,7 +93,7 @@ The structure of *Adic* is divided into five parts:
 
 ### <a id="namespace-conventions"></a>Namespace conventions
 
-*Adic* is organized internally into different namespaces that represents the framework components. However, the components commonly used are under `Adic` namespace:
+*Adic* is organized internally into different namespaces that represents the framework components. However, the commonly used components are under `Adic` namespace:
 
 1. Attributes (`Inject`, `Construct`, `PostConstruct`);
 2. `InjectionContainer`;
@@ -106,7 +106,7 @@ The structure of *Adic* is divided into five parts:
 
 **Note**: there should be only one context root per scene.
 
-**Hint**: when using a context root for each scene of your game, to make the project more organized, on `Scripts` folder create folders for each of your scenes that will hold their own scripts and context root.
+**Hint**: when using a context root for each scene of your game, to make the project more organized, on `Scripts` folder create folders for each of your scenes that will hold their own scripts and context roots.
    
 ```cs
 using UnityEngine;
@@ -158,7 +158,7 @@ public override void SetupContainers() {
 
 Binding is the action of linking a type to another type or instance. *Adic* makes it simple by providing different ways to create your bindings.
 
-Every binding must occur on a certain key type by calling the `Bind()` method of the container. 
+Every binding must occur from a certain key type by calling the `Bind()` method of the container. 
 
 The simple way to bind e.g. some interface to its class implementation is as below:
    
@@ -244,6 +244,11 @@ container.Bind<InterfaceType>().To(classTypeObject, instanceOfClassType);
 Binds the key type to a factory. The factory must implement the `Adic.IFactory` interface.
 
 ```cs
+//Binding factory by generics...
+container.Bind<InterfaceType>().ToFactory<Factory>();
+//...or type instance...
+container.Bind<InterfaceType>().ToFactory(typeFactory);
+//...or a factory instance.
 container.Bind<InterfaceType>().ToFactory(factoryInstance);
 ```
 
@@ -326,7 +331,7 @@ container.Bind<SomeInterface>().ToPrefabSingleton(someMonoBehaviourType, "Tag");
 
 *Adic* will always try to resolve any dependencies the constructor may need by using information from its bindings or trying to instantiate any types that are unknown to the binder.
 
-**Note 1**: if there's more than one constructor, *Adic* always look for the one with less parameteres. However, <a href="#multiple-constructors">it's possible to indicate which constructor will be used</a> on a multi constructor class.
+**Note 1**: if there's more than one constructor, *Adic* always look for the one with less parameteres. However, <a href="#multiple-constructors">it's possible to indicate which constructor should be used</a> on a multi constructor class.
 
 **Note 2**: there's no need to decorate constructors' parameteres with `Inject` attributes.
 
@@ -334,7 +339,7 @@ container.Bind<SomeInterface>().ToPrefabSingleton(someMonoBehaviourType, "Tag");
 
 ### <a id="member-injection"></a>Member injection
 
-*Adic* car perform dependency injection on public fields and properties of classes. To make it happen, just decorate the members with the `Inject` attribute:
+*Adic* can perform dependency injection on public fields and properties of classes. To make it happen, just decorate the members with the `Inject` attribute:
 
 ```cs
 namespace MyNamespace {
@@ -357,7 +362,7 @@ namespace MyNamespace {
 }
 ```
 
-If you need to perform actions after all the injections took place, create a method and decorate it with the `PostConstruct` attribute:
+If you need to perform actions after all injections have been completed, create a method and decorate it with the `PostConstruct` attribute:
 
 ```cs
 namespace MyNamespace {
@@ -430,7 +435,7 @@ container.Bind<GameObject>().ToGameObject("Enemy4");
 container.Bind<GameObject>().ToGameObject("Enemy5");
 ```
 
-Multiple injection on a field:
+Multiple injection in a field:
 
 ```cs
 namespace MyNamespace {
@@ -608,6 +613,17 @@ namespace MyNamespace {
 		}
 	}
 }
+```
+
+To bind a type to a factory class, use the `ToFactory()`:
+
+```cs
+//Binding factory by generics...
+container.Bind<SomeType>().ToFactory<MyFactory>();
+//...or type instance...
+container.Bind<SomeType>().ToFactory(typeMyFactory);
+//...or a factory instance.
+container.Bind<SomeType>().ToFactory(factoryInstance);
 ```
 
 ### <a id="using-commands"></a>Using commands
