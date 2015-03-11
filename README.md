@@ -93,7 +93,7 @@ The structure of *Adic* is divided into five parts:
 
 ### <a id="namespace-conventions"></a>Namespace conventions
 
-*Adic* is organized internally into different namespaces that representes the framework components. However, the components commonly used are under `Adic` namespace:
+*Adic* is organized internally into different namespaces that represents the framework components. However, the components commonly used are under `Adic` namespace:
 
 1. Attributes (`Inject`, `Construct`, `PostConstruct`);
 2. `InjectionContainer`;
