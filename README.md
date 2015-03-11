@@ -1,4 +1,4 @@
-# Adic
+# ![Adic](https://cloud.githubusercontent.com/assets/5340818/6597415/4b95cb42-c7db-11e4-863f-9a284bfab310.png)
 
 **Another Dependency Injection Container for Unity 3D and beyond**
 
