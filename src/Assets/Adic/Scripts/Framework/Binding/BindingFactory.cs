@@ -107,6 +107,24 @@ namespace Adic.Binding {
 			
 			return this.CreateBinding(instance, BindingInstance.Singleton);
 		}
+
+		/// <summary>
+		/// Binds the key type to a <typeparamref name="T"/> factory.
+		/// </summary>
+		/// <typeparam name="T">The factory type.</typeparam>
+		/// <returns>The binding condition object related to this binding.</returns>
+		public IBindingConditionFactory ToFactory<T>() where T : IFactory, new() {
+			return this.ToFactory(typeof(T));
+		}
+		
+		/// <summary>
+		/// Binds the key type to a factory of a certain <paramref name="type"/>.
+		/// </summary>
+		/// <param name="type">The factory type.</typeparam>
+		/// <returns>The binding condition object related to this binding.</returns>
+		public IBindingConditionFactory ToFactory(Type type) {
+			return this.ToFactory((IFactory)Activator.CreateInstance(type));
+		}
 		
 		/// <summary>
 		/// Binds the key type to a <paramref name="factory"/>.
