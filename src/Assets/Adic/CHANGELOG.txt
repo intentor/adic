@@ -1,0 +1,37 @@
+--------------------------------------------------------------------------------
+ Adic
+ Another Dependency Injector Container
+ Copyright (c) 2014-2015 André "Intentor" Martins
+ http://intentor.com.br/
+--------------------------------------------------------------------------------
+
+Version 2.1 (?)
+
+Framework
+- Added overloads by generics and type instance at IBindingFactory.ToFactory().
+
+Commander extension
+- Added interfaces to define command dispatchers (ICommandDispatcher) and command pools (ICommandPool).
+- Added System.IDisposable interface to the CommandDispatcher so it can release commands when the scene is destroyed.
+- Removed Dispose() method from Adic.Command. To make commands disposable, implement System.IDisposable.
+- Fixed dispose of commands that implemented System.IDisposable.
+- Fixed release of commands that implemented Adic.IUpdatable.
+- Now the Commander extension always depends on the Event Caller extension.
+
+Event Caller extension
+- Added evaluation of important disposable objects (IInjectorContainer and ICommandDispatcher) during registration to avoid the need for following a specific order when registering extensions.
+- Fixed adding duplicate objects in disposable/updateable lists.
+
+Version 2.0 (2015-03-08)
+
+- New framework architecture.
+- Added extensions.
+- Documentation expanded.
+
+Version 1.0 (2015-02-19)
+
+- Initial release.
+
+Version 0.1 (2014-08-01)
+
+- First fully functional version.
