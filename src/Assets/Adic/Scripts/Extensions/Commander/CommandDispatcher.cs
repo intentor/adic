@@ -144,28 +144,7 @@ namespace Adic {
 		/// <see cref="Dispose"/>, you must release all references to the <see cref="Adic.CommandDispatcher"/> so the garbage
 		/// collector can reclaim the memory that the <see cref="Adic.CommandDispatcher"/> was occupying.</remarks>
 		public void Dispose() {
-			int count = 0;
-
-			//Dispose all commands.
-			foreach (var command in commands) {
-				if (command.Value is ICommand) {
-					if (((ICommand)command.Value).running) {
-						this.Release((ICommand)command.Value);
-						count++;
-					}
-				} else {
-					var pool = (List<ICommand>)command.Value;
-					for (var cmdIndex = 0; cmdIndex < pool.Count; cmdIndex++) {
-						var pooledCommand = (ICommand)pool[cmdIndex];
-
-						if (pooledCommand.running) {
-							this.Release(pooledCommand);
-							count++;
-						}
-					}
-				}
-			}
-
+			this.ReleaseAll();
 			this.commands.Clear();
 		}
 
