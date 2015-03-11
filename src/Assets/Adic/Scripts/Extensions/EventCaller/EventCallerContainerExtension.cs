@@ -34,10 +34,12 @@ namespace Adic {
 			//Adds the container to the disposable list.
 			disposable.Add(container);
 
-			//Checks whether a binding for the CommandDispatcher exists.
-			if (container.ContainsBindingFor<CommandDispatcher>()) {
-				var dispatcher = container.Resolve<CommandDispatcher>();
-				disposable.Add(dispatcher);
+			//Checks whether a binding for the ICommandDispatcher exists.
+			if (container.ContainsBindingFor<ICommandDispatcher>()) {
+				var dispatcher = container.Resolve<ICommandDispatcher>();
+				if (dispatcher is IDisposable) {
+					disposable.Add((IDisposable)dispatcher);
+				}
 			}
 
 			container.afterAddBinding += this.OnAfterAddBinding;
