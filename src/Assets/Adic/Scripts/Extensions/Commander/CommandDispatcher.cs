@@ -5,9 +5,9 @@ using Adic.Container;
 
 namespace Adic {
 	/// <summary>
-	/// Dispatches, handles execution and release of commands.
+	/// Dispatches, releases and handles execution of commands.
 	/// </summary>
-	public class CommandDispatcher : IDisposable {
+	public class CommandDispatcher : IDisposable, ICommandDispatcher, ICommandPool {
 		/// <summary>The available commands, including singletons and pooled.</summary>
 		protected Dictionary<Type, object> commands;
 		/// <summary>The container from which the command dispatcher was created.</summary>
@@ -91,7 +91,7 @@ namespace Adic {
 		}
 		
 		/// <summary>
-		/// Releases all command that are running.
+		/// Releases all commands that are running.
 		/// </summary>
 		public void ReleaseAll() {
 			foreach (var entry in this.commands) {
@@ -107,7 +107,7 @@ namespace Adic {
 		}
 		
 		/// <summary>
-		/// Pools all commands registered on the container.
+		/// Pools all commands.
 		/// </summary>
 		public void Pool() {
 			var resolvedCommands = container.ResolveAll<ICommand>();
@@ -135,28 +135,33 @@ namespace Adic {
 				}
 			}
 		}
-
-		/// <summary>
-		/// Releases all resource used by the <see cref="Adic.CommandDispatcher"/> object.
-		/// </summary>
-		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="Adic.CommandDispatcher"/>. The
-		/// <see cref="Dispose"/> method leaves the <see cref="Adic.CommandDispatcher"/> in an unusable state. After calling
-		/// <see cref="Dispose"/>, you must release all references to the <see cref="Adic.CommandDispatcher"/> so the garbage
-		/// collector can reclaim the memory that the <see cref="Adic.CommandDispatcher"/> was occupying.</remarks>
-		public void Dispose() {
-			this.ReleaseAll();
-			this.commands.Clear();
-		}
-
+		
 		/// <summary>
 		/// Gets a command from the pool.
 		/// </summary>
 		/// <param name="commandType">Command type.</param>
 		/// <param name="pool">Pool from which the command will be taken.</param>
 		/// <returns>Command or NULL.</returns>
-		protected ICommand GetCommandFromPool(Type commandType, List<ICommand> pool) {
+		public ICommand GetCommandFromPool(Type commandType) {
 			ICommand command = null;
-
+			
+			if (this.commands.ContainsKey(commandType)) {
+				var item = this.commands[commandType];
+				command = this.GetCommandFromPool(commandType, (List<ICommand>)item);
+			}
+			
+			return command;
+		}
+		
+		/// <summary>
+		/// Gets a command from the pool.
+		/// </summary>
+		/// <param name="commandType">Command type.</param>
+		/// <param name="pool">Pool from which the command will be taken.</param>
+		/// <returns>Command or NULL.</returns>
+		public ICommand GetCommandFromPool(Type commandType, List<ICommand> pool) {
+			ICommand command = null;
+			
 			//Finds the first available command on the list.
 			for (int cmdIndex = 0; cmdIndex < pool.Count; cmdIndex++) {
 				var commandOnPool = pool[cmdIndex];
@@ -173,12 +178,24 @@ namespace Adic {
 					throw new CommandException(
 						string.Format(CommandException.MAX_POOL_SIZE, pool[0].ToString()));
 				}
-
+				
 				command = (ICommand)this.container.Resolve(commandType);
 				pool.Add(command);
 			}
-
+			
 			return command;
+		}
+
+		/// <summary>
+		/// Releases all resource used by the <see cref="Adic.CommandDispatcher"/> object.
+		/// </summary>
+		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="Adic.CommandDispatcher"/>. The
+		/// <see cref="Dispose"/> method leaves the <see cref="Adic.CommandDispatcher"/> in an unusable state. After calling
+		/// <see cref="Dispose"/>, you must release all references to the <see cref="Adic.CommandDispatcher"/> so the garbage
+		/// collector can reclaim the memory that the <see cref="Adic.CommandDispatcher"/> was occupying.</remarks>
+		public void Dispose() {
+			this.ReleaseAll();
+			this.commands.Clear();
 		}
 	}
 }

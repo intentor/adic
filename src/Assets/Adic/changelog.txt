@@ -1,11 +1,12 @@
 ADIC CHANGELOG
 
-Version 2.0.1 (?)
+Version 2.1 (?)
 
 Framework
 - Added at ToFactory() binding method overloads by generics and type instance.
 
 Commander extension
+- Added interfaces to define command dispatchers (ICommandDispatcher) and command pools (ICommandPool).
 - Added System.IDisposable interface to the CommandDispatcher so it can release commands when the scene is destroyed.
 - Removed Dispose() method from Adic.Command. To make commands disposable, implement System.IDisposable.
 - Fixed dispose of commands that implemented System.IDisposable.

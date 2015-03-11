@@ -8,7 +8,7 @@ namespace Adic.Examples.Commander {
 	/// </summary>
 	public class GameRoot : ContextRoot {
 		/// <summary>The command dispatcher.</summary>
-		protected CommandDispatcher dispatcher;
+		protected ICommandDispatcher dispatcher;
 
 		public override void SetupContainers() {
 			//Create the container.
@@ -25,7 +25,7 @@ namespace Adic.Examples.Commander {
 			container.RegisterCommands("Adic.Examples.Commander.Commands");
 
 			//Get a reference to the command dispatcher.
-			this.dispatcher = container.Resolve<CommandDispatcher>();
+			this.dispatcher = container.Resolve<ICommandDispatcher>();
 
 			//Add the container to the context.
 			this.AddContainer(container);

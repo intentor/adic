@@ -64,8 +64,8 @@ namespace Adic {
 		/// </summary>
 		/// <param name="container">The container in which the commands have been registered.</param>
 		public static void PoolCommands(this IInjectionContainer container) {
-			var dispatcher = container.Resolve<CommandDispatcher>();
-			dispatcher.Pool();
+			var commandPool = container.Resolve<ICommandPool>();
+			commandPool.Pool();
 		}
 	}
 }

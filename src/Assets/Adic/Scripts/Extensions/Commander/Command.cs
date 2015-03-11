@@ -7,7 +7,7 @@ namespace Adic {
 	/// </summary>
 	public abstract class Command : ICommand {
 		/// <summary>The command dispatcher that dispatched this command.</summary>
-		public CommandDispatcher dispatcher { get; set; }
+		public ICommandDispatcher dispatcher { get; set; }
 		/// <summary>Indicates whether the command is running.</summary>
 		public bool running { get; set; }
 		/// <summary>Indicates whether the command must be kept alive even after its execution.</summary>

@@ -7,7 +7,7 @@ namespace Adic {
 	/// </summary>
 	public interface ICommand {
 		/// <summary>The command dispatcher that dispatched this command.</summary>
-		CommandDispatcher dispatcher { get; set; }
+		ICommandDispatcher dispatcher { get; set; }
 		/// <summary>Indicates whether the command is running.</summary>
 		bool running { get; set; }
 		/// <summary>Indicates whether the command must be kept alive even after its execution.</summary>
