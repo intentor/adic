@@ -4,45 +4,46 @@
 
 ## Contents
 
-* <a href="#introduction">Introduction</a>
-* <a href="#features">Features</a>
-* <a href="#concepts">Concepts</a>
-	* <a href="#what-is">What is a dependency injector container?
-	* <a href="#structure">Structure
-	* <a href="#types-of-bindings">Types of bindings
-	* <a href="#namespace-conventions">Namespace conventions
-* <a href="#quick-start">Quick start</a>
-* <a href="#api">API</a>
-	* <a href="#bindings">Bindings</a>
-	* <a href="#constructor-injection">Constructor injection</a>
-	* <a href="#member-injection">Member injection</a>
-	* <a href="#multiple-constructors">Multiple constructors</a>
-	* <a href="#multiple-injection">Multiple injection</a>
-	* <a href="#monobehaviour-injection">MonoBehaviour injection</a>
-	* <a href="#conditions">Conditions</a>
-	* <a href="#update">Update</a>
-	* <a href="#dispose">Dispose</a>
-	* <a href="#manual-type-resolution">Manual type resolution</a>
-	* <a href="#factories">Factories</a>
-	* <a href="#using-commands">Using commands</a>
-* <a href="#order-of-events">Order of events
-* <a href="#performance">Performance
-* <a href="#container-extensions">Extensions</a>
-	* <a href="#available-extensions">Available extensions</a>
-		* <a href="#extension-bindings-printer">Bindings Printer</a>
-		* <a href="#extension-commander">Commander</a>
-		* <a href="#extension-context-root">Context Root</a>
-		* <a href="#extension-event-caller">Event Caller</a>
-		* <a href="#extension-mono-injection">Mono Injection</a>
-		* <a href="#extension-unity-binding">Unity Binding</a>
-	* <a href="#creating-extensions">Creating extensions</a>
-	* <a href="#container-events">Container events</a>
-		* <a href="#binder-events">Binder events</a>
-		* <a href="#injector-events">Injector events</a>
-* <a href="#general-notes">General notes</a>
-* <a href="#examples">Examples</a>
-* <a href="#support">Support</a>
-* <a href="#license">License</a>
+1. <a href="#introduction">Introduction</a>
+2. <a href="#features">Features</a>
+3. <a href="#concepts">Concepts</a>
+	1. <a href="#what-is">What is a dependency injector container?
+	2. <a href="#structure">Structure
+	3. <a href="#types-of-bindings">Types of bindings
+	4. <a href="#namespace-conventions">Namespace conventions
+4. <a href="#quick-start">Quick start</a>
+5. <a href="#api">API</a>
+	1. <a href="#bindings">Bindings</a>
+	2. <a href="#constructor-injection">Constructor injection</a>
+	3. <a href="#member-injection">Member injection</a>
+	4. <a href="#multiple-constructors">Multiple constructors</a>
+	5. <a href="#multiple-injection">Multiple injection</a>
+	6. <a href="#monobehaviour-injection">MonoBehaviour injection</a>
+	7. <a href="#conditions">Conditions</a>
+	8. <a href="#update">Update</a>
+	9. <a href="#dispose">Dispose</a>
+	10. <a href="#manual-type-resolution">Manual type resolution</a>
+	11. <a href="#factories">Factories</a>
+	12. <a href="#using-commands">Using commands</a>
+6. <a href="#order-of-events">Order of events
+7. <a href="#performance">Performance
+8. <a href="#container-extensions">Extensions</a>
+	1. <a href="#available-extensions">Available extensions</a>
+		1. <a href="#extension-bindings-printer">Bindings Printer</a>
+		2. <a href="#extension-commander">Commander</a>
+		3. <a href="#extension-context-root">Context Root</a>
+		4. <a href="#extension-event-caller">Event Caller</a>
+		5. <a href="#extension-mono-injection">Mono Injection</a>
+		6. <a href="#extension-unity-binding">Unity Binding</a>
+	2. <a href="#creating-extensions">Creating extensions</a>
+	3. <a href="#container-events">Container events</a>
+		1. <a href="#binder-events">Binder events</a>
+		2. <a href="#injector-events">Injector events</a>
+9. <a href="#general-notes">General notes</a>
+10. <a href="#examples">Examples</a>
+11. <a href="#changelog">Changelog</a>
+12. <a href="#support">Support</a>
+13. <a href="#license">License</a>
 
 ## <a id="introduction"></a>Introduction
 
@@ -1168,12 +1169,16 @@ Exemplifies how to bind to prefabs and the use of `PostConstruct` as a second co
 
 Exemplifies the use of commands through a simple spawner of a prefab.
 
+## <a id="changelog"></a>Changelog
+
+Please see [CHANGELOG.txt](src/Assets/Adic/CHANGELOG.txt).
+
 ## <a id="support"></a>Support
 
-Found a bug? Please create an issue on the [GitHub project page](https://github.com/intentor/adic/) or send a pull request if have a fix or extension.
+Found a bug? Please create an issue on the [GitHub project page](https://github.com/intentor/adic/issues) or send a pull request if have a fix or extension.
 
 You can also send me a message at support@intentor.com.br to discuss more obscure matters about *Adic*.
 
 ## <a id="license"></a>License
 
-Licensed under the [The MIT License (MIT)](http://opensource.org/licenses/MIT). Please read LICENSE for more information.
+Licensed under the [The MIT License (MIT)](http://opensource.org/licenses/MIT). Please see [LICENSE](LICENSE) for more information.
