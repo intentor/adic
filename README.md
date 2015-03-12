@@ -632,7 +632,7 @@ container.Bind<SomeType>().ToFactory(factoryInstance);
 
 Commands are actions executed by your game, usually in response to an event.
 
-The concept of commands is to place everything the action/event needs in a single place, so it's easy to understand and maintain it.
+The concept of commands on *Adic* is to place everything the action/event needs in a single place, so it's easy to understand and maintain it.
 
 Suppose you have an event of enemy destroyed. When that occurs, you have to update UI, dispose the enemy, spawn some particles and save statistics somewhere. One approach would be dispatch the event to every object that has to do something about it, which is fine given it keeps single responsibility by allowing every object to take care of their part on the event. However, when your project grows, it can be a nightmare to find every place a given event is handled. That's when commands come in handy: you place all the code and dependencies for a certain action/event in a single place.
 
