@@ -848,7 +848,7 @@ public void OnSomeActionFinished() {
 
 #### A note about scene destruction and commands
 
-When a scene is destroyed, all the commands will be released and all the registrations will be disposed.
+When a scene is destroyed, all commands will be released and all registrations will be disposed.
 
 So, if you're using a <a href="#static-containers">container that will live through scenes</a>, be aware that all commands will have to be registered again.
 
