@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
  Adic
  Another Dependency Injector Container
- Copyright (c) 2014-2015 André "Intentor" Martins
+ Copyright (c) 2014-2015 Andre "Intentor" Martins
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
