@@ -53,6 +53,8 @@ Based on the proof of concept container from [Sebastiano Mandalà](http://blog.se
 
 The project is compatible with Unity 3D 5 and 4 and possibly 3 (not tested) and should work on all available platforms (tested on Windows/Mac/Linux, Android, iOS and Web Player).
 
+Also available at the [Unity Asset Store](https://www.assetstore.unity3d.com/en/#!/content/32157).
+
 ## <a id="features"></a>Features
 
 * Bind types, singleton instances, factories, game objects and prefabs.
@@ -1175,7 +1177,7 @@ Please see [CHANGELOG.txt](src/Assets/Adic/CHANGELOG.txt).
 
 ## <a id="support"></a>Support
 
-Found a bug? Please create an issue on the [GitHub project page](https://github.com/intentor/adic/issues) or send a pull request if have a fix or extension.
+Found a bug? Please create an issue on the [GitHub project page](https://github.com/intentor/adic/issues) or send a pull request if you have a fix or extension.
 
 You can also send me a message at support@intentor.com.br to discuss more obscure matters about *Adic*.
 
