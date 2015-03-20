@@ -82,17 +82,17 @@ So, a *dependency injection container* holds information about dependencies (the
 
 The structure of *Adic* is divided into five parts:
 
-1. **InjectionContainer/Container**: binds, resolves, injects and holds dependencies. Technically, the container is a *Binder* and an *Injector* at the same time.
-2. **Binder**: binds a type to another type or instance with inject conditions.
-3. **Injector**: resolves and injects dependencies.
-4. **Context Root**: main context in which the containers are in. Acts as an entry point for the game. It's implemented through an <a href="#extension-context-root">extension</a>.
-5. **Extensions**: provides additional features to the framework.
+1. **InjectionContainer/Container:** binds, resolves, injects and holds dependencies. Technically, the container is a *Binder* and an *Injector* at the same time.
+2. **Binder:** binds a type to another type or instance with inject conditions.
+3. **Injector:** resolves and injects dependencies.
+4. **Context Root:** main context in which the containers are in. Acts as an entry point for the game. It's implemented through an <a href="#extension-context-root">extension</a>.
+5. **Extensions:** provides additional features to the framework.
 
 ### <a id="types-of-bindings"></a>Types of bindings
 
-* **Transient**: a new instance is created each time a dependency needs to be resolved.
-* **Singleton**: a single instance is created and used on any dependency resolution.
-* **Factory**: creates the instance and returns it to the container.
+* **Transient:** a new instance is created each time a dependency needs to be resolved.
+* **Singleton:** a single instance is created and used on any dependency resolution.
+* **Factory:** creates the instance and returns it to the container.
 
 ### <a id="namespace-conventions"></a>Namespace conventions
 
@@ -107,9 +107,9 @@ The structure of *Adic* is divided into five parts:
 
 1\. Create the context root (e. g. GameRoot.cs) of your scene by inheriting from `Adic.ContextRoot`.
 
-**Note**: there should be only one context root per scene.
+**Note:** there should be only one context root per scene.
 
-**Hint**: when using a context root for each scene of your game, to make the project more organized, on `Scripts` folder create folders for each of your scenes that will hold their own scripts and context roots.
+**Hint:** when using a context root for each scene of your game, to make the project more organized, on `Scripts` folder create folders for each of your scenes that will hold their own scripts and context roots.
    
 ```cs
 using UnityEngine;
@@ -145,11 +145,11 @@ public override void SetupContainers() {
 }
 ```
 
-**Hint**: on *Adic* the lifetime of your bindings is the lifetime of your containers. So, you can create as many containers as you want to hold your dependencies.
+**Hint:** on *Adic* the lifetime of your bindings is the lifetime of your containers. So, you can create as many containers as you want to hold your dependencies.
 
 3\. On the `Init()` method, place any code to start your game.
 
-**Note**: the idea of this method is to work as an entry point for your game, like a `main()` method on console applications.
+**Note:** the idea of this method is to work as an entry point for your game, like a `main()` method on console applications.
 
 4\. Attach the context root created by you on an empty game object in your scene.
 
@@ -261,7 +261,7 @@ See <a href="#factories">Factories</a> for more information.
 
 Binds the key type to a singleton of itself or some type on a new game object.
 
-**Good practice:**: to prevent references to destroyed objects, only bind to game objects that won't be destroyed in the scene.
+**Good practice:** to prevent references to destroyed objects, only bind to game objects that won't be destroyed in the scene.
 
 ```cs
 //Binding to itself...
@@ -278,7 +278,7 @@ The newly created game object will have the same name as the key type.
 
 Binds the key type to a singleton `UnityEngine.Component` of itself or some type on a game object of a given name.
 
-**Good practice**: to prevent references to destroyed objects, only bind to game objects that won't be destroyed in the scene.
+**Good practice:** to prevent references to destroyed objects, only bind to game objects that won't be destroyed in the scene.
 
 If the component is not found on the game object, it will be added.
 
@@ -295,7 +295,7 @@ container.Bind<SomeInterface>()().ToGameObject(someMonoBehaviourType, "GameObjec
 
 Binds the key type to a singleton `UnityEngine.Component` of itself or some type on a game object of a given tag.
 
-**Good practice**: to prevent references to destroyed objects, only bind to game objects that won't be destroyed in the scene.
+**Good practice:** to prevent references to destroyed objects, only bind to game objects that won't be destroyed in the scene.
 
 If the component is not found on the game object, it will be added.
 
@@ -314,7 +314,7 @@ Binds the key type to a transient `UnityEngine.Component` of itself or some type
 
 If the component is not found on the game object, it will be added.
 
-**Note**: every resolution of a transient prefab will generate a new instance. So, even if the component resolved from the prefab is destroyed, it won't generate any loose references in the container.
+**Note:** every resolution of a transient prefab will generate a new instance. So, even if the component resolved from the prefab is destroyed, it won't generate any loose references in the container.
 
 ```cs
 //Binding prefab to itself...
@@ -329,7 +329,7 @@ container.Bind<SomeInterface>().ToPrefab(someMonoBehaviourType, "Tag");
 
 Binds the key type to a singleton `UnityEngine.Component` of itself or some type on a newly instantiated prefab.
 
-**Good practice**: to prevent references to destroyed objects, only bind to prefabs that won't be destroyed in the scene.
+**Good practice:** to prevent references to destroyed objects, only bind to prefabs that won't be destroyed in the scene.
 
 ```cs
 //Binding singleton prefab to itself...
@@ -344,11 +344,11 @@ container.Bind<SomeInterface>().ToPrefabSingleton(someMonoBehaviourType, "Tag");
 
 *Adic* will always try to resolve any dependencies the constructor may need by using information from its bindings or trying to instantiate any types that are unknown to the binder.
 
-**Note 1**: if there's more than one constructor, *Adic* always look for the one with less parameteres. However, <a href="#multiple-constructors">it's possible to indicate which constructor should be used</a> on a multi constructor class.
+**Note 1:** if there's more than one constructor, *Adic* always look for the one with less parameteres. However, <a href="#multiple-constructors">it's possible to indicate which constructor should be used</a> on a multi constructor class.
 
-**Note 2**: there's no need to decorate constructors' parameteres with `Inject` attributes.
+**Note 2:** there's no need to decorate constructors' parameteres with `Inject` attributes.
 
-**Note 3**: currently, injection identifiers are not supported on constructors. However, <a href="#conditions">any conditions</a> (that are not identifiers) on types are also applied to the constructor parameters.
+**Note 3:** currently, injection identifiers are not supported on constructors. However, <a href="#conditions">any conditions</a> (that are not identifiers) on types are also applied to the constructor parameters.
 
 ### <a id="member-injection"></a>Member injection
 
@@ -600,7 +600,7 @@ var instances = container.ResolveAll<Type>();
 instances = container.ResolveAll(typeInstance);
 ```
 
-**Note**: currently manual resolution of bindings that has conditions is not supported.
+**Note:** currently manual resolution of bindings that has conditions is not supported.
 
 ### <a id="factories"></a>Factories
 
@@ -673,9 +673,9 @@ namespace MyNamespace.Commands {
 	}
 }
 ```
-**Hint**: it's also possible to wire any dependencies through constructor. However, in this case the dependencies will only be resolved once, during instantiation.
+**Hint:** it's also possible to wire any dependencies through constructor. However, in this case the dependencies will only be resolved once, during instantiation.
 
-**Note**: it's a good practice to place all your commands under the same namespace, so it's easy to register them.
+**Note:** it's a good practice to place all your commands under the same namespace, so it's easy to register them.
 
 ##### Types of commands
 
@@ -731,7 +731,7 @@ namespace MyNamespace.Commands {
 }
 ```
 
-**Note**: When using singleton commands, injection is done only through constructors or injection after command instantiation.
+**Note:** When using singleton commands, injection is done only through constructors or injection after command instantiation.
 
 #### Registering commands
 
@@ -778,7 +778,7 @@ public override void SetupContainers() {
 }
 ```
 
-**Note**: when registering a command, it's placed on the container, so it's easier to resolve it and its dependencies.
+**Note:** when registering a command, it's placed on the container, so it's easier to resolve it and its dependencies.
 
 #### Dispatching commands
 
@@ -818,11 +818,11 @@ namespace MyNamespace {
 }
 ```
 
-**Hint**: commands already have a reference to its dispatcher (`this.dispatcher`).
+**Hint:** commands already have a reference to its dispatcher (`this.dispatcher`).
 
-**Note 1**: when dispatching a command, it's placed in a list in the command dispatcher object, which is the one responsible for pooling and managing existing commands.
+**Note 1:** when dispatching a command, it's placed in a list in the command dispatcher object, which is the one responsible for pooling and managing existing commands.
 
-**Note 2**: commands in the pool that are not singleton are *reinjected* every time they are executed.
+**Note 2:** commands in the pool that are not singleton are *reinjected* every time they are executed.
 
 #### Retaining commands
 
@@ -1104,7 +1104,7 @@ Extensions on *Adic* can be created in 3 ways:
 2. Creating extension methods to any part of the framework;
 3. Creating a container extension, which allows for the interception of internal events, which can alter the inner workings of the framework.
 
-**Note**: always place the public parts of extensions into *Adic* namespace.
+**Note:** always place the public parts of extensions into *Adic* namespace.
 
 To create a *container extension*, which can intercept internal *Adic* events, you have to:
 
@@ -1152,10 +1152,11 @@ All events are available through `Adic.InjectionContainer`.
 
 ## * <a id="general-notes">General notes</a>
 
-1. If an instance is not found, it will be resolved to NULL;
-2. Multiple injections should occur on an array of the desired type;
-3. Order of bindings is controlled by just reordering the bindings;
-4. Adic relies on Unity Test Tools for unit testing. You can download it at [Unity Asset Store](https://www.assetstore.unity3d.com/#!/content/13802).
+1. If an instance is not found, it will be resolved to NULL.
+2. Multiple injections must occur in an array of the desired type.
+3. Order of bindings is controlled by just reordering the bindings during container setup.
+4. Avoid singleton bindings of objects that will be destroyed during execution. This can lead to loose references in the container.
+5. *Adic* relies on Unity Test Tools for unit testing. You can download it at [Unity Asset Store](https://www.assetstore.unity3d.com/#!/content/13802).
 
 ## <a id="examples"></a>Examples
 
