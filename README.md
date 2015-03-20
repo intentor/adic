@@ -1150,7 +1150,7 @@ All events are available through `Adic.InjectionContainer`.
 * `beforeInject`: occurs before an instance receives injection.
 * `afterInject`: occurs after an instance receives injection.
 
-## * <a id="general-notes">General notes</a>
+## <a id="general-notes">General notes</a>
 
 1. If an instance is not found, it will be resolved to NULL.
 2. Multiple injections must occur in an array of the desired type.
