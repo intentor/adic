@@ -5,6 +5,12 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Versions 2.2 (2015-03-?)
+
+Unity Binding Extension
+- Added ToResource() method, which binds to any asset (not necessarily a prefab).
+- Updated error messagens.
+
 Version 2.1 (2015-03-12)
 
 Framework

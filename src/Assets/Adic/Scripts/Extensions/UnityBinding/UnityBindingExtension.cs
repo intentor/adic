@@ -10,12 +10,16 @@ namespace Adic {
 	/// Provides binding capabilities to Unity entities.
 	/// </summary>
 	public static class UnityBindingExtension {
+		private const string TYPE_NOT_OBJECT = 
+			"The type must be derived from UnityEngine.Object.";
 		private const string TYPE_NOT_COMPONENT = 
-			"The component type must be derived from UnityEngine.Component.";
+			"The type must be derived from UnityEngine.Component.";
 		private const string GAMEOBJECT_IS_NULL = 
 			"There's no GameObject to bind the type to.";
 		private const string PREFAB_IS_NULL = 
 			"There's no prefab to bind the type to.";
+		private const string RESOURCE_IS_NULL = 
+			"There's no resource to bind the type to.";
 
 		/// <summary>
 		/// Binds the key type to a singleton of itself on a new GameObject.
@@ -234,7 +238,7 @@ namespace Adic {
 		/// <remarks>
 		/// Every resolution of a transient prefab will generate a new instance. So, even
 		/// if the component resolved from the prefab is destroyed, it won't generate any
-		/// loose references in the container.
+		/// missing references in the container.
 		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
@@ -253,7 +257,7 @@ namespace Adic {
 		/// <remarks>
 		/// Every resolution of a transient prefab will generate a new instance. So, even
 		/// if the component resolved from the prefab is destroyed, it won't generate any
-		/// loose references in the container.
+		/// missing references in the container.
 		/// </remarks>
 		/// <typeparam name="Type">The component type to bind the GameObject to.</typeparam>
 		/// <param name="bindingFactory">The original binding factory.</param>
@@ -273,7 +277,7 @@ namespace Adic {
 		/// <remarks>
 		/// Every resolution of a transient prefab will generate a new instance. So, even
 		/// if the component resolved from the prefab is destroyed, it won't generate any
-		/// loose references in the container.
+		/// missing references in the container.
 		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="type">The component type.</param>
@@ -373,6 +377,30 @@ namespace Adic {
 			var gameObject = (GameObject)MonoBehaviour.Instantiate(prefab);
 			
 			return CreateSingletonBinding(bindingFactory, gameObject, type, isGameObject);
+		}
+
+		/// <summary>
+		/// Binds the key type to a singleton <see cref="UnityEngine.Object"/> loaded
+		/// from the Resources folder.
+		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to resources that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
+		/// <param name="bindingFactory">The original binding factory.</param>
+		/// <param name="name">Resource name. It will be loaded using <c>Resources.Load<c/>.</param>
+		/// <returns>The binding condition object related to this binding.</returns>
+		public static IBindingConditionFactory ToResource(this IBindingFactory bindingFactory, string name) {			
+			if (!TypeUtils.IsAssignable(typeof(UnityEngine.Object), bindingFactory.bindingType)) {
+				throw new BindingException(TYPE_NOT_OBJECT);
+			}
+
+			var resource = Resources.Load(name);
+			if (resource == null) {
+				throw new BindingException(RESOURCE_IS_NULL);
+			}
+
+			return bindingFactory.CreateBinding(resource, BindingInstance.Singleton);
 		}
 
 		/// <summary>

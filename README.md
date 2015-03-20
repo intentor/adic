@@ -314,7 +314,7 @@ Binds the key type to a transient `UnityEngine.Component` of itself or some type
 
 If the component is not found on the game object, it will be added.
 
-**Note:** every resolution of a transient prefab will generate a new instance. So, even if the component resolved from the prefab is destroyed, it won't generate any loose references in the container.
+**Note:** every resolution of a transient prefab will generate a new instance. So, even if the component resolved from the prefab is destroyed, it won't generate any missing references in the container.
 
 ```cs
 //Binding prefab to itself...
@@ -336,8 +336,18 @@ Binds the key type to a singleton `UnityEngine.Component` of itself or some type
 container.Bind<SomeMonoBehaviour>().ToPrefabSingleton("Prefabs/Whatever/MyPrefab");
 //...or to another component on the prefab using generics...
 container.Bind<SomeInterface>().ToPrefabSingleton<SomeMonoBehaviour>("Prefabs/Whatever/MyPrefab");
-//...or to another component on the prefab using instance tyoe.
+//...or to another component on the prefab using instance type.
 container.Bind<SomeInterface>().ToPrefabSingleton(someMonoBehaviourType, "Tag");
+```
+
+#### To resource
+
+Binds the key type to a singleton `UnityEngine.Object` loaded from the Resources folder.
+
+**Good practice:** To prevent references to destroyed objects, only bind to resources that won't be destroyed in the scene.
+
+```cs
+container.Bind<AudioClip>().ToResource("Audio/MyAudio");
 ```
 
 ### <a id="constructor-injection"></a>Constructor injection
@@ -1155,7 +1165,7 @@ All events are available through `Adic.InjectionContainer`.
 1. If an instance is not found, it will be resolved to NULL.
 2. Multiple injections must occur in an array of the desired type.
 3. Order of bindings is controlled by just reordering the bindings during container setup.
-4. Avoid singleton bindings of objects that will be destroyed during execution. This can lead to loose references in the container.
+4. Avoid singleton bindings of objects that will be destroyed during execution. This can lead to missing references in the container.
 5. *Adic* relies on Unity Test Tools for unit testing. You can download it at [Unity Asset Store](https://www.assetstore.unity3d.com/#!/content/13802).
 
 ## <a id="examples"></a>Examples
