@@ -261,7 +261,7 @@ See <a href="#factories">Factories</a> for more information.
 
 Binds the key type to a singleton of itself or some type on a new game object.
 
-**Note**: to prevent references to destroyed objects, only bind to game objects that won't be destroyed in the scene.
+**Good practice:**: to prevent references to destroyed objects, only bind to game objects that won't be destroyed in the scene.
 
 ```cs
 //Binding to itself...
