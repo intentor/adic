@@ -261,6 +261,8 @@ See <a href="#factories">Factories</a> for more information.
 
 Binds the key type to a singleton of itself or some type on a new game object.
 
+**Note**: to prevent references to destroyed objects, only bind to game objects that won't be destroyed in the scene.
+
 ```cs
 //Binding to itself...
 container.Bind<SomeMonoBehaviour>().ToGameObject();
@@ -276,6 +278,8 @@ The newly created game object will have the same name as the key type.
 
 Binds the key type to a singleton `UnityEngine.Component` of itself or some type on a game object of a given name.
 
+**Good practice**: to prevent references to destroyed objects, only bind to game objects that won't be destroyed in the scene.
+
 If the component is not found on the game object, it will be added.
 
 ```cs
@@ -290,6 +294,8 @@ container.Bind<SomeInterface>()().ToGameObject(someMonoBehaviourType, "GameObjec
 #### To game object with tag
 
 Binds the key type to a singleton `UnityEngine.Component` of itself or some type on a game object of a given tag.
+
+**Good practice**: to prevent references to destroyed objects, only bind to game objects that won't be destroyed in the scene.
 
 If the component is not found on the game object, it will be added.
 
@@ -308,6 +314,8 @@ Binds the key type to a transient `UnityEngine.Component` of itself or some type
 
 If the component is not found on the game object, it will be added.
 
+**Note**: every resolution of a transient prefab will generate a new instance. So, even if the component resolved from the prefab is destroyed, it won't generate any loose references in the container.
+
 ```cs
 //Binding prefab to itself...
 container.Bind<SomeMonoBehaviour>().ToPrefab("Prefabs/Whatever/MyPrefab");
@@ -320,6 +328,8 @@ container.Bind<SomeInterface>().ToPrefab(someMonoBehaviourType, "Tag");
 #### To prefab singleton
 
 Binds the key type to a singleton `UnityEngine.Component` of itself or some type on a newly instantiated prefab.
+
+**Good practice**: to prevent references to destroyed objects, only bind to prefabs that won't be destroyed in the scene.
 
 ```cs
 //Binding singleton prefab to itself...

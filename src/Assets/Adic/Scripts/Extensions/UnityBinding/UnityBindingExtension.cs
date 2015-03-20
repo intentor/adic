@@ -23,6 +23,10 @@ namespace Adic {
 		/// The key type must be derived either from <see cref="UnityEngine.GameObject"/>
 		/// or <see cref="UnityEngine.Component"/>.
 		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to game objects that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
 		public static IBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory) {
@@ -33,6 +37,10 @@ namespace Adic {
 		/// Binds the key type to a singleton <see cref="UnityEngine.Component"/>
 		/// of <typeparamref name="T"/> on a new GameObject.
 		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to game objects that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
 		/// <typeparam name="T">The component type to bind the GameObject to.</typeparam>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
@@ -44,6 +52,10 @@ namespace Adic {
 		/// Binds the key type to a singleton <see cref="UnityEngine.Component"/>
 		/// of <paramref name="type"/> on a new GameObject.
 		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to game objects that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="type">The component type.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
@@ -60,6 +72,10 @@ namespace Adic {
 		/// 
 		/// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
 		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to game objects that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">The GameObject name.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
@@ -73,6 +89,10 @@ namespace Adic {
 		/// 
 		/// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
 		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to game objects that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
 		/// <typeparam name="Type">The component type to bind the GameObject to.</typeparam>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">The GameObject name.</param>
@@ -93,6 +113,10 @@ namespace Adic {
 		/// 
 		/// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
 		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to game objects that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="type">The component type.</param>
 		/// <param name="name">The GameObject name.</param>
@@ -129,6 +153,10 @@ namespace Adic {
 		/// 
 		/// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
 		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to game objects that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="tag">The GameObject tag.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
@@ -144,6 +172,10 @@ namespace Adic {
 		/// 
 		/// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
 		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to game objects that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
 		/// <typeparam name="Type">The component type to bind the GameObject to.</typeparam>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="tag">The GameObject tag.</param>
@@ -166,6 +198,10 @@ namespace Adic {
 		/// 
 		/// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
 		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to game objects that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="type">The component type.</param>
 		/// <param name="tag">The GameObject tag.</param>
@@ -195,6 +231,11 @@ namespace Adic {
 		/// If the <see cref="UnityEngine.Component"/> is not found on the prefab
 		/// at the moment of the instantiation, it will be added.
 		/// </summary>
+		/// <remarks>
+		/// Every resolution of a transient prefab will generate a new instance. So, even
+		/// if the component resolved from the prefab is destroyed, it won't generate any
+		/// loose references in the container.
+		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
@@ -209,6 +250,11 @@ namespace Adic {
 		/// If the <see cref="UnityEngine.Component"/> is not found on the prefab
 		/// at the moment of the instantiation, it will be added.
 		/// </summary>
+		/// <remarks>
+		/// Every resolution of a transient prefab will generate a new instance. So, even
+		/// if the component resolved from the prefab is destroyed, it won't generate any
+		/// loose references in the container.
+		/// </remarks>
 		/// <typeparam name="Type">The component type to bind the GameObject to.</typeparam>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
@@ -224,6 +270,11 @@ namespace Adic {
 		/// If the <see cref="UnityEngine.Component"/> is not found on the prefab
 		/// at the moment of the instantiation, it will be added.
 		/// </summary>
+		/// <remarks>
+		/// Every resolution of a transient prefab will generate a new instance. So, even
+		/// if the component resolved from the prefab is destroyed, it won't generate any
+		/// loose references in the container.
+		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="type">The component type.</param>
 		/// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
@@ -258,6 +309,10 @@ namespace Adic {
 		/// The key type must be derived either from <see cref="UnityEngine.GameObject"/>
 		/// or <see cref="UnityEngine.Component"/>.
 		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to prefabs that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">Prefab name.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
@@ -272,6 +327,10 @@ namespace Adic {
 		/// If the <see cref="UnityEngine.Component"/> is not found on the prefab
 		/// at the moment of the instantiation, it will be added.
 		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to prefabs that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
 		/// <typeparam name="Type">The component type to bind the GameObject to.</typeparam>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
@@ -287,6 +346,10 @@ namespace Adic {
 		/// If the <see cref="UnityEngine.Component"/> is not found on the prefab
 		/// at the moment of the instantiation, it will be added.
 		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to prefabs that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="type">The component type.</param>
 		/// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
