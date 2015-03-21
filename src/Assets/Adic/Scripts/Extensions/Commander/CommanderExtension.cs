@@ -12,10 +12,19 @@ namespace Adic {
 	/// </summary>
 	public static class CommanderExtensions  {
 		/// <summary>
+		/// Gets the command dispatcher in the container.
+		/// </summary>
+		/// <param name="container">The container in which the command is registered.</param>
+		/// <returns>The command dispatcher.</returns>
+		public static ICommandDispatcher GetCommandDispatcher(this IInjectionContainer container) {
+			return container.Resolve<ICommandDispatcher>();
+		}
+
+		/// <summary>
 		/// Register a command of type <typeparamref name="T"/>.
 		/// </summary>
-		/// <param name="container">The container in which the command will be registered.</param>
 		/// <typeparam name="T">The type of the command to be registered.</typeparam>
+		/// <param name="container">The container in which the command will be registered.</param>
 		public static void RegisterCommand<T>(this IInjectionContainer container) where T : ICommand, new() {
 			container.RegisterCommand(typeof(T));
 		}
