@@ -655,7 +655,7 @@ container.Bind<SomeType>().ToFactory(factoryInstance);
 
 ### <a id="bindings-setup"></a>Bindings setup
 
-Sometimes the bindings list can become (very) large and bloat the `SetupContainers()` method of the context root. For better organization, it's possible to create a reusable object which will group and setup related bindings in a given container.
+Sometimes the bindings list can become (very) large and bloat the `SetupContainers()` method of the context root. For better organization, it's possible to create reusable objects which will group and setup related bindings in a given container.
 
 To create a bindings setup object, implement the `Adic.IBindingsSetup` interface:
 
@@ -676,7 +676,7 @@ namespace MyNamespace.Bindings {
 }
 ```
 
-To perform a bindings setup, call the `SetupBindings()` method in the container:
+To perform a bindings setup, call the `SetupBindings()` method in the container, passing the binding setup object as a parameter:
 
 ```cs
 //Setup by generics...
