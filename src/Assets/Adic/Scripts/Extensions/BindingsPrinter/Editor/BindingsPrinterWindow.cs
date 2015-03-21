@@ -4,7 +4,7 @@ using Adic;
 
 namespace Adic.Extenstions.BindingsPrinter {
 	/// <summary>
-	/// Prints bindings.
+	/// Prints bindings from containers in the current scene.
 	/// </summary>
 	public class BindingsPrinterWindow : EditorWindow {
 		/// <summary>Current editor.</summary>
@@ -26,6 +26,12 @@ namespace Adic.Extenstions.BindingsPrinter {
 			if (!Application.isPlaying) {
 				GUI.Label(new Rect(0, 0, Screen.width, Screen.height), 
 					"Please execute the bindings printer on Play Mode", EditorStyles.message);
+				return;
+			}
+
+			if (ContextRoot.containersData == null || ContextRoot.containersData.Count == 0) {
+				GUI.Label(new Rect(0, 0, Screen.width, Screen.height), 
+					"There are no containers in the current scene", EditorStyles.message);
 				return;
 			}
 
