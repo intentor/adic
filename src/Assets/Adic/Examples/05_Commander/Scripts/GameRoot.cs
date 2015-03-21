@@ -25,7 +25,7 @@ namespace Adic.Examples.Commander {
 			container.RegisterCommands("Adic.Examples.Commander.Commands");
 
 			//Get a reference to the command dispatcher.
-			this.dispatcher = container.Resolve<ICommandDispatcher>();
+			this.dispatcher = container.GetCommandDispatcher();
 
 			//Add the container to the context.
 			this.AddContainer(container);
