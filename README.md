@@ -108,10 +108,6 @@ The structure of *Adic* is divided into five parts:
 ## <a id="quick-start"></a>Quick start
 
 1\. Create the context root (e.g. GameRoot.cs) of your scene by inheriting from `Adic.ContextRoot`.
-
-**Note:** there should be only one context root per scene.
-
-**Hint:** when using a context root for each scene of your game, to make the project more organized, create folders for each of your scenes that will hold their own scripts and context roots.
    
 ```cs
 using UnityEngine;
@@ -131,6 +127,10 @@ namespace MyNamespace {
 	}
 }
 ```
+
+**Note:** there should be only one context root per scene.
+
+**Hint:** when using a context root for each scene of your game, to make the project more organized, create folders for each of your scenes that will hold their own scripts and context roots.
    
 2\. In the `SetupContainers()` method, create and add any containers will may need, also configuring their bindings.
 
