@@ -111,7 +111,7 @@ The structure of *Adic* is divided into five parts:
 
 **Note:** there should be only one context root per scene.
 
-**Hint:** when using a context root for each scene of your game, to make the project more organized, on `Scripts` folder create folders for each of your scenes that will hold their own scripts and context roots.
+**Hint:** when using a context root for each scene of your game, to make the project more organized, create folders for each of your scenes that will hold their own scripts and context roots.
    
 ```cs
 using UnityEngine;
@@ -132,7 +132,7 @@ namespace MyNamespace {
 }
 ```
    
-2\. On `SetupContainers()` method, create and add any containers will may need, configuring their bindings.
+2\. In the `SetupContainers()` method, create and add any containers will may need, also configuring their bindings.
 
 ```cs
 public override void SetupContainers() {
@@ -147,7 +147,7 @@ public override void SetupContainers() {
 }
 ```
 
-**Hint:** on *Adic* the lifetime of your bindings is the lifetime of your containers. So, you can create as many containers as you want to hold your dependencies.
+**Hint:** in *Adic*, the lifetime of your bindings is the lifetime of your containers - you can create as many containers as you want to hold your dependencies.
 
 **Good practice:** if you have many bindings to add to a container, it's better to create reusable objects that can setup related bindings together. Please see <a href="#bindings-setup">Bindings setup</a> for more information.
 
