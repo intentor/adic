@@ -5,7 +5,16 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
-Versions 2.2 (2015-03-?)
+Version 2.2 (2015-03-21)
+
+Bindings Printer Extension
+- Fixed displaying of window when no containers exist.
+
+Bindings Setup Extension
+- Added extension.
+
+Commander extension
+- Added method GetCommandDispatcher() as extension to IInjectionContainer.
 
 Unity Binding Extension
 - Added ToResource() method, which binds to any asset (not necessarily a prefab).
