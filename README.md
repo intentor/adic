@@ -107,7 +107,7 @@ The structure of *Adic* is divided into five parts:
 
 ## <a id="quick-start"></a>Quick start
 
-1\. Create the context root (e. g. GameRoot.cs) of your scene by inheriting from `Adic.ContextRoot`.
+1\. Create the context root (e.g. GameRoot.cs) of your scene by inheriting from `Adic.ContextRoot`.
 
 **Note:** there should be only one context root per scene.
 
