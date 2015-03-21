@@ -24,12 +24,14 @@
 	9. <a href="#dispose">Dispose</a>
 	10. <a href="#manual-type-resolution">Manual type resolution</a>
 	11. <a href="#factories">Factories</a>
-	12. <a href="#using-commands">Using commands</a>
+	12. <a href="#bindings-setup">Bindings setup</a>
+	13. <a href="#using-commands">Using commands</a>
 6. <a href="#order-of-events">Order of events
 7. <a href="#performance">Performance
 8. <a href="#container-extensions">Extensions</a>
 	1. <a href="#available-extensions">Available extensions</a>
 		1. <a href="#extension-bindings-printer">Bindings Printer</a>
+		1. <a href="#extension-bindings-setup">Bindings Setup</a>
 		2. <a href="#extension-commander">Commander</a>
 		3. <a href="#extension-context-root">Context Root</a>
 		4. <a href="#extension-event-caller">Event Caller</a>
@@ -130,7 +132,7 @@ namespace MyNamespace {
 }
 ```
    
-2\. On `SetupContainers()` method, create and add any containers will may need.
+2\. On `SetupContainers()` method, create and add any containers will may need, configuring their bindings.
 
 ```cs
 public override void SetupContainers() {
@@ -146,6 +148,8 @@ public override void SetupContainers() {
 ```
 
 **Hint:** on *Adic* the lifetime of your bindings is the lifetime of your containers. So, you can create as many containers as you want to hold your dependencies.
+
+**Good practice:** if you have many bindings to add to a container, it's better to create reusable objects that can setup related bindings together. Please see <a href="#bindings-setup">Bindings setup</a> for more information.
 
 3\. On the `Init()` method, place any code to start your game.
 
@@ -649,6 +653,41 @@ container.Bind<SomeType>().ToFactory(typeMyFactory);
 container.Bind<SomeType>().ToFactory(factoryInstance);
 ```
 
+### <a id="bindings-setup"></a>Bindings setup
+
+Sometimes the bindings list can become (very) large and bloat the `SetupContainers()` method of the context root. For better organization, it's possible to create a reusable object which will group and setup related bindings in a given container.
+
+To create a bindings setup object, implement the `Adic.IBindingsSetup` interface:
+
+```cs
+using Adic;
+using Adic.Container;
+
+namespace MyNamespace.Bindings { 
+	/// <summary>
+	/// My bindings.
+	/// </summary>
+	public class MyBindings : IBindingsSetup {
+		public void SetupBindings (IInjectionContainer container) {
+			container.Bind<SomeType>().ToSingleton<AnotherType>();
+			//...more related bindings.
+		}
+	}
+}
+```
+
+To perform a bindings setup, call the `SetupBindings()` method in the container:
+
+```cs
+//Setup by generics...
+container.SetupBindings<MyBindings>();
+//...or by type...
+container.SetupBindings(typeof(MyBindings));
+//...or from an instance.
+var bindings = MyBindings();
+container.SetupBindings(bindings);
+```
+
 ### <a id="using-commands"></a>Using commands
 
 #### What are commands?
@@ -960,6 +999,18 @@ To open the Bindings Printer windows, click on *Windows/Adic/Bindings Printer* m
 #### Dependencies
 
 * <a href="#extension-context-root">Context Root</a>
+
+### <a id="extension-bindings-setup"></a>Bindings Setup
+
+Provides a convenient place to setup bindings and reuse them in different containers and scenes.
+
+#### Configuration
+
+Please see <a href="#bindings-setup">Bindings setup</a> for more information.
+
+#### Dependencies
+
+None
 
 ### <a id="extension-commander"></a>Commander
 
