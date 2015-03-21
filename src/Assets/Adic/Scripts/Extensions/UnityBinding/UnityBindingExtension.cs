@@ -7,7 +7,7 @@ using Adic.Util;
 
 namespace Adic {
 	/// <summary>
-	/// Provides binding capabilities to Unity entities.
+	/// Provides binding capabilities to Unity entities in <see cref="Adic.Container.IInjectionContainer"/>.
 	/// </summary>
 	public static class UnityBindingExtension {
 		private const string TYPE_NOT_OBJECT = 
