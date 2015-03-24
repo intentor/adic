@@ -39,7 +39,7 @@ namespace Adic {
 		/// <param name="type">The type of the command to be dispatched.</typeparam>
 		/// <param name="parameters">Command parameters.</param>
 		public void Dispatch(Type type, params object[] parameters) {
-			if (this.commands.ContainsKey(type)) {
+			if (this.ContainsRegistration(type)) {
 				ICommand command = null;
 
 				var item = this.commands[type];
@@ -134,6 +134,24 @@ namespace Adic {
 					this.commands.Add(commandType, commandPool);
 				}
 			}
+		}
+		
+		/// <summary>
+		/// Checks whether a given command of <typeparamref name="T"/> is registered.
+		/// </summary>
+		/// <typeparam name="T">Command type.</typeparam>
+		/// <returns><c>true</c>, if registration exists, <c>false</c> otherwise.</returns>
+		public bool ContainsRegistration<T>() where T : ICommand {
+			return this.commands.ContainsKey(typeof(T));
+		}
+
+		/// <summary>
+		/// Checks whether a given command of <paramref name="type"/> is registered.
+		/// </summary>
+		/// <param name="type">Command type.</param>
+		/// <returns><c>true</c>, if registration exists, <c>false</c> otherwise.</returns>
+		public bool ContainsRegistration(Type type) {
+			return this.commands.ContainsKey(type);
 		}
 		
 		/// <summary>

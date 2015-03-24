@@ -29,5 +29,19 @@ namespace Adic {
 		/// Releases all commands that are running.
 		/// </summary>
 		void ReleaseAll();
+
+		/// <summary>
+		/// Checks whether a given command of <typeparamref name="T"/> is registered.
+		/// </summary>
+		/// <typeparam name="T">Command type.</typeparam>
+		/// <returns><c>true</c>, if registration exists, <c>false</c> otherwise.</returns>
+		bool ContainsRegistration<T>() where T : ICommand;
+		
+		/// <summary>
+		/// Checks whether a given command of <paramref name="type"/> is registered.
+		/// </summary>
+		/// <param name="type">Command type.</param>
+		/// <returns><c>true</c>, if registration exists, <c>false</c> otherwise.</returns>
+		bool ContainsRegistration(Type type);
 	}
 }

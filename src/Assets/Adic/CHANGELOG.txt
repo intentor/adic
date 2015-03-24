@@ -8,6 +8,7 @@
 Version 2.3 (2015-?-?)
 
 Commander extension
+- Added method `ContainsRegistration()` to `Adic.ICommandDispatcher` for checking whether a dispatcher contains a given command registration.
 - Updated registration of commands using namespaces to find commands on children namespaces.
 
 Version 2.2 (2015-03-21)
