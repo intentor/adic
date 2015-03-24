@@ -838,6 +838,8 @@ container.RegisterCommands("MyNamespace.Commands", false);
 
 #### Dispatching commands
 
+##### From code
+
 To dispatch a command, just call the `Dispatch()` method on `Adic.ICommandDispatcher`, using either the generics or the by `System.Type` versions:
 
 ```cs
@@ -879,6 +881,28 @@ namespace MyNamespace {
 **Note 1:** when dispatching a command, it's placed in a list in the command dispatcher object, which is the one responsible for pooling and managing existing commands.
 
 **Note 2:** commands in the pool that are not singleton are *reinjected* every time they are executed.
+
+##### From game objects
+
+It's possible to dispatch commands directly from game objects without the need to write any code using the components available in the <a href="#extension-commander">Commander extension</a>.
+
+To use them, just add the desired component to a game object.
+
+###### Command Dispatch
+
+Provides a routine to call a given command. The routine name is `DispatchCommand()`.
+
+Using this component, you can e.g. call the `DispatchCommand()` method from a button in the UI or in your code.
+
+It can be found at the `Component/Adic/Commander/Command dispatch` menu.
+
+###### Timed Command Dispatch
+
+Dispatches a command based on a timer.
+
+This component also provides the `DispatchCommand()` routine, in case you want to call it before the timer ends.
+
+It can be found at the `Component/Adic/Commander/Timed command dispatch` menu.
 
 #### Retaining commands
 
