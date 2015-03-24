@@ -46,6 +46,17 @@ namespace Adic {
 
 			container.Bind<ICommand>().To(type);
 		}
+		
+		/// <summary>
+		/// Register all commands from a given namespace and its children namespaces.
+		/// 
+		/// After registration, all commands are pooled.
+		/// </summary>
+		/// <param name="container">The container in which the command will be registered.</param>
+		/// <param name="namespaceName">Namespace name.</param>
+		public static void RegisterCommands(this IInjectionContainer container, string namespaceName) {
+			container.RegisterCommands(namespaceName, true);
+		}
 
 		/// <summary>
 		/// Register all commands from a given namespace.
@@ -53,12 +64,18 @@ namespace Adic {
 		/// After registration, all commands are pooled.
 		/// </summary>
 		/// <param name="container">The container in which the command will be registered.</param>
+		/// <param name="includeChildren">Indicates whether child namespaces should be included.</param>
 		/// <param name="namespaceName">Namespace name.</param>
-		public static void RegisterCommands(this IInjectionContainer container, string namespaceName) {
+		public static void RegisterCommands(this IInjectionContainer container, string namespaceName, bool includeChildren) {
 			var commandType = typeof(ICommand);
 			var commands = 
 				from t in Assembly.GetExecutingAssembly().GetTypes()
-				where t.IsClass && t.Namespace == namespaceName && commandType.IsAssignableFrom(t)
+				where t.IsClass && 
+					(
+						(includeChildren && !string.IsNullOrEmpty(t.Namespace) && t.Namespace.StartsWith(namespaceName)) ||
+						(!includeChildren && t.Namespace == namespaceName)
+					) &&
+					commandType.IsAssignableFrom(t)
 				select t;
 			
 			foreach (var type in commands) {

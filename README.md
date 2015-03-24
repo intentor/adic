@@ -813,6 +813,8 @@ namespace MyNamespace {
 }
 ```
 
+**Note:** when registering a command, it's placed on the container, so it's easier to resolve it and its dependencies.
+
 It's also possible to register all commands under the same namespace by calling the `RegisterCommands()` method on the container and passing the full name of the namespace:
 
 ```cs
@@ -825,9 +827,14 @@ public override void SetupContainers() {
 	//Register all commands under the namespace "MyNamespace.Commands".
 	container.RegisterCommands("MyNamespace.Commands");
 }
+
 ```
 
-**Note:** when registering a command, it's placed on the container, so it's easier to resolve it and its dependencies.
+**Note:** the default behaviour of `RegisterCommands()` is to register all commands under the given namespace and all its children namespaces. If you need that only commands in the given namespace are registered, use the overload that allows indication of children namespace evaluation:
+
+```cs
+container.RegisterCommands("MyNamespace.Commands", false);
+```
 
 #### Dispatching commands
 

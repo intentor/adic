@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.3 (2015-?-?)
+
+Commander extension
+- Updated registration of commands using namespaces to find commands on children namespaces.
+
 Version 2.2 (2015-03-21)
 
 Bindings Printer Extension
