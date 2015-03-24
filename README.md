@@ -784,7 +784,7 @@ namespace MyNamespace.Commands {
 
 #### Registering commands
 
-To register a command, call the `Register()` method on the container, usually on the context root:
+To register a command, call the `Register()` method on the container, usually in the context root:
 
 ```cs
 using UnityEngine;
@@ -813,7 +813,7 @@ namespace MyNamespace {
 }
 ```
 
-**Note:** when registering a command, it's placed on the container, so it's easier to resolve it and its dependencies.
+**Note:** when registering a command, it's placed in the container, so it's easier to resolve it and its dependencies.
 
 It's also possible to register all commands under the same namespace by calling the `RegisterCommands()` method on the container and passing the full name of the namespace:
 
