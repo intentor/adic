@@ -815,7 +815,7 @@ namespace MyNamespace {
 
 **Note:** when registering a command, it's placed in the container, so it's easier to resolve it and its dependencies.
 
-It's also possible to register all commands under the same namespace by calling the `RegisterCommands()` method on the container and passing the full name of the namespace:
+It's also possible to register all commands under the same namespace by calling the `RegisterCommands()` method in the container and passing the full name of the namespace:
 
 ```cs
 public override void SetupContainers() {
