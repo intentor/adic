@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Adic {
 	/// <summary>
@@ -18,7 +19,7 @@ namespace Adic {
 		/// <param name="type">The type of the command to be dispatched.</typeparam>
 		/// <param name="parameters">Command parameters.</param>
 		void Dispatch(Type type, params object[] parameters);
-
+		
 		/// <summary>
 		/// Releases a command.
 		/// </summary>
@@ -29,7 +30,7 @@ namespace Adic {
 		/// Releases all commands that are running.
 		/// </summary>
 		void ReleaseAll();
-
+		
 		/// <summary>
 		/// Checks whether a given command of <typeparamref name="T"/> is registered.
 		/// </summary>
@@ -43,5 +44,11 @@ namespace Adic {
 		/// <param name="type">Command type.</param>
 		/// <returns><c>true</c>, if registration exists, <c>false</c> otherwise.</returns>
 		bool ContainsRegistration(Type type);
+
+		/// <summary>
+		/// Gets all commands registered in the command dispatcher.
+		/// </summary>
+		/// <returns>All available registrations.</returns>
+		Type[] GetAllRegistrations();
 	}
 }

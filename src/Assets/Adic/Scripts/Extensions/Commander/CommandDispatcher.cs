@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Adic.Commander.Exceptions;
 using Adic.Container;
 
@@ -152,6 +153,14 @@ namespace Adic {
 		/// <returns><c>true</c>, if registration exists, <c>false</c> otherwise.</returns>
 		public bool ContainsRegistration(Type type) {
 			return this.commands.ContainsKey(type);
+		}
+
+		/// <summary>
+		/// Gets all commands registered in the command dispatcher.
+		/// </summary>
+		/// <returns>All available registrations.</returns>
+		public Type[] GetAllRegistrations() {
+			return this.commands.Keys.ToArray();
 		}
 		
 		/// <summary>
