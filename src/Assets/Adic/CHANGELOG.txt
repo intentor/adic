@@ -26,7 +26,7 @@ Commander extension
 
 Unity Binding Extension
 - Added ToResource() method, which binds to any asset (not necessarily a prefab).
-- Updated error messagens.
+- Updated error messages.
 
 Version 2.1 (2015-03-12)
 
