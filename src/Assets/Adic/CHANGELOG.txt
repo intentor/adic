@@ -11,7 +11,7 @@ Commander extension
 - Added TimedCommandDispatch and CommandDispatch components.
 - Added method ContainsRegistration() to Adic.ICommandDispatcher for checking whether a dispatcher contains a given command registration.
 - Added method GetAllRegistrations() to Adic.ICommandDispatcher to list all registered commands in a dispatcher.
-- Updated registration of commands using namespaces to find commands on children namespaces.
+- Updated registration of commands using namespaces to find commands in children namespaces.
 
 Version 2.2 (2015-03-21)
 
