@@ -73,6 +73,38 @@ namespace Adic.Tests {
 		}
 
 		[Test]
+		public void TestBindingToNamespaceTransient() {
+			var binder = new Binder();
+
+			binder.Bind<IMockInterface>().ToNamespace("Adic.Tests");
+			var bindings = binder.GetBindingsFor<IMockInterface>();
+
+			Assert.AreEqual(3, bindings.Count);
+			Assert.AreEqual(BindingInstance.Transient, bindings[0].instanceType);
+			Assert.AreEqual(BindingInstance.Transient, bindings[1].instanceType);
+			Assert.AreEqual(BindingInstance.Transient, bindings[2].instanceType);
+			Assert.AreEqual(typeof(MockIClass), bindings[0].value);
+			Assert.AreEqual(typeof(MockIClassWithoutAttributes), bindings[1].value);
+			Assert.AreEqual(typeof(MockIClassWithAttributes), bindings[2].value);
+		}
+		
+		[Test]
+		public void TestBindingToNamespaceSingleton() {
+			var binder = new Binder();
+			
+			binder.Bind<IMockInterface>().ToNamespaceSingleton("Adic.Tests");
+			var bindings = binder.GetBindingsFor<IMockInterface>();
+
+			Assert.AreEqual(3, bindings.Count);
+			Assert.AreEqual(BindingInstance.Singleton, bindings[0].instanceType);
+			Assert.AreEqual(BindingInstance.Singleton, bindings[1].instanceType);
+			Assert.AreEqual(BindingInstance.Singleton, bindings[2].instanceType);
+			Assert.AreEqual(typeof(MockIClass), bindings[0].value);
+			Assert.AreEqual(typeof(MockIClassWithoutAttributes), bindings[1].value);
+			Assert.AreEqual(typeof(MockIClassWithAttributes), bindings[2].value);
+		}
+
+		[Test]
 		public void TestBindingToFactoryGenericsFromInterface() {
 			var binder = new Binder();
 			

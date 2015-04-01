@@ -60,6 +60,36 @@ namespace Adic.Tests {
 			Assert.AreEqual(typeof(MockIClassWithAttributes), instance.list[1].GetType());
 			Assert.AreEqual(typeof(MockIClassWithoutAttributes), instance.list[2].GetType());
 		}
+
+		[Test]
+		public void TestResolveToNamespaceTransient() {
+			var container = new InjectionContainer();
+			
+			container.Bind<IMockInterface>().ToNamespace("Adic.Tests");
+			var instance = container.ResolveAll<IMockInterface>();
+
+			Assert.AreEqual(3, instance.Length);
+			Assert.IsTrue(instance[0] is MockIClass);
+			Assert.IsTrue(instance[1] is MockIClassWithoutAttributes);
+			Assert.IsTrue(instance[2] is MockIClassWithAttributes);
+		}
+		
+		[Test]
+		public void TestResolveToNamespaceSingleton() {
+			var container = new InjectionContainer();
+			
+			container.Bind<IMockInterface>().ToNamespaceSingleton("Adic.Tests");
+			var bindings = container.GetBindingsFor<IMockInterface>();
+			var instance = container.ResolveAll<IMockInterface>();
+			
+			Assert.AreEqual(3, instance.Length);
+			Assert.IsTrue(instance[0] is MockIClass);
+			Assert.IsTrue(instance[1] is MockIClassWithoutAttributes);
+			Assert.IsTrue(instance[2] is MockIClassWithAttributes);
+			Assert.IsTrue(instance[0] == bindings[0].value);
+			Assert.IsTrue(instance[1] == bindings[1].value);
+			Assert.IsTrue(instance[2] == bindings[2].value);
+		}
 		
 		[Test]
 		public void TestResolveFromNoBoundType() {

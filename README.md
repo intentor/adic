@@ -248,6 +248,30 @@ container.Bind<InterfaceType>().To<ClassType>(instanceOfClassType);
 container.Bind<InterfaceType>().To(classTypeObject, instanceOfClassType);
 ```
 
+#### To all types in a namespace as transient
+
+Binds the key type to all assignable types in a given namespace as transient bindings.
+
+**Note 1:** it will create a <a href="#multiple-injection">multiple binding</a> if there's more than one type in the namespace that is assignable to the key type.
+
+**Note 2:** currently it's not possible to use conditions when binding to all types in a namespace.
+
+```cs
+container.Bind<SomeType>().ToNamespace("MyNamespace.Whatever");
+```
+
+#### To all types in a namespace as singleton
+
+Binds the key type to all assignable types in a given namespace as singleton bindings.
+
+**Note 1:** it will create a <a href="#multiple-injection">multiple binding</a> if there's more than one type in the namespace that is assignable to the key type.
+
+**Note 2:** currently it's not possible to use conditions when binding to all types in a namespace.
+
+```cs
+container.Bind<SomeType>().ToNamespaceSingleton("MyNamespace.Whatever");
+```
+
 #### To a Factory
 
 Binds the key type to a factory. The factory must implement the `Adic.IFactory` interface.
