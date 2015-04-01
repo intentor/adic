@@ -12,6 +12,7 @@ Framework
 - Added method GetAssignableTypesInNamespace() to TypeUtils.
 - Updated IFactory interface to receive an InjectionContext object when creating objects.
 - Removed private method IsAssignable() from BindingFactory.
+- Fixed type of parentType field in InjectionContext.
 
 Commander extension
 - Updated name of class CommanderExtensions to CommanderExtension (doesn't affect any existing code that uses the extension).
