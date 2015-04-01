@@ -157,7 +157,12 @@ namespace Adic.Tests {
 		public Type factoryType { get { return typeof(MockIClassWithAttributes); } }
 
 		public object Create(InjectionContext context) {
-			return new MockIClassWithAttributes();
+			var obj = new MockIClassWithAttributes();
+			obj.field1 = 
+				obj.field2 = 
+					obj.field3 = "Created from a Factory";
+
+			return obj;
 		}
 	}
 }
