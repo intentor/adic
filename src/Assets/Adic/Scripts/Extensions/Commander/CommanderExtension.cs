@@ -10,7 +10,7 @@ namespace Adic {
 	/// <summary>
 	/// Provides command registration capabilities to containers.
 	/// </summary>
-	public static class CommanderExtensions  {
+	public static class CommanderExtension  {
 		/// <summary>
 		/// Gets the command dispatcher in the container.
 		/// </summary>
