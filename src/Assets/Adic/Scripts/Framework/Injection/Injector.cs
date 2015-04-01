@@ -268,7 +268,7 @@ namespace Adic.Injection {
 					member = member,
 					memberType = type,
 					identifier = identifier,
-					parentType = parentInstance.GetType(),
+					parentType = (parentInstance != null ? parentInstance.GetType() : null),
 					parentInstance = parentInstance,
 					injectType = binding.type
 				};
@@ -305,7 +305,7 @@ namespace Adic.Injection {
 						member = member,
 						memberType = type,
 						identifier = identifier,
-						parentType = parentInstance.GetType(),
+						parentType = (parentInstance != null ? parentInstance.GetType() : null),
 						parentInstance = parentInstance,
 						injectType = binding.type
 					};
