@@ -654,19 +654,22 @@ namespace MyNamespace {
 	public class MyFactory : Adic.IFactory {
 		/// <summary>Type the factory creates.</summary>
 		Type factoryType { 
-			get { return typeof(FactoryObjectType); } 
+			get { return typeof(MyObjectType); } 
 		}
 
 		/// <summary>
 		/// Creates an instance of the object of the type created by the factory.
 		/// </summary>
+		/// <param name="context">Injection context.</param>
 		/// <returns>The instance.</returns>
-		public object Create() {
+		public object Create(InjectionContext context);
 			...
 		}
 	}
 }
 ```
+
+The `InjectionContext` object contains information about the current injection/resolution, which can be used to help deciding how the instance will be created by the factory.
 
 To bind a type to a factory class, use the `ToFactory()`:
 
