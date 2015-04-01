@@ -301,7 +301,16 @@ namespace Adic.Injection {
 				if (binding.instanceType == BindingInstance.Transient) {
 					instance = this.Instantiate(binding.value as Type);
 				} else if (binding.instanceType == BindingInstance.Factory) {
-					instance = (binding.value as IFactory).Create();
+					var context = new InjectionContext() {
+						member = member,
+						memberType = type,
+						identifier = identifier,
+						parentType = parentInstance.GetType(),
+						parentInstance = parentInstance,
+						injectType = binding.type
+					};
+
+					instance = (binding.value as IFactory).Create(context);
 				} else {
 					//Binding is a singleton object.
 					

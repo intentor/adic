@@ -10,6 +10,7 @@ Version 2.4 (2015-04-01)
 Framework
 - Added method ToNamespace() to IBindingFactory.
 - Added method GetAssignableTypesInNamespace() to TypeUtils.
+- Updated IFactory interface to receive an InjectionContext object when creating objects.
 - Removed private method IsAssignable() from BindingFactory.
 
 Commander extension

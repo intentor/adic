@@ -1,7 +1,8 @@
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Adic;
-using UnityEngine;
+using Adic.Injection;
 
 namespace Adic.Tests {
 	/// <summary>
@@ -155,7 +156,7 @@ namespace Adic.Tests {
 	public class MockFactory : IFactory {
 		public Type factoryType { get { return typeof(MockIClassWithAttributes); } }
 
-		public object Create() {
+		public object Create(InjectionContext context) {
 			return new MockIClassWithAttributes();
 		}
 	}
