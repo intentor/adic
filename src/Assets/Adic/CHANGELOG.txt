@@ -8,15 +8,15 @@
 Version 2.4 (2015-04-01)
 
 Framework
-- Added method ToNamespace() to IBindingFactory.
+- Added methods ToNamespace() and ToNamespaceSingleton() to IBindingFactory.
 - Added method GetAssignableTypesInNamespace() to TypeUtils.
 - Updated IFactory interface to receive an InjectionContext object when creating objects.
 - Removed private method IsAssignable() from BindingFactory.
 - Fixed type of parentType field in InjectionContext.
-- Fixed NullReferenceException when getting the parent type from a parent instance for InjectionContext.
+- Fixed NullReferenceException when getting the type from a parent instance for InjectionContext.
 
 Commander extension
-- Updated name of class CommanderExtensions to CommanderExtension (doesn't affect any existing code that uses the extension).
+- Updated name of CommanderExtensions class to CommanderExtension (doesn't affect any existing code that uses the extension).
 
 Version 2.3 (2015-03-24)
 
