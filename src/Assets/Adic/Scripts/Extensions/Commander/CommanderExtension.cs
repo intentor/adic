@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
-using System.Reflection;
 using Adic.Commander.Exceptions;
 using Adic.Container;
 using Adic.Exceptions;
+using Adic.Util;
 
 namespace Adic {
 	/// <summary>
@@ -66,20 +65,13 @@ namespace Adic {
 		/// <param name="container">The container in which the command will be registered.</param>
 		/// <param name="includeChildren">Indicates whether child namespaces should be included.</param>
 		/// <param name="namespaceName">Namespace name.</param>
-		public static void RegisterCommands(this IInjectionContainer container, string namespaceName, bool includeChildren) {
-			var commandType = typeof(ICommand);
-			var commands = 
-				from t in Assembly.GetExecutingAssembly().GetTypes()
-				where t.IsClass && 
-					(
-						(includeChildren && !string.IsNullOrEmpty(t.Namespace) && t.Namespace.StartsWith(namespaceName)) ||
-						(!includeChildren && t.Namespace == namespaceName)
-					) &&
-					commandType.IsAssignableFrom(t)
-				select t;
+		public static void RegisterCommands(this IInjectionContainer container,
+		    string namespaceName,
+		    bool includeChildren) {
+			var commands = TypeUtils.GetAssignableTypesInNamespace(typeof(ICommand), namespaceName, includeChildren);
 			
-			foreach (var type in commands) {
-				container.Bind<ICommand>().To(type);
+			for (var cmdIndex = 0; cmdIndex < commands.Length; cmdIndex++) {
+				container.Bind<ICommand>().To(commands[cmdIndex]);
 			}
 
 			PoolCommands(container);

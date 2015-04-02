@@ -17,7 +17,7 @@ namespace Adic.Util {
 		public static bool IsAssignable(Type potentialBase, Type potentialDescendant) {
 			return potentialBase.IsAssignableFrom(potentialDescendant);
 		}
-		
+
 		/// <summary>
 		/// Gets all types assignable from a given <paramref name="baseType"/> 
 		/// in a given <paramref name="namespaceName"/>.
@@ -26,6 +26,18 @@ namespace Adic.Util {
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <returns>The assignable types in the namespace.</returns>
 		public static Type[] GetAssignableTypesInNamespace(Type baseType, string namespaceName) {
+			return GetAssignableTypesInNamespace(baseType, namespaceName, false);
+		}
+		
+		/// <summary>
+		/// Gets all types assignable from a given <paramref name="baseType"/> 
+		/// in a given <paramref name="namespaceName"/>.
+		/// </summary>
+		/// <param name="baseType">Base type from which the types in the namespace must be assignable.</param>
+		/// <param name="namespaceName">Namespace name.</param>
+		/// <param name="includeChildren">Indicates whether child namespaces should be included.</param>
+		/// <returns>The assignable types in the namespace.</returns>
+		public static Type[] GetAssignableTypesInNamespace(Type baseType, string namespaceName, bool includeChildren) {
 			var typesToBind = new List<Type>();
 
 			//Fills the assembly list.
@@ -50,7 +62,11 @@ namespace Adic.Util {
 				for (int typeIndex = 0; typeIndex < allTypes.Length; typeIndex++) {
 					var type = allTypes[typeIndex];
 
-					if (type.Namespace == namespaceName && 
+					var isTypeInNamespace = 
+						(includeChildren && !string.IsNullOrEmpty(type.Namespace) && type.Namespace.StartsWith(namespaceName)) ||
+						(!includeChildren && type.Namespace == namespaceName);
+					
+					if (isTypeInNamespace && 
 					    type.IsClass &&
 					    TypeUtils.IsAssignable(baseType, type)) {
 						typesToBind.Add(type);
