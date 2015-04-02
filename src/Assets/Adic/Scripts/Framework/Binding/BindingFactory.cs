@@ -151,7 +151,11 @@ namespace Adic.Binding {
 		/// <param name="type">The factory type.</typeparam>
 		/// <returns>The binding condition object related to this binding.</returns>
 		public IBindingConditionFactory ToFactory(Type type) {
-			return this.ToFactory((IFactory)Activator.CreateInstance(type));
+			if (!TypeUtils.IsAssignable(typeof(IFactory), type)) {
+				throw new BindingException(BindingException.TYPE_NOT_FACTORY);
+			}
+			
+			return this.CreateBinding(type, BindingInstance.Factory);
 		}
 		
 		//// <summary>

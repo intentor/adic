@@ -115,7 +115,7 @@ namespace Adic.Tests {
 			Assert.AreEqual(1, bindings.Count);
 			Assert.AreEqual(BindingInstance.Factory, bindings[0].instanceType);
 			Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
-			Assert.AreEqual(type, bindings[0].value.GetType());
+			Assert.AreEqual(type, bindings[0].value);
 		}
 		
 		[Test]
@@ -129,7 +129,7 @@ namespace Adic.Tests {
 			Assert.AreEqual(1, bindings.Count);
 			Assert.AreEqual(BindingInstance.Factory, bindings[0].instanceType);
 			Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
-			Assert.AreEqual(type, bindings[0].value.GetType());
+			Assert.AreEqual(type, bindings[0].value);
 		}
 		
 		[Test]

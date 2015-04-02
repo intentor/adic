@@ -682,6 +682,8 @@ container.Bind<SomeType>().ToFactory(typeMyFactory);
 container.Bind<SomeType>().ToFactory(factoryInstance);
 ```
 
+**Note:** factories are resolved and injected by the container. So, it's possible to receive dependencies either by construtor or fields/properties.
+
 ### <a id="bindings-setup"></a>Bindings setup
 
 Sometimes the bindings list can become (very) large and bloat the `SetupContainers()` method of the context root. For better organization, it's possible to create reusable objects which will group and setup related bindings in a given container.

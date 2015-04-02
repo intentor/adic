@@ -370,7 +370,8 @@ namespace Adic.Injection {
 		/// <param name="source">The source of the event.</param>
 		/// <param name="binding">The binding to be added, by reference.</param>
 		protected void OnBeforeAddBinding(IBinder source, ref BindingInfo binding) {
-			if (binding.instanceType == BindingInstance.Singleton) {
+			if (binding.instanceType == BindingInstance.Singleton ||
+			    binding.instanceType == BindingInstance.Factory) {
 				if (binding.value is Type) {
 					var value = this.Resolve(binding.value as Type);
 					binding.value = value;

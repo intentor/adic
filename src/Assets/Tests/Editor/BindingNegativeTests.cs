@@ -68,6 +68,14 @@ namespace Adic.Tests {
 		
 		[Test]
 		[ExpectedException(typeof(BindingException))]
+		public void TestBindFactoryToNotFactory() {
+			var binder = new Binder();
+
+			binder.Bind<MockClassToDepend>().ToFactory(typeof(MockClassToDepend));
+		}
+		
+		[Test]
+		[ExpectedException(typeof(BindingException))]
 		public void TestBindToWrongFactoryType() {
 			var binder = new Binder();
 			

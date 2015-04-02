@@ -104,15 +104,41 @@ namespace Adic.Tests {
 			Assert.AreEqual(instance.fieldSingleton, singleton);
 			Assert.AreEqual(instance.propertyMockInterface.GetType(), mockInterface);
 			Assert.AreEqual(instance.propertySingleton, singleton);
-		}		
+		}
 		
 		[Test]
-		public void TestResolveFromFactory() {
+		public void TestResolveFromFactoryGenerics() {
 			var container = new InjectionContainer();
 			
 			container.Bind<MockIClassWithAttributes>().ToFactory<MockFactory>();
 			var instance = container.Resolve<MockIClassWithAttributes>();
+			
+			Assert.NotNull(instance);
+			Assert.AreEqual("Created from a Factory", instance.field1);
+			Assert.AreEqual("Created from a Factory", instance.field2);
+			Assert.AreEqual("Created from a Factory", instance.field3);
+		}
+		
+		[Test]
+		public void TestResolveFromFactoryType() {
+			var container = new InjectionContainer();
+			
+			container.Bind<MockIClassWithAttributes>().ToFactory(typeof(MockFactory));
+			var instance = container.Resolve<MockIClassWithAttributes>();
 
+			Assert.NotNull(instance);
+			Assert.AreEqual("Created from a Factory", instance.field1);
+			Assert.AreEqual("Created from a Factory", instance.field2);
+			Assert.AreEqual("Created from a Factory", instance.field3);
+		}
+		
+		[Test]
+		public void TestResolveFromFactoryInstance() {
+			var container = new InjectionContainer();
+			
+			container.Bind<MockIClassWithAttributes>().ToFactory(new MockFactory());
+			var instance = container.Resolve<MockIClassWithAttributes>();
+			
 			Assert.NotNull(instance);
 			Assert.AreEqual("Created from a Factory", instance.field1);
 			Assert.AreEqual("Created from a Factory", instance.field2);
