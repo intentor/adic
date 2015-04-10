@@ -702,7 +702,7 @@ namespace MyNamespace.Bindings {
 }
 ```
 
-To perform a bindings setup, call the `SetupBindings()` method in the container, passing the binding setup object as a parameter:
+To perform a bindings setup, call the `SetupBindings()` method in the container, passing either the binding setup object as a parameter or the namespace in which the setups reside:
 
 ```cs
 //Setup by generics...
