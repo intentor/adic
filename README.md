@@ -716,7 +716,7 @@ container.SetupBindings(bindings);
 container.SetupBindings("MyNamespace.Bindings");
 ```
 
-**Note:** the default behaviour of `SetupBindings()` with namespace is to use all `IBindingsSetup` objects under the given namespace and all its children namespaces. If you need that only `IBindingsSetup` objects in the given namespace are used, use the overload that allows indication of children namespace evaluation:
+**Note:** the default behaviour of `SetupBindings()` with namespace is to use all `IBindingsSetup` objects under the given namespace and all its children namespaces. If you need that only `IBindingsSetup` objects in the given namespace are used, call the overload that allows indication of children namespace evaluation:
 
 ```cs
 container.SetupBindings("MyNamespace.Bindings", false);
@@ -889,7 +889,7 @@ public override void SetupContainers() {
 }
 ```
 
-**Note:** the default behaviour of `RegisterCommands()` is to register all commands under the given namespace and all its children namespaces. If you need that only commands in the given namespace are registered, use the overload that allows indication of children namespace evaluation:
+**Note:** the default behaviour of `RegisterCommands()` is to register all commands under the given namespace and all its children namespaces. If you need that only commands in the given namespace are registered, call the overload that allows indication of children namespace evaluation:
 
 ```cs
 container.RegisterCommands("MyNamespace.Commands", false);
