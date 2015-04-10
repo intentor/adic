@@ -28,7 +28,7 @@ namespace Adic.Examples.Prefabs {
 		/// </summary>
 		protected void Start() {
 			//Calls "Inject" to inject any dependencies to the component.
-			//On a productin game, it's useful to place this in a base component.
+			//In a production game, it's useful to place this in a base component.
 			this.Inject();
 		}
 

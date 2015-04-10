@@ -1333,6 +1333,10 @@ Exemplifies how to bind to prefabs and the use of `PostConstruct` as a second co
 
 Exemplifies the use of commands through a simple spawner of a prefab.
 
+### 6. Bindings Setup
+
+Exemplifies the use of bindings setups to better organize the bindings for a container.
+
 ## <a id="changelog"></a>Changelog
 
 Please see [CHANGELOG.txt](src/Assets/Adic/CHANGELOG.txt).

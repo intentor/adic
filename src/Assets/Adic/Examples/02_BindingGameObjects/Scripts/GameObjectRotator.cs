@@ -10,6 +10,8 @@ namespace Adic.Examples.BindingGameObjects {
 		public Transform objectToRotate;
 
 		protected void Start() {
+			//Calls "Inject" to inject any dependencies to the component.
+			//In a production game, it's useful to place this in a base component.
 			this.Inject();
 		}
 
