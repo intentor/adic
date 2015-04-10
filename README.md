@@ -652,11 +652,6 @@ namespace MyNamespace {
 	/// My factory.
 	/// </summary>
 	public class MyFactory : Adic.IFactory {
-		/// <summary>Type the factory creates.</summary>
-		Type factoryType { 
-			get { return typeof(MyObjectType); } 
-		}
-
 		/// <summary>
 		/// Creates an instance of the object of the type created by the factory.
 		/// </summary>
@@ -682,7 +677,7 @@ container.Bind<SomeType>().ToFactory(typeMyFactory);
 container.Bind<SomeType>().ToFactory(factoryInstance);
 ```
 
-**Note:** factories are resolved and injected by the container. So, it's possible to receive dependencies either by construtor or fields/properties.
+**Note:** factories are resolved and injected by the container. So, it's possible to receive dependencies either by construtor and/or fields/properties.
 
 ### <a id="bindings-setup"></a>Bindings setup
 

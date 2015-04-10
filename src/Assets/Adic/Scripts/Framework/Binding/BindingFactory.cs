@@ -163,11 +163,7 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="factory">Factory to be bound to.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public IBindingConditionFactory ToFactory(IFactory factory) {
-			if (!TypeUtils.IsAssignable(this.bindingType, factory.factoryType)) {
-				throw new BindingException(BindingException.FACTORY_TYPE_INCORRECT);
-			}
-			
+		public IBindingConditionFactory ToFactory(IFactory factory) {			
 			return this.CreateBinding(factory, BindingInstance.Factory);
 		}
 

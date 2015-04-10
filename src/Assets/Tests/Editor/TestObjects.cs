@@ -154,8 +154,6 @@ namespace Adic.Tests {
 	/// Test factory for ClassWithAtrributes.
 	/// </summary>
 	public class MockFactory : IFactory {
-		public Type factoryType { get { return typeof(MockIClassWithAttributes); } }
-
 		public object Create(InjectionContext context) {
 			var obj = new MockIClassWithAttributes();
 			obj.field1 = 

@@ -5,10 +5,15 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.6 (2015-04-10)
+
+Framework
+- Removed factoryType property from Adic.IFactory. [Issue #6]
+
 Version 2.5 (2015-04-02)
 
 Framework
-- Added creation and injection of factories by the container.
+- Added creation and injection of factories by the container. [Issue #4]
 
 Commander extension
 - Updated CommanderExtension.RegisterCommands() to use TypeUtils.GetAssignableTypesInNamespace() to get commands from the current assembly(ies).
@@ -18,7 +23,7 @@ Version 2.4 (2015-04-01)
 Framework
 - Added methods ToNamespace() and ToNamespaceSingleton() to IBindingFactory.
 - Added method GetAssignableTypesInNamespace() to TypeUtils.
-- Updated IFactory interface to receive an InjectionContext object when creating objects.
+- Updated IFactory interface to receive an InjectionContext object when creating objects. [Issue #2]
 - Removed private method IsAssignable() from BindingFactory.
 - Fixed type of parentType field in InjectionContext.
 - Fixed NullReferenceException when getting the type from a parent instance for InjectionContext.

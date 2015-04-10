@@ -73,14 +73,5 @@ namespace Adic.Tests {
 
 			binder.Bind<MockClassToDepend>().ToFactory(typeof(MockClassToDepend));
 		}
-		
-		[Test]
-		[ExpectedException(typeof(BindingException))]
-		public void TestBindToWrongFactoryType() {
-			var binder = new Binder();
-			
-			var factory = new MockFactory();
-			binder.Bind<MockClassToDepend>().ToFactory(factory);
-		}
 	}
 }
