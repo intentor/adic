@@ -16,14 +16,14 @@ namespace Adic {
 		public object identifier;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="InjectAttribute"/> class.
+		/// Initializes a new instance of the <see cref="Inject"/> class.
 		/// </summary>
 		public Inject() {
 			this.identifier = null;
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="InjectAttribute"/> class.
+		/// Initializes a new instance of the <see cref="Inject"/> class.
 		/// </summary>
 		/// <param name="name">The identifier of the binding to inject.</param>
 		public Inject(object identifier) {

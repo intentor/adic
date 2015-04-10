@@ -709,10 +709,44 @@ To perform a bindings setup, call the `SetupBindings()` method in the container,
 container.SetupBindings<MyBindings>();
 //...or by type...
 container.SetupBindings(typeof(MyBindings));
-//...or from an instance.
+//...or from an instance...
 var bindings = MyBindings();
 container.SetupBindings(bindings);
+//...or using a namespace.
+container.SetupBindings("MyNamespace.Bindings");
 ```
+
+**Note:** the default behaviour of `SetupBindings()` with namespace is to use all `IBindingsSetup` objects under the given namespace and all its children namespaces. If you need that only `IBindingsSetup` objects in the given namespace are used, use the overload that allows indication of children namespace evaluation:
+
+```cs
+container.SetupBindings("MyNamespace.Bindings", false);
+```
+
+#### Binding setup priorities
+
+The order of bindings setups matters. In case an `IBindingsSetup` object relies on bindings from another `IBindingsSetup` object, add the other setup first.
+
+However, if you are using `SetupBindings()` with a namespace, it's not possible to manually order the `IBindingsSetup` objects. In this case, you have to decorate the `IBindingsSetup` classes with a `BindingPriority` attribute to define the priority in which a bindings setup will be executed:
+
+```cs
+using Adic;
+using Adic.Container;
+
+namespace MyNamespace.Bindings { 
+	/// <summary>
+	/// My bindings.
+	/// </summary>
+	[BindingPriority(1)]
+	public class MyBindings : IBindingsSetup {
+		public void SetupBindings (IInjectionContainer container) {
+			container.Bind<SomeType>().ToSingleton<AnotherType>();
+			//...more related bindings.
+		}
+	}
+}
+```
+
+Higher values indicate higher priorities. If no priority value is provided, the default value of `1` will be used.
 
 ### <a id="using-commands"></a>Using commands
 
@@ -750,7 +784,7 @@ namespace MyNamespace.Commands {
 ```
 **Hint:** it's also possible to wire any dependencies through constructor. However, in this case the dependencies will only be resolved once, during instantiation.
 
-**Note:** it's a good practice to place all your commands under the same namespace, so it's easy to register them.
+**Good practice:** place all your commands under the same namespace, so it's easy to register them.
 
 ##### Types of commands
 
@@ -853,7 +887,6 @@ public override void SetupContainers() {
 	//Register all commands under the namespace "MyNamespace.Commands".
 	container.RegisterCommands("MyNamespace.Commands");
 }
-
 ```
 
 **Note:** the default behaviour of `RegisterCommands()` is to register all commands under the given namespace and all its children namespaces. If you need that only commands in the given namespace are registered, use the overload that allows indication of children namespace evaluation:

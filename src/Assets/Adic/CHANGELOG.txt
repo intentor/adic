@@ -8,6 +8,8 @@
 Version 2.6 (2015-04-10)
 
 Framework
+- Added overloads to SetupBindings() method to setup bindings from namespaces. [Issue #5]
+- Added BindingPriority attribute to indicate prioritary bindings setup when using SetupBindings() with namespaces. [Issue #6]
 - Removed factoryType property from Adic.IFactory. [Issue #6]
 
 Version 2.5 (2015-04-02)
