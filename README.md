@@ -726,7 +726,7 @@ container.SetupBindings("MyNamespace.Bindings", false);
 
 The order of bindings setups matters. In case an `IBindingsSetup` object relies on bindings from another `IBindingsSetup` object, add the other setup first.
 
-However, if you are using `SetupBindings()` with a namespace, it's not possible to manually order the `IBindingsSetup` objects. In this case, you have to decorate the `IBindingsSetup` classes with a `BindingPriority` attribute to define the priority in which a bindings setup will be executed:
+However, if you are using `SetupBindings()` with a namespace, it's not possible to manually order the `IBindingsSetup` objects. In this case, you have to decorate the `IBindingsSetup` classes with a `BindingPriority` attribute to define the priority in which each bindings setup will be executed:
 
 ```cs
 using Adic;
