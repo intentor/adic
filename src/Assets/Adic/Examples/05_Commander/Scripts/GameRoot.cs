@@ -18,7 +18,7 @@ namespace Adic.Examples.Commander {
 			container.RegisterExtension<EventCallerContainerExtension>();
 			container.RegisterExtension<UnityBindingContainerExtension>();
 
-			//Bind the "Rectangle" prefab.
+			//Bind the "Prism" prefab.
 			container.Bind<Transform>().ToPrefab("Prism");
 
 			//Register all commands under the namespace "Adic.Examples.Commander.Commands".
