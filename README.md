@@ -647,6 +647,8 @@ instances = container.ResolveAll(typeInstance);
 When you need to handle the instantiation of an object manually, it's possible to create a factory class by inheriting from `Adic.IFactory`:
 
 ```cs
+using Adic.Injection;
+
 namespace MyNamespace {
 	/// <summary>
 	/// My factory.
@@ -657,8 +659,10 @@ namespace MyNamespace {
 		/// </summary>
 		/// <param name="context">Injection context.</param>
 		/// <returns>The instance.</returns>
-		public object Create(InjectionContext context);
-			...
+		public object Create(InjectionContext context) {
+			//Instantiate and return the object.
+			var myObject = new MyObject();
+			return myObject;
 		}
 	}
 }
