@@ -6,6 +6,7 @@ namespace Adic.Examples.Prefabs {
 	/// Cube rotator script.
 	/// </summary>
 	public class CubeRotator : MonoBehaviour {
+		/// <summary>Cube to rotate. It will only rotate the cube with identifier "cube".</summary>
 		[Inject("cube")]
 		public Transform cube;
 
@@ -27,7 +28,7 @@ namespace Adic.Examples.Prefabs {
 		/// Start is called after PostConstruct.
 		/// </summary>
 		protected void Start() {
-			//Calls "Inject" to inject any dependencies to the component.
+			//Calls "Inject" to inject any dependencies in the component.
 			//In a production game, it's useful to place this in a base component.
 			this.Inject();
 		}

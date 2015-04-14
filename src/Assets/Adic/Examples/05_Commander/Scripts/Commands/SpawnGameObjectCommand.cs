@@ -3,9 +3,10 @@ using Adic.Container;
 
 namespace Adic.Examples.Commander.Commands {
 	/// <summary>
-	/// Spawns a cube that is on the container.
+	/// Spawns a cube and makes it rotate.
 	/// </summary>
 	public class SpawnGameObjectCommand : Command {
+		/// <summary>Container that dispatched the command.</summary>
 		[Inject]
 		public IInjectionContainer container;
 

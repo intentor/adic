@@ -16,9 +16,9 @@ namespace Adic.Examples.UsingConditions {
 			//to define their identifiers.
 			container.Bind<Transform>().ToGameObject("LeftCube").As("LeftCube");
 			container.Bind<Transform>().ToGameObject("RightCube").As("RightCube");
-			//Bind the "GameObjectRotator" component to a new GameObject of the same name.
-			//This component will then receive the reference to the "LeftCube" so only it
-			//will rotate.
+			//Bind the "GameObjectRotator" component to a new game object of the same name.
+			//This component will then receive the reference to the "LeftCube", making only
+			//this cube rotate.
 			container.Bind<GameObjectRotator>().ToGameObject();
 			
 			//Add the container to the context.

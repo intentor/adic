@@ -12,6 +12,7 @@ namespace Adic.Examples.HelloWorld {
 
 			//Bind a class to itself.
 			container.Bind<HelloWorld>().ToSelf();
+
 			//Resolve the class and calls its "HelloWorld" method, which will display
 			//"Hello World!" on the console.
 			container.Resolve<HelloWorld>().DisplayHelloWorld();

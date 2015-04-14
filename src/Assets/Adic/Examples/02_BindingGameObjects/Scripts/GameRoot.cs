@@ -12,9 +12,9 @@ namespace Adic.Examples.BindingGameObjects {
 			//Register any extensions the container may use.
 			container.RegisterExtension<UnityBindingContainerExtension>();
 
-			//Bind a Transform component to the "Cube" GameObject.
+			//Bind a Transform component to the "Cube" game object in the scene.
 			container.Bind<Transform>().ToGameObject("Cube");
-			//Bind the "GameObjectRotator" component to a new GameObject of the same name.
+			//Bind the "GameObjectRotator" component to a new ame object of the same name.
 			//This component will then receive the reference above so it can rotate the cube.
 			container.Bind<GameObjectRotator>().ToGameObject();
 			

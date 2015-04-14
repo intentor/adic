@@ -10,7 +10,7 @@ namespace Adic.Examples.Commander.Commands {
 	/// a parameter during execution.
 	/// </summary>
 	public class RotateGameObjectCommand : Command, IUpdatable {
-		/// <summary>The object to be rotated.</summary>
+		/// <summary>Object to rotate.</summary>
 		protected Transform objectToRotate;
 		
 		public override void Execute(params object[] parameters) {

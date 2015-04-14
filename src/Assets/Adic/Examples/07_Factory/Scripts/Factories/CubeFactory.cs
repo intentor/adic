@@ -7,14 +7,14 @@ namespace Adic.Examples.Factory.Bindings {
 	/// <summary>
 	/// Creates and positions cubes as a matrix.
 	/// 
-	/// The factory creates only one cube per call. The ideia is that every time the
-	/// factory is called to resolve an object, it will create a new cube and position
+	/// The factory creates only one cube per call. The idea is that every time the
+	/// factory is called to resolve an object, it will create a new cube and place
 	/// it in the last position of the matrix.
 	/// 
 	/// This factory creates <see cref="UnityEngine.GameObject"/> objects.
 	/// </summary>
 	public class CubeFactory : Adic.IFactory {
-		/// <summary>Maximumn number of columns to position the cubes.</summary>
+		/// <summary>Maximum number of columns to position the cubes.</summary>
 		protected const int MAX_COLUMNS = 6;
 
 		/// <summary>Container in which the factory is bounded.</summary>
@@ -49,7 +49,7 @@ namespace Adic.Examples.Factory.Bindings {
 
 			//Add the "Rotator" behaviour to the cube and sets its speed.
 			//This script could already be in the prefab. It's added here
-			//only to show that factories could use to fully configure
+			//only to show that factories can be used to fully configure
 			//any object they create.
 			var rotator = cube.gameObject.AddComponent<Rotator>();
 			rotator.speed = Random.Range(0.05f, 5.0f);

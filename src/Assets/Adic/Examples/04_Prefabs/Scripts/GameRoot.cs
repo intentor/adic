@@ -12,7 +12,7 @@ namespace Adic.Examples.Prefabs {
 			//Register any extensions the container may use.
 			container.RegisterExtension<UnityBindingContainerExtension>();
 			
-			//Bind the "Cube" prefab. It will be injected on CubeRotator.
+			//Bind the "Cube" prefab. It will be injected in CubeRotator.
 			container.Bind<Transform>().ToPrefab("04_Prefabs/Cube").As("cube");
 			//Bind the "Plane" prefab. It exists just to make the scene less empty.
 			container.Bind<GameObject>().ToPrefabSingleton("04_Prefabs/Plane");

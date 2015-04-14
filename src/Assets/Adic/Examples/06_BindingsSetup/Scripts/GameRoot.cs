@@ -12,7 +12,7 @@ namespace Adic.Examples.BindingsSetup {
 			//Register any extensions the container may use.
 			container.RegisterExtension<UnityBindingContainerExtension>();
 
-			//Setups bindins from a namespace.
+			//Setups bindings from a namespace.
 			container.SetupBindings("Adic.Examples.BindingsSetup.Bindings");
 
 			//Add the container to the context.

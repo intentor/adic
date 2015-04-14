@@ -7,6 +7,7 @@ namespace Adic.Examples.BindingsSetup.Behaviours {
 	/// Cube rotator.
 	/// </summary>
 	public class CubeRotator : MonoBehaviour {
+		/// <summary>Speed data for the cube.</summary>
 		[Inject]
 		public CubeRotationSpeed speedData;
 
@@ -16,7 +17,7 @@ namespace Adic.Examples.BindingsSetup.Behaviours {
 		protected void Start() {
 			this.cachedTransform = this.GetComponent<Transform>();
 
-			//Calls "Inject" to inject any dependencies to the component.
+			//Call "Inject" to inject any dependencies in the component.
 			//In a production game, it's useful to place this in a base component.
 			this.Inject();
 		}

@@ -6,14 +6,12 @@ namespace Adic.Examples.UsingConditions {
 	/// Game object rotator script.
 	/// </summary>
 	public class GameObjectRotator : MonoBehaviour {
-		/// <summary>
-		/// The object to rotate. It will only rotate the injection of identifier "LeftCube".
-		/// </summary>
+		/// <summary>Object to rotate. It will only rotate the object with identifier "LeftCube".</summary>
 		[Inject("LeftCube")]
 		public Transform objectToRotate;
 
 		protected void Start() {
-			//Calls "Inject" to inject any dependencies to the component.
+			//Call "Inject" to inject any dependencies to the component.
 			//On a production game, it's useful to place this in a base component.
 			this.Inject();
 		}

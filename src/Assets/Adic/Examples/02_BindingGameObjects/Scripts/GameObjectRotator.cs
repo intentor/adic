@@ -3,14 +3,15 @@ using System.Collections;
 
 namespace Adic.Examples.BindingGameObjects {
 	/// <summary>
-	/// Game object rotator script.
+	/// Game object rotator.
 	/// </summary>
 	public class GameObjectRotator : MonoBehaviour {
+		/// <summary>Object to rotate, injected by the container.</summary>
 		[Inject]
 		public Transform objectToRotate;
 
 		protected void Start() {
-			//Calls "Inject" to inject any dependencies to the component.
+			//Call "Inject" to inject any dependencies in the component.
 			//In a production game, it's useful to place this in a base component.
 			this.Inject();
 		}
