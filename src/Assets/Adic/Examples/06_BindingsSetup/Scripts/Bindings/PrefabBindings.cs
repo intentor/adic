@@ -5,7 +5,7 @@ namespace Adic.Examples.BindingsSetup.Bindings {
 	/// <summary>
 	/// Bindings for prefabs.
 	/// </summary>
-	public class PrefabsBindings : Adic.IBindingsSetup {
+	public class PrefabBindings : Adic.IBindingsSetup {
 		public void SetupBindings(IInjectionContainer container) {
 			//Bind the "CubeA" prefab.
 			container.Bind<Transform>().ToPrefabSingleton("06_BindingsSetup/CubeA");
