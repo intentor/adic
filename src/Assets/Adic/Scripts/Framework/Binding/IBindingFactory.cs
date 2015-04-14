@@ -87,7 +87,7 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <typeparam name="T">The factory type.</typeparam>
 		/// <returns>The binding condition object related to this binding.</returns>
-		IBindingConditionFactory ToFactory<T>() where T : IFactory, new();
+		IBindingConditionFactory ToFactory<T>() where T : IFactory;
 		
 		//// <summary>
 		/// Binds the key type to a factory of a certain <paramref name="type"/>.

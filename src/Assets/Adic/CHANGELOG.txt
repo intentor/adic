@@ -7,6 +7,9 @@
 
 Version 2.7 (?)
 
+Framework
+- Removed new() keyword form IBindingFactory.ToFactory<T>(), given factories are now resolved by the container.
+
 Examples
 - Organized resources' files to avoid name crosstalk when loading resources in examples.
 

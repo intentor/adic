@@ -141,7 +141,7 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <typeparam name="T">The factory type.</typeparam>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public IBindingConditionFactory ToFactory<T>() where T : IFactory, new() {
+		public IBindingConditionFactory ToFactory<T>() where T : IFactory {
 			return this.ToFactory(typeof(T));
 		}
 		
