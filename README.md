@@ -1311,7 +1311,8 @@ All events are available through `Adic.InjectionContainer`.
 2. Multiple injections must occur in an array of the desired type.
 3. Order of bindings is controlled by just reordering the bindings during container setup.
 4. Avoid singleton bindings of objects that will be destroyed during execution. This can lead to missing references in the container.
-5. *Adic* relies on Unity Test Tools for unit testing. You can download it at [Unity Asset Store](https://www.assetstore.unity3d.com/#!/content/13802).
+5. Any transient object, once resolved, is not tracked by *Adic*. So, if you want e.g. a list of all prefabs that were resolved by the container, you'll have to store it manually. Singleton objects are kept inside the container, given there is just a single instance of them.
+6. *Adic* relies on Unity Test Tools for unit testing. You can download it at [Unity Asset Store](https://www.assetstore.unity3d.com/#!/content/13802).
 
 ## <a id="examples"></a>Examples
 
