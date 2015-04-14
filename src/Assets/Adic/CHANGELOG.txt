@@ -8,6 +8,7 @@
 Version 2.7 (?)
 
 Framework
+- Added example for factories. [Issue #8]
 - Removed new() keyword form IBindingFactory.ToFactory<T>(), given factories are now resolved by the container.
 
 Examples

@@ -1342,6 +1342,10 @@ Exemplifies the use of commands through a simple spawner of a prefab.
 
 Exemplifies the use of bindings setups to better organize the bindings for a container.
 
+### 7. Factory
+
+Exemplifies the use of a factory to create and position cubes as a matrix.
+
 ## <a id="changelog"></a>Changelog
 
 Please see [CHANGELOG.txt](src/Assets/Adic/CHANGELOG.txt).
