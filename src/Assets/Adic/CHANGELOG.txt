@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.7 (?)
+
+Examples
+- Organized resources' files to avoid name crosstalk when loading resources in examples.
+
 Version 2.6 (2015-04-10)
 
 Framework
