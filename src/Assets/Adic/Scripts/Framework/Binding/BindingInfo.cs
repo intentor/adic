@@ -12,7 +12,7 @@ namespace Adic.Binding {
 		/// <summary>The binding instance type.</summary>
 		public BindingInstance instanceType { get; private set; }
 		/// <summary>The binding identifier. The identifier will group bindings of the same type.</summary>
-		public object identifier { get; set; }
+		public string identifier { get; set; }
 		/// <summary>The binding condition.</summary>
 		public BindingCondition condition { get; set; }
 
@@ -43,7 +43,7 @@ namespace Adic.Binding {
 				(this.value == null ? "-" : this.value.ToString()),
 				(this.value is Type ? "type" : "instance"),
 				this.instanceType.ToString(),
-				(this.identifier == null ? "-" : this.identifier.ToString()),
+				(string.IsNullOrEmpty(this.identifier) ? "-" : this.identifier.ToString()),
 				(this.condition == null ? "no" : "yes")
 			);
 		}

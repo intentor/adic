@@ -130,7 +130,7 @@ namespace Adic.Cache {
 					var attribute = attributes[0] as Inject;
 
 					//Checks if the injection needs to happen by identifier or type.
-					object key = (attribute.identifier == null ? 
+					object key = (string.IsNullOrEmpty(attribute.identifier) ? 
               			property.PropertyType as object : attribute.identifier);
 
 					pairs.Add(new KeyValuePair<object, PropertyInfo>(key, property));

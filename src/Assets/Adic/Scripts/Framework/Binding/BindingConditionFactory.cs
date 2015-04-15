@@ -16,7 +16,7 @@ namespace Adic.Binding {
 			this.binding = binding;
 		}
 
-		public IBindingConditionFactory As(object identifier) {
+		public IBindingConditionFactory As(string identifier) {
 			this.binding.identifier = identifier;
 
 			return this;

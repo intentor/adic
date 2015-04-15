@@ -20,13 +20,13 @@ namespace Adic.Tests {
            		Type type,
            		InjectionMember member,
            		object parentInstance,
-           		object identifier,
+               	string identifier,
            		ref object resolutionInstance) {
 				Assert.AreEqual(injector, source);
 				Assert.AreEqual(typeof(IMockInterface), type);
 				Assert.AreEqual(InjectionMember.None, member);
 				Assert.IsNull(parentInstance);
-				Assert.IsNull(identifier);
+				Assert.IsNullOrEmpty(identifier);
 				Assert.IsNull(resolutionInstance);
 
 				eventCalled = true;
@@ -53,13 +53,13 @@ namespace Adic.Tests {
 			                                   Type type,
 			                                   InjectionMember member,
 			                                   object parentInstance,
-			                                   object identifier,
+			                                   string identifier,
 			                                   ref object resolutionInstance) {
 				Assert.AreEqual(injector, source);
 				Assert.AreEqual(typeof(IMockInterface), type);
 				Assert.AreEqual(InjectionMember.None, member);
 				Assert.IsNull(parentInstance);
-				Assert.IsNull(identifier);
+				Assert.IsNullOrEmpty(identifier);
 				Assert.IsNull(resolutionInstance);
 
 				resolutionInstance = new MockIClassWithoutAttributes();
@@ -89,13 +89,13 @@ namespace Adic.Tests {
 				Type type,
 				InjectionMember member,
 				object parentInstance,
-				object identifier,
+				string identifier,
 				ref object resolutionInstance) {
 				Assert.AreEqual(injector, source);
 				Assert.AreEqual(typeof(IMockInterface), type);
 				Assert.AreEqual(InjectionMember.None, member);
 				Assert.IsNull(parentInstance);
-				Assert.IsNull(identifier);
+				Assert.IsNullOrEmpty(identifier);
 				Assert.IsNotNull(resolutionInstance);
 
 				resolvedInstance = (IMockInterface)resolutionInstance;

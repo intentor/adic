@@ -108,7 +108,7 @@ namespace Adic.Injection {
 		/// <param name="member">Member for which the binding is being resolved.</param>
 		/// <param name="parentInstance">Parent object in which the resolve is occuring.</param>
 		/// <param name="identifier">The binding identifier to be looked for.</param>
-		protected object Resolve(Type type, InjectionMember member, object parentInstance, object identifier) {
+		protected object Resolve(Type type, InjectionMember member, object parentInstance, string identifier) {
 			object resolution = null;
 
 			if (this.beforeResolve != null) {
@@ -216,7 +216,7 @@ namespace Adic.Injection {
 			if (reflectedClass.fields.Length > 0) {
 				for (int fieldIndex = 0; fieldIndex < reflectedClass.fields.Length; fieldIndex++) {
 					var field = reflectedClass.fields[fieldIndex];
-					var identifier = (field.Key is Type ? null : field.Key);
+					var identifier = (field.Key is Type ? string.Empty : field.Key.ToString());
 					var type = (field.Key is Type ? field.Key as Type : field.Value.FieldType);
 					var valueToSet = this.Resolve(type, InjectionMember.Field, instance, identifier);
 					field.Value.SetValue(instance, valueToSet);
@@ -226,14 +226,14 @@ namespace Adic.Injection {
 			if (reflectedClass.properties.Length > 0) {
 				for (int propertyIndex = 0; propertyIndex < reflectedClass.properties.Length; propertyIndex++) {
 					var property = reflectedClass.properties[propertyIndex];
-					var identifier = (property.Key is Type ? null : property.Key);
+					var identifier = (property.Key is Type ? string.Empty : property.Key.ToString());
 					var type = (property.Key is Type ? property.Key as Type : property.Value.PropertyType);
 					var valueToSet = this.Resolve(type, InjectionMember.Property, instance, identifier);
 					property.Value.SetValue(instance, valueToSet, null);
 				}
 			}
 			
-			//Calls post constructors, if there's any.
+			//Call post constructors, if there's any.
 			if (reflectedClass.postConstructors.Length > 0) {
 				for (int constIndex = 0; constIndex < reflectedClass.postConstructors.Length; constIndex++) {
 					var method = reflectedClass.postConstructors[constIndex];
@@ -261,7 +261,7 @@ namespace Adic.Injection {
 			Type type,
 			InjectionMember member,
 			object parentInstance,
-			object identifier) {
+			string identifier) {
 			//Condition evaluation.
 			if (binding.condition != null) {
 				var context = new InjectionContext() {
@@ -279,8 +279,8 @@ namespace Adic.Injection {
 			}
 
 			//Identifier evaluation.
-			bool resolveByIdentifier = (identifier != null);
-			bool bindingHasIdentifier = (binding.identifier != null);
+			bool resolveByIdentifier = !string.IsNullOrEmpty(identifier);
+			bool bindingHasIdentifier = !string.IsNullOrEmpty(binding.identifier);
 			if ((!resolveByIdentifier && bindingHasIdentifier) ||
 			    (resolveByIdentifier && !bindingHasIdentifier) ||
 			    (resolveByIdentifier && bindingHasIdentifier && !binding.identifier.Equals(identifier))) {

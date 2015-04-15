@@ -386,7 +386,7 @@ container.Bind<AudioClip>().ToResource("Audio/MyAudio");
 
 **Note 1:** if there's more than one constructor, *Adic* always look for the one with less parameteres. However, <a href="#multiple-constructors">it's possible to indicate which constructor should be used</a> on a multi constructor class.
 
-**Note 2:** there's no need to decorate constructors' parameteres with `Inject` attributes.
+**Note 2:** there's no need to decorate constructors' parameteres with `Inject` attributes - they will be resolved automatically.
 
 **Note 3:** currently, injection identifiers are not supported on constructors. However, <a href="#conditions">any conditions</a> (that are not identifiers) on types are also applied to the constructor parameters.
 
@@ -603,7 +603,7 @@ The context provides the following fields:
 
 1. **member** (`Adic.InjectionMember` enum): the class member in which the injection is occuring (*None*, *Constructor*, *Field* or *Property*).
 2. **memberType** (`System.Type`): the type of the member in which the injection is occuring.
-3. **identifier** (`object`): the identifier of the member in which the injection is occuring (from `InjectAttribute`).
+3. **identifier** (`string`): the identifier of the member in which the injection is occuring (from `Inject` attribute).
 4. **parentType** (`System.Type`): the type of the object in which the injection is occuring.
 5. **parentInstance** (`object`): the instance of the object in which the injection is occuring.
 6. **injectType** (`System.Type`): the type of the object being injected.

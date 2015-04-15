@@ -8,6 +8,7 @@
 Version 2.7 (?)
 
 Framework
+- Changed identifier type to string. [Issue #9]
 - Removed new() keyword form IBindingFactory.ToFactory<T>(), given factories are now resolved by the container.
 
 Examples

@@ -21,7 +21,7 @@ namespace Adic.Tests {
 		}
 
 		[Test]
-		public void TestBindWhenOnByGenerics() {
+		public void TestBindWhenIntoByGenerics() {
 			var container = new InjectionContainer();
 
 			container.Bind<IMockInterface>().To<MockIClassWithAttributes>().WhenInto<MockClassVerySimple>();
@@ -35,7 +35,7 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
-		public void TestBindWhenOnByType() {
+		public void TestBindWhenIntoByType() {
 			var container = new InjectionContainer();
 
 			container.Bind<IMockInterface>().To<MockIClassWithAttributes>().WhenInto(typeof(MockClassVerySimple));
@@ -49,7 +49,7 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
-		public void TestBindWhenOnByInstance() {
+		public void TestBindWhenIntoByInstance() {
 			var instance1 = new MockClassSimple();
 			var instance2 = new MockClassVerySimple();
 
@@ -66,7 +66,7 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
-		public void TestBindAsIdentifierWhenOnByGenerics() {
+		public void TestBindAsIdentifierWhenIntoByGenerics() {
 			var container = new InjectionContainer();
 			
 			container.Bind<IMockInterface>()
@@ -85,7 +85,7 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
-		public void TestBindAsIdentifierWhenOnByType() {
+		public void TestBindAsIdentifierWhenIntoByType() {
 			var container = new InjectionContainer();
 			
 			container.Bind<IMockInterface>()
@@ -104,7 +104,7 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
-		public void TestBindAsIdentifierWhenOnByInstance() {
+		public void TestBindAsIdentifierWhenIntoByInstance() {
 			var instance1 = new MockClassVerySimple();
 			var instance2 = new MockClassSimple();
 			
