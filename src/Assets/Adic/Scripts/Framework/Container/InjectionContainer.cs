@@ -173,6 +173,10 @@ namespace Adic {
 		public IList<BindingInfo> GetBindingsFor(Type type) {
 			return this.binder.GetBindingsFor(type);
 		}
+		
+		public IList<BindingInfo> GetBindingsFor(string identifier) {
+			return this.binder.GetBindingsFor(identifier);
+		}
 
 		public bool ContainsBindingFor<T>() {
 			return this.binder.ContainsBindingFor<T>();
@@ -180,6 +184,10 @@ namespace Adic {
 
 		public bool ContainsBindingFor(Type type) {
 			return this.binder.ContainsBindingFor(type);
+		}
+		
+		public bool ContainsBindingFor(string identifier) {
+			return this.binder.ContainsBindingFor(identifier);
 		}
 
 		public void Unbind<T>() {
@@ -228,6 +236,10 @@ namespace Adic {
 		public object Resolve(Type type) {
 			return this.injector.Resolve(type);
 		}
+		
+		public object Resolve(string identifier) {
+			return this.injector.Resolve(identifier);
+		}
 
 		public object Resolve(Type type, string identifier) {
 			return this.injector.Resolve(type, identifier);
@@ -243,6 +255,10 @@ namespace Adic {
 		
 		public object[] ResolveAll(Type type) {
 			return this.injector.ResolveAll(type);
+		}
+		
+		public object[] ResolveAll(string identifier) {
+			return this.injector.ResolveAll(identifier);
 		}
 		
 		public object[] ResolveAll(Type type, string identifier) {

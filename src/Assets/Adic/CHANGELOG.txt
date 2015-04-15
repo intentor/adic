@@ -8,7 +8,7 @@
 Version 2.7 (?)
 
 Framework
-- Add manual resolution by identifier. [Issue #9]
+- Added manual resolution by identifier. [Issue #9]
 - Changed identifier type to string. [Issue #9]
 - Removed new() keyword form IBindingFactory.ToFactory<T>(), given factories are now resolved by the container.
 

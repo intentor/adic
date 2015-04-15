@@ -102,6 +102,27 @@ namespace Adic.Binding {
 		}
 
 		/// <summary>
+		/// Gets the bindings for a given <param name="identifier">.
+		/// </summary>
+		/// <param name="identifier">The identifier to get the bindings from.</param>
+		/// <returns>The bindings for the desired type.</returns>
+		public IList<BindingInfo> GetBindingsFor(string identifier) {
+			var bindings = new List<BindingInfo>();
+			
+			foreach (var entry in this.typeBindings) {
+				for (var bindingIndex = 0; bindingIndex < entry.Value.Count; bindingIndex++) {
+					var binding = entry.Value[bindingIndex];
+					
+					if (!string.IsNullOrEmpty(binding.identifier) && binding.identifier.Equals(identifier)) {
+						bindings.Add(binding);
+					}
+				}
+			}
+			
+			return bindings;
+		}
+
+		/// <summary>
 		/// Checks whether this binder contains a binding for a given <typeparamref name="T"/>.
 		/// </summary>
 		/// <typeparam name="type">The type to be checked.</typeparam>
@@ -117,6 +138,32 @@ namespace Adic.Binding {
 		/// <returns><c>true</c>, if binding was contained, <c>false</c> otherwise.</returns>
 		public bool ContainsBindingFor(Type type) {
 			return this.typeBindings.ContainsKey(type);
+		}
+		
+		/// <summary>
+		/// Checks whether this binder contains a binding for a given <paramref name="identifier"/>.
+		/// </summary>
+		/// <param name="type">The identifier to be checked.</param>
+		/// <returns><c>true</c>, if binding was contained, <c>false</c> otherwise.</returns>
+		public bool ContainsBindingFor(string identifier) {
+			var contains = false;
+
+			foreach (var entry in this.typeBindings) {
+				for (var bindingIndex = 0; bindingIndex < entry.Value.Count; bindingIndex++) {
+					var id = entry.Value[bindingIndex].identifier;
+
+					if (!string.IsNullOrEmpty(id) && id.Equals(identifier)) {
+						contains = true;
+						break;
+					}
+				}
+
+				if (contains) {
+					break;
+				}
+			}
+
+			return contains;
 		}
 		
 		/// <summary>

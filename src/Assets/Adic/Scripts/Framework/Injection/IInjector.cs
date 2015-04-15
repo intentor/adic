@@ -50,6 +50,16 @@ namespace Adic.Injection {
 		object Resolve(Type type);
 		
 		/// <summary>
+		/// Resolves an instance with a given identifier.
+		/// </summary>
+		/// <remarks>
+		/// If the type has multiple instances, please use ResolveAll().
+		/// </remarks>
+		/// <param name="identifier">Identifier to look for.</param>
+		/// <returns>The instance or NULL.</returns>
+		object Resolve(string identifier);
+		
+		/// <summary>
 		/// Resolves an instance for a specified type with a given identifier.
 		/// </summary>
 		/// <remarks>
@@ -81,6 +91,13 @@ namespace Adic.Injection {
 		/// <param name="type">Type to be resolved.</param>
 		/// <returns>The list of instances or NULL if there are no instances.</returns>
 		object[] ResolveAll(Type type);
+		
+		/// <summary>
+		/// Resolves a list of instances with a given identifier.
+		/// </summary>
+		/// <param name="identifier">Identifier to look for.</param>
+		/// <returns>The list of instances or NULL if there are no instances.</returns>
+		object[] ResolveAll(string identifier);
 		
 		/// <summary>
 		/// Resolves a list of instances for a specified type with a given identifier.

@@ -29,12 +29,13 @@ namespace Adic.Tests {
 			var mockClass1 = new MockIClass() { property1 = "MockClass1" };
 			var mockClass2 = new MockIClassWithoutAttributes() { property1 = "MockClass2" };
 			var mockClass3 = new MockIClassWithAttributes() { property1 = "MockClass3" };
-			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass1).As("MockClass");
-			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass2).As("MockClass");
-			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass3).As("MockClass");
+			this.containerIdentifierTests.Bind<MockIClass>().To(mockClass1).As("MockClass");
+			this.containerIdentifierTests.Bind<MockIClassWithoutAttributes>().To(mockClass2).As("MockClass");
+			this.containerIdentifierTests.Bind<MockIClassWithAttributes>().To(mockClass3).As("MockClass");
 			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass1).As("MockClass1");
 			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass2).As("MockClass2");
 			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass3).As("MockClass3");
+			this.containerIdentifierTests.Bind<IMockInterface>().To<MockIClass>().As("MockClassSingle");
 		}
 		
 		[Test]
@@ -121,6 +122,13 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
+		public void TestResolveFromIdentifier() {
+			var instance = this.containerIdentifierTests.Resolve("MockClassSingle");
+
+			Assert.AreEqual(typeof(MockIClass), instance.GetType());
+		}
+		
+		[Test]
 		public void TestResolveFromIdentifierByGenerics() {
 			var instance1 = this.containerIdentifierTests.Resolve<IMockInterface>("MockClass1");
 			var instance2 = this.containerIdentifierTests.Resolve<IMockInterface>("MockClass2");
@@ -144,9 +152,9 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
-		public void TestResolveAllFromIdentifierByGenerics() {
-			var instances = this.containerIdentifierTests.ResolveAll<IMockInterface>("MockClass");
-			
+		public void TestResolveAllFromIdentifier() {
+			var instances = this.containerIdentifierTests.ResolveAll("MockClass");
+
 			Assert.AreEqual(3, instances.Length);
 			Assert.AreEqual(typeof(MockIClass), instances[0].GetType());
 			Assert.AreEqual(typeof(MockIClassWithoutAttributes), instances[1].GetType());
@@ -154,13 +162,19 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
-		public void TestResolveAllFromIdentifierByType() {
-			var instances = this.containerIdentifierTests.ResolveAll(typeof(IMockInterface), "MockClass");
-			
-			Assert.AreEqual(3, instances.Length);
+		public void TestResolveAllFromIdentifierByGenerics() {
+			var instances = this.containerIdentifierTests.ResolveAll<MockIClass>("MockClass");
+
+			Assert.AreEqual(1, instances.Length);
 			Assert.AreEqual(typeof(MockIClass), instances[0].GetType());
-			Assert.AreEqual(typeof(MockIClassWithoutAttributes), instances[1].GetType());
-			Assert.AreEqual(typeof(MockIClassWithAttributes), instances[2].GetType());
+		}
+		
+		[Test]
+		public void TestResolveAllFromIdentifierByType() {
+			var instances = this.containerIdentifierTests.ResolveAll(typeof(MockIClass), "MockClass");
+
+			Assert.AreEqual(1, instances.Length);
+			Assert.AreEqual(typeof(MockIClass), instances[0].GetType());
 		}
 		
 		[Test]

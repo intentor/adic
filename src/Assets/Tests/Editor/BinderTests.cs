@@ -54,6 +54,27 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
+		public void TestGetBindingsForIdentifier() {
+			var binder = new Binder();
+			
+			binder.Bind<MockClassToDepend>().ToSelf();
+			binder.Bind(typeof(MockIClassWithAttributes)).ToSelf();
+			binder.Bind<IMockInterface>().To<MockIClass>();
+			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("Identifier");
+			binder.Bind<IMockInterface>().To<MockIClassWithoutAttributes>().As("Identifier");
+			
+			var bindings = binder.GetBindingsFor("Identifier");
+			
+			Assert.AreEqual(2, bindings.Count);
+			Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
+			Assert.AreEqual(typeof(MockIClassWithAttributes), bindings[0].value);
+			Assert.AreEqual("Identifier", bindings[0].identifier);
+			Assert.AreEqual(typeof(IMockInterface), bindings[1].type);
+			Assert.AreEqual(typeof(MockIClassWithoutAttributes), bindings[1].value);
+			Assert.AreEqual("Identifier", bindings[1].identifier);
+		}
+		
+		[Test]
 		public void TestContainsByGenerics() {
 			var binder = new Binder();
 			
@@ -73,6 +94,18 @@ namespace Adic.Tests {
 			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
 
 			var contains = binder.ContainsBindingFor(typeof(IMockInterface));
+			
+			Assert.AreEqual(true, contains);
+		}
+		
+		[Test]
+		public void TestContainsByIdentifier() {
+			var binder = new Binder();
+			
+			binder.Bind<IMockInterface>().To<MockIClass>();
+			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("Identifier");
+			
+			var contains = binder.ContainsBindingFor("Identifier");
 			
 			Assert.AreEqual(true, contains);
 		}

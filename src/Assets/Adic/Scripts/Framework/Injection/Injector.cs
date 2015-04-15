@@ -77,6 +77,25 @@ namespace Adic.Injection {
 		}
 		
 		/// <summary>
+		/// Resolves an instance with a given identifier.
+		/// </summary>
+		/// <remarks>
+		/// If the type has multiple instances, please use ResolveAll().
+		/// </remarks>
+		/// <param name="identifier">Identifier to look for.</param>
+		/// <returns>The instance or NULL.</returns>
+		public object Resolve(string identifier) {
+			//Given no type will be passed, it'll always resolve an array.
+			var instances = (object[])this.Resolve(null, InjectionMember.None, null, identifier);
+
+			if (instances != null && instances.Length > 0) {
+				return instances[0];
+			} else {
+				return instances;
+			}
+		}
+		
+		/// <summary>
 		/// Resolves an instance for a specified type with a given identifier.
 		/// </summary>
 		/// <remarks>
@@ -128,6 +147,15 @@ namespace Adic.Injection {
 		}
 		
 		/// <summary>
+		/// Resolves a list of instances with a given identifier.
+		/// </summary>
+		/// <param name="identifier">Identifier to look for.</param>
+		/// <returns>The list of instances or NULL if there are no instances.</returns>
+		public object[] ResolveAll(string identifier) {
+			return this.ResolveAll(null, identifier);
+		}
+		
+		/// <summary>
 		/// Resolves a list of instances for a specified type with a given identifier.
 		/// </summary>
 		/// <param name="type">Type to be resolved.</param>
@@ -176,13 +204,23 @@ namespace Adic.Injection {
 			//Array is used for multiple injection.
 			//So, when the type is an array, the type to be read from the bindings list is the element type.
 			Type typeToGet;
-			if (type.IsArray) {
-				typeToGet = type.GetElementType();
+			IList<BindingInfo> bindings;
+			if (type == null) {
+				typeToGet = typeof(object);
+
+				//If no type is provided, look for bindings by identifier.
+				bindings = this.binder.GetBindingsFor(identifier);
 			} else {
-				typeToGet = type;
+				if (type.IsArray) {
+					typeToGet = type.GetElementType();
+				} else {
+					typeToGet = type;
+				}
+			
+				//If a type is provided, look for bindings by identifier.
+				bindings = this.binder.GetBindingsFor(typeToGet);
 			}
 
-			var bindings = this.binder.GetBindingsFor(typeToGet);
 			IList<object> instances = new List<object>();
 
 			if (bindings == null) {
@@ -198,8 +236,8 @@ namespace Adic.Injection {
 					}
 				}
 			}
-
-			if (instances.Count == 1 && !type.IsArray) {
+			
+			if (type != null && !type.IsArray && instances.Count == 1) {
 				resolution = instances[0];
 			} else if (instances.Count > 0) {
 				var array = Array.CreateInstance(typeToGet, instances.Count);

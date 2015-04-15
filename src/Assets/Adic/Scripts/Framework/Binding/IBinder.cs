@@ -42,14 +42,21 @@ namespace Adic.Binding {
 		IList<BindingInfo> GetBindings();
 		
 		/// <summary>
-		/// Gets the bindings for a certain <typeparamref name="T"/>.
+		/// Gets the bindings for a given <typeparamref name="T"/>.
 		/// </summary>
 		/// <typeparam name="T">The type to get the bindings from.</typeparam>
 		/// <returns>The bindings for the desired type.</returns>
 		IList<BindingInfo> GetBindingsFor<T>();
 		
 		/// <summary>
-		/// Gets the bindings for a certain <param name="type">.
+		/// Gets the bindings for a given <param name="identifier">.
+		/// </summary>
+		/// <param name="identifier">The identifier to get the bindings from.</param>
+		/// <returns>The bindings for the desired type.</returns>
+		IList<BindingInfo> GetBindingsFor(string identifier);
+		
+		/// <summary>
+		/// Gets the bindings for a given <param name="type">.
 		/// </summary>
 		/// <param name="type">The type to get the bindings from.</param>
 		/// <returns>The bindings for the desired type.</returns>
@@ -68,6 +75,13 @@ namespace Adic.Binding {
 		/// <param name="type">The type to be checked.</param>
 		/// <returns><c>true</c>, if binding was contained, <c>false</c> otherwise.</returns>
 		bool ContainsBindingFor(Type type);
+		
+		/// <summary>
+		/// Checks whether this binder contains a binding for a given <paramref name="identifier"/>.
+		/// </summary>
+		/// <param name="type">The identifier to be checked.</param>
+		/// <returns><c>true</c>, if binding was contained, <c>false</c> otherwise.</returns>
+		bool ContainsBindingFor(string identifier);
 		
 		/// <summary>
 		/// Unbinds any bindings to a certain <typeparamref name="T"/>.
