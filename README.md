@@ -652,7 +652,7 @@ instance = container.ResolveAll("Identifier");
 instance = container.ResolveAll(typeInstance, "Identifier");
 ```
 
-**Note:** currently manual resolution of bindings that has conditions is not supported.
+**Note:** although it's possible to resolve instances by identifier, currently manual resolution of bindings that have other conditions is not supported.
 
 ### <a id="factories"></a>Factories
 
