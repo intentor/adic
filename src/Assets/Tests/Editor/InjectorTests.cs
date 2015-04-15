@@ -3,6 +3,7 @@ using Adic;
 using Adic.Binding;
 using Adic.Injection;
 using NUnit.Framework;
+using Adic.Container;
 
 namespace Adic.Tests {
 	[TestFixture]
@@ -11,6 +12,8 @@ namespace Adic.Tests {
 		private IInjector injector;
 		/// <summary>Binder used on tests.</summary>
 		private IBinder binder;
+		/// <summary>Injection container for identifier tests.</summary>
+		private IInjectionContainer containerIdentifierTests;
 
 		[SetUp]
 		public void Init() {
@@ -21,6 +24,17 @@ namespace Adic.Tests {
 			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
 			binder.Bind<MockIClassWithoutAttributes>().ToSingleton().As("singleton");
 			binder.Bind<MockIClass>().ToSingleton();
+
+			this.containerIdentifierTests = new InjectionContainer();
+			var mockClass1 = new MockIClass() { property1 = "MockClass1" };
+			var mockClass2 = new MockIClassWithoutAttributes() { property1 = "MockClass2" };
+			var mockClass3 = new MockIClassWithAttributes() { property1 = "MockClass3" };
+			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass1).As("MockClass");
+			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass2).As("MockClass");
+			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass3).As("MockClass");
+			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass1).As("MockClass1");
+			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass2).As("MockClass2");
+			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass3).As("MockClass3");
 		}
 		
 		[Test]
@@ -104,6 +118,49 @@ namespace Adic.Tests {
 			Assert.AreEqual(instance.fieldSingleton, singleton);
 			Assert.AreEqual(instance.propertyMockInterface.GetType(), mockInterface);
 			Assert.AreEqual(instance.propertySingleton, singleton);
+		}
+		
+		[Test]
+		public void TestResolveFromIdentifierByGenerics() {
+			var instance1 = this.containerIdentifierTests.Resolve<IMockInterface>("MockClass1");
+			var instance2 = this.containerIdentifierTests.Resolve<IMockInterface>("MockClass2");
+			var instance3 = this.containerIdentifierTests.Resolve<IMockInterface>("MockClass3");
+			
+			Assert.AreEqual(typeof(MockIClass), instance1.GetType());
+			Assert.AreEqual(typeof(MockIClassWithoutAttributes), instance2.GetType());
+			Assert.AreEqual(typeof(MockIClassWithAttributes), instance3.GetType());
+
+		}
+		
+		[Test]
+		public void TestResolveFromIdentifierByType() {			
+			var instance1 = this.containerIdentifierTests.Resolve(typeof(IMockInterface), "MockClass1");
+			var instance2 = this.containerIdentifierTests.Resolve(typeof(IMockInterface), "MockClass2");
+			var instance3 = this.containerIdentifierTests.Resolve(typeof(IMockInterface), "MockClass3");
+			
+			Assert.AreEqual(typeof(MockIClass), instance1.GetType());
+			Assert.AreEqual(typeof(MockIClassWithoutAttributes), instance2.GetType());
+			Assert.AreEqual(typeof(MockIClassWithAttributes), instance3.GetType());
+		}
+		
+		[Test]
+		public void TestResolveAllFromIdentifierByGenerics() {
+			var instances = this.containerIdentifierTests.ResolveAll<IMockInterface>("MockClass");
+			
+			Assert.AreEqual(3, instances.Length);
+			Assert.AreEqual(typeof(MockIClass), instances[0].GetType());
+			Assert.AreEqual(typeof(MockIClassWithoutAttributes), instances[1].GetType());
+			Assert.AreEqual(typeof(MockIClassWithAttributes), instances[2].GetType());
+		}
+		
+		[Test]
+		public void TestResolveAllFromIdentifierByType() {
+			var instances = this.containerIdentifierTests.ResolveAll(typeof(IMockInterface), "MockClass");
+			
+			Assert.AreEqual(3, instances.Length);
+			Assert.AreEqual(typeof(MockIClass), instances[0].GetType());
+			Assert.AreEqual(typeof(MockIClassWithoutAttributes), instances[1].GetType());
+			Assert.AreEqual(typeof(MockIClassWithAttributes), instances[2].GetType());
 		}
 		
 		[Test]

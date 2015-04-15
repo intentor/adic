@@ -627,8 +627,12 @@ If you need to get a type from the container but do not want to use injection th
 ```cs
 //Resolving using generics...
 var instance = container.Resolve<Type>();
-//...or by type instance.
+//...or using generics for objects with a certain identifier...
+var instance = container.Resolve<Type>("Identifier");
+//...or by type instance...
 instance = container.Resolve(typeInstance);
+//...or by type instance for objects with a certain identifier.
+instance = container.Resolve(typeInstance, "Identifier");
 ```
 
 It's also possible to resolve all objects of a given type:
@@ -636,8 +640,12 @@ It's also possible to resolve all objects of a given type:
 ```cs
 //Resolving all objects using generics...
 var instances = container.ResolveAll<Type>();
-//...or by type instance.
+//...or using generics for objects with a certain identifier...
+var instance = container.ResolveAll<Type>("Identifier");
+//...or by type instance...
 instances = container.ResolveAll(typeInstance);
+//...or by type instance for objects with a certain identifier.
+instance = container.ResolveAll(typeInstance, "Identifier");
 ```
 
 **Note:** currently manual resolution of bindings that has conditions is not supported.

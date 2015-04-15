@@ -27,6 +27,17 @@ namespace Adic.Injection {
 		/// <typeparam name="T">Type to be resolved.</typeparam>
 		/// <returns>The instance or NULL.</returns>
 		T Resolve<T>();
+
+		/// <summary>
+		/// Resolves an instance for a specified type with a given identifier.
+		/// </summary>
+		/// <remarks>
+		/// If the type has multiple instances, please use ResolveAll<T>().
+		/// </remarks>
+		/// <typeparam name="T">Type to be resolved.</typeparam>
+		/// <param name="identifier">Identifier to look for.</param>
+		/// <returns>The instance or NULL.</returns>
+		T Resolve<T>(string identifier);
 		
 		/// <summary>
 		/// Resolves an instance for a specified type.
@@ -37,6 +48,17 @@ namespace Adic.Injection {
 		/// <param name="type">Type to be resolved.</param>
 		/// <returns>The instance or NULL.</returns>
 		object Resolve(Type type);
+		
+		/// <summary>
+		/// Resolves an instance for a specified type with a given identifier.
+		/// </summary>
+		/// <remarks>
+		/// If the type has multiple instances, it will return an IList<[type]>.
+		/// </remarks>
+		/// <param name="type">Type to be resolved.</param>
+		/// <param name="identifier">Identifier to look for.</param>
+		/// <returns>The instance or NULL.</returns>
+		object Resolve(Type type, string identifier);
 
 		/// <summary>
 		/// Resolves a list of instances for a specified type.
@@ -46,11 +68,27 @@ namespace Adic.Injection {
 		T[] ResolveAll<T>();
 		
 		/// <summary>
+		/// Resolves a list of instances for a specified type with a given identifier.
+		/// </summary>
+		/// <typeparam name="T">Type to be resolved.</typeparam>
+		/// <param name="identifier">Identifier to look for.</param>
+		/// <returns>The list of instances or NULL if there are no instances.</returns>
+		T[] ResolveAll<T>(string identifier);
+		
+		/// <summary>
 		/// Resolves a list of instances for a specified type.
 		/// </summary>
 		/// <param name="type">Type to be resolved.</param>
 		/// <returns>The list of instances or NULL if there are no instances.</returns>
 		object[] ResolveAll(Type type);
+		
+		/// <summary>
+		/// Resolves a list of instances for a specified type with a given identifier.
+		/// </summary>
+		/// <param name="type">Type to be resolved.</param>
+		/// <param name="identifier">Identifier to look for.</param>
+		/// <returns>The list of instances or NULL if there are no instances.</returns>
+		object[] ResolveAll(Type type, string identifier);
 		
 		/// <summary>
 		/// Injects dependencies on an instance of an object.

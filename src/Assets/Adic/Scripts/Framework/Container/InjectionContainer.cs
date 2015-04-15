@@ -220,17 +220,33 @@ namespace Adic {
 		public T Resolve<T>() {
 			return this.injector.Resolve<T>();
 		}
+		
+		public T Resolve<T>(string identifier) {
+			return this.injector.Resolve<T>(identifier);
+		}
 
 		public object Resolve(Type type) {
 			return this.injector.Resolve(type);
+		}
+
+		public object Resolve(Type type, string identifier) {
+			return this.injector.Resolve(type, identifier);
 		}
 
 		public T[] ResolveAll<T>() {
 			return this.injector.ResolveAll<T>();
 		}
 		
+		public T[] ResolveAll<T>(string identifier) {
+			return this.injector.ResolveAll<T>(identifier);
+		}
+		
 		public object[] ResolveAll(Type type) {
 			return this.injector.ResolveAll(type);
+		}
+		
+		public object[] ResolveAll(Type type, string identifier) {
+			return this.injector.ResolveAll(type, identifier);
 		}
 
 		public T Inject<T>(T instance) where T : class {

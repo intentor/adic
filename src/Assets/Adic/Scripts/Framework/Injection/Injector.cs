@@ -52,6 +52,19 @@ namespace Adic.Injection {
 		}
 		
 		/// <summary>
+		/// Resolves an instance for a specified type with a given identifier.
+		/// </summary>
+		/// <remarks>
+		/// If the type has multiple instances, please use ResolveAll<T>().
+		/// </remarks>
+		/// <typeparam name="T">Type to be resolved.</typeparam>
+		/// <param name="identifier">Identifier to look for.</param>
+		/// <returns>The instance or NULL.</returns>
+		public T Resolve<T>(string identifier) {
+			return (T)this.Resolve(typeof(T), InjectionMember.None, null, identifier);
+		}
+		
+		/// <summary>
 		/// Resolves an instance for a specified type.
 		/// </summary>
 		/// <remarks>
@@ -64,12 +77,35 @@ namespace Adic.Injection {
 		}
 		
 		/// <summary>
+		/// Resolves an instance for a specified type with a given identifier.
+		/// </summary>
+		/// <remarks>
+		/// If the type has multiple instances, it will return an IList<[type]>.
+		/// </remarks>
+		/// <param name="type">Type to be resolved.</param>
+		/// <param name="identifier">Identifier to look for.</param>
+		/// <returns>The instance or NULL.</returns>
+		public object Resolve(Type type, string identifier) {
+			return this.Resolve(type, InjectionMember.None, null, identifier);
+		}
+		
+		/// <summary>
 		/// Resolves a list of instances for a specified type.
 		/// </summary>
 		/// <typeparam name="T">Type to be resolved.</typeparam>
 		/// <returns>The list of instances or NULL if there are no instances.</returns>
 		public T[] ResolveAll<T>() {
-			var instance = this.Resolve(typeof(T));
+			return this.ResolveAll<T>(null);
+		}
+		
+		/// <summary>
+		/// Resolves a list of instances for a specified type with a given identifier.
+		/// </summary>
+		/// <typeparam name="T">Type to be resolved.</typeparam>
+		/// <param name="identifier">Identifier to look for.</param>
+		/// <returns>The list of instances or NULL if there are no instances.</returns>
+		public T[] ResolveAll<T>(string identifier) {
+			var instance = this.Resolve(typeof(T), identifier);
 			
 			if (instance == null) {
 				return null;
@@ -88,7 +124,17 @@ namespace Adic.Injection {
 		/// <param name="type">Type to be resolved.</param>
 		/// <returns>The list of instances or NULL if there are no instances.</returns>
 		public object[] ResolveAll(Type type) {
-			var instance = this.Resolve(type);
+			return this.ResolveAll(type, null);
+		}
+		
+		/// <summary>
+		/// Resolves a list of instances for a specified type with a given identifier.
+		/// </summary>
+		/// <param name="type">Type to be resolved.</param>
+		/// <param name="identifier">Identifier to look for.</param>
+		/// <returns>The list of instances or NULL if there are no instances.</returns>
+		public object[] ResolveAll(Type type, string identifier) {
+			var instance = this.Resolve(type, identifier);
 			
 			if (instance == null) {
 				return null;
