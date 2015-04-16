@@ -26,7 +26,7 @@ namespace Adic.Tests {
 
 			container.Bind<IMockInterface>().To<MockIClassWithAttributes>().WhenInto<MockClassVerySimple>();
 			container.Bind<IMockInterface>().To<MockIClassWithoutAttributes>().WhenInto<MockClassSimple>();
-			
+
 			var instance1 = container.Resolve<MockClassVerySimple>();
 			var instance2 = container.Resolve<MockClassSimple>();
 

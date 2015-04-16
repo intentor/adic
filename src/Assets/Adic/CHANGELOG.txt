@@ -5,12 +5,13 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
-Version 2.7 (?)
+Version 2.7 (2015-04-16)
 
 Framework
 - Added manual resolution by identifier. [Issue #9]
 - Changed identifier type to string. [Issue #9]
 - Removed new() keyword form IBindingFactory.ToFactory<T>(), given factories are now resolved by the container.
+- Fixed null reference with conditions. [Issue #10]
 
 Examples
 - Added example for factories. [Issue #8]
