@@ -13,14 +13,7 @@ namespace Adic {
 	/// It's a convenient class that act as binder and injector at the same time
 	/// and allows the use of extensions to provide new functionalities.
 	/// </summary>
-	public class InjectionContainer : IInjectionContainer {
-		/// <summary>Reflection cache used to get type info.</summary>
-		public IReflectionCache cache { get; private set; }
-		/// <summary>Internal binder.</summary>
-		public IBinder binder { get; private set; }
-		/// <summary>Internal injector.</summary>
-		public IInjector injector { get; private set; }
-
+	public class InjectionContainer : Injector, IInjectionContainer  {
 		/// <summary>Registered container extensions.</summary>
 		private List<IContainerExtension> extensions;
 
@@ -30,11 +23,7 @@ namespace Adic {
 		/// <remarks>
 		/// When passing no parameters to the constructor, default internal objects are created.
 		/// </remarks>
-		public InjectionContainer() {
-			this.cache = new ReflectionCache();
-			this.binder = new Binder();
-			this.injector = new Injector(this.cache, this.binder);
-			
+		public InjectionContainer() : base(new ReflectionCache(), new Binder()) {
 			this.RegisterItself();
 		}
 		
@@ -46,11 +35,7 @@ namespace Adic {
 		/// Default binder and injector objects are created.
 		/// </remarks>
 		/// <param name="cache">Reflection cache used to get type info.</param>
-		public InjectionContainer(IReflectionCache cache) {
-			this.cache = cache;
-			this.binder = new Binder();
-			this.injector = new Injector(this.cache, this.binder);
-			
+		public InjectionContainer(IReflectionCache cache) : base(cache, new Binder()) {			
 			this.RegisterItself();
 		}
 
@@ -60,12 +45,7 @@ namespace Adic {
 		/// <remarks>
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		/// <param name="binder">Binder to be used on the container.</param>
-		/// <param name="injector">Injector to be used on the container.</param>
-		public InjectionContainer(IReflectionCache cache, IBinder binder, IInjector injector) {
-			this.cache = cache;
-			this.binder = binder;
-			this.injector = injector;
-
+		public InjectionContainer(IReflectionCache cache, IBinder binder) : base(cache, binder) {
 			this.RegisterItself();
 		}
 
@@ -75,10 +55,8 @@ namespace Adic {
 		public void Dispose() {
 			this.cache = null;
 			this.binder = null;
-			this.injector = null;
 		}
-
-		
+				
 		/// <summary>
 		/// Registers a container extension.
 		/// </summary>
@@ -196,81 +174,6 @@ namespace Adic {
 		
 		public void Unbind(Type type) {
 			this.binder.Unbind(type);
-		}
-
-		/* IInjector */
-		
-		public event TypeResolutionHandler beforeResolve {
-			add { this.injector.beforeResolve += value; }
-			remove { this.injector.beforeResolve -= value; }
-		}
-		public event TypeResolutionHandler afterResolve {
-			add { this.injector.afterResolve += value; }
-			remove { this.injector.afterResolve -= value; }
-		}
-		public event BindingEvaluationHandler bindingEvaluation {
-			add { this.injector.bindingEvaluation += value; }
-			remove { this.injector.bindingEvaluation -= value; }
-		}
-		public event BindingResolutionHandler bindingResolution {
-			add { this.injector.bindingResolution += value; }
-			remove { this.injector.bindingResolution -= value; }
-		}
-		public event InstanceInjectionHandler beforeInject {
-			add { this.injector.beforeInject += value; }
-			remove { this.injector.beforeInject -= value; }
-		}
-		public event InstanceInjectionHandler afterInject {
-			add { this.injector.afterInject += value; }
-			remove { this.injector.afterInject -= value; }
-		}
-		
-		public T Resolve<T>() {
-			return this.injector.Resolve<T>();
-		}
-		
-		public T Resolve<T>(string identifier) {
-			return this.injector.Resolve<T>(identifier);
-		}
-
-		public object Resolve(Type type) {
-			return this.injector.Resolve(type);
-		}
-		
-		public object Resolve(string identifier) {
-			return this.injector.Resolve(identifier);
-		}
-
-		public object Resolve(Type type, string identifier) {
-			return this.injector.Resolve(type, identifier);
-		}
-
-		public T[] ResolveAll<T>() {
-			return this.injector.ResolveAll<T>();
-		}
-		
-		public T[] ResolveAll<T>(string identifier) {
-			return this.injector.ResolveAll<T>(identifier);
-		}
-		
-		public object[] ResolveAll(Type type) {
-			return this.injector.ResolveAll(type);
-		}
-		
-		public object[] ResolveAll(string identifier) {
-			return this.injector.ResolveAll(identifier);
-		}
-		
-		public object[] ResolveAll(Type type, string identifier) {
-			return this.injector.ResolveAll(type, identifier);
-		}
-
-		public T Inject<T>(T instance) where T : class {
-			return this.injector.Inject<T>(instance);
-		}
-
-		public object Inject(object instance) {
-			return this.injector.Inject(instance);
 		}
 	}
 }
