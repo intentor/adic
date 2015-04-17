@@ -23,9 +23,9 @@ namespace Adic.Injection {
 		public event InstanceInjectionHandler afterInject;
 
 		/// <summary>Reflection cache used to get type info.</summary>
-		public IReflectionCache cache { get; private set; }
+		public IReflectionCache cache { get; protected set; }
 		/// <summary>Binder used to resolved bindings.</summary>
-		public IBinder binder { get; private set; }
+		public IBinder binder { get; protected set; }
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectorBinder"/> class.
@@ -300,20 +300,16 @@ namespace Adic.Injection {
 			if (reflectedClass.fields.Length > 0) {
 				for (int fieldIndex = 0; fieldIndex < reflectedClass.fields.Length; fieldIndex++) {
 					var field = reflectedClass.fields[fieldIndex];
-					var identifier = (field.Key is Type ? string.Empty : field.Key.ToString());
-					var type = (field.Key is Type ? field.Key as Type : field.Value.FieldType);
-					var valueToSet = this.Resolve(type, InjectionMember.Field, instance, identifier);
-					field.Value.SetValue(instance, valueToSet);
+					var valueToSet = this.Resolve(field.type, InjectionMember.Field, instance, field.identifier);
+					field.setter(instance, valueToSet);
 				}
 			}
 
 			if (reflectedClass.properties.Length > 0) {
 				for (int propertyIndex = 0; propertyIndex < reflectedClass.properties.Length; propertyIndex++) {
 					var property = reflectedClass.properties[propertyIndex];
-					var identifier = (property.Key is Type ? string.Empty : property.Key.ToString());
-					var type = (property.Key is Type ? property.Key as Type : property.Value.PropertyType);
-					var valueToSet = this.Resolve(type, InjectionMember.Property, instance, identifier);
-					property.Value.SetValue(instance, valueToSet, null);
+					var valueToSet = this.Resolve(property.type, InjectionMember.Property, instance, property.identifier);
+					property.setter(instance, valueToSet);
 				}
 			}
 			
@@ -321,7 +317,7 @@ namespace Adic.Injection {
 			if (reflectedClass.postConstructors.Length > 0) {
 				for (int constIndex = 0; constIndex < reflectedClass.postConstructors.Length; constIndex++) {
 					var method = reflectedClass.postConstructors[constIndex];
-					method.Invoke(instance, null);
+					method(instance);
 				}
 			}
 
@@ -422,12 +418,12 @@ namespace Adic.Injection {
 			var reflectedClass = this.cache.GetClass(type);
 			object instance = null;
 
-			if (reflectedClass.constructor == null) {
+			if (reflectedClass.constructor == null && reflectedClass.paramsConstructor == null) {
 				throw new InjectorException(string.Format(InjectorException.NO_CONSTRUCTORS, type.ToString()));
 			}
 
 			if (reflectedClass.constructorParameters.Length == 0) {
-				instance = reflectedClass.constructor.Invoke(null);
+				instance = reflectedClass.constructor();
 			} else {
 				object[] parameters = new object[reflectedClass.constructorParameters.Length];
 
@@ -440,7 +436,7 @@ namespace Adic.Injection {
              		);
 				}
 
-				instance = reflectedClass.constructor.Invoke(parameters);
+				instance = reflectedClass.paramsConstructor(parameters);
 			}
 
 			instance = this.Inject(instance, reflectedClass);

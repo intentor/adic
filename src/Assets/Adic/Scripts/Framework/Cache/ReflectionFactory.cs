@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Adic.Util;
 
 namespace Adic.Cache {
 	/// <summary>
@@ -16,8 +17,15 @@ namespace Adic.Cache {
 			var reflectedClass = new ReflectedClass();
 
 			reflectedClass.type = type;
-			reflectedClass.constructor = this.ResolveConstructor(type);
-			reflectedClass.constructorParameters = this.ResolveConstructorParameters(reflectedClass.constructor);
+
+			var constructor = this.ResolveConstructor(type);
+			if (constructor.GetParameters().Length == 0) {
+				reflectedClass.constructor = MethodUtils.CreateConstructor(type, constructor);
+			} else {
+				reflectedClass.paramsConstructor = MethodUtils.CreateConstructorWithParams(type, constructor);;
+			}
+
+			reflectedClass.constructorParameters = this.ResolveConstructorParameters(constructor);
 			reflectedClass.postConstructors = this.ResolvePostConstructors(type);
 			reflectedClass.properties = this.ResolveProperties(type);
 			reflectedClass.fields = this.ResolveFields(type);
@@ -32,10 +40,11 @@ namespace Adic.Cache {
 		/// <param name="type">Type from which reflection will be resolved.</param>
 		/// <returns>The constructor.</returns>
 		protected ConstructorInfo ResolveConstructor(Type type) {
-			var constructors = type.GetConstructors(BindingFlags.FlattenHierarchy | 
-													BindingFlags.Public |
-													BindingFlags.Instance |
-													BindingFlags.InvokeMethod);
+			var constructors = type.GetConstructors(
+				BindingFlags.FlattenHierarchy | 
+				BindingFlags.Public |
+				BindingFlags.Instance |
+				BindingFlags.InvokeMethod);
 
 			if (constructors.Length == 0) {
 				return null;
@@ -87,8 +96,8 @@ namespace Adic.Cache {
 		/// Resolves the post constructors for the type.
 		/// </summary>
 		/// <returns>The post constructors.</returns>
-		protected MethodInfo[] ResolvePostConstructors(Type type) {
-			var postConstructors = new List<MethodInfo>();
+		protected PostConstructor[] ResolvePostConstructors(Type type) {
+			var postConstructors = new List<PostConstructor>();
 
 			var methods = type.GetMethods(BindingFlags.FlattenHierarchy |
 				BindingFlags.Public |
@@ -101,7 +110,7 @@ namespace Adic.Cache {
 				var attributes = method.GetCustomAttributes(typeof(PostConstruct), true);
 
 				if (attributes.Length > 0) {
-					postConstructors.Add(method);
+					postConstructors.Add((PostConstructor)MethodUtils.CreateMethod(type, method));
 				}
 			}
 
@@ -113,8 +122,8 @@ namespace Adic.Cache {
 		/// </summary>
 		/// <param name="type">Type from which reflection will be resolved.</param>
 		/// <returns>The properties.</returns>
-		protected KeyValuePair<object, PropertyInfo>[] ResolveProperties(Type type) {
-			var pairs = new List<KeyValuePair<object, PropertyInfo>>();
+		protected SetterInfo[] ResolveProperties(Type type) {
+			var setters = new List<SetterInfo>();
 
 			var properties = type.GetProperties(BindingFlags.Instance | 
 			    BindingFlags.Static |
@@ -126,18 +135,14 @@ namespace Adic.Cache {
 				var attributes = property.GetCustomAttributes(typeof(Inject), true);
 
 				if (attributes.Length > 0) {
-					//Check if it needs to inject a named instance.
 					var attribute = attributes[0] as Inject;
-
-					//Checks if the injection needs to happen by identifier or type.
-					object key = (string.IsNullOrEmpty(attribute.identifier) ? 
-              			property.PropertyType as object : attribute.identifier);
-
-					pairs.Add(new KeyValuePair<object, PropertyInfo>(key, property));
+					var method = MethodUtils.CreatePropertySetter(type, property);
+					var info = new SetterInfo(property.PropertyType, attribute.identifier, method);
+					setters.Add(info);
 				}
 			}
 
-			return pairs.ToArray();
+			return setters.ToArray();
 		}
 		
 		/// <summary>
@@ -145,8 +150,8 @@ namespace Adic.Cache {
 		/// </summary>
 		/// <param name="type">Type from which reflection will be resolved.</param>
 		/// <returns>The fields.</returns>
-		protected KeyValuePair<object, FieldInfo>[] ResolveFields(Type type) {
-			var pairs = new List<KeyValuePair<object, FieldInfo>>();
+		protected SetterInfo[] ResolveFields(Type type) {
+			var setters = new List<SetterInfo>();
 			
 			var fields = type.GetFields(BindingFlags.Instance | 
 		        BindingFlags.Static |
@@ -158,18 +163,14 @@ namespace Adic.Cache {
 				var attributes = field.GetCustomAttributes(typeof(Inject), true);
 				
 				if (attributes.Length > 0) {
-					//Check if it needs to inject a named instance.
 					var attribute = attributes[0] as Inject;
-					
-					//Checks if the injection needs to happen by name or type.
-					object key = (attribute.identifier == null ? 
-						field.FieldType as object : attribute.identifier);
-					
-					pairs.Add(new KeyValuePair<object, FieldInfo>(key, field));
+					var method = MethodUtils.CreateFieldSetter(type, field);
+					var info = new SetterInfo(field.FieldType, attribute.identifier, method);
+					setters.Add(info);
 				}
 			}
 			
-			return pairs.ToArray();
+			return setters.ToArray();
 		}
 	}
 }

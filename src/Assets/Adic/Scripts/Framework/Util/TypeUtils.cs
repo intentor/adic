@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Adic.Util {
 	/// <summary>
-	/// Uutility class for types.
+	/// Utility class for types.
 	/// </summary>
 	public static class TypeUtils {
 		/// <summary>
