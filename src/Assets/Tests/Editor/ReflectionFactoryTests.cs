@@ -27,8 +27,9 @@ namespace Adic.Tests {
 		public void TestConstructorWithConstruct() {
 			var factory = new ReflectionFactory();			
 			var reflectedClass = factory.Create(typeof(MockIClassWithAttributes));
-
-			Assert.NotNull(reflectedClass.constructor);
+			
+			Assert.IsNull(reflectedClass.constructor);
+			Assert.NotNull(reflectedClass.paramsConstructor);
 			Assert.AreEqual(1, reflectedClass.constructorParameters.Length);
 			Assert.AreEqual(typeof(MockClassToDepend), reflectedClass.constructorParameters[0]);
 		}
@@ -39,7 +40,6 @@ namespace Adic.Tests {
 			var reflectedClass = factory.Create(typeof(MockIClassWithAttributes));
 
 			Assert.AreEqual(1, reflectedClass.postConstructors.Length);
-			Assert.AreEqual("SomeMethod2", reflectedClass.postConstructors[0].Name);
 		}
 		
 		[Test]
@@ -48,7 +48,6 @@ namespace Adic.Tests {
 			var reflectedClass = factory.Create(typeof(MockIClassWithAttributes));
 			
 			Assert.AreEqual(1, reflectedClass.properties.Length);
-			Assert.AreEqual("property4", reflectedClass.properties[0].Value.Name);
 		}
 		
 		[Test]
@@ -57,7 +56,6 @@ namespace Adic.Tests {
 			var reflectedClass = factory.Create(typeof(MockIClassWithAttributes));
 			
 			Assert.AreEqual(1, reflectedClass.fields.Length);
-			Assert.AreEqual("field4", reflectedClass.fields[0].Value.Name);
 		}
 	}
 }

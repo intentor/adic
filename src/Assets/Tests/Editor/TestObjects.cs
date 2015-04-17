@@ -59,6 +59,10 @@ namespace Adic.Tests {
 	/// Test class that implements IMockInterface.
 	/// </summary>
 	public class MockIClass : IMockInterface {
+		public string field1;
+		public string field2;
+		public string field3;
+
 		public string property1 { get; set; }
 		public string property2 { get; set; }
 		public string property3 { get; set; }
@@ -75,9 +79,12 @@ namespace Adic.Tests {
 		public string property1 { get; set; }
 		public string property2 { get; set; }
 		public string property3 { get; set; }
+		public MockClassToDepend dependency { get; set; }
 
 		public MockIClassWithoutAttributes() { }
-		public MockIClassWithoutAttributes(MockClassToDepend dependency) { }
+		public MockIClassWithoutAttributes(MockClassToDepend dependency) {
+			this.dependency = dependency;
+		}
 				
 		public void SomeMethod1() { }
 		public void SomeMethod2() { }
