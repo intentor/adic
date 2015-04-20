@@ -1088,9 +1088,9 @@ namespace MyNamespace {
 <sup><a id="about-performance-tests">\*</a> See *Tests/Editor/SpeedTest.cs* for more details on performance tests. Tested on a MacBook Pro late 2014 (i7 2.5/3.7 GHz).</sup>
 
 <sup>\- A thousand simple resolves in 1ms</sup><br>
-<sup>\- A million simple resolves in 1493ms</sup><br>
+<sup>\- A million simple resolves in 1330ms</sup><br>
 <sup>\- A thousand complex resolves in 2ms</sup><br>
-<sup>\- A million complex resolves in 2682ms</sup>
+<sup>\- A million complex resolves in 2428ms</sup>
 
 <sup>A *simple resolve* is the resolution of a class without any `Inject` attributes.</sup><br>
 <sup>A *complex resolve* is the resolution of a class that is not bound to the container and has a `Inject` attribute in a field.</sup>
