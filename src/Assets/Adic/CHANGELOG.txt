@@ -9,7 +9,7 @@ Version 2.8 (2015-04-20)
 
 Framework
 - Added chaining for bindings. [Issue #11]
-- Updated instantiations, post construct callings and field/property setters to use cached methods.
+- Updated instantiations, post construct callings and field/property setters to use cached methods (up to 100% in performance gain when resolving!).
 - Updated InjectionContainer to inherit from Adic.Injector.
 
 Context Root extension
@@ -20,7 +20,7 @@ Version 2.7 (2015-04-16)
 Framework
 - Added manual resolution by identifier. [Issue #9]
 - Changed identifier type to string. [Issue #9]
-- Removed new() keyword form IBindingFactory.ToFactory<T>(), given factories are now resolved by the container.
+- Removed new() keyword form IBindingFactory.ToFactory(), given factories are now resolved by the container.
 - Fixed null reference with conditions. [Issue #10]
 
 Examples
