@@ -19,10 +19,12 @@ namespace Adic.Cache {
 			reflectedClass.type = type;
 
 			var constructor = this.ResolveConstructor(type);
-			if (constructor.GetParameters().Length == 0) {
-				reflectedClass.constructor = MethodUtils.CreateConstructor(type, constructor);
-			} else {
-				reflectedClass.paramsConstructor = MethodUtils.CreateConstructorWithParams(type, constructor);;
+			if (constructor != null) {
+				if (constructor.GetParameters().Length == 0) {
+					reflectedClass.constructor = MethodUtils.CreateConstructor(type, constructor);
+				} else {
+					reflectedClass.paramsConstructor = MethodUtils.CreateConstructorWithParams(type, constructor);;
+				}
 			}
 
 			reflectedClass.constructorParameters = this.ResolveConstructorParameters(constructor);
