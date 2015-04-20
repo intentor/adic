@@ -61,42 +61,54 @@ namespace Adic {
 		/// Registers a container extension.
 		/// </summary>
 		/// <typeparam name="T">The type of the extension to be registered.</param>
-		public void RegisterExtension<T>() where T : IContainerExtension {
+		/// <returns>The injection container for chaining.</returns>
+		public IInjectionContainer RegisterExtension<T>() where T : IContainerExtension {
 			this.RegisterExtension(this.Resolve<T>());
+
+			return this;
 		}
 
 		/// <summary>
 		/// Registers a container extension.
 		/// </summary>
 		/// <param name="extension">The extension to be registered.</param>
-		public void RegisterExtension(IContainerExtension extension) {
+		/// <returns>The injection container for chaining.</returns>
+		public IInjectionContainer RegisterExtension(IContainerExtension extension) {
 			if (this.extensions == null) this.extensions = new List<IContainerExtension>();
 
 			this.extensions.Add(extension);
 			extension.OnRegister(this);
+			
+			return this;
 		}
 		
 		/// <summary>
 		/// Unegisters a container extension.
 		/// </summary>
 		/// <typeparam name="T">The type of the extension(s) to be unregistered.</param>
-		public void UnregisterExtension<T>() where T : IContainerExtension {
+		/// <returns>The injection container for chaining.</returns>
+		public IInjectionContainer UnregisterExtension<T>() where T : IContainerExtension {
 			var extensionsToUnregister = this.extensions.OfType<T>().ToList();
 			
 			foreach (var extension in extensionsToUnregister) {
 				this.UnregisterExtension(extension);
 			}
+			
+			return this;
 		}
 		
 		/// <summary>
 		/// Unegisters a container extension.
 		/// </summary>
 		/// <param name="extension">The extension to be unregistered.</param>
-		public void UnregisterExtension(IContainerExtension extension) {
-			if (!this.extensions.Contains(extension)) return;
+		/// <returns>The injection container for chaining.</returns>
+		public IInjectionContainer UnregisterExtension(IContainerExtension extension) {
+			if (!this.extensions.Contains(extension)) return this;
 			
 			this.extensions.Remove(extension);
 			extension.OnUnregister(this);
+			
+			return this;
 		}
 
 		/* Container */

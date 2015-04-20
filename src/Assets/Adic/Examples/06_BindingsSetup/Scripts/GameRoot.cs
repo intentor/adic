@@ -9,11 +9,11 @@ namespace Adic.Examples.BindingsSetup {
 		public override void SetupContainers() {
 			//Create the container.
 			var container = new InjectionContainer();
-			//Register any extensions the container may use.
-			container.RegisterExtension<UnityBindingContainerExtension>();
-
-			//Setups bindings from a namespace.
-			container.SetupBindings("Adic.Examples.BindingsSetup.Bindings");
+			container
+				//Register any extensions the container may use.
+				.RegisterExtension<UnityBindingContainerExtension>()
+				//Setups bindings from a namespace.
+				.SetupBindings("Adic.Examples.BindingsSetup.Bindings");
 
 			//Add the container to the context.
 			this.AddContainer(container);

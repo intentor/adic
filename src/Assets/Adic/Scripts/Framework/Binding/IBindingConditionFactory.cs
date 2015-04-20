@@ -4,7 +4,7 @@ namespace Adic.Binding {
 	/// <summary>
 	/// Defines the conditions of a binding.
 	/// </summary>
-	public interface IBindingConditionFactory {
+	public interface IBindingConditionFactory : IBindingCreator {
 		//// <summary>
 		/// Conditions the binding to be injected through an identifier.
 		/// </summary>

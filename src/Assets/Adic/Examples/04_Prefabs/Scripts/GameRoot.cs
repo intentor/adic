@@ -11,11 +11,13 @@ namespace Adic.Examples.Prefabs {
 			var container = new InjectionContainer();
 			//Register any extensions the container may use.
 			container.RegisterExtension<UnityBindingContainerExtension>();
-			
-			//Bind the "Cube" prefab. It will be injected in CubeRotator.
-			container.Bind<Transform>().ToPrefab("04_Prefabs/Cube").As("cube");
-			//Bind the "Plane" prefab. It exists just to make the scene less empty.
-			container.Bind<GameObject>().ToPrefabSingleton("04_Prefabs/Plane");
+						
+			//Bindings.
+			container
+				//Bind the "Cube" prefab. It will be injected in CubeRotator.
+				.Bind<Transform>().ToPrefab("04_Prefabs/Cube").As("cube")
+				//Bind the "Plane" prefab. It exists just to make the scene less empty.
+				.Bind<GameObject>().ToPrefabSingleton("04_Prefabs/Plane");
 			
 			//Add the container to the context.
 			this.AddContainer(container);

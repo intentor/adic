@@ -3,6 +3,8 @@ using System;
 namespace Adic.Binding {
 	//// <summary>
 	/// Defines a binding factory.
+	/// 
+	/// The binding factory also provides binding capabilities for chaining.
 	/// </summary>
 	public interface IBindingFactory {
 		//// <summary>Binder used by the Binding Factory.</summary>
@@ -109,6 +111,6 @@ namespace Adic.Binding {
 		/// <returns>The binding.</returns>
 		/// <param name="value">Binding value.</param>
 		/// <param name="instanceType">Binding instance type.</param>
-		IBindingConditionFactory CreateBinding(object value, BindingInstance instanceType);
+		IBindingConditionFactory AddBinding(object value, BindingInstance instanceType);
 	}
 }

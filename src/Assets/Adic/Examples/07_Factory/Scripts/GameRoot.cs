@@ -13,20 +13,18 @@ namespace Adic.Examples.Factory {
 		public override void SetupContainers() {
 			//Create the container.
 			var container = new InjectionContainer();
-			//Register any extensions the container may use.
-			container.RegisterExtension<CommanderContainerExtension>();
-			container.RegisterExtension<EventCallerContainerExtension>();
-			container.RegisterExtension<UnityBindingContainerExtension>();
-
-			//Setup bindings from a namespace.
-			container.SetupBindings("Adic.Examples.Factory.Bindings");
-			
-			//Register all commands under the namespace "Adic.Examples.Factories.Commands".
-			container.RegisterCommands("Adic.Examples.Factory.Commands");
-			
-			//Get a reference to the command dispatcher so it can be used to dispatch
-			//commands in the Init() method.
-			this.dispatcher = container.GetCommandDispatcher();
+			this.dispatcher = container				
+				//Register any extensions the container may use.
+				.RegisterExtension<CommanderContainerExtension>()
+				.RegisterExtension<EventCallerContainerExtension>()
+				.RegisterExtension<UnityBindingContainerExtension>()
+				//Setup bindings from a namespace.
+				.SetupBindings("Adic.Examples.Factory.Bindings")			
+				//Register all commands under the namespace "Adic.Examples.Factories.Commands".
+				.RegisterCommands("Adic.Examples.Factory.Commands")
+				//Get a reference to the command dispatcher so it can be used to dispatch
+				//commands in the Init() method.
+				.GetCommandDispatcher();
 
 			//Add the container to the context.
 			this.AddContainer(container);

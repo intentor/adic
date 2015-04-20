@@ -14,9 +14,10 @@ namespace Adic.Examples.Commander {
 			//Create the container.
 			var container = new InjectionContainer();
 			//Register any extensions the container may use.
-			container.RegisterExtension<CommanderContainerExtension>();
-			container.RegisterExtension<EventCallerContainerExtension>();
-			container.RegisterExtension<UnityBindingContainerExtension>();
+			container
+				.RegisterExtension<CommanderContainerExtension>()
+				.RegisterExtension<EventCallerContainerExtension>()
+				.RegisterExtension<UnityBindingContainerExtension>();
 
 			//Bind the "Prism" prefab.
 			container.Bind<Transform>().ToPrefab("05_Commander/Prism");

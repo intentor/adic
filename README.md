@@ -13,6 +13,7 @@
 	2. <a href="#structure">Structure
 	3. <a href="#types-of-bindings">Types of bindings
 	4. <a href="#namespace-conventions">Namespace conventions
+	5. <a href="#chaining">Chaining</a>
 4. <a href="#quick-start">Quick start</a>
 5. <a href="#api">API</a>
 	1. <a href="#bindings">Bindings</a>
@@ -106,6 +107,26 @@ The structure of *Adic* is divided into five parts:
 2. `InjectionContainer`;
 3. `IFactory`;
 4. Extensions (like `ContextRoot` and `UnityBinding`).
+
+### <a id="chaining"></a>Chaining
+
+Methods from the container and bindings creation can be chained to achieve a more compact code:
+
+```cs
+//Create the container.
+var container = new InjectionContainer();
+container				
+	//Register any extensions the container may use.
+	.RegisterExtension<CommanderContainerExtension>()
+	.RegisterExtension<EventCallerContainerExtension>()
+	.RegisterExtension<UnityBindingContainerExtension>()
+	//Add bindings.
+    .Bind<Type1>.To<AnotherType1>()
+    .Bind<Type2>.To<AnotherType2>().As("Identifier")
+    .Bind<Type3>.ToSingleton<AnotherType3>();
+```
+
+**Good practice:** when chaining, always place the bindings in the end of the chain.
 
 ## <a id="quick-start"></a>Quick start
 

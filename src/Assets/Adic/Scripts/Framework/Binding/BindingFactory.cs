@@ -27,7 +27,7 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <returns>The binding condition object related to this binding.</returns>
 		public IBindingConditionFactory ToSelf() {
-			return this.CreateBinding(this.bindingType, BindingInstance.Transient);
+			return this.AddBinding(this.bindingType, BindingInstance.Transient);
 		}
 		
 		//// <summary>
@@ -35,7 +35,7 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <returns>The binding condition object related to this binding.</returns>
 		public IBindingConditionFactory ToSingleton() {
-			return this.CreateBinding(this.bindingType, BindingInstance.Singleton);
+			return this.AddBinding(this.bindingType, BindingInstance.Singleton);
 		}
 		
 		//// <summary>
@@ -57,7 +57,7 @@ namespace Adic.Binding {
 				throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
 			}
 			
-			return this.CreateBinding(type, BindingInstance.Singleton);
+			return this.AddBinding(type, BindingInstance.Singleton);
 		}
 		
 		//// <summary>
@@ -79,7 +79,7 @@ namespace Adic.Binding {
 				throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
 			}
 
-			return this.CreateBinding(type, BindingInstance.Transient);
+			return this.AddBinding(type, BindingInstance.Transient);
 		}
 		
 		//// <summary>
@@ -105,7 +105,7 @@ namespace Adic.Binding {
 				throw new BindingException(BindingException.INSTANCE_NOT_ASSIGNABLE);
 			}
 			
-			return this.CreateBinding(instance, BindingInstance.Singleton);
+			return this.AddBinding(instance, BindingInstance.Singleton);
 		}
 
 		/// <summary>
@@ -118,7 +118,7 @@ namespace Adic.Binding {
 			var types = TypeUtils.GetAssignableTypesInNamespace(this.bindingType, namespaceName);
 
 			for (int typeIndex = 0; typeIndex < types.Length; typeIndex++) {
-				this.CreateBinding(types[typeIndex], BindingInstance.Transient);
+				this.AddBinding(types[typeIndex], BindingInstance.Transient);
 			}
 		}
 		
@@ -132,7 +132,7 @@ namespace Adic.Binding {
 			var types = TypeUtils.GetAssignableTypesInNamespace(this.bindingType, namespaceName);
 			
 			for (int typeIndex = 0; typeIndex < types.Length; typeIndex++) {
-				this.CreateBinding(types[typeIndex], BindingInstance.Singleton);
+				this.AddBinding(types[typeIndex], BindingInstance.Singleton);
 			}
 		}
 
@@ -155,7 +155,7 @@ namespace Adic.Binding {
 				throw new BindingException(BindingException.TYPE_NOT_FACTORY);
 			}
 			
-			return this.CreateBinding(type, BindingInstance.Factory);
+			return this.AddBinding(type, BindingInstance.Factory);
 		}
 		
 		//// <summary>
@@ -164,16 +164,16 @@ namespace Adic.Binding {
 		/// <param name="factory">Factory to be bound to.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
 		public IBindingConditionFactory ToFactory(IFactory factory) {			
-			return this.CreateBinding(factory, BindingInstance.Factory);
+			return this.AddBinding(factory, BindingInstance.Factory);
 		}
 
 		//// <summary>
-		/// Creates a binding.
+		/// Adds a binding.
 		/// </summary>
-		/// <returns>The binding.</returns>
 		/// <param name="value">Binding value.</param>
 		/// <param name="instanceType">Binding instance type.</param>
-		public IBindingConditionFactory CreateBinding(object value, BindingInstance instanceType) {
+		/// <returns>The binding condition factory.</returns>
+		public IBindingConditionFactory AddBinding(object value, BindingInstance instanceType) {
 			var binding = new BindingInfo(this.bindingType, value, instanceType);
 			this.binder.AddBinding(binding);
 
@@ -186,7 +186,7 @@ namespace Adic.Binding {
 		/// <param name="type">The type being bound.</param>
 		/// <returns>The binding provider.</returns>
 		protected virtual IBindingConditionFactory BindingConditionFactoryProvider(BindingInfo binding) {
-			return new BindingConditionFactory(binding);
+			return new BindingConditionFactory(binding, this.binder);
 		}
 	}
 }

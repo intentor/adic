@@ -17,24 +17,28 @@ namespace Adic.Container {
 		/// Registers a container extension.
 		/// </summary>
 		/// <typeparam name="T">The type of the extension to be registered.</param>
-		void RegisterExtension<T>() where T : IContainerExtension;
+		/// <returns>The injection container for chaining.</returns>
+		IInjectionContainer RegisterExtension<T>() where T : IContainerExtension;
 
 		/// <summary>
 		/// Registers a container extension.
 		/// </summary>
 		/// <param name="extension">The extension to be registered.</param>
-		void RegisterExtension(IContainerExtension extension);
+		/// <returns>The injection container for chaining.</returns>
+		IInjectionContainer RegisterExtension(IContainerExtension extension);
 		
 		/// <summary>
 		/// Unegisters a container extension.
 		/// </summary>
 		/// <typeparam name="T">The type of the extension(s) to be unregistered.</param>
-		void UnregisterExtension<T>() where T : IContainerExtension;
+		/// <returns>The injection container for chaining.</returns>
+		IInjectionContainer UnregisterExtension<T>() where T : IContainerExtension;
 		
 		/// <summary>
 		/// Unegisters a container extension.
 		/// </summary>
 		/// <param name="extension">The extension to be unregistered.</param>
-		void UnregisterExtension(IContainerExtension extension);
+		/// <returns>The injection container for chaining.</returns>
+		IInjectionContainer UnregisterExtension(IContainerExtension extension);
 	}
 }

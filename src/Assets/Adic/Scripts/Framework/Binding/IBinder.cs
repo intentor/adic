@@ -5,7 +5,7 @@ namespace Adic.Binding {
 	/// <summary>
 	/// Defines a binder that binds a type to another type or instance.
 	/// </summary>
-	public interface IBinder {
+	public interface IBinder : IBindingCreator {
 		/// <summary>Occurs before a binding is added.</summary>
 		event BindingAddedHandler beforeAddBinding;
 		/// <summary>Occurs after a binding is added.</summary>
@@ -14,20 +14,6 @@ namespace Adic.Binding {
 		event BindingRemovedHandler beforeRemoveBinding;
 		/// <summary>Occurs after a binding is removed.</summary>
 		event BindingRemovedHandler afterRemoveBinding;
-
-		/// <summary>
-		/// Binds a type to another type or instance.
-		/// </summary>
-		/// <typeparam name="T">The type to bind to.</typeparam>
-		/// <returns>The binding.</returns>
-		IBindingFactory Bind<T>();
-
-		/// <summary>
-		/// Binds a type to another type or instance.
-		/// </summary>
-		/// <param name="type">The type to bind to.</param>
-		/// <returns>The binding.</returns>
-		IBindingFactory Bind(Type type);
 		
 		/// <summary>
 		/// Adds a binding.

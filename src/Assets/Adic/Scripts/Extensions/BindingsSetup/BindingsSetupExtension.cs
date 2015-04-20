@@ -26,8 +26,11 @@ namespace Adic {
 		/// <typeparam name="T">The bindings setup object type.</typeparam>
 		/// <param name="container">Container in which the bindings will be setup.</param>
 		/// <param name="setup">The bindings setup.</param>
-		public static void SetupBindings<T>(this IInjectionContainer container) where T : IBindingsSetup, new() {
+		/// <returns>The injection container for chaining.</returns>
+		public static IInjectionContainer SetupBindings<T>(this IInjectionContainer container) where T : IBindingsSetup, new() {
 			container.SetupBindings(typeof(T));
+			
+			return container;
 		}
 		
 		/// <summary>
@@ -35,9 +38,12 @@ namespace Adic {
 		/// </summary>
 		/// <param name="container">Container in which the bindings will be setup.</param>
 		/// <param name="type">The bindings setup object type.</param>
-		public static void SetupBindings(this IInjectionContainer container, Type type) {
+		/// <returns>The injection container for chaining.</returns>
+		public static IInjectionContainer SetupBindings(this IInjectionContainer container, Type type) {
 			var setup = container.Resolve(type);
 			container.SetupBindings((IBindingsSetup)setup);
+			
+			return container;
 		}
 		
 		/// <summary>
@@ -45,8 +51,11 @@ namespace Adic {
 		/// </summary>
 		/// <param name="container">Container in which the bindings will be setup.</param>
 		/// <param name="setup">The bindings setup.</param>
-		public static void SetupBindings(this IInjectionContainer container, IBindingsSetup setup) {
+		/// <returns>The injection container for chaining.</returns>
+		public static IInjectionContainer SetupBindings(this IInjectionContainer container, IBindingsSetup setup) {
 			setup.SetupBindings(container);
+			
+			return container;
 		}		
 		
 		
@@ -56,8 +65,11 @@ namespace Adic {
 		/// <param name="container">Container in which the bindings will be setup.</param>
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <param name="setup">The bindings setup.</param>
-		public static void SetupBindings(this IInjectionContainer container, string namespaceName) {
+		/// <returns>The injection container for chaining.</returns>
+		public static IInjectionContainer SetupBindings(this IInjectionContainer container, string namespaceName) {
 			container.SetupBindings(namespaceName, true);
+			
+			return container;
 		}
 		
 		/// <summary>
@@ -67,9 +79,10 @@ namespace Adic {
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <param name="includeChildren">Indicates whether child namespaces should be included.</param>
 		/// <param name="setup">The bindings setup.</param>
-		public static void SetupBindings(this IInjectionContainer container,
-		                                 string namespaceName,
-		                                 bool includeChildren) {
+		/// <returns>The injection container for chaining.</returns>
+		public static IInjectionContainer SetupBindings(this IInjectionContainer container,
+     		string namespaceName,
+     		bool includeChildren) {
 			var setups = TypeUtils.GetAssignableTypesInNamespace(
 				typeof(IBindingsSetup), namespaceName, includeChildren);
 			var prioritizedSetups = new PrioritizedBindingSetup[setups.Length];
@@ -99,6 +112,8 @@ namespace Adic {
 			for (var setupIndex = 0; setupIndex < prioritizedSetups.Length; setupIndex++) {
 				prioritizedSetups[setupIndex].setup.SetupBindings(container);
 			}
+
+			return container;
 		}
 	}
 }

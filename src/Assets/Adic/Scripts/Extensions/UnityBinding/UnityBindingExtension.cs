@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using Adic.Binding;
@@ -301,7 +301,7 @@ namespace Adic {
 
 			var prefabBinding = new PrefabBinding(prefab, type);
 
-			return bindingFactory.CreateBinding(prefabBinding, BindingInstance.Transient);
+			return bindingFactory.AddBinding(prefabBinding, BindingInstance.Transient);
 		}
 			
 		/// <summary>
@@ -400,7 +400,7 @@ namespace Adic {
 				throw new BindingException(RESOURCE_IS_NULL);
 			}
 
-			return bindingFactory.CreateBinding(resource, BindingInstance.Singleton);
+			return bindingFactory.AddBinding(resource, BindingInstance.Singleton);
 		}
 
 		/// <summary>
@@ -420,7 +420,7 @@ namespace Adic {
 			}
 			
 			if (typeIsGameObject) {
-				return bindingFactory.CreateBinding(gameObject, BindingInstance.Singleton);
+				return bindingFactory.AddBinding(gameObject, BindingInstance.Singleton);
 			} else {
 				var component = gameObject.GetComponent(type);
 				
@@ -428,7 +428,7 @@ namespace Adic {
 					component = gameObject.AddComponent(type);
 				}
 				
-				return bindingFactory.CreateBinding(component, BindingInstance.Singleton);
+				return bindingFactory.AddBinding(component, BindingInstance.Singleton);
 			}
 		}
 	}

@@ -24,8 +24,11 @@ namespace Adic {
 		/// </summary>
 		/// <typeparam name="T">The type of the command to be registered.</typeparam>
 		/// <param name="container">The container in which the command will be registered.</param>
-		public static void RegisterCommand<T>(this IInjectionContainer container) where T : ICommand, new() {
+		/// <returns>The injection container for chaining.</returns>
+		public static IInjectionContainer RegisterCommand<T>(this IInjectionContainer container) where T : ICommand, new() {
 			container.RegisterCommand(typeof(T));
+
+			return container;
 		}
 		
 		/// <summary>
@@ -38,12 +41,15 @@ namespace Adic {
 		/// </summary>
 		/// <param name="container">The container in which the command will be registered.</param>
 		/// <param name="type">The type of the command to be registered.</param>
-		public static void RegisterCommand(this IInjectionContainer container, Type type) {
+		/// <returns>The injection container for chaining.</returns>
+		public static IInjectionContainer RegisterCommand(this IInjectionContainer container, Type type) {
 			if (!type.IsClass && type.IsAssignableFrom(typeof(ICommand))) {
 				throw new CommandException(CommandException.TYPE_NOT_A_COMMAND);
 			}
 
 			container.Bind<ICommand>().To(type);
+			
+			return container;
 		}
 		
 		/// <summary>
@@ -53,8 +59,11 @@ namespace Adic {
 		/// </summary>
 		/// <param name="container">The container in which the command will be registered.</param>
 		/// <param name="namespaceName">Namespace name.</param>
-		public static void RegisterCommands(this IInjectionContainer container, string namespaceName) {
+		/// <returns>The injection container for chaining.</returns>
+		public static IInjectionContainer RegisterCommands(this IInjectionContainer container, string namespaceName) {
 			container.RegisterCommands(namespaceName, true);
+			
+			return container;
 		}
 
 		/// <summary>
@@ -65,7 +74,8 @@ namespace Adic {
 		/// <param name="container">The container in which the command will be registered.</param>
 		/// <param name="includeChildren">Indicates whether child namespaces should be included.</param>
 		/// <param name="namespaceName">Namespace name.</param>
-		public static void RegisterCommands(this IInjectionContainer container,
+		/// <returns>The injection container for chaining.</returns>
+		public static IInjectionContainer RegisterCommands(this IInjectionContainer container,
 		    string namespaceName,
 		    bool includeChildren) {
 			var commands = TypeUtils.GetAssignableTypesInNamespace(typeof(ICommand), namespaceName, includeChildren);
@@ -75,15 +85,20 @@ namespace Adic {
 			}
 
 			PoolCommands(container);
+			
+			return container;
 		}
 
 		/// <summary>
 		/// Pools all commands on the container.
 		/// </summary>
 		/// <param name="container">The container in which the commands have been registered.</param>
-		public static void PoolCommands(this IInjectionContainer container) {
+		/// <returns>The injection container for chaining.</returns>
+		public static IInjectionContainer PoolCommands(this IInjectionContainer container) {
 			var commandPool = container.Resolve<ICommandPool>();
 			commandPool.Pool();
+			
+			return container;
 		}
 	}
 }
