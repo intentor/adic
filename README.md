@@ -125,7 +125,7 @@ this.AddContainer<InjectionContainer>()
     .Bind<Type3>.ToSingleton<AnotherType3>();
 ```
 
-**Good practice:** when chaining, always place the bindings in the end of the chain.
+**Good practice:** when chaining, always place the bindings in the end of the chain or use <a href="#bindings-setup">bindings setup</a> to organize your bindings.
 
 ## <a id="quick-start"></a>Quick start
 
@@ -497,11 +497,12 @@ It's possible to inject multiple objects of the same type by creating a series o
 Binding multiple objects to the same key:
 
 ```cs
-container.Bind<GameObject>().ToGameObject("Enemy1");
-container.Bind<GameObject>().ToGameObject("Enemy2");
-container.Bind<GameObject>().ToGameObject("Enemy3");
-container.Bind<GameObject>().ToGameObject("Enemy4");
-container.Bind<GameObject>().ToGameObject("Enemy5");
+container
+	.Bind<GameObject>().ToGameObject("Enemy1")
+	.Bind<GameObject>().ToGameObject("Enemy2")
+	.Bind<GameObject>().ToGameObject("Enemy3")
+	.Bind<GameObject>().ToGameObject("Enemy4")
+	.Bind<GameObject>().ToGameObject("Enemy5");
 ```
 
 Multiple injection in a field:
@@ -888,14 +889,13 @@ namespace MyNamespace {
 	public class GameRoot : Adic.ContextRoot {
 		public override void SetupContainers() {
 			//Create the container.
-			var container = new InjectionContainer();
-			//Register any extensions the container may use.
-			container.RegisterExtension<CommanderContainerExtension>();
-
-			//Registering by generics...
-			container.RegisterCommand<MyCommand>();
-			//...or by type.
-			container.RegisterCommand(typeof(MyCommand));
+			this.AddContainer<InjectionContainer>()
+				//Register any extensions the container may use.
+				.RegisterExtension<CommanderContainerExtension>()
+				//Registering by generics...
+				.RegisterCommand<MyCommand>()
+				//...or by type.
+				.RegisterCommand(typeof(MyCommand));
 		}
 
 		public override void Init() {
@@ -912,12 +912,11 @@ It's also possible to register all commands under the same namespace by calling 
 ```cs
 public override void SetupContainers() {
 	//Create the container.
-	var container = new InjectionContainer();
-	//Register any extensions the container may use.
-	container.RegisterExtension<CommanderContainerExtension>();
-
-	//Register all commands under the namespace "MyNamespace.Commands".
-	container.RegisterCommands("MyNamespace.Commands");
+		this.AddContainer<InjectionContainer>()
+			//Register any extensions the container may use.
+			.RegisterExtension<CommanderContainerExtension>()
+			//Register all commands under the namespace "MyNamespace.Commands".
+			.RegisterCommands("MyNamespace.Commands");
 }
 ```
 
@@ -1044,15 +1043,15 @@ So, if you're using a <a href="#static-containers">container that will live thro
 4. ContextRoot calls Init()
 5. Unity Start() on all MonoBehaviours
 6. Injection on MonoBehaviours
-7. Update() is called on every object that implemented `Adic.IUpdatable`
+7. Update() is called on every object that implements `Adic.IUpdatable`
 8. Scene is destroyed
-9. Dispose() is called on every object that implemented `System.IDisposable`
+9. Dispose() is called on every object that implements `System.IDisposable`
 
 ## <a id="performance"></a>Performance
 
 *Adic* was created with speed in mind, using internal cache to minimize the use of [reflection](http://en.wikipedia.org/wiki/Reflection_%28computer_programming%29) (which is usually slow), ensuring a good performance when resolving and injecting into objects - the container can resolve a 1.000 objects in 1ms<a href="#about-performance-tests">\*</a>.
 
-To maximize performance, always bind all types that will be resolved/injected on the <a href="#quick-start">ContextRoot</a>, so *Adic* can generate cache of the objects and use that information during runtime.
+To maximize performance, always bind all types that will be resolved/injected in the <a href="#quick-start">ContextRoot</a>, so *Adic* can generate cache of the objects and use that information during runtime.
 
 If you have more than one container on the same scene, it's possible to share the cache between them. To do so, create an instance of `Adic.Cache.ReflectionCache` and pass it to any container you create:
 
@@ -1069,14 +1068,14 @@ namespace MyNamespace {
 			var cache = new ReflectionCache();
 
 			//Create a new container.
-			var container1 = new InjectionContainer(cache);
+			var container1 = this.AddContainer(new InjectionContainer(cache));
 
-			//Container bindings...
+			//Container configurations and bindings...
 
 			//Create a new container.
-			var container2 = new InjectionContainer(cache);
+			var container2 = this.AddContainer(new InjectionContainer(cache));
 
-			//Container bindings...
+			//Container configurations and bindings...
 		}
 
 		public override void Init() {
@@ -1148,20 +1147,20 @@ For more information on commands, see <a href="#using-commands">Using commands</
 Register the extension on any containers that will use it:
 
 ```cs
-//Creates the container.
-var container = new InjectionContainer();
-//Register any extensions the container may use.
-container.RegisterExtension<CommanderContainerExtension>();
+//Create the container.
+this.AddContainer<InjectionContainer>()
+	//Register any extensions the container may use.
+	.RegisterExtension<CommanderContainerExtension>();
 ```
 
 If you use `IDiposable` or `IUpdatable` events, also register the <a href="#extension-event-caller">Event Caller</a> extension:
 
 ```cs
-//Creates the container.
-var container = new InjectionContainer();
-//Register any extensions the container may use.
-container.RegisterExtension<CommanderContainerExtension>();
-container.RegisterExtension<EventCallerContainerExtension>();
+//Create the container.
+this.AddContainer<InjectionContainer>()
+	//Register any extensions the container may use.
+	.RegisterExtension<CommanderContainerExtension>()
+	.RegisterExtension<EventCallerContainerExtension>();
 ```
 
 #### Dependencies
@@ -1229,10 +1228,10 @@ namespace MyNamespace {
 Register the extension on any containers that will use it:
 
 ```cs
-//Creates the container.
-var container = new InjectionContainer();
-//Register any extensions the container may use.
-container.RegisterExtension<EventCallerContainerExtension>();
+//Create the container.
+this.AddContainer<InjectionContainer>()
+	//Register any extensions the container may use.
+	.RegisterExtension<EventCallerContainerExtension>();
 ```
 
 #### Notes
@@ -1268,10 +1267,10 @@ Please see <a href="#bindings">Bindings</a> for more information.
 Register the extension on any containers that you may use it:
 
 ```cs
-//Creates the container.
-var container = new InjectionContainer();
-//Register any extensions the container may use.
-container.RegisterExtension<UnityBindingContainerExtension>();
+//Create the container.
+this.AddContainer<InjectionContainer>()
+	//Register any extensions the container may use.
+	.RegisterExtension<UnityBindingContainerExtension>();
 ```
 
 #### Notes
