@@ -8,12 +8,9 @@ namespace Adic.Examples.UsingConditions {
 	public class GameRoot : ContextRoot {
 		public override void SetupContainers() {
 			//Create the container.
-			var container = new InjectionContainer();
-			//Register any extensions the container may use.
-			container.RegisterExtension<UnityBindingContainerExtension>();
-						
-			//Bindings.
-			container
+			this.AddContainer<InjectionContainer>()
+				//Register any extensions the container may use.
+				.RegisterExtension<UnityBindingContainerExtension>()
 				//Bind a Transform component to the two cubes on the scene, using a "As" condition
 				//to define their identifiers.
 				.Bind<Transform>().ToGameObject("LeftCube").As("LeftCube")
@@ -22,9 +19,6 @@ namespace Adic.Examples.UsingConditions {
 				//This component will then receive the reference to the "LeftCube", making only
 				//this cube rotate.
 				.Bind<GameObjectRotator>().ToGameObject();
-			
-			//Add the container to the context.
-			this.AddContainer(container);
 		}
 		
 		public override void Init() {

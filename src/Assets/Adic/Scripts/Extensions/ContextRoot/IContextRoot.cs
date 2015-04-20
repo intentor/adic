@@ -14,8 +14,16 @@ namespace Adic {
 		/// <summary>
 		/// Adds the specified container.
 		/// </summary>
+		/// <typeparam name="T">Container type.</typeparam>
+		/// <returns>The injection container for chaining.</returns>
+		IInjectionContainer AddContainer<T>() where T : IInjectionContainer, new();
+
+		/// <summary>
+		/// Adds the specified container.
+		/// </summary>
 		/// <param name="container">The container to be added.</param>
-		void AddContainer(IInjectionContainer container);
+		/// <returns>The injection container for chaining.</returns>
+		IInjectionContainer AddContainer(IInjectionContainer container);
 
 		/// <summary>
 		/// Adds the specified container.
@@ -24,7 +32,8 @@ namespace Adic {
 		/// <param name="destroyOnLoad">
 		/// Indicates whether the container should be destroyed when a new scene is loaded.
 		/// </param>
-		void AddContainer(IInjectionContainer container, bool destroyOnLoad);
+		/// <returns>The injection container for chaining.</returns>
+		IInjectionContainer AddContainer(IInjectionContainer container, bool destroyOnLoad);
 		
 		/// <summary>
 		/// Setups the containers.

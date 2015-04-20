@@ -114,8 +114,7 @@ Methods from the container and bindings creation can be chained to achieve a mor
 
 ```cs
 //Create the container.
-var container = new InjectionContainer();
-container				
+this.AddContainer<InjectionContainer>()		
 	//Register any extensions the container may use.
 	.RegisterExtension<CommanderContainerExtension>()
 	.RegisterExtension<EventCallerContainerExtension>()
@@ -160,13 +159,9 @@ namespace MyNamespace {
 ```cs
 public override void SetupContainers() {
 	//Create a container.
-	var container = new Adic.InjectionContainer();
-
-	//Setup bindinds.
-	container.Bind<Whatever>().ToSelf();
-
-	//Add the container to the context.
-	this.AddContainer(container);
+	this.AddContainer<InjectionContainer>()
+		//Setup bindinds.
+		.Bind<Whatever>().ToSelf();
 }
 ```
 

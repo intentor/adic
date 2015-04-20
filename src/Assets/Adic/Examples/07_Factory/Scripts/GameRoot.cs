@@ -12,8 +12,7 @@ namespace Adic.Examples.Factory {
 
 		public override void SetupContainers() {
 			//Create the container.
-			var container = new InjectionContainer();
-			this.dispatcher = container				
+			this.dispatcher = this.AddContainer<InjectionContainer>()				
 				//Register any extensions the container may use.
 				.RegisterExtension<CommanderContainerExtension>()
 				.RegisterExtension<EventCallerContainerExtension>()
@@ -25,9 +24,6 @@ namespace Adic.Examples.Factory {
 				//Get a reference to the command dispatcher so it can be used to dispatch
 				//commands in the Init() method.
 				.GetCommandDispatcher();
-
-			//Add the container to the context.
-			this.AddContainer(container);
 		}
 		
 		public override void Init() {

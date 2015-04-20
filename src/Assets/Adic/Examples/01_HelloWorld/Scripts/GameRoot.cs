@@ -8,7 +8,7 @@ namespace Adic.Examples.HelloWorld {
 	public class GameRoot : ContextRoot {
 		public override void SetupContainers() {
 			//Create the container.
-			var container = new InjectionContainer();
+			var container = this.AddContainer<InjectionContainer>();
 
 			//Bind a class to itself.
 			container.Bind<HelloWorld>().ToSelf();
@@ -16,9 +16,6 @@ namespace Adic.Examples.HelloWorld {
 			//Resolve the class and calls its "HelloWorld" method, which will display
 			//"Hello World!" on the console.
 			container.Resolve<HelloWorld>().DisplayHelloWorld();
-
-			//Add the container to the context.
-			this.AddContainer(container);
 		}
 		
 		public override void Init() {

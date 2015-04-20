@@ -12,25 +12,21 @@ namespace Adic.Examples.Commander {
 
 		public override void SetupContainers() {
 			//Create the container.
-			var container = new InjectionContainer();
-			//Register any extensions the container may use.
+			var container = this.AddContainer<InjectionContainer>();
+
 			container
+				//Register any extensions the container may use.
 				.RegisterExtension<CommanderContainerExtension>()
 				.RegisterExtension<EventCallerContainerExtension>()
-				.RegisterExtension<UnityBindingContainerExtension>();
-
-			//Bind the "Prism" prefab.
-			container.Bind<Transform>().ToPrefab("05_Commander/Prism");
-
-			//Register all commands under the namespace "Adic.Examples.Commander.Commands".
-			container.RegisterCommands("Adic.Examples.Commander.Commands");
-
+				.RegisterExtension<UnityBindingContainerExtension>()
+				//Register all commands under the namespace "Adic.Examples.Commander.Commands".
+				.RegisterCommands("Adic.Examples.Commander.Commands")
+				//Bind the "Prism" prefab.
+				.Bind<Transform>().ToPrefab("05_Commander/Prism");
+		
 			//Get a reference to the command dispatcher so it can be used to dispatch
 			//commands in the Init() method.
 			this.dispatcher = container.GetCommandDispatcher();
-
-			//Add the container to the context.
-			this.AddContainer(container);
 		}
 		
 		public override void Init() {

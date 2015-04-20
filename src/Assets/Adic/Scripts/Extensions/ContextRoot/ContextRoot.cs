@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Adic.Container;
+using Adic.Util;
 
 namespace Adic {
 	/// <summary>
@@ -61,13 +63,24 @@ namespace Adic {
 				containerIndex--;
 			}
 		}
+
+		/// <summary>
+		/// Adds the specified container.
+		/// </summary>
+		/// <typeparam name="T">Container type.</typeparam>
+		/// <returns>The injection container for chaining.</returns>
+		public IInjectionContainer AddContainer<T>() where T : IInjectionContainer, new() {
+			var container = Expression.Lambda<Func<T>>(Expression.New(typeof(T))).Compile()();
+			return this.AddContainer(container, true);
+		}
 		
 		/// <summary>
 		/// Adds the specified container.
 		/// </summary>
 		/// <param name="container">The container to be added.</param>
-		public void AddContainer(IInjectionContainer container) {
-			this.AddContainer(container, true);
+		/// <returns>The injection container for chaining.</returns>
+		public IInjectionContainer AddContainer(IInjectionContainer container) {
+			return this.AddContainer(container, true);
 		}
 		
 		/// <summary>
@@ -77,8 +90,11 @@ namespace Adic {
 		/// <param name="destroyOnLoad">
 		/// Indicates whether the container should be destroyed when a new scene is loaded.
 		/// </param>
-		public void AddContainer(IInjectionContainer container, bool destroyOnLoad) {
+		/// <returns>The injection container for chaining.</returns>
+		public IInjectionContainer AddContainer(IInjectionContainer container, bool destroyOnLoad) {
 			containersData.Add(new InjectionContainerData(container, destroyOnLoad));
+
+			return container;
 		}
 		
 		/// <summary>

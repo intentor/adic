@@ -8,15 +8,11 @@ namespace Adic.Examples.BindingsSetup {
 	public class GameRoot : ContextRoot {
 		public override void SetupContainers() {
 			//Create the container.
-			var container = new InjectionContainer();
-			container
+			this.AddContainer<InjectionContainer>()
 				//Register any extensions the container may use.
 				.RegisterExtension<UnityBindingContainerExtension>()
 				//Setups bindings from a namespace.
 				.SetupBindings("Adic.Examples.BindingsSetup.Bindings");
-
-			//Add the container to the context.
-			this.AddContainer(container);
 		}
 		
 		public override void Init() {
