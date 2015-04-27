@@ -81,7 +81,10 @@ namespace Adic {
 			var commands = TypeUtils.GetAssignableTypesInNamespace(typeof(ICommand), namespaceName, includeChildren);
 			
 			for (var cmdIndex = 0; cmdIndex < commands.Length; cmdIndex++) {
-				container.Bind<ICommand>().To(commands[cmdIndex]);
+				var commandType = commands[cmdIndex];
+				if (!commandType.IsAbstract) {
+					container.Bind<ICommand>().To(commandType);
+				}
 			}
 
 			PoolCommands(container);

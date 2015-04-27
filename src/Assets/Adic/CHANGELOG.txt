@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.9 (2015-?)
+
+Commander extension
+- Fixed registration attempt of abstract commands.
+
 Version 2.8 (2015-04-20)
 
 Framework
