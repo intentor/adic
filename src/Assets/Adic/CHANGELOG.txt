@@ -15,11 +15,11 @@ Framework
 Commander extension
 - Added timed dispatch. [Issue #12]
 - Added timed Command.Invoke() method. [Issue #12]
-- Added Command.StartCoroutine() and Command.StopCoroutine methods(). [Issue #12]
+- Added Command.StartCoroutine() and Command.StopCoroutine() methods. [Issue #12]
 - Fixed registration attempt of abstract commands.
 
 Event Caller extension
-- Updated container extension to have a singleton instance of the event caller MonoBehaviour. [Issue #12]
+- Updated container extension to have a singleton instance of the Event Caller MonoBehaviour. [Issue #12]
 
 Unity Binding Extension
 - Added ToGameObjectsWithTag() method. [Issue #13]
