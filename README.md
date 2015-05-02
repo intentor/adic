@@ -960,6 +960,15 @@ public void MyMethodThatDispatchesCommands() {
 }
 ```
 
+It's also possible to dispatch a command after a given period of time by calling the `Dispatch()` method with a time value:
+
+```cs
+//Timed dispatching by generics...
+dispatcher.Dispatch<MyCommand>(1.0f);
+//...or by type.
+dispatcher.Dispatch(typeof(MyCommand), 1.0f);
+```
+
 To use `Adic.ICommandDispatcher`, you have to inject it wherever you need to use it:
 
 ```cs
@@ -1044,6 +1053,82 @@ public void OnSomeActionFinished() {
 	this.Release();
 }
 ```
+
+#### Timed invoke
+
+It's possible to use timed method invocation inside a command by calling the `Invoke()` method:
+
+```cs
+namespace MyNamespace.Commands {
+	/// <summary>
+	/// My command.
+	/// </summary>
+	public class MyCommand : Adic.Command {
+		/// <summary>
+		/// Executes the command.
+		/// </summary>
+		/// <param name="parameters">Command parameters.</param>
+		public override void Execute(params object[] parameters) {
+			//Invokes the "MyMethodToInvoke" method after 1 second.
+			this.Invoke(this.MyMethodToInvoke, 1.0f);
+
+			//Retains the command until the invocation is finished.
+			this.Retain();
+		}
+
+		/// <summary>
+		/// My method to invoke.
+		/// </summary>
+		private void MyMethodToInvoke() {
+			//Method code.
+
+			//Releases the command after the invocation.
+			this.Release();
+		}
+	}
+}
+```
+
+**Note:** always retain a command when invoking methods inside it.
+
+#### Coroutines
+
+It's possible to use [coroutines](http://docs.unity3d.com/Manual/Coroutines.html) inside a command by calling the `StartCoroutine()` method:
+
+```cs
+namespace MyNamespace.Commands {
+	/// <summary>
+	/// My command.
+	/// </summary>
+	public class MyCommand : Adic.Command {
+		/// <summary>
+		/// Executes the command.
+		/// </summary>
+		/// <param name="parameters">Command parameters.</param>
+		public override void Execute(params object[] parameters) {
+			//Starts the coroutine.
+			this.StartCoroutine(this.MyCoroutine());
+
+			//Retains the command until the coroutine is finished.
+			this.Retain();
+		}
+
+		/// <summary>
+		/// My coroutine.
+		/// </summary>
+		private IEnumerator MyCoroutine() {
+			//Coroutine code.
+
+			//Releases the command after execution.
+			this.Release();
+		}
+	}
+}
+```
+
+If needed, it's also possible to stop a coroutine after it's started by calling the `StopCoroutine()` method.
+
+**Note:** always retain a command when using coroutines.
 
 #### A note about scene destruction and commands
 
