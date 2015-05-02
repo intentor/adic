@@ -960,13 +960,13 @@ public void MyMethodThatDispatchesCommands() {
 }
 ```
 
-It's also possible to dispatch a command after a given period of time by calling the `Dispatch()` method with a time value:
+It's also possible to dispatch a command after a given period of time by calling the `InvokeDispatch()` method:
 
 ```cs
 //Timed dispatching by generics...
-dispatcher.Dispatch<MyCommand>(1.0f);
+dispatcher.InvokeDispatch<MyCommand>(1.0f);
 //...or by type.
-dispatcher.Dispatch(typeof(MyCommand), 1.0f);
+dispatcher.InvokeDispatch(typeof(MyCommand), 1.0f);
 ```
 
 To use `Adic.ICommandDispatcher`, you have to inject it wherever you need to use it:

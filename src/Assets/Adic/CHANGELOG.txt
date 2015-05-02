@@ -13,8 +13,8 @@ Framework
 - Fixed instantiation of different instances for singleton bindings. [Issue #15]
 
 Commander extension
-- Added timed dispatch. [Issue #12]
-- Added timed Command.Invoke() method. [Issue #12]
+- Added InvokeDispatch() method. [Issue #12]
+- Added Command.Invoke() method. [Issue #12]
 - Added Command.StartCoroutine() and Command.StopCoroutine() methods. [Issue #12]
 - Fixed registration attempt of abstract commands.
 
