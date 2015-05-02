@@ -352,6 +352,22 @@ container.Bind<SomeMonoBehaviour>().ToGameObjectWithTag("Tag");
 container.Bind<SomeInterface>().ToGameObjectWithTag<SomeMonoBehaviour>("Tag");
 //..or some other component by instance type and tag.
 container.Bind<SomeInterface>().ToGameObjectWithTag(someMonoBehaviourType, "Tag");
+
+#### To game objects with tag
+
+Binds the key type to singletons `UnityEngine.Component` of itself or some type on a game object of a given tag.
+
+**Good practice:** to prevent references to destroyed objects, only bind to game objects that won't be destroyed in the scene.
+
+If the component is not found on the game object, it will be added.
+
+```cs
+//Binding to itself by tag...
+container.Bind<SomeMonoBehaviour>().ToGameObjectsWithTag("Tag");
+//...or some other component using generics and tag...
+container.Bind<SomeInterface>().ToGameObjectsWithTag<SomeMonoBehaviour>("Tag");
+//..or some other component by instance type and tag.
+container.Bind<SomeInterface>().ToGameObjectsWithTag(someMonoBehaviourType, "Tag");
 ```
 
 #### To prefab transient

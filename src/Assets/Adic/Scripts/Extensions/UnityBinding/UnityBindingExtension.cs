@@ -221,9 +221,89 @@ namespace Adic {
 				throw new BindingException(TYPE_NOT_COMPONENT);
 			}
 			
-			GameObject gameObject = GameObject.FindWithTag(tag);
+			var gameObject = GameObject.FindWithTag(tag);
 			
 			return CreateSingletonBinding(bindingFactory, gameObject, type, isGameObject);
+		}
+
+		/// <summary>
+		/// Binds the key type to singletons <see cref="UnityEngine.Component"/>
+		/// of itself on game objects of a given <paramref name="tag"/>.
+		/// 
+		/// The key type must be derived either from <see cref="UnityEngine.GameObject"/>
+		/// or <see cref="UnityEngine.Component"/>.
+		/// 
+		/// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
+		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to game objects that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
+		/// <param name="bindingFactory">The original binding factory.</param>
+		/// <param name="tag">The GameObject tag.</param>
+		/// <returns>The binding condition object related to this binding.</returns>
+		public static IBindingConditionFactory ToGameObjectsWithTag(this IBindingFactory bindingFactory, string tag) {
+			return bindingFactory.ToGameObjectsWithTag(bindingFactory.bindingType, tag);
+		}
+		
+		/// <summary>
+		/// Binds the key type to singletons <see cref="UnityEngine.Component"/>
+		/// of itself on game objects of a given <paramref name="tag"/>.
+		/// 
+		/// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
+		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to game objects that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
+		/// <typeparam name="Type">The component type to bind the GameObject to.</typeparam>
+		/// <param name="bindingFactory">The original binding factory.</param>
+		/// <param name="tag">The GameObject tag.</param>
+		/// <returns>The binding condition object related to this binding.</returns>
+		public static IBindingConditionFactory ToGameObjectsWithTag<T>(this IBindingFactory bindingFactory, string tag) where T : Component {
+			return bindingFactory.ToGameObjectsWithTag(typeof(T), tag);
+		}
+		
+		/// <summary>
+		/// Binds the key type to singletons <see cref="UnityEngine.Component"/>
+		/// of itself on game objects of a given <paramref name="tag"/>.
+		/// 
+		/// If <paramref name="type"/> is <see cref="UnityEngine.GameObject"/>, binds the
+		/// key to the GameObject itself.
+		/// 
+		/// If <paramref name="type"/> is see cref="UnityEngine.Component"/>, binds the key
+		/// to the the instance of the component.
+		/// 
+		/// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
+		/// </summary>
+		/// <remarks>
+		/// To prevent references to destroyed objects, only bind to game objects that won't 
+		/// be destroyed in the scene.
+		/// </remarks>
+		/// <param name="bindingFactory">The original binding factory.</param>
+		/// <param name="type">The component type.</param>
+		/// <param name="tag">The GameObject tag.</param>
+		/// <returns>The binding condition object related to this binding.</returns>
+		public static IBindingConditionFactory ToGameObjectsWithTag(this IBindingFactory bindingFactory, Type type, string tag) {
+			if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
+				throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
+			}
+			
+			var isGameObject = TypeUtils.IsAssignable(typeof(GameObject), type);
+			var isComponent = TypeUtils.IsAssignable(typeof(Component), type);
+			if (!isGameObject && !isComponent) {
+				throw new BindingException(TYPE_NOT_COMPONENT);
+			}
+			
+			var gameObjects = GameObject.FindGameObjectsWithTag(tag);
+			var bindingFactories = new IBindingConditionFactory[gameObjects.Length];
+
+			for (int gameObjectIndex = 0; gameObjectIndex < gameObjects.Length; gameObjectIndex++) {
+				bindingFactories[gameObjectIndex] = 
+					CreateSingletonBinding(bindingFactory, gameObjects[gameObjectIndex], type, isGameObject);
+			}
+
+			return new MultipleBindingConditionFactory(bindingFactories, bindingFactory.binder);
 		}
 
 		/// <summary>
