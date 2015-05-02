@@ -12,6 +12,14 @@ namespace Adic {
 		/// <typeparam name="T">The type of the command to be dispatched.</typeparam>
 		/// <param name="parameters">Command parameters.</param>
 		void Dispatch<T>(params object[] parameters) where T : ICommand;
+
+		/// <summary>
+		/// Dispatches a command by type after a given time in seconds.
+		/// </summary>
+		/// <typeparam name="T">The type of the command to be dispatched.</typeparam>
+		/// <param name="time">Time to dispatch the command (seconds).</param>
+		/// <param name="parameters">Command parameters.</param>
+		void Dispatch<T>(float time, params object[] parameters) where T : ICommand;
 		
 		/// <summary>
 		/// Dispatches a command by type.
@@ -19,6 +27,14 @@ namespace Adic {
 		/// <param name="type">The type of the command to be dispatched.</typeparam>
 		/// <param name="parameters">Command parameters.</param>
 		void Dispatch(Type type, params object[] parameters);
+		
+		/// <summary>
+		/// Dispatches a command by type after a given time in seconds.
+		/// </summary>
+		/// <param name="type">The type of the command to be dispatched.</typeparam>
+		/// <param name="time">Time to dispatch the command (seconds).</param>
+		/// <param name="parameters">Command parameters.</param>
+		void Dispatch(Type type, float time, params object[] parameters);
 		
 		/// <summary>
 		/// Releases a command.

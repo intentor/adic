@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Adic.Commander.Exceptions;
@@ -29,9 +30,17 @@ namespace Adic {
 		/// <typeparam name="T">The type of the command to be dispatched.</typeparam>
 		/// <param name="parameters">Command parameters.</param>
 		public void Dispatch<T>(params object[] parameters) where T : ICommand {
-			var type = typeof(T);
+			this.Dispatch(typeof(T), parameters);
+		}
 
-			this.Dispatch(type, parameters);
+		/// <summary>
+		/// Dispatches a command by type after a given time in seconds.
+		/// </summary>
+		/// <typeparam name="T">The type of the command to be dispatched.</typeparam>
+		/// <param name="time">Time to dispatch the command (seconds).</param>
+		/// <param name="parameters">Command parameters.</param>
+		public void Dispatch<T>(float time, params object[] parameters) where T : ICommand {
+			EventCallerContainerExtension.eventCaller.StartCoroutine(this.DispatchInvoke(typeof(T), time, parameters));
 		}
 		
 		/// <summary>
@@ -71,6 +80,27 @@ namespace Adic {
 			}
 		}
 		
+		/// <summary>
+		/// Dispatches a command by type after a given time in seconds.
+		/// </summary>
+		/// <param name="type">The type of the command to be dispatched.</typeparam>
+		/// <param name="time">Time to dispatch the command (seconds).</param>
+		/// <param name="parameters">Command parameters.</param>
+		public void Dispatch(Type type, float time, params object[] parameters) {
+			EventCallerContainerExtension.eventCaller.StartCoroutine(this.DispatchInvoke(type, time, parameters));
+		}
+
+		/// <summary>
+		/// Dispatches a command by type after a given time in seconds.
+		/// </summary>
+		/// <typeparam name="T">The type of the command to be dispatched.</typeparam>
+		/// <param name="time">Time to dispatch the command (seconds).</param>
+		/// <param name="parameters">Command parameters.</param>
+		protected IEnumerator DispatchInvoke(Type type, float time, params object[] parameters) {
+			yield return new UnityEngine.WaitForSeconds(time);
+			this.Dispatch(type, parameters);
+		}
+
 		/// <summary>
 		/// Releases a command.
 		/// </summary>

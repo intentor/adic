@@ -5,7 +5,7 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
-Version 2.9 (2015-?)
+Version 2.9 (2015-05-02)
 
 Framework
 - Added Adic.Binding.MultipleBindingConditionFactory for handling conditions of multiple bindings at the same time. [Issue #13]
@@ -13,6 +13,7 @@ Framework
 - Fixed instantiation of different instances for singleton bindings. [Issue #15]
 
 Commander extension
+- Added timed dispatch. [Issue #12]
 - Added timed Command.Invoke() method. [Issue #12]
 - Added Command.StartCoroutine() and Command.StopCoroutine methods(). [Issue #12]
 - Fixed registration attempt of abstract commands.
