@@ -186,7 +186,7 @@ namespace Adic.Binding {
 		/// <param name="type">The type being bound.</param>
 		/// <returns>The binding provider.</returns>
 		protected virtual IBindingConditionFactory BindingConditionFactoryProvider(BindingInfo binding) {
-			return new BindingConditionFactory(binding, this.binder);
+			return new SingleBindingConditionFactory(binding, this.binder);
 		}
 	}
 }

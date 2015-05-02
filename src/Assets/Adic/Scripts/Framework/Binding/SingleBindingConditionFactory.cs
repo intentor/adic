@@ -2,20 +2,20 @@ using System;
 
 namespace Adic.Binding {
 	/// <summary>
-	/// Binding condition factory.
+	/// Binding condition factory for a single binding.
 	/// </summary>
-	public class BindingConditionFactory : IBindingConditionFactory {
-		/// <summary>The binding to have its conditions defined.</summary>
+	public class SingleBindingConditionFactory : IBindingConditionFactory {
+		/// <summary>Binding to have its conditions defined.</summary>
 		protected BindingInfo binding;
 		/// <summary>Binding creator. Used for chaining.</summary>
 		protected IBindingCreator bindindCreator;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Adic.BindingConditionFactory"/> class.
+		/// Initializes a new instance of the <see cref="Adic.Binding.SingleBindingConditionFactory"/> class.
 		/// </summary>
 		/// <param name="binding">The binding to have its conditions settled.</param>
 		/// <param name="bindindCreator">Binding creator. Used for chaining.</param>
-		public BindingConditionFactory(BindingInfo binding, IBindingCreator bindindCreator) {
+		public SingleBindingConditionFactory(BindingInfo binding, IBindingCreator bindindCreator) {
 			this.binding = binding;
 			this.bindindCreator = bindindCreator;
 		}
@@ -96,4 +96,3 @@ namespace Adic.Binding {
 		}
 	}
 }
-
