@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 namespace Adic {
@@ -46,6 +47,42 @@ namespace Adic {
 			this.keepAlive = false;
 
 			this.dispatcher.Release(this);
+		}
+
+		/// <summary>
+		/// Invokes the specified method after a specific time in seconds.
+		/// </summary>
+		/// <param name="method">Method to be called.</param>
+		/// <param name="time">Time to call the method (seconds).</param>
+		protected void Invoke(Action method, float time) {
+			EventCallerContainerExtension.eventCaller.StartCoroutine(this.MethodInvoke(method, time));
+		}
+
+		/// <summary>
+		/// Starts a coroutine.
+		/// </summary>
+		/// <param name="coroutine">Coroutine to be started.</param>
+		/// <returns>The coroutine.</returns>
+		protected Coroutine StartCoroutine(IEnumerator coroutine) {
+			return EventCallerContainerExtension.eventCaller.StartCoroutine(coroutine);
+		}
+
+		/// <summary>
+		/// Stops a coroutine.
+		/// </summary>
+		/// <param name="coroutine">Coroutine to stopped.</param>
+		protected void StopCoroutine(Coroutine coroutine) {
+			EventCallerContainerExtension.eventCaller.StopCoroutine(coroutine);
+		}
+
+		/// <summary>
+		/// Invokes the specified method after a specific time in seconds using a coroutine.
+		/// </summary>
+		/// <param name="method">Method to be called.</param>
+		/// <param name="time">Time to call the method (seconds).</param>
+		private IEnumerator MethodInvoke(Action method, float time) {
+			yield return new WaitForSeconds(time);
+			method();
 		}
 	}
 }

@@ -17,17 +17,17 @@ namespace Adic {
 		public static List<IDisposable> disposable = new List<IDisposable>();
 		/// <summary>The updateable objects.</summary>
 		public static List<IUpdatable> updateable = new List<IUpdatable>();
-
-		public GameObject eventCaller;
+		/// <summary>The event caller.</summary>
+		public static EventCallerBehaviour eventCaller;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.EventCallerContainerExtension"/> class.
 		/// </summary>
 		public EventCallerContainerExtension() {
 			//Creates a new game object for UpdateableBehaviour.
-			this.eventCaller = new GameObject();
-			this.eventCaller.name = "EventCaller";
-			this.eventCaller.AddComponent<EventCallerBehaviour>();
+			var gameObject = new GameObject();
+			gameObject.name = "EventCaller";
+			eventCaller = gameObject.AddComponent<EventCallerBehaviour>();
 		}
 
 		public void OnRegister(IInjectionContainer container) {
@@ -52,7 +52,7 @@ namespace Adic {
 
 			disposable.Clear();
 			updateable.Clear();
-			MonoBehaviour.Destroy(this.eventCaller);
+			MonoBehaviour.Destroy(eventCaller);
 		}
 
 		/// <summary>

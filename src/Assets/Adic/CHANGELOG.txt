@@ -8,15 +8,20 @@
 Version 2.9 (2015-?)
 
 Framework
-- Added Adic.Binding.MultipleBindingConditionFactory for handling conditions of multiple bindings at the same time.
-- Updated Adic.Binding.BindingConditionFactory to Adic.Binding.SingleBindingConditionFactory.
-- Fixed instantiation of different instances for singleton bindings.
+- Added Adic.Binding.MultipleBindingConditionFactory for handling conditions of multiple bindings at the same time. [Issue #13]
+- Updated Adic.Binding.BindingConditionFactory to Adic.Binding.SingleBindingConditionFactory. [Issue #13]
+- Fixed instantiation of different instances for singleton bindings. [Issue #15]
 
 Commander extension
+- Added timed Command.Invoke() method. [Issue #12]
+- Added Command.StartCoroutine() and Command.StopCoroutine methods(). [Issue #12]
 - Fixed registration attempt of abstract commands.
 
+Event Caller extension
+- Updated container extension to have a singleton instance of the event caller MonoBehaviour. [Issue #12]
+
 Unity Binding Extension
-- Added ToGameObjectsWithTag() method.
+- Added ToGameObjectsWithTag() method. [Issue #13]
 
 Version 2.8 (2015-04-20)
 
