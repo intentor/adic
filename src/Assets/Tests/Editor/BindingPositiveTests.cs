@@ -46,6 +46,44 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
+		public void TestBindingToMultipleSingletonByType() {
+			var binder = new Binder();
+			
+			binder.Bind<MockIClassWithAttributes>().ToSingleton();
+			binder.Bind<IMockInterface>().ToSingleton<MockIClassWithAttributes>();
+
+			var bindings1 = binder.GetBindingsFor<MockIClassWithAttributes>();
+			var bindings2 = binder.GetBindingsFor<IMockInterface>();
+			
+			Assert.AreEqual(1, bindings1.Count);
+			Assert.AreEqual(1, bindings2.Count);
+			Assert.AreEqual(BindingInstance.Singleton, bindings1[0].instanceType);
+			Assert.AreEqual(BindingInstance.Singleton, bindings2[0].instanceType);
+			Assert.AreEqual(typeof(MockIClassWithAttributes), bindings1[0].type);
+			Assert.AreEqual(typeof(IMockInterface), bindings2[0].type);
+			Assert.AreEqual(bindings1[0].value, bindings1[0].value);
+		}
+		
+		[Test]
+		public void TestBindingToMultipleSingletonByInstance() {
+			var binder = new Binder();
+			
+			binder.Bind<MockIClassWithAttributes>().To(new MockIClassWithAttributes());
+			binder.Bind<IMockInterface>().ToSingleton<MockIClassWithAttributes>();
+			
+			var bindings1 = binder.GetBindingsFor<MockIClassWithAttributes>();
+			var bindings2 = binder.GetBindingsFor<IMockInterface>();
+			
+			Assert.AreEqual(1, bindings1.Count);
+			Assert.AreEqual(1, bindings2.Count);
+			Assert.AreEqual(BindingInstance.Singleton, bindings1[0].instanceType);
+			Assert.AreEqual(BindingInstance.Singleton, bindings2[0].instanceType);
+			Assert.AreEqual(typeof(MockIClassWithAttributes), bindings1[0].type);
+			Assert.AreEqual(typeof(IMockInterface), bindings2[0].type);
+			Assert.AreEqual(bindings1[0].value, bindings1[0].value);
+		}
+		
+		[Test]
 		public void TestBindingToTransientFromInterface() {
 			var binder = new Binder();
 			

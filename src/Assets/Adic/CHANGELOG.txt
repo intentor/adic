@@ -7,9 +7,12 @@
 
 Version 2.9 (2015-?)
 
-Commander extension
+Framework
 - Added Adic.Binding.MultipleBindingConditionFactory for handling conditions of multiple bindings at the same time.
 - Updated Adic.Binding.BindingConditionFactory to Adic.Binding.SingleBindingConditionFactory.
+- Fixed instantiation of different instances for singleton bindings.
+
+Commander extension
 - Fixed registration attempt of abstract commands.
 
 Unity Binding Extension

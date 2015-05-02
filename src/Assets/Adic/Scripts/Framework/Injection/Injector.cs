@@ -452,11 +452,42 @@ namespace Adic.Injection {
 		protected void OnBeforeAddBinding(IBinder source, ref BindingInfo binding) {
 			if (binding.instanceType == BindingInstance.Singleton ||
 			    binding.instanceType == BindingInstance.Factory) {
-				if (binding.value is Type) {
-					var value = this.Resolve(binding.value as Type);
-					binding.value = value;
+				//Check whether a binding for the same type already exists.
+				var bindings = this.binder.GetBindings();
+				var bindingIsType = binding.value is Type;
+				BindingInfo existingBinding = null;
+				for (var bindingIndex = 0; bindingIndex < bindings.Count; bindingIndex++) {
+					var bindingFromBinder = bindings[bindingIndex];
+
+					var isSingleton = 
+						(bindingFromBinder.instanceType == BindingInstance.Singleton ||
+						 bindingFromBinder.instanceType == BindingInstance.Factory);
+					var valueTypeIsTheSame = 
+						isSingleton && 
+						bindingIsType && 
+						bindingFromBinder.value.GetType().Equals(binding.value);
+					var valueInstanceIsTheSame = 
+						isSingleton && 
+						!bindingIsType && 
+						bindingFromBinder.value == binding.value;
+
+					if (valueTypeIsTheSame || valueInstanceIsTheSame) {
+						existingBinding = bindingFromBinder;
+						//Breaks because if one is found, any other that already exists
+						//will already be the same instance.
+						break;
+					}
+				}
+
+				if (existingBinding != null) {
+					binding.value = existingBinding.value;
 				} else {
-					this.Inject(binding.value);
+					if (bindingIsType) {
+						var value = this.Resolve(binding.value as Type);
+						binding.value = value;
+					} else {
+						this.Inject(binding.value);
+					}
 				}
 			}
 		}
