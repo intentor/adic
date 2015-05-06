@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.10 (2015-05-?)
+
+Commander extension
+- Added verification of already pooled commands when pooling.
+
 Version 2.9 (2015-05-02)
 
 Framework

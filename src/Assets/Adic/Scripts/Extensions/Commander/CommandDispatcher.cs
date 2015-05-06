@@ -147,6 +147,9 @@ namespace Adic {
 				var command = resolvedCommands[cmdIndex];
 				var commandType = command.GetType();
 
+				//If the type already exists in the pool, goes to the next type.
+				if (this.commands.ContainsKey(commandType)) continue;
+
 				if (command.singleton) {
 					this.commands.Add(commandType, command);
 				} else {
