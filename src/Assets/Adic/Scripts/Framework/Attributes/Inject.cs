@@ -4,9 +4,9 @@ namespace Adic {
 	/// <summary>
 	/// Marks a setter injection point.
 	/// 
-	/// If a name is provided, the injector looks the binder for a key with the given name.
+	/// If an identifier is provided, the injector looks the binder for a key with the given name.
 	/// 
-	/// If no name is provided, the injector looks the binder for a key of the type of the field/property.
+	/// If no identifier is provided, the injector looks the binder for a key of the type of the field/property.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
 		AllowMultiple = false,
