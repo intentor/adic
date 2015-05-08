@@ -561,6 +561,8 @@ namespace MyNamespace {
 }
 ```
 
+#### Using a base MonoBehaviour
+
 To make injection even simpler, create a base behaviour from which all your `MonoBehaviour` will inherit:
 
 ```cs
