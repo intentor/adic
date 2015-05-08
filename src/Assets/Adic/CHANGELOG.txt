@@ -7,6 +7,9 @@
 
 Version 2.10 (2015-05-?)
 
+Framework
+- Fixed JIT compilation error when building to IOS (which compiles using AOT). [Issue #16]
+
 Commander extension
 - Added verification of already pooled commands when pooling.
 

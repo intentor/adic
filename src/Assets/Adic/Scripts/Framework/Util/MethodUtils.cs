@@ -8,7 +8,8 @@ namespace Adic.Util {
 	/// Utility class for dynamic methods creation.
 	/// </summary>
 	public static class MethodUtils {
-		/// <summary>The type "object".</summary>
+		/// <summary>The type "object".</summary>		
+		#pragma warning disable 0414
 		private static Type OBJECT_TYPE = typeof(object);
 
 		/// <summary>
@@ -18,11 +19,21 @@ namespace Adic.Util {
 		/// <param name="constructor">Constructor info used to create the function.</param>
 		/// <returns>The object constructor.</returns>
 		public static Constructor CreateConstructor(Type type, ConstructorInfo constructor) {
+			#if UNITY_IOS
+			
+			return () => {
+				return constructor.Invoke(null);
+			};
+
+			#else
+			
 			var method = new DynamicMethod(type.Name, type, null, type);
 			ILGenerator generator = method.GetILGenerator();
 			generator.Emit(OpCodes.Newobj, constructor);
 			generator.Emit(OpCodes.Ret);
 			return (Constructor)method.CreateDelegate(typeof(Constructor));
+
+			#endif
 		}
 		
 		/// <summary>
@@ -32,6 +43,14 @@ namespace Adic.Util {
 		/// <param name="constructor">Constructor info used to create the function.</param>
 		/// <returns>The object constructor.</returns>
 		public static ParamsConstructor CreateConstructorWithParams(Type type, ConstructorInfo constructor) {
+			#if UNITY_IOS
+			
+			return (object[] parameters) => {
+				return constructor.Invoke(parameters);
+			};
+			
+			#else
+			
 			var parameters = constructor.GetParameters();
 			
 			Type[] parametersTypes = new Type[] { typeof(object[]) };
@@ -65,6 +84,8 @@ namespace Adic.Util {
 			generator.Emit(OpCodes.Newobj, constructor);
 			generator.Emit(OpCodes.Ret);
 			return (ParamsConstructor)method.CreateDelegate(typeof(ParamsConstructor));
+			
+			#endif
 		}
 		
 		/// <summary>
@@ -74,6 +95,12 @@ namespace Adic.Util {
 		/// <param name="fieldInfo">Field info object.</param>
 		/// <returns>The field setter.</returns>
 		public static Setter CreateFieldSetter(Type type, FieldInfo fieldInfo) {
+			#if UNITY_IOS
+			
+			return (object instance, object value) => fieldInfo.SetValue(instance, value);
+			
+			#else
+			
 			var parametersTypes = new[] { OBJECT_TYPE, OBJECT_TYPE };
 			DynamicMethod setMethod = new DynamicMethod(fieldInfo.Name, typeof(void), parametersTypes, true);
 			ILGenerator generator = setMethod.GetILGenerator();
@@ -84,6 +111,8 @@ namespace Adic.Util {
 			generator.Emit(OpCodes.Ret);
 			
 			return (Setter)setMethod.CreateDelegate(typeof(Setter));
+			
+			#endif
 		}
 		
 		/// <summary>
@@ -93,6 +122,12 @@ namespace Adic.Util {
 		/// <param name="propertyInfo">Property info object.</param>
 		/// <returns>The property setter.</returns>
 		public static Setter CreatePropertySetter(Type type, PropertyInfo propertyInfo) {
+			#if UNITY_IOS
+			
+			return (object instance, object value) => propertyInfo.SetValue(instance, value, null);
+			
+			#else
+			
 			var propertySetMethod = propertyInfo.GetSetMethod();
 			
 			var parametersTypes = new Type[] { OBJECT_TYPE, OBJECT_TYPE };
@@ -105,6 +140,8 @@ namespace Adic.Util {
 			generator.Emit(OpCodes.Ret);
 			
 			return (Setter)method.CreateDelegate(typeof(Setter));
+			
+			#endif
 		}
 		
 		/// <summary>
@@ -114,6 +151,12 @@ namespace Adic.Util {
 		/// <param name="methodInfo">Method info object.</param>
 		/// <returns>The method caller.</returns>
 		public static PostConstructor CreateMethod(Type type, MethodInfo methodInfo) {
+			#if UNITY_IOS
+			
+			return (object instance) => methodInfo.Invoke(instance, null);
+			
+			#else
+			
 			var parametersTypes = new Type[] { OBJECT_TYPE };
 			DynamicMethod method = new DynamicMethod(methodInfo.Name, typeof(void), parametersTypes, true);
 			ILGenerator generator = method.GetILGenerator();
@@ -123,6 +166,8 @@ namespace Adic.Util {
 			generator.Emit(OpCodes.Ret);
 			
 			return (PostConstructor)method.CreateDelegate(typeof(PostConstructor));
+			
+			#endif
 		}
 	}
 }
