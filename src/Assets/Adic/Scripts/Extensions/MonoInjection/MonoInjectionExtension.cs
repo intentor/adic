@@ -18,10 +18,35 @@ public static class MonoInjectionExtension {
 	/// </summary>
 	/// <param name="script">Target script of the injection.</param>
 	public static void Inject(this MonoBehaviour script) {
+		var attributes = script.GetType().GetCustomAttributes(true);
+
+		if (attributes.Length == 0) {
+			Inject(script, string.Empty);
+		} else {
+			for (var attributeIndex = 0; attributeIndex < attributes.Length; attributeIndex++) {
+				var attribute = attributes[attributeIndex];
+
+				if (attribute is InjectFromContainer) {
+					Inject(script, (attribute as InjectFromContainer).identifier);
+				}
+			}
+		}
+	}
+
+	/// <summary>
+	/// Does dependency injection on a MonoBehaviour from a container with a given identifier.
+	/// </summary>
+	/// <param name="script">Target script of the injection.</param>
+	/// <param name="identifier">Container identifier. If empty, no container restrictions are applied.</param>
+	private static void Inject(MonoBehaviour script, string identifier) {
 		var containers = ContextRoot.containersData;
 
 		for (int index = 0; index < containers.Count; index++) {
-			containers[index].container.Inject(script);
+			var container = containers[index].container;
+
+			if (string.IsNullOrEmpty(identifier) || container.identifier == identifier) {
+				container.Inject(script);
+			}
 		}
 	}
 }

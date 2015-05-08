@@ -583,6 +583,45 @@ namespace MyNamespace {
 }
 ```
 
+#### Injecting from multiple containers
+
+When injecting into MonoBehaviour using the `this.Inject()` method, every available container in the <a href="#quick-start">context root</a> is used. If you want to restrict the containers from which injection occurs, use the `InjectFromContainer` attribute in conjunction with a container identifier:
+
+##### Setting a container identifier
+
+When creating the container, set an identifier through its constructor:
+
+```cs
+//Create the container.
+this.AddContainer(new InjectionContainer("identifier"))
+	//Register any extensions the container may use.
+	.RegisterExtension<UnityBindingContainerExtension>();
+```
+
+##### Adding the attribute
+
+In the MonoBehaviour that should receive injection only from a certain container, add the `InjectFromContainer` attribute with the container's identifier:
+
+```cs
+using Unity.Engine;
+
+namespace MyNamespace {
+	/// <summary>
+	/// My MonoBehaviour summary.
+	/// </summary>
+	[InjectFromContainer("identifier")]
+	public class MyBehaviour : MonoBehaviour {
+		/// <summary>Field to be injected.</summary>
+		[Inject]
+		public SomeClass fieldToInject;
+
+		protected void Start() {
+			this.Inject();
+		}
+	}
+}
+```
+
 ### <a id="conditions"></a>Conditions
 
 Conditions allow a more customized approach when injecting dependencies into constructors and fields/properties.

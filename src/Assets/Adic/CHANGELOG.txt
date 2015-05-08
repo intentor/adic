@@ -5,7 +5,7 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
-Version 2.10 (2015-05-?)
+Version 2.10 (2015-05-08)
 
 Framework
 - Added identifier to containers.
@@ -13,6 +13,9 @@ Framework
 
 Commander extension
 - Added verification of already pooled commands when pooling.
+
+Mono Injection extension
+- Added InjectFromContainer attribute to select, by identifier, from which container injections should occur.
 
 Version 2.9 (2015-05-02)
 
