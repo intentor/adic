@@ -25,7 +25,7 @@ namespace Adic {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Inject"/> class.
 		/// </summary>
-		/// <param name="name">The identifier of the binding to inject.</param>
+		/// <param name="identifier">The identifier of the binding to inject.</param>
 		public Inject(string identifier) {
 			this.identifier = identifier;
 		}
