@@ -8,6 +8,7 @@
 Version 2.10 (2015-05-?)
 
 Framework
+- Added identifier to containers.
 - Fixed JIT compilation error when building to IOS (which compiles using AOT). [Issue #16]
 
 Commander extension

@@ -14,6 +14,9 @@ namespace Adic {
 	/// and allows the use of extensions to provide new functionalities.
 	/// </summary>
 	public class InjectionContainer : Injector, IInjectionContainer  {
+		/// <summary>Container identifier.</summary>
+		public string identifier { get; private set; }
+
 		/// <summary>Registered container extensions.</summary>
 		private List<IContainerExtension> extensions;
 
@@ -31,11 +34,37 @@ namespace Adic {
 		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
 		/// </summary>
 		/// <remarks>
+		/// When passing no parameters to the constructor, default internal objects are created.
+		/// </remarks>
+		/// <param name="identifier">Container identifier.</param>
+		public InjectionContainer(string identifier) : base(new ReflectionCache(), new Binder()) {
+			this.identifier = identifier;
+			this.RegisterItself();
+		}
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
+		/// </summary>
+		/// <remarks>
 		/// <remarks>
 		/// Default binder and injector objects are created.
 		/// </remarks>
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		public InjectionContainer(IReflectionCache cache) : base(cache, new Binder()) {			
+			this.RegisterItself();
+		}
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
+		/// </summary>
+		/// <remarks>
+		/// <remarks>
+		/// Default binder and injector objects are created.
+		/// </remarks>
+		/// <param name="identifier">Container identifier.</param>
+		/// <param name="cache">Reflection cache used to get type info.</param>
+		public InjectionContainer(string identifier, IReflectionCache cache) : base(cache, new Binder()) {	
+			this.identifier = identifier;
 			this.RegisterItself();
 		}
 
@@ -46,6 +75,18 @@ namespace Adic {
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		/// <param name="binder">Binder to be used on the container.</param>
 		public InjectionContainer(IReflectionCache cache, IBinder binder) : base(cache, binder) {
+			this.RegisterItself();
+		}
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
+		/// </summary>
+		/// <remarks>
+		/// <param name="identifier">Container identifier.</param>
+		/// <param name="cache">Reflection cache used to get type info.</param>
+		/// <param name="binder">Binder to be used on the container.</param>
+		public InjectionContainer(string identifier, IReflectionCache cache, IBinder binder) : base(cache, binder) {	
+			this.identifier = identifier;
 			this.RegisterItself();
 		}
 

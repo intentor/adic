@@ -10,6 +10,9 @@ namespace Adic.Container {
 	/// A container holds binding references, resolves types and injects dependencies.
 	/// </summary>
 	public interface IInjectionContainer : IBinder, IInjector, IDisposable {
+		/// <summary>Container identifier.</summary>
+		string identifier { get; }
+
 		/// <summary>Reflection cache used to get type info.</summary>
 		IReflectionCache cache { get; }
 
