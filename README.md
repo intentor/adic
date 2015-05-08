@@ -540,7 +540,7 @@ It's possible to manually resolve multiple objects. Please see <a href="#manual-
 
 ### <a id="monobehaviour-injection"></a>MonoBehaviour injection
 
-It's possible to perform injection on custom MonoBehaviour fields and properties by using the <a href="#extension-mono-injection">Mono Injection</a> extension, which is enabled by default, by calling `this.Inject()` on the `Start()` method of the MonoBehaviour:
+It's possible to perform injection on custom `MonoBehaviour` fields and properties by using the <a href="#extension-mono-injection">Mono Injection</a> extension, which is enabled by default, by calling `this.Inject()` on the `Start()` method of the `MonoBehaviour`:
 
 ```cs
 using Unity.Engine;
@@ -561,7 +561,7 @@ namespace MyNamespace {
 }
 ```
 
-To make injection even simpler, create a base behaviour from which all your MonoBehaviour will inherit:
+To make injection even simpler, create a base behaviour from which all your `MonoBehaviour` will inherit:
 
 ```cs
 using Unity.Engine;
@@ -585,14 +585,14 @@ namespace MyNamespace {
 
 #### Injecting from multiple containers
 
-When injecting into MonoBehaviour using the `this.Inject()` method, every available container in the <a href="#quick-start">context root</a> is used. If you want to restrict the containers from which injection occurs, use the `InjectFromContainer` attribute in conjunction with a container identifier:
+When injecting into `MonoBehaviour` using the `this.Inject()` method, every available container in the <a href="#quick-start">context root</a> is used. If you want to restrict the containers from which injection occurs, use the `InjectFromContainer` attribute in conjunction with a container identifier.
 
 ##### Setting a container identifier
 
 When creating the container, set an identifier through its constructor:
 
 ```cs
-//Create the container.
+//Create the container with an identifier.
 this.AddContainer(new InjectionContainer("identifier"))
 	//Register any extensions the container may use.
 	.RegisterExtension<UnityBindingContainerExtension>();
@@ -600,7 +600,7 @@ this.AddContainer(new InjectionContainer("identifier"))
 
 ##### Adding the attribute
 
-In the MonoBehaviour that should receive injection only from a certain container, add the `InjectFromContainer` attribute with the container's identifier:
+In the `MonoBehaviour` that should receive injection only from a certain container, add the `InjectFromContainer` attribute with the container's identifier:
 
 ```cs
 using Unity.Engine;
@@ -682,7 +682,7 @@ The context provides the following fields:
 
 ### <a id="update"></a>Update
 
-It's possible to have an `Update()` method on regular classes (that don't inherit from `UnityEngine.MonoBehaviour`) by implementing the `Adic.IUpdatable` interface.
+It's possible to have an `Update()` method on regular classes (that don't inherit from `MonoBehaviour`) by implementing the `Adic.IUpdatable` interface.
 
 See <a href="#extension-event-caller">Event Caller</a> for more information.
 
@@ -1181,8 +1181,8 @@ So, if you're using a <a href="#static-containers">container that will live thro
 2. ContextRoot calls SetupContainers()
 3. ContextRoot asks for each container to generate cache for its types
 4. ContextRoot calls Init()
-5. Unity Start() on all MonoBehaviours
-6. Injection on MonoBehaviours
+5. Unity Start() on all `MonoBehaviour`
+6. Injection on `MonoBehaviour`
 7. Update() is called on every object that implements `Adic.IUpdatable`
 8. Scene is destroyed
 9. Dispose() is called on every object that implements `System.IDisposable`
@@ -1386,7 +1386,7 @@ None
 
 ### <a id="extension-mono-injection"></a>Mono Injection
 
-Allows injection on MonoBehaviours by provinding an `Inject` method to `UnityEngine.MonoBehaviour`.
+Allows injection on `MonoBehaviour` by provinding an `Inject()` method.
 
 #### Configuration
 
