@@ -46,7 +46,9 @@ namespace Adic {
 		}
 		
 		protected void Awake() {
-			containersData = new List<InjectionContainerData>(1);
+			if (containersData == null) {
+				containersData = new List<InjectionContainerData>(1);
+			}
 			this.SetupContainers();
 			this.CacheBindings();
 			this.Init();

@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.11 (2015-05-08)
+
+Context Root extension
+- Fixed new instantion of existing container's data on Awake().
+
 Version 2.10 (2015-05-08)
 
 Framework
