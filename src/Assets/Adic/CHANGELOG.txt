@@ -7,6 +7,9 @@
 
 Version 2.11 (2015-05-08)
 
+Commander extension
+- Added automatic command retention when invoking or starting a coroutine. [Issue #21]
+
 Context Root extension
 - Fixed new instantiation of existing container's data on Awake().
 

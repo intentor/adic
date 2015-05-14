@@ -56,21 +56,25 @@ namespace Adic {
 		/// <param name="time">Time to call the method (seconds).</param>
 		protected void Invoke(Action method, float time) {
 			EventCallerContainerExtension.eventCaller.StartCoroutine(this.MethodInvoke(method, time));
+			this.Retain();
 		}
 
 		/// <summary>
 		/// Starts a coroutine.
 		/// </summary>
-		/// <param name="coroutine">Coroutine to be started.</param>
+		/// <param name="routine">Routine to be started.</param>
 		/// <returns>The coroutine.</returns>
-		protected Coroutine StartCoroutine(IEnumerator coroutine) {
-			return EventCallerContainerExtension.eventCaller.StartCoroutine(coroutine);
+		protected Coroutine StartCoroutine(IEnumerator routine) {
+			var startedCoroutine = EventCallerContainerExtension.eventCaller.StartCoroutine(routine);
+			this.Retain();
+
+			return startedCoroutine;
 		}
 
 		/// <summary>
 		/// Stops a coroutine.
 		/// </summary>
-		/// <param name="coroutine">Coroutine to stopped.</param>
+		/// <param name="coroutine">Coroutine to be stopped.</param>
 		protected void StopCoroutine(Coroutine coroutine) {
 			EventCallerContainerExtension.eventCaller.StopCoroutine(coroutine);
 		}
