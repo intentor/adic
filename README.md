@@ -1130,7 +1130,9 @@ namespace MyNamespace.Commands {
 }
 ```
 
-**Note:** always retain a command when invoking methods inside it.
+**Note 1:** when an invocation is scheduled, the command is automatically retained. So, when the invocation method is called, always release the command.
+
+**Note 2:** when a command is released, all invocations are discarded.
 
 #### Coroutines
 
@@ -1169,7 +1171,9 @@ namespace MyNamespace.Commands {
 
 If needed, it's also possible to stop a coroutine after it's started by calling the `StopCoroutine()` method.
 
-**Note:** always retain a command when using coroutines.
+**Note 1:** when a coroutine is started, the command is automatically retained. So, when the coroutine completes its execution, always release the command.
+
+**Note 2:** when a command is released, all coroutines started from that command are stopped.
 
 #### A note about scene destruction and commands
 

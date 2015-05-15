@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Adic {
 	/// <summary>
 	/// Basic implementation of a command.
 	/// </summary>
-	public abstract class Command : ICommand {
+	public abstract class Command : ICommand, IDisposable {
 		/// <summary>The command dispatcher that dispatched this command.</summary>
 		public ICommandDispatcher dispatcher { get; set; }
 		/// <summary>Indicates whether the command is running.</summary>
@@ -25,6 +26,9 @@ namespace Adic {
 		public virtual int preloadPoolSize { get { return 1; } }
 		/// <summary>The maximum size pool for this command (default: 10).</summary>
 		public virtual int maxPoolSize { get { return 10; } }
+
+		/// <summary>Coroutines started on this command.</summary>
+		private List<Coroutine> coroutines = new List<Coroutine>(1);
 		
 		/// <summary>
 		/// Executes the command.
@@ -50,13 +54,22 @@ namespace Adic {
 		}
 
 		/// <summary>
+		/// Called when a command is disposed.
+		/// </summary>
+		public virtual void Dispose() {
+			while (this.coroutines.Count > 0) {
+				this.StopCoroutine(this.coroutines[0]);
+			}
+		}
+
+		/// <summary>
 		/// Invokes the specified method after a specific time in seconds.
 		/// </summary>
 		/// <param name="method">Method to be called.</param>
 		/// <param name="time">Time to call the method (seconds).</param>
 		protected void Invoke(Action method, float time) {
-			EventCallerContainerExtension.eventCaller.StartCoroutine(this.MethodInvoke(method, time));
-			this.Retain();
+			var routine = this.MethodInvoke(method, time);
+			this.StartCoroutine(routine);
 		}
 
 		/// <summary>
@@ -65,10 +78,11 @@ namespace Adic {
 		/// <param name="routine">Routine to be started.</param>
 		/// <returns>The coroutine.</returns>
 		protected Coroutine StartCoroutine(IEnumerator routine) {
-			var startedCoroutine = EventCallerContainerExtension.eventCaller.StartCoroutine(routine);
+			var coroutine = EventCallerContainerExtension.eventCaller.StartCoroutine(routine);
+			this.coroutines.Add(coroutine);
 			this.Retain();
 
-			return startedCoroutine;
+			return coroutine;
 		}
 
 		/// <summary>
@@ -77,6 +91,7 @@ namespace Adic {
 		/// <param name="coroutine">Coroutine to be stopped.</param>
 		protected void StopCoroutine(Coroutine coroutine) {
 			EventCallerContainerExtension.eventCaller.StopCoroutine(coroutine);
+			this.coroutines.Remove(coroutine);
 		}
 
 		/// <summary>
