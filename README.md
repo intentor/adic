@@ -103,6 +103,7 @@ As a plus, there are other benefits from using a DI container:
 1. **Refactorability**: with your code decoupled, it's easy to refactor it without affecting the entire codebase.
 2. **Reusability**: thinking about abstractions allows your code to be even more reusable by making it small and focused on a single responsibility. 
 3. **Testability**: by focusing on abstractions and dependency injection, it's easy to change implementations to test your code.
+4. **Easily change implementations**: given all dependencies are configured in the container, it's easy to change a implementation for a given abstraction.
 4. **Improved architecture**: your codebase will be naturally better and more organized because you'll think about the relationships of your code.
 5. **Staying sane**: by focusing on small parts of the code and having a consistent architecture, the sanity of the developer is also ensured!
 
