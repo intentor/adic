@@ -180,7 +180,7 @@ public class MyOtherClass {
 
 However, any class that uses `MyOtherClass` must also fullfill any dependencies it needs, again up into the execution flow, until a place where all the dependencies are resolved. This place is called the [composition root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/).
 
-And that's where a DI container come in handy. In the composition root, a DI container is created and configured to resolve and wire all dependencies of any objects used by your code.
+And that's where a DI container come in handy. In the composition root, a DI container is created and configured to resolve and wire all dependencies of any objects used by your code so you don't have to worry about it!
 
 #### <a id="further-readings"></a>Further readings
 
