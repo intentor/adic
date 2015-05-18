@@ -9,7 +9,12 @@
 1. <a href="#introduction">Introduction</a>
 2. <a href="#features">Features</a>
 3. <a href="#concepts">Concepts</a>
-	1. <a href="#what-is">What is a dependency injector container?
+	1. <a href="#about-di">About dependency injection (DI)</a>
+		1. <a href="#what-is">What is a DI container?</a>
+		2. <a href="#why-use-it">Why use a DI container?</a>
+		3. <a href="#why-use-with-unity">Why use it with Unity?</a>
+		4. <a href="#common-use-case">Common use case
+		5. <a href="#further-readings">Further readings
 	2. <a href="#structure">Structure
 	3. <a href="#types-of-bindings">Types of bindings
 	4. <a href="#namespace-conventions">Namespace conventions
@@ -75,13 +80,118 @@ Also available in the [Unity Asset Store](https://www.assetstore.unity3d.com/en/
 
 ## <a id="concepts"></a>Concepts
 
-### <a id="what-is"></a>What is a dependency injection container?
+### <a id="about-di"></a>About dependency injection (DI)
+
+#### <a id="what-is"></a>What is a DI container?
 
 A *dependency injection container* is a piece of software that handles the resolution of dependencies of objects. It's related to the [dependency injection](http://en.wikipedia.org/wiki/Dependency_injection) and [inversion of control](http://en.wikipedia.org/wiki/Inversion_of_control) design patterns.
 
 The idea is that any dependency an object may need should be resolved by an external entity rather than the own object. Practically speaking, an object should not use `new` to create the objects it uses, having those instances *injected* into it by another object whose sole existence is to resolve dependencies.
 
 So, a *dependency injection container* holds information about dependencies (the *bindings*) that can be injected into another objects by demand (injecting into existing objects) or during resolution (when you are creating a new object of some type).
+
+#### <a id="why-use-it"></a>Why use a DI container?
+
+In a nutshell, **to decouple your code**. 
+
+A DI container, in pair with a good architecture, can ensure [SOLID principles](http://en.wikipedia.org/wiki/SOLID_%28object-oriented_design%29) and help you write better code.
+
+Using such container, you can easily work with abstractions without having to worry about the specifics of each external implementation, focusing just on the code you are writing. It's all related to dependencies: any dependency your code needs is not resolved directly by your code, but externally, allowing your code to deal only with its responsibilities.
+
+As a plus, there are other benefits from using a DI container:
+
+1. **Refactorability**: with your code decoupled, it's easy to refactor it without affecting the entire system.
+2. **Reusability**: thinking about abstractions allows your code to be even more reusable by making it small and focused on a single responsibility. 
+3. **Testability**: by focusing on abstractions and dependency injection, it's easy to change implementations to test your code.
+4. **Improved architecture**: your codebase will be naturally better and more organized because you'll think about the relationships of your code.
+5. **Staying sane**: by focusing on small parts of the code and having a consistent architecture, the sanity of the developer is also ensured!
+
+#### <a id="why-use-with-unity"></a>Why use it with Unity?
+
+Unity is not SOLID friendly out of the box. Even the official examples may give a wrong idea on how to code on Unity. Using a DI container in conjunction with Unity, it's possible to write code that is more extensible, reusable and less `MonoBehaviour` centric (in most cases, a regular class can do just fine or better).
+
+This way your code can become more modular and your components less tightly coupled to each other.
+
+#### <a id="common-use-case"></a>Common use case
+
+Imagine you class depend on a given service that provides some action it may need:
+
+```cs
+public class MyClass {
+	public void DoAction() {
+		var service = new SomeService();
+		service.SomeAction();
+	}
+}
+```
+
+If in the future you need to change the implementation of the service, you'll have to get back to the class and change it. It can work just fine for small projects, but as the codebase grows, it can become a (error prone) nightmare to chase all these references.
+
+So, you can change to a more decoupled code, making `MyClass` not having to worry about the specific implementation of `SomeService` it uses:
+
+```cs
+public class MyClass {
+	private IService service;
+
+	public MyClass(IService service) {
+		this.service = service;
+	}
+
+	public void DoAction() {
+		this.service.SomeAction();
+	}
+}
+```
+
+The ideia is that you invert the resolution of the dependency up into the execution flow.
+
+Now, any class that needs to use `MyClass` also has to to provide a service reference to it by constructor:
+
+```cs
+public class MyOtherClass {
+	private IService service;
+
+	public MyOtherClass(IService service) {
+		this.service = service;
+	}
+
+	public void DoAction() {
+		var myClass = new MyClass(this.service)
+		myClass.DoAction();
+	}
+}
+```
+
+But you could write it even better: given `MyOtherClass` depends only on `MyClass` (`IService` is just a *tramp variable* - a variable that is there to be passed to other object), there's no need to store a reference to the `IService` object:
+
+```cs
+public class MyOtherClass {
+	private MyClass myClass;
+
+	public MyOtherClass(MyClass myClass) {
+		this.myClass = myClass;
+	}
+
+	public void DoAction() {
+		this.myClass.DoAction();
+	}
+}
+```
+
+However, any class that uses `MyOtherClass` must also fullfill any dependencies it needs, again up into the execution flow, until a place where all the dependencies are resolved. This place is called the [composition root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/).
+
+And that's where a DI container come in handy. In the composition root, a DI container is created and configured to resolve and wire all dependencies of any objects used by your code.
+
+#### <a id="further-readings"></a>Further readings
+
+- [IoC container solves a problem you might not have but it's a nice problem to have](http://kozmic.net/2012/10/23/ioc-container-solves-a-problem-you-might-not-have-but-its-a-nice-problem-to-have/)
+- [IoC Container for Unity3D – part 1](http://www.sebaslab.com/ioc-container-for-unity3d-part-1/)
+- [IoC Container for Unity3D – part 2](http://www.sebaslab.com/ioc-container-for-unity3d-part-2/)
+- [The truth behind Inversion of Control – Part I – Dependency Injection](http://www.sebaslab.com/the-truth-behind-inversion-of-control-part-i-dependency-injection/)
+- [The truth behind Inversion of Control – Part II – Inversion of Control](http://www.sebaslab.com/the-truth-behind-inversion-of-control-part-ii-inversion-of-control/)
+- [The truth behind Inversion of Control – Part III – Entity Component Systems](http://www.sebaslab.com/the-truth-behind-inversion-of-control-part-iii-entity-component-systems/)
+- [The truth behind Inversion of Control – Part IV – Dependency Inversion Principle](http://www.sebaslab.com/the-truth-behind-inversion-of-control-part-iii-entity-component-systems/)
+- [From STUPID to SOLID Code!](http://williamdurand.fr/2013/07/30/from-stupid-to-solid-code/)
 
 ### <a id="structure"></a>Structure
 
