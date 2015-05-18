@@ -84,7 +84,7 @@ Also available in the [Unity Asset Store](https://www.assetstore.unity3d.com/en/
 
 #### <a id="what-is"></a>What is a DI container?
 
-A *dependency injection container* is a piece of software that handles the resolution of dependencies of objects. It's related to the [dependency injection](http://en.wikipedia.org/wiki/Dependency_injection) and [inversion of control](http://en.wikipedia.org/wiki/Inversion_of_control) design patterns.
+A *dependency injection container* is a piece of software that handles the resolution of dependencies in objects. It's related to the [dependency injection](http://en.wikipedia.org/wiki/Dependency_injection) and [inversion of control](http://en.wikipedia.org/wiki/Inversion_of_control) design patterns.
 
 The idea is that any dependency an object may need should be resolved by an external entity rather than the own object. Practically speaking, an object should not use `new` to create the objects it uses, having those instances *injected* into it by another object whose sole existence is to resolve dependencies.
 
@@ -100,7 +100,7 @@ Using such container, you can easily work with abstractions without having to wo
 
 As a plus, there are other benefits from using a DI container:
 
-1. **Refactorability**: with your code decoupled, it's easy to refactor it without affecting the entire system.
+1. **Refactorability**: with your code decoupled, it's easy to refactor it without affecting the entire codebase.
 2. **Reusability**: thinking about abstractions allows your code to be even more reusable by making it small and focused on a single responsibility. 
 3. **Testability**: by focusing on abstractions and dependency injection, it's easy to change implementations to test your code.
 4. **Improved architecture**: your codebase will be naturally better and more organized because you'll think about the relationships of your code.
@@ -143,7 +143,7 @@ public class MyClass {
 }
 ```
 
-The ideia is that you invert the resolution of the dependency up into the execution flow.
+The idea is that you invert the resolution of the dependency up into the execution flow.
 
 Now, any class that needs to use `MyClass` also has to to provide a service reference to it by constructor:
 
