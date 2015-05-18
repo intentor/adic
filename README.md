@@ -1205,6 +1205,15 @@ public void OnSomeActionFinished() {
 }
 ```
 
+It's also possible to manually release all commands of a specified type by calling the `Release()` method of the `CommandDispatcher`:
+
+```cs
+//Releasing all commands of a given type by generics...
+dispatcher.ReleaseAll<SomeCommand>();
+//...or by type instance...
+dispatcher.ReleaseAll(typeof(SomeCommand));
+```
+
 #### Timed invoke
 
 It's possible to use timed method invocation inside a command by calling the `Invoke()` method:

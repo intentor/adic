@@ -48,6 +48,18 @@ namespace Adic {
 		void ReleaseAll();
 		
 		/// <summary>
+		/// Releases all commands that are running.
+		/// </summary>
+		/// <typeparam name="T">The type of the commands to be released.</typeparam>
+		void ReleaseAll<T>() where T : ICommand;
+		
+		/// <summary>
+		/// Releases all commands that are running.
+		/// </summary>
+		/// <param name="type">The type of the commands to be released.</param>
+		void ReleaseAll(Type type);
+		
+		/// <summary>
 		/// Checks whether a given command of <typeparamref name="T"/> is registered.
 		/// </summary>
 		/// <typeparam name="T">Command type.</typeparam>

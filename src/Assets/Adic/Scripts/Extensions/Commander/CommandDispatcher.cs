@@ -130,8 +130,37 @@ namespace Adic {
 					this.Release((ICommand)entry.Value);
 				} else {
 					var pool = (List<ICommand>)entry.Value;
-					for (int poolIndex = 0; poolIndex < pool.Count; poolIndex++) {						
+					for (int poolIndex = 0; poolIndex < pool.Count; poolIndex++) {					
 						this.Release((ICommand)pool[poolIndex]);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Releases all commands that are running.
+		/// </summary>
+		/// <typeparam name="T">The type of the commands to be released.</typeparam>
+		public void ReleaseAll<T>() where T : ICommand {
+			this.ReleaseAll(typeof(T));
+		}
+		
+		/// <summary>
+		/// Releases all commands that are running.
+		/// </summary>
+		/// <param name="type">The type of the commands to be released.</param>
+		public void ReleaseAll(Type type) {
+			foreach (var entry in this.commands) {
+				if (entry.Value is ICommand && entry.Value.GetType().Equals(type)) {
+					this.Release((ICommand)entry.Value);
+				} else {
+					var pool = (List<ICommand>)entry.Value;
+					for (int poolIndex = 0; poolIndex < pool.Count; poolIndex++) {
+						var command = (ICommand)pool[poolIndex];
+
+						if (command.GetType().Equals(type)) {
+							this.Release(command);
+						}
 					}
 				}
 			}
