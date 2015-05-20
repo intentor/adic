@@ -13,7 +13,7 @@
 		1. <a href="#what-is">What is a DI container?</a>
 		2. <a href="#why-use-it">Why use a DI container?</a>
 		3. <a href="#why-use-with-unity">Why use it with Unity?</a>
-		4. <a href="#common-use-case">Common use case
+		4. <a href="#common-use-cases">Common use cases
 		5. <a href="#further-readings">Further readings
 	2. <a href="#structure">Structure
 	3. <a href="#types-of-bindings">Types of bindings
@@ -113,7 +113,9 @@ Unity is not SOLID friendly out of the box. Even the official examples may give 
 
 This way your code can become more modular and your components less tightly coupled to each other.
 
-#### <a id="common-use-case"></a>Common use case
+#### <a id="common-use-cases"></a>Common use cases
+
+##### Class dependency
 
 Imagine you class depend on a given service that provides some action it may need:
 
