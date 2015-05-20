@@ -228,5 +228,9 @@ namespace Adic {
 		public void Unbind(Type type) {
 			this.binder.Unbind(type);
 		}
+
+		public void Unbind(string identifier) {
+			this.binder.Unbind(identifier);
+		}
 	}
 }

@@ -35,18 +35,18 @@ namespace Adic.Binding {
 		IList<BindingInfo> GetBindingsFor<T>();
 		
 		/// <summary>
-		/// Gets the bindings for a given <param name="identifier">.
-		/// </summary>
-		/// <param name="identifier">The identifier to get the bindings from.</param>
-		/// <returns>The bindings for the desired type.</returns>
-		IList<BindingInfo> GetBindingsFor(string identifier);
-		
-		/// <summary>
 		/// Gets the bindings for a given <param name="type">.
 		/// </summary>
 		/// <param name="type">The type to get the bindings from.</param>
 		/// <returns>The bindings for the desired type.</returns>
 		IList<BindingInfo> GetBindingsFor(Type type);
+		
+		/// <summary>
+		/// Gets the bindings for a given <param name="identifier">.
+		/// </summary>
+		/// <param name="identifier">The identifier to get the bindings from.</param>
+		/// <returns>The bindings for the desired type.</returns>
+		IList<BindingInfo> GetBindingsFor(string identifier);
 		
 		/// <summary>
 		/// Checks whether this binder contains a binding for a given <typeparamref name="T"/>.
@@ -80,5 +80,11 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="type">The type to be unbound.</param>
 		void Unbind(Type type);
+		
+		/// <summary>
+		/// Unbinds any bindings to a certain <paramref name="identifier"/>.
+		/// </summary>
+		/// <param name="identifier">The identifier to be unbound.</param>
+		void Unbind(string identifier);
 	}
 }

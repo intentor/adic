@@ -5,7 +5,10 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
-Version 2.11 (2015-05-08)
+Version 2.11 (2015-05-?)
+
+Framework
+- Added Unbind() method for identifiers. [Issue #24]
 
 Commander extension
 - Added automatic command retention when invoking or starting a coroutine. [Issue #21]

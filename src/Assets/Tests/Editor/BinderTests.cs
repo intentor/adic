@@ -121,6 +121,7 @@ namespace Adic.Tests {
 			var bindings = binder.GetBindings();
 			
 			Assert.AreEqual(1, bindings.Count);
+			Assert.AreEqual(typeof(MockClassToDepend), bindings[0].type);
 		}
 		
 		[Test]
@@ -134,6 +135,24 @@ namespace Adic.Tests {
 			var bindings = binder.GetBindings();
 			
 			Assert.AreEqual(1, bindings.Count);
+			Assert.AreEqual(typeof(MockClassToDepend), bindings[0].type);
+		}
+		
+		[Test]
+		public void TestUnbindByIdentifier() {
+			var binder = new Binder();
+			
+			binder.Bind<MockClassToDepend>().ToSelf();
+			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("Mock1");
+			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("Mock2");
+			binder.Unbind("Mock1");
+			
+			var bindings = binder.GetBindings();
+			
+			Assert.AreEqual(2, bindings.Count);
+			Assert.AreEqual(typeof(MockClassToDepend), bindings[0].type);
+			Assert.AreEqual(typeof(IMockInterface), bindings[1].type);
+			Assert.AreEqual("Mock2", bindings[1].identifier);
 		}
 	}
 }

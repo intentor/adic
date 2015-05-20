@@ -183,6 +183,8 @@ namespace Adic.Binding {
 
 			var bindings = this.GetBindingsFor(type);
 
+
+
 			if (this.beforeRemoveBinding != null) {
 				this.beforeRemoveBinding(this, type, bindings);
 			}
@@ -191,6 +193,35 @@ namespace Adic.Binding {
 			
 			if (this.afterRemoveBinding != null) {
 				this.afterRemoveBinding(this, type, bindings);
+			}
+		}
+		
+		/// <summary>
+		/// Unbinds any bindings to a certain <paramref name="identifier"/>.
+		/// </summary>
+		/// <param name="identifier">The identifier to be unbound.</param>
+		public void Unbind(string identifier) {
+			var bindingsToRemove = new List<BindingInfo>();
+
+			foreach (var entry in this.typeBindings) {
+				for (var bindingIndex = 0; bindingIndex < entry.Value.Count; bindingIndex++) {
+					var binding = entry.Value[bindingIndex];
+					bindingsToRemove.Clear();
+					
+					if (!string.IsNullOrEmpty(binding.identifier) && binding.identifier.Equals(identifier)) {						
+						bindingsToRemove.Add(binding);
+
+						if (this.beforeRemoveBinding != null) {
+							this.beforeRemoveBinding(this, binding.type, bindingsToRemove);
+						}
+
+						entry.Value.RemoveAt(bindingIndex--);						
+						
+						if (this.afterRemoveBinding != null) {
+							this.afterRemoveBinding(this, binding.type, bindingsToRemove);
+						}
+					}
+				}
 			}
 		}
 
