@@ -769,6 +769,7 @@ namespace MyNamespace {
 		}
 	}
 }
+```
 
 When injecting into fields/properties:
 
