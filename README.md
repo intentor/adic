@@ -267,7 +267,7 @@ namespace MyNamespace {
 
 **Hint:** when using a context root for each scene of your game, to make the project more organized, create folders for each of your scenes that will hold their own scripts and context roots.
    
-2\. In the `SetupContainers()` method, create and add any containers will may need, also configuring their bindings.
+2\. In the `SetupContainers()` method, create and add any containers you may need, also configuring their bindings.
 
 ```cs
 public override void SetupContainers() {
@@ -465,6 +465,7 @@ container.Bind<SomeMonoBehaviour>().ToGameObjectWithTag("Tag");
 container.Bind<SomeInterface>().ToGameObjectWithTag<SomeMonoBehaviour>("Tag");
 //..or some other component by instance type and tag.
 container.Bind<SomeInterface>().ToGameObjectWithTag(someMonoBehaviourType, "Tag");
+```
 
 #### To game objects with tag
 
