@@ -752,26 +752,7 @@ When binding:
 container.Bind<SomeInterface>().To<SomeClass>().As("Identifier");
 ```
 
-When injecting into a field/property:
-
-```cs
-namespace MyNamespace {
-	/// <summary>
-	/// My class summary.
-	/// </summary>
-	public class MyClass {
-		/// <summary>Field to be injected.</summary>
-		[Inject("Identifier")]
-		public SomeInterface field;
-
-		/// <summary>Property to be injected.</summary>
-		[Inject("Identifier")]
-		public SomeInterface property { get; set; }
-	}
-}
-```
-
-Or into a constructor parameter:
+When injecting into constructor parameters:
 
 ```cs
 namespace MyNamespace {
@@ -786,6 +767,24 @@ namespace MyNamespace {
 		public MyClass([Inject("Identifier")] SomeInterface parameter) {
 			//Code.
 		}
+	}
+}
+
+When injecting into fields/properties:
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My class summary.
+	/// </summary>
+	public class MyClass {
+		/// <summary>Field to be injected.</summary>
+		[Inject("Identifier")]
+		public SomeInterface field;
+
+		/// <summary>Property to be injected.</summary>
+		[Inject("Identifier")]
+		public SomeInterface property { get; set; }
 	}
 }
 ```
