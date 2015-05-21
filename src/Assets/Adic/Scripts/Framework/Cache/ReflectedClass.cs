@@ -14,8 +14,8 @@ namespace Adic.Cache {
 		public Constructor constructor { get; set; }
 		/// <summary>The constructor with parameters of the class.</summary>
 		public ParamsConstructor paramsConstructor { get; set; }
-		/// <summary>The parameters of the constructor of the class.</summary>
-		public Type[] constructorParameters { get; set; }
+		/// <summary>Constructor parameters' infos.</summary>
+		public ParameterInfo[] constructorParameters { get; set; }
 		/// <summary>Methods that have the PostConstruct attribute.</summary>
 		public PostConstructor[] postConstructors { get; set; }
 		/// <summary>Public properties of the type that can receive injection.</summary>

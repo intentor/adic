@@ -31,7 +31,7 @@ namespace Adic.Tests {
 			Assert.IsNull(reflectedClass.constructor);
 			Assert.NotNull(reflectedClass.paramsConstructor);
 			Assert.AreEqual(1, reflectedClass.constructorParameters.Length);
-			Assert.AreEqual(typeof(MockClassToDepend), reflectedClass.constructorParameters[0]);
+			Assert.AreEqual(typeof(MockClassToDepend), reflectedClass.constructorParameters[0].type);
 		}
 		
 		[Test]

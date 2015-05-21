@@ -37,6 +37,14 @@ namespace Adic.Tests {
 			this.containerIdentifierTests.Bind<IMockInterface>().To(mockClass3).As("MockClass3");
 			this.containerIdentifierTests.Bind<IMockInterface>().To<MockIClass>().As("MockClassSingle");
 		}
+
+		[Test]
+		public void TestResolveWithConstructorInject() {
+			var instance = this.containerIdentifierTests.Resolve<MockClassSimpleConstructInject>();
+
+			Assert.AreEqual(typeof(MockIClassWithAttributes), instance.mock.GetType());
+			Assert.AreEqual("MockClass3", instance.mock.property1);
+		}
 		
 		[Test]
 		public void TestResolveByGenerics() {

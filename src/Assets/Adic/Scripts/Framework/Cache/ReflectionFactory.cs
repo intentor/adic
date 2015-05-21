@@ -81,14 +81,22 @@ namespace Adic.Cache {
 		/// </summary>
 		/// <param name="constructor">The constructor to have the parameters resolved.</param>
 		/// <returns>The constructor parameters.</returns>
-		protected Type[] ResolveConstructorParameters(ConstructorInfo constructor) {
+		protected ParameterInfo[] ResolveConstructorParameters(ConstructorInfo constructor) {
 			if (constructor == null) return null;
 
 			var parameters = constructor.GetParameters();			
 			
-			var constructorParameters = new Type[parameters.Length];
+			var constructorParameters = new ParameterInfo[parameters.Length];
 			for (int paramIndex = 0; paramIndex < constructorParameters.Length; paramIndex++) {
-				constructorParameters[paramIndex] = parameters[paramIndex].ParameterType;
+				string identifier = null;
+				var parameter = parameters[paramIndex];
+
+				var attributes = parameter.GetCustomAttributes(typeof(Inject), true);
+				if (attributes.Length > 0) {
+					identifier = (attributes[0] as Inject).identifier;
+				}
+
+				constructorParameters[paramIndex] = new ParameterInfo(parameter.ParameterType, identifier);
 			}
 
 			return constructorParameters;

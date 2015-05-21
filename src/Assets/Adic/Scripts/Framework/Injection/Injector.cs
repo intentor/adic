@@ -428,11 +428,13 @@ namespace Adic.Injection {
 				object[] parameters = new object[reflectedClass.constructorParameters.Length];
 
 				for (int paramIndex = 0; paramIndex < parameters.Length; paramIndex++) {
+					var parameterInfo = reflectedClass.constructorParameters[paramIndex];
+					
 					parameters[paramIndex] = this.Resolve(
-						reflectedClass.constructorParameters[paramIndex],
+						parameterInfo.type,
 						InjectionMember.Constructor,
 						instance,
-						null
+						parameterInfo.identifier
              		);
 				}
 

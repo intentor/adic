@@ -48,6 +48,17 @@ namespace Adic.Tests {
 	}
 	
 	/// <summary>
+	/// Simple mock class with a constructor parameter with Inject attribute.
+	/// </summary>
+	public class MockClassSimpleConstructInject {
+		public IMockInterface mock;
+
+		public MockClassSimpleConstructInject([Inject("MockClass3")] IMockInterface mock) {
+			this.mock = mock;
+       	}
+	}
+	
+	/// <summary>
 	/// Mock class with a multiple dependency.
 	/// </summary>
 	public class MockClassMultiple {

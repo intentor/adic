@@ -8,7 +8,7 @@ namespace Adic {
 	/// 
 	/// If no identifier is provided, the injector looks the binder for a key of the type of the field/property.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
+	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter,
 		AllowMultiple = false,
 		Inherited = true)]
 	public class Inject : Attribute {

@@ -744,7 +744,7 @@ Conditions allow a more customized approach when injecting dependencies into con
 
 Using conditions you can:
 
-1\. Tag a binding with an identifier, so you can indicate it as a parameter in the `Inject` attribute on fields/properties:
+1\. Tag a binding with an identifier, so you can indicate it as a parameter in the `Inject` attribute on constructors and fields/properties:
 
 When binding:
 
@@ -752,7 +752,7 @@ When binding:
 container.Bind<SomeInterface>().To<SomeClass>().As("Identifier");
 ```
 
-When injecting:
+When injecting into a field/property:
 
 ```cs
 namespace MyNamespace {
@@ -763,6 +763,29 @@ namespace MyNamespace {
 		/// <summary>Field to be injected.</summary>
 		[Inject("Identifier")]
 		public SomeInterface field;
+
+		/// <summary>Property to be injected.</summary>
+		[Inject("Identifier")]
+		public SomeInterface property { get; set; }
+	}
+}
+```
+
+Or into a constructor parameter:
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My class summary.
+	/// </summary>
+	public class MyClass {
+		/// <summary>
+		/// Class constructor.
+		/// </summary>
+		/// <param name="parameter">Parameter to be injected.</param>
+		public MyClass([Inject("Identifier")] SomeInterface parameter) {
+			//Code.
+		}
 	}
 }
 ```

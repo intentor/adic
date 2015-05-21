@@ -5,10 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
-Version 2.11 (2015-05-?)
+Version 2.11 (2015-05-21)
 
 Framework
 - Added Unbind() method for identifiers. [Issue #24]
+- Added use of Inject attribute on constructor parameters. [Issue #19]
 
 Commander extension
 - Added automatic command retention when invoking or starting a coroutine. [Issue #21]
