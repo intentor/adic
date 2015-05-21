@@ -13,9 +13,9 @@ Framework
 
 Commander extension
 - Added automatic command retention when invoking or starting a coroutine. [Issue #21]
-- Implemented IDisposable interface on the command class. [Issue #21]
 - Added stopping of coroutines when releasing commands. [Issue #21]
 - Added release of commands by type. [Issue #18]
+- Implemented IDisposable interface on the command class. [Issue #21]
 
 Context Root extension
 - Fixed new instantiation of existing container's data on Awake().
