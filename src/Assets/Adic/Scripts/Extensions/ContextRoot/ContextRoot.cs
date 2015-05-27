@@ -51,6 +51,9 @@ namespace Adic {
 			}
 			this.SetupContainers();
 			this.CacheBindings();
+		}
+
+		protected void Start() {
 			this.Init();
 		}
 		

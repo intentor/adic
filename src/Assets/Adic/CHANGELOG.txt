@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.12 (2015-?-?)
+
+Context Root extension
+- Updated Init() method to be called on Unity's start event.
+
 Version 2.11 (2015-05-21)
 
 Framework
