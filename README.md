@@ -1336,7 +1336,7 @@ All strategies are related to how the <a href="#quick-start">context root</a> an
 
 ### Single context root for all scenes
 
-The game uses a single game root for all scenes. In this strategy, all bindings are recreated each time a scene is loaded.
+The game uses a single context root for all scenes. In this strategy, all bindings are recreated each time a scene is loaded.
 
 It's useful for games that use a single scene or when the recreation of the bindings is not an issue. This is the default strategy, as seem on <a href="#quick-start">Quick start</a>.
 
@@ -1348,13 +1348,13 @@ It's useful for games that have different bindings per scene.
 
 ### Shared container
 
-A single container is shared among all scenes. In this strategy, it's common to have a single <a href="#quick-start">context root</a> that is executed only on the first scene.
+A single container is shared among all scenes. In this strategy, it's common to have a single context root that is executed only on the first scene.
 
 To use a shared container, when adding containers using `AddContainer()`, keep them alive between scenes by setting the `destroyOnLoad` to `false`.
 
 It's useful for games that will always use the same bindings across all scenes.
 
-When using a shared container, it's recommended to only bind singleton instances of objects that should live up through all scenes (e.g. a common service) to prevent missing references - when a scene is destroyed, eventually some singleton objects that are bound to the container may not exist in the new scene anymore. Also, factories that rely on state to create their objects could also be affeted by missing references.
+**Note:** when using a shared container, it's recommended to only bind singleton instances of objects that should live up through all scenes (e.g. a common service) to prevent missing references - when a scene is destroyed, eventually some singleton objects that are bound to the container may not exist in the new scene anymore. Also, factories that rely on state to create their objects could also be affected by missing references.
 
 ### Additive scenes
 
