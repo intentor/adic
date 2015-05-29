@@ -13,11 +13,11 @@
 		1. <a href="#what-is">What is a DI container?</a>
 		2. <a href="#why-use-it">Why use a DI container?</a>
 		3. <a href="#why-use-with-unity">Why use it with Unity?</a>
-		4. <a href="#common-use-cases">Common use cases
-		5. <a href="#further-readings">Further readings
-	2. <a href="#structure">Structure
-	3. <a href="#types-of-bindings">Types of bindings
-	4. <a href="#namespace-conventions">Namespace conventions
+		4. <a href="#common-use-cases">Common use cases</a>
+		5. <a href="#further-readings">Further readings</a>
+	2. <a href="#structure">Structure</a>
+	3. <a href="#types-of-bindings">Types of bindings</a>
+	4. <a href="#namespace-conventions">Namespace conventions</a>
 	5. <a href="#chaining">Chaining</a>
 4. <a href="#quick-start">Quick start</a>
 5. <a href="#api">API</a>
@@ -34,9 +34,10 @@
 	11. <a href="#factories">Factories</a>
 	12. <a href="#bindings-setup">Bindings setup</a>
 	13. <a href="#using-commands">Using commands</a>
-6. <a href="#order-of-events">Order of events
-7. <a href="#performance">Performance
-8. <a href="#container-extensions">Extensions</a>
+6. <a href="#multiple-scenes">Multiple scenes</a>
+7. <a href="#order-of-events">Order of events</a>
+8. <a href="#performance">Performance</a>
+9. <a href="#container-extensions">Extensions</a>
 	1. <a href="#available-extensions">Available extensions</a>
 		1. <a href="#extension-bindings-printer">Bindings Printer</a>
 		1. <a href="#extension-bindings-setup">Bindings Setup</a>
@@ -49,11 +50,11 @@
 	3. <a href="#container-events">Container events</a>
 		1. <a href="#binder-events">Binder events</a>
 		2. <a href="#injector-events">Injector events</a>
-9. <a href="#general-notes">General notes</a>
-10. <a href="#examples">Examples</a>
-11. <a href="#changelog">Changelog</a>
-12. <a href="#support">Support</a>
-13. <a href="#license">License</a>
+10. <a href="#general-notes">General notes</a>
+11. <a href="#examples">Examples</a>
+12. <a href="#changelog">Changelog</a>
+13. <a href="#support">Support</a>
+14. <a href="#license">License</a>
 
 ## <a id="introduction"></a>Introduction
 
@@ -1327,6 +1328,46 @@ When a scene is destroyed, all commands will be released and all registrations w
 
 So, if you're using a <a href="#static-containers">container that will live through scenes</a>, be aware that all commands will have to be registered again.
 
+## <a id="multiple-scenes"></a>Multiple scenes
+
+There are different strategies when working with *Adic* in a multiple scene architecture, each one offering its own advantages.
+
+All strategies are related to how the <a href="#quick-start">context root</a> and the lifetime of the container(s) are used.
+
+### Single context root for all scenes
+
+The game uses a single game root for all scenes. In this strategy, all bindings are recreated each time a scene is loaded.
+
+It's useful for games that use a single scene or when the recreation of the bindings is not an issue. This is the default strategy, as seem on <a href="#quick-start">Quick start</a>.
+
+### One context root per scene 
+
+The game has one context root per scene, each one with its own container(s). In this case, it's important to use <a href="#bindings-setup">bindings setup</a> to share bindings among all containers and a <a href="#performance">single reflection cache</a> to improve performance and memory consumption.
+
+It's useful for games that have different bindings per scene.
+
+### Shared container
+
+A single container is shared among all scenes. In this strategy, it's common to have a single <a href="#quick-start">context root</a> that is executed only on the first scene.
+
+To use a shared container, when adding containers using `AddContainer()`, keep them alive between scenes by setting the `destroyOnLoad` to `false`.
+
+It's useful for games that will always use the same bindings across all scenes.
+
+When using a shared container, it's recommended to only bind singleton instances of objects that should live up through all scenes (e.g. a common service) to prevent missing references - when a scene is destroyed, eventually some singleton objects that are bound to the container may not exist in the new scene anymore. Also, factories that rely on state to create their objects could also be affeted by missing references.
+
+### Additive scenes
+
+A single context root is executed in the first scene and all other scenes are loaded additively.
+
+To load a scene additively, please consult [Application.LoadLevelAdditiveAsync](http://docs.unity3d.com/ScriptReference/Application.LoadLevelAdditiveAsync.html) on the Unity Documentation.
+
+It's useful for games that use different scenes for each part of the level but share the same bindings across all of those scenes.
+
+#### A combination of all of the above
+
+Each game has its own characteristics, and eventually the same game could feature more than one multiple scene strategy. It's important to test which one would suit the needs of the project and use different strategies when required.
+
 ## <a id="order-of-events"></a>Order of events
 
 1. Unity Awake()
@@ -1466,10 +1507,6 @@ Provides an entry point for the game on Unity 3D.
 #### Configuration
 
 Please see <a href="#quick-start">Quick start</a> for more information.
-
-#### <a id="static-containers"></a>Notes
-
-1. When adding containers using `AddContainer()`, it's possible to keep them alive between scenes by setting the `destroyOnLoad` to `false`.
 
 #### Dependencies
 
