@@ -23,12 +23,20 @@ public static class MonoInjectionExtension {
 		if (attributes.Length == 0) {
 			Inject(script, string.Empty);
 		} else {
+			var containInjectFromContainer = false;
+
 			for (var attributeIndex = 0; attributeIndex < attributes.Length; attributeIndex++) {
 				var attribute = attributes[attributeIndex];
 
 				if (attribute is InjectFromContainer) {
 					Inject(script, (attribute as InjectFromContainer).identifier);
+					containInjectFromContainer = true;
 				}
+			}
+
+			//If no attribute InjectFromContainer has been found, does regular injection.
+			if (!containInjectFromContainer) {
+				Inject(script, string.Empty);
 			}
 		}
 	}

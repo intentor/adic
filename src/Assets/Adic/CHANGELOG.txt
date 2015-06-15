@@ -13,6 +13,9 @@ Commander extension
 Context Root extension
 - Updated Init() method to be called on Unity's start event.
 
+Mono Injection extension
+- Fixed injection on MonoBehaviours that contain other attributes besides InjectFromContainer.
+
 Version 2.11 (2015-05-21)
 
 Framework
