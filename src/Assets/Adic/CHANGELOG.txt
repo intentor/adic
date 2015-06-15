@@ -5,7 +5,7 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
-Version 2.12 (2015-?-?)
+Version 2.12 (2015-06-15)
 
 Commander extension
 - Fixed pooling when registering from an empty command list.
