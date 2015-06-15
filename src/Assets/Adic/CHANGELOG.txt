@@ -7,6 +7,9 @@
 
 Version 2.12 (2015-?-?)
 
+Commander extension
+- Fixed pooling when registering from an empty command list.
+
 Context Root extension
 - Updated Init() method to be called on Unity's start event.
 
