@@ -11,7 +11,7 @@ namespace Adic.Container {
 	/// </summary>
 	public interface IInjectionContainer : IBinder, IInjector, IDisposable {
 		/// <summary>Container identifier.</summary>
-		string identifier { get; }
+		object identifier { get; }
 
 		/// <summary>Reflection cache used to get type info.</summary>
 		IReflectionCache cache { get; }

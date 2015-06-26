@@ -23,7 +23,7 @@ namespace Adic.Injection {
   		Type type,
   		InjectionMember member,
   		object parentInstance,
-       	string identifier,
+       	object identifier,
 		ref object resolutionInstance);
 
 	/// <summary>

@@ -88,7 +88,7 @@ namespace Adic.Cache {
 			
 			var constructorParameters = new ParameterInfo[parameters.Length];
 			for (int paramIndex = 0; paramIndex < constructorParameters.Length; paramIndex++) {
-				string identifier = null;
+				object identifier = null;
 				var parameter = parameters[paramIndex];
 
 				var attributes = parameter.GetCustomAttributes(typeof(Inject), true);

@@ -10,13 +10,13 @@ namespace Adic {
 		Inherited = true)]
 	public class InjectFromContainer : Attribute {
 		/// <summary>The identifier of the container from which injections will occur.</summary>
-		public string identifier;
+		public object identifier;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="InjectFromContainer"/> class.
 		/// </summary>
 		/// <param name="identifier">The identifier of the container from which injections will occur.</param>
-		public InjectFromContainer(string identifier) {
+		public InjectFromContainer(object identifier) {
 			this.identifier = identifier;
 		}
 	}

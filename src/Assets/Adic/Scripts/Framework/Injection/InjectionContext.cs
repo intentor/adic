@@ -10,7 +10,7 @@ namespace Adic.Injection {
 		/// <summary>The type of the member in which the injection is occuring.</summary>
 		public Type memberType;
 		/// <summary>The identifier of the member in which the injection is occuring (from InjectAttribute).</summary>
-		public string identifier;
+		public object identifier;
 		/// <summary>The type of the object in which the injection is occuring.</summary>
 		public Type parentType;
 		/// <summary>The instance of the object in which the injection is occuring.</summary>

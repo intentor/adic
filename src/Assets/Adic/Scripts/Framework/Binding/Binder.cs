@@ -106,14 +106,14 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="identifier">The identifier to get the bindings from.</param>
 		/// <returns>The bindings for the desired type.</returns>
-		public IList<BindingInfo> GetBindingsFor(string identifier) {
+		public IList<BindingInfo> GetBindingsFor(object identifier) {
 			var bindings = new List<BindingInfo>();
 			
 			foreach (var entry in this.typeBindings) {
 				for (var bindingIndex = 0; bindingIndex < entry.Value.Count; bindingIndex++) {
 					var binding = entry.Value[bindingIndex];
 					
-					if (!string.IsNullOrEmpty(binding.identifier) && binding.identifier.Equals(identifier)) {
+					if (binding.identifier != null && binding.identifier.Equals(identifier)) {
 						bindings.Add(binding);
 					}
 				}
@@ -145,14 +145,14 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="type">The identifier to be checked.</param>
 		/// <returns><c>true</c>, if binding was contained, <c>false</c> otherwise.</returns>
-		public bool ContainsBindingFor(string identifier) {
+		public bool ContainsBindingFor(object identifier) {
 			var contains = false;
 
 			foreach (var entry in this.typeBindings) {
 				for (var bindingIndex = 0; bindingIndex < entry.Value.Count; bindingIndex++) {
 					var id = entry.Value[bindingIndex].identifier;
 
-					if (!string.IsNullOrEmpty(id) && id.Equals(identifier)) {
+					if (id != null && id.Equals(identifier)) {
 						contains = true;
 						break;
 					}
@@ -200,7 +200,7 @@ namespace Adic.Binding {
 		/// Unbinds any bindings to a certain <paramref name="identifier"/>.
 		/// </summary>
 		/// <param name="identifier">The identifier to be unbound.</param>
-		public void Unbind(string identifier) {
+		public void Unbind(object identifier) {
 			var bindingsToRemove = new List<BindingInfo>();
 
 			foreach (var entry in this.typeBindings) {
@@ -208,7 +208,7 @@ namespace Adic.Binding {
 					var binding = entry.Value[bindingIndex];
 					bindingsToRemove.Clear();
 					
-					if (!string.IsNullOrEmpty(binding.identifier) && binding.identifier.Equals(identifier)) {						
+					if (binding.identifier != null && binding.identifier.Equals(identifier)) {						
 						bindingsToRemove.Add(binding);
 
 						if (this.beforeRemoveBinding != null) {

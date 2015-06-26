@@ -16,17 +16,18 @@ namespace Adic.Tests {
 			IBinder binder = new Binder();
 			IInjector injector = new Injector(cache, binder);
 
-			injector.beforeResolve += delegate(IInjector source,
+			injector.beforeResolve += delegate(
+				IInjector source,
            		Type type,
            		InjectionMember member,
            		object parentInstance,
-               	string identifier,
+               	object identifier,
            		ref object resolutionInstance) {
 				Assert.AreEqual(injector, source);
 				Assert.AreEqual(typeof(IMockInterface), type);
 				Assert.AreEqual(InjectionMember.None, member);
 				Assert.IsNull(parentInstance);
-				Assert.IsNullOrEmpty(identifier);
+				Assert.IsNull(identifier);
 				Assert.IsNull(resolutionInstance);
 
 				eventCalled = true;
@@ -49,17 +50,18 @@ namespace Adic.Tests {
 			IBinder binder = new Binder();
 			IInjector injector = new Injector(cache, binder);
 			
-			injector.beforeResolve += delegate(IInjector source,
-			                                   Type type,
-			                                   InjectionMember member,
-			                                   object parentInstance,
-			                                   string identifier,
-			                                   ref object resolutionInstance) {
+			injector.beforeResolve += delegate(
+				IInjector source,
+				Type type,
+				InjectionMember member,
+				object parentInstance,
+				object identifier,
+				ref object resolutionInstance) {
 				Assert.AreEqual(injector, source);
 				Assert.AreEqual(typeof(IMockInterface), type);
 				Assert.AreEqual(InjectionMember.None, member);
 				Assert.IsNull(parentInstance);
-				Assert.IsNullOrEmpty(identifier);
+				Assert.IsNull(identifier);
 				Assert.IsNull(resolutionInstance);
 
 				resolutionInstance = new MockIClassWithoutAttributes();
@@ -89,13 +91,13 @@ namespace Adic.Tests {
 				Type type,
 				InjectionMember member,
 				object parentInstance,
-				string identifier,
+              	object identifier,
 				ref object resolutionInstance) {
 				Assert.AreEqual(injector, source);
 				Assert.AreEqual(typeof(IMockInterface), type);
 				Assert.AreEqual(InjectionMember.None, member);
 				Assert.IsNull(parentInstance);
-				Assert.IsNullOrEmpty(identifier);
+				Assert.IsNull(identifier);
 				Assert.IsNotNull(resolutionInstance);
 
 				resolvedInstance = (IMockInterface)resolutionInstance;

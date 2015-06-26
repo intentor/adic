@@ -60,7 +60,7 @@ namespace Adic.Injection {
 		/// <typeparam name="T">Type to be resolved.</typeparam>
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The instance or NULL.</returns>
-		public T Resolve<T>(string identifier) {
+		public T Resolve<T>(object identifier) {
 			return (T)this.Resolve(typeof(T), InjectionMember.None, null, identifier);
 		}
 		
@@ -84,7 +84,7 @@ namespace Adic.Injection {
 		/// </remarks>
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The instance or NULL.</returns>
-		public object Resolve(string identifier) {
+		public object Resolve(object identifier) {
 			//Given no type will be passed, it'll always resolve an array.
 			var instances = (object[])this.Resolve(null, InjectionMember.None, null, identifier);
 
@@ -104,7 +104,7 @@ namespace Adic.Injection {
 		/// <param name="type">Type to be resolved.</param>
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The instance or NULL.</returns>
-		public object Resolve(Type type, string identifier) {
+		public object Resolve(Type type, object identifier) {
 			return this.Resolve(type, InjectionMember.None, null, identifier);
 		}
 		
@@ -123,7 +123,7 @@ namespace Adic.Injection {
 		/// <typeparam name="T">Type to be resolved.</typeparam>
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The list of instances or NULL if there are no instances.</returns>
-		public T[] ResolveAll<T>(string identifier) {
+		public T[] ResolveAll<T>(object identifier) {
 			var instance = this.Resolve(typeof(T), identifier);
 			
 			if (instance == null) {
@@ -151,7 +151,7 @@ namespace Adic.Injection {
 		/// </summary>
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The list of instances or NULL if there are no instances.</returns>
-		public object[] ResolveAll(string identifier) {
+		public object[] ResolveAll(object identifier) {
 			return this.ResolveAll(null, identifier);
 		}
 		
@@ -161,7 +161,7 @@ namespace Adic.Injection {
 		/// <param name="type">Type to be resolved.</param>
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The list of instances or NULL if there are no instances.</returns>
-		public object[] ResolveAll(Type type, string identifier) {
+		public object[] ResolveAll(Type type, object identifier) {
 			var instance = this.Resolve(type, identifier);
 			
 			if (instance == null) {
@@ -182,7 +182,7 @@ namespace Adic.Injection {
 		/// <param name="member">Member for which the binding is being resolved.</param>
 		/// <param name="parentInstance">Parent object in which the resolve is occuring.</param>
 		/// <param name="identifier">The binding identifier to be looked for.</param>
-		protected object Resolve(Type type, InjectionMember member, object parentInstance, string identifier) {
+		protected object Resolve(Type type, InjectionMember member, object parentInstance, object identifier) {
 			object resolution = null;
 
 			if (this.beforeResolve != null) {
@@ -341,7 +341,7 @@ namespace Adic.Injection {
 			Type type,
 			InjectionMember member,
 			object parentInstance,
-			string identifier) {
+        	object identifier) {
 			//Condition evaluation.
 			if (binding.condition != null) {
 				var context = new InjectionContext() {
@@ -359,8 +359,8 @@ namespace Adic.Injection {
 			}
 
 			//Identifier evaluation.
-			bool resolveByIdentifier = !string.IsNullOrEmpty(identifier);
-			bool bindingHasIdentifier = !string.IsNullOrEmpty(binding.identifier);
+			bool resolveByIdentifier = identifier != null;
+			bool bindingHasIdentifier = binding.identifier != null;
 			if ((!resolveByIdentifier && bindingHasIdentifier) ||
 			    (resolveByIdentifier && !bindingHasIdentifier) ||
 			    (resolveByIdentifier && bindingHasIdentifier && !binding.identifier.Equals(identifier))) {

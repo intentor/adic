@@ -25,7 +25,7 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="identifier">Identifier of the binding.</param>
 		/// <returns>The current binding condition.</returns>
-		public IBindingConditionFactory As(string identifier) {
+		public IBindingConditionFactory As(object identifier) {
 			for (var index = 0; index < this.bindingConditionFactories.Length; index++) {
 				this.bindingConditionFactories[index].As(identifier);
 			}

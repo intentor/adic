@@ -21,7 +21,7 @@ public static class MonoInjectionExtension {
 		var attributes = script.GetType().GetCustomAttributes(true);
 
 		if (attributes.Length == 0) {
-			Inject(script, string.Empty);
+			Inject(script, null);
 		} else {
 			var containInjectFromContainer = false;
 
@@ -46,13 +46,13 @@ public static class MonoInjectionExtension {
 	/// </summary>
 	/// <param name="script">Target script of the injection.</param>
 	/// <param name="identifier">Container identifier. If empty, no container restrictions are applied.</param>
-	private static void Inject(MonoBehaviour script, string identifier) {
+	private static void Inject(MonoBehaviour script, object identifier) {
 		var containers = ContextRoot.containersData;
 
 		for (int index = 0; index < containers.Count; index++) {
 			var container = containers[index].container;
 
-			if (string.IsNullOrEmpty(identifier) || container.identifier == identifier) {
+			if (identifier == null || container.identifier == identifier) {
 				container.Inject(script);
 			}
 		}

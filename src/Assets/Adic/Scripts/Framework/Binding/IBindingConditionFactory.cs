@@ -10,7 +10,7 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="identifier">Identifier of the binding.</param>
 		/// <returns>The current binding condition.</returns>
-		IBindingConditionFactory As(string identifier);
+		IBindingConditionFactory As(object identifier);
 
 		/// <summary>
 		/// Conditions the binding to be injected only if BindingConditionEvaluator returns true.

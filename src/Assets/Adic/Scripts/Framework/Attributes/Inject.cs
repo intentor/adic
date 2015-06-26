@@ -13,7 +13,7 @@ namespace Adic {
 		Inherited = true)]
 	public class Inject : Attribute {
 		/// <summary>The identifier of the binding to inject.</summary>
-		public string identifier;
+		public object identifier;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Inject"/> class.
@@ -26,7 +26,7 @@ namespace Adic {
 		/// Initializes a new instance of the <see cref="Inject"/> class.
 		/// </summary>
 		/// <param name="identifier">The identifier of the binding to inject.</param>
-		public Inject(string identifier) {
+		public Inject(object identifier) {
 			this.identifier = identifier;
 		}
 	}

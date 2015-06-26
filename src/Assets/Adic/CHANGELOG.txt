@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.13 (2015-06-26)
+
+Framework
+- Updated identifiers from string to objects. [Issue #27]
+
 Version 2.12 (2015-06-15)
 
 Commander extension

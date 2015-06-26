@@ -11,14 +11,14 @@ namespace Adic.Cache {
 		/// <summary>Setter type.</summary>
 		public Type type;
 		/// <summary>Resolution identifier.</summary>
-		public string identifier;
+		public object identifier;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.Cache.ParameterInfo"/> class.
 		/// </summary>
 		/// <param name="type">Setter type.</param>
 		/// <param name="identifier">Resolution identifier.</param>
-		public ParameterInfo(Type type, string identifier) {
+		public ParameterInfo(Type type, object identifier) {
 			this.type = type;
 			this.identifier = identifier;
 		}

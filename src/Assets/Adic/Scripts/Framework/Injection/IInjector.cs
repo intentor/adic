@@ -37,7 +37,7 @@ namespace Adic.Injection {
 		/// <typeparam name="T">Type to be resolved.</typeparam>
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The instance or NULL.</returns>
-		T Resolve<T>(string identifier);
+		T Resolve<T>(object identifier);
 		
 		/// <summary>
 		/// Resolves an instance for a specified type.
@@ -57,7 +57,7 @@ namespace Adic.Injection {
 		/// </remarks>
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The instance or NULL.</returns>
-		object Resolve(string identifier);
+		object Resolve(object identifier);
 		
 		/// <summary>
 		/// Resolves an instance for a specified type with a given identifier.
@@ -68,7 +68,7 @@ namespace Adic.Injection {
 		/// <param name="type">Type to be resolved.</param>
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The instance or NULL.</returns>
-		object Resolve(Type type, string identifier);
+		object Resolve(Type type, object identifier);
 
 		/// <summary>
 		/// Resolves a list of instances for a specified type.
@@ -83,7 +83,7 @@ namespace Adic.Injection {
 		/// <typeparam name="T">Type to be resolved.</typeparam>
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The list of instances or NULL if there are no instances.</returns>
-		T[] ResolveAll<T>(string identifier);
+		T[] ResolveAll<T>(object identifier);
 		
 		/// <summary>
 		/// Resolves a list of instances for a specified type.
@@ -97,7 +97,7 @@ namespace Adic.Injection {
 		/// </summary>
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The list of instances or NULL if there are no instances.</returns>
-		object[] ResolveAll(string identifier);
+		object[] ResolveAll(object identifier);
 		
 		/// <summary>
 		/// Resolves a list of instances for a specified type with a given identifier.
@@ -105,7 +105,7 @@ namespace Adic.Injection {
 		/// <param name="type">Type to be resolved.</param>
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The list of instances or NULL if there are no instances.</returns>
-		object[] ResolveAll(Type type, string identifier);
+		object[] ResolveAll(Type type, object identifier);
 		
 		/// <summary>
 		/// Injects dependencies on an instance of an object.

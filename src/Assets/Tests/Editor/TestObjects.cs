@@ -6,6 +6,17 @@ using Adic.Injection;
 
 namespace Adic.Tests {
 	/// <summary>
+	/// Identifiers for tests.
+	/// </summary>
+	public enum TestIdentifier {
+		MockClass,
+		MockClass1,
+		MockClass2,
+		MockClass3,
+		MockClassSingle
+	}
+
+	/// <summary>
 	/// Interface for tests.
 	/// </summary>
 	public interface IMockInterface {
@@ -53,7 +64,7 @@ namespace Adic.Tests {
 	public class MockClassSimpleConstructInject {
 		public IMockInterface mock;
 
-		public MockClassSimpleConstructInject([Inject("MockClass3")] IMockInterface mock) {
+		public MockClassSimpleConstructInject([Inject(TestIdentifier.MockClass3)] IMockInterface mock) {
 			this.mock = mock;
        	}
 	}

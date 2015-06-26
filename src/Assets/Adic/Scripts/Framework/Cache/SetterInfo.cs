@@ -17,7 +17,7 @@ namespace Adic.Cache {
 		/// <param name="type">Setter type.</param>
 		/// <param name="identifier">Resolution identifier.</param>
 		/// <param name="setter">Setter method.</param>
-		public SetterInfo(Type type, string identifier, Setter setter) : base(type, identifier) {
+		public SetterInfo(Type type, object identifier, Setter setter) : base(type, identifier) {
 			this.setter = setter;
 		}
 	}

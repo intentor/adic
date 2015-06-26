@@ -15,7 +15,7 @@ namespace Adic {
 	/// </summary>
 	public class InjectionContainer : Injector, IInjectionContainer  {
 		/// <summary>Container identifier.</summary>
-		public string identifier { get; private set; }
+		public object identifier { get; private set; }
 
 		/// <summary>Registered container extensions.</summary>
 		private List<IContainerExtension> extensions;
@@ -37,7 +37,7 @@ namespace Adic {
 		/// When passing no parameters to the constructor, default internal objects are created.
 		/// </remarks>
 		/// <param name="identifier">Container identifier.</param>
-		public InjectionContainer(string identifier) : base(new ReflectionCache(), new Binder()) {
+		public InjectionContainer(object identifier) : base(new ReflectionCache(), new Binder()) {
 			this.identifier = identifier;
 			this.RegisterItself();
 		}
@@ -63,7 +63,7 @@ namespace Adic {
 		/// </remarks>
 		/// <param name="identifier">Container identifier.</param>
 		/// <param name="cache">Reflection cache used to get type info.</param>
-		public InjectionContainer(string identifier, IReflectionCache cache) : base(cache, new Binder()) {	
+		public InjectionContainer(object identifier, IReflectionCache cache) : base(cache, new Binder()) {	
 			this.identifier = identifier;
 			this.RegisterItself();
 		}
@@ -85,7 +85,7 @@ namespace Adic {
 		/// <param name="identifier">Container identifier.</param>
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		/// <param name="binder">Binder to be used on the container.</param>
-		public InjectionContainer(string identifier, IReflectionCache cache, IBinder binder) : base(cache, binder) {	
+		public InjectionContainer(object identifier, IReflectionCache cache, IBinder binder) : base(cache, binder) {	
 			this.identifier = identifier;
 			this.RegisterItself();
 		}
@@ -205,7 +205,7 @@ namespace Adic {
 			return this.binder.GetBindingsFor(type);
 		}
 		
-		public IList<BindingInfo> GetBindingsFor(string identifier) {
+		public IList<BindingInfo> GetBindingsFor(object identifier) {
 			return this.binder.GetBindingsFor(identifier);
 		}
 
@@ -217,7 +217,7 @@ namespace Adic {
 			return this.binder.ContainsBindingFor(type);
 		}
 		
-		public bool ContainsBindingFor(string identifier) {
+		public bool ContainsBindingFor(object identifier) {
 			return this.binder.ContainsBindingFor(identifier);
 		}
 
@@ -229,7 +229,7 @@ namespace Adic {
 			this.binder.Unbind(type);
 		}
 
-		public void Unbind(string identifier) {
+		public void Unbind(object identifier) {
 			this.binder.Unbind(identifier);
 		}
 	}
