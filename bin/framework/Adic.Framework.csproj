@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F658C5CD-B885-4B3D-A6EA-224B6FB63802}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Adic</RootNamespace>
+    <AssemblyName>Adic.Framework</AssemblyName>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <ReleaseVersion>2.14</ReleaseVersion>
+    <Description>Adic Framework</Description>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Attributes\Construct.cs">
+      <Link>Framework\Attributes\Construct.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Attributes\Inject.cs">
+      <Link>Framework\Attributes\Inject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Attributes\PostConstruct.cs">
+      <Link>Framework\Attributes\PostConstruct.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Binding\Binder.cs">
+      <Link>Framework\Binding\Binder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Binding\BindingDelegates.cs">
+      <Link>Framework\Binding\BindingDelegates.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Binding\BindingFactory.cs">
+      <Link>Framework\Binding\BindingFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Binding\BindingInfo.cs">
+      <Link>Framework\Binding\BindingInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Binding\BindingInstance.cs">
+      <Link>Framework\Binding\BindingInstance.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Binding\IBinder.cs">
+      <Link>Framework\Binding\IBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Binding\IBindingConditionFactory.cs">
+      <Link>Framework\Binding\IBindingConditionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Binding\IBindingCreator.cs">
+      <Link>Framework\Binding\IBindingCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Binding\IBindingFactory.cs">
+      <Link>Framework\Binding\IBindingFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Binding\MultipleBindingConditionFactory.cs">
+      <Link>Framework\Binding\MultipleBindingConditionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Binding\SingleBindingConditionFactory.cs">
+      <Link>Framework\Binding\SingleBindingConditionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\IReflectionCache.cs">
+      <Link>Framework\Cache\IReflectionCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\IReflectionFactory.cs">
+      <Link>Framework\Cache\IReflectionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\ParameterInfo.cs">
+      <Link>Framework\Cache\ParameterInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\ReflectedClass.cs">
+      <Link>Framework\Cache\ReflectedClass.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\ReflectionCache.cs">
+      <Link>Framework\Cache\ReflectionCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\ReflectionFactory.cs">
+      <Link>Framework\Cache\ReflectionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\SetterInfo.cs">
+      <Link>Framework\Cache\SetterInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Container\IContainerExtension.cs">
+      <Link>Framework\Container\IContainerExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Container\IInjectionContainer.cs">
+      <Link>Framework\Container\IInjectionContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Container\InjectionContainer.cs">
+      <Link>Framework\Container\InjectionContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Exceptions\BinderException.cs">
+      <Link>Framework\Exceptions\BinderException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Exceptions\BindingException.cs">
+      <Link>Framework\Exceptions\BindingException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Exceptions\InjectorException.cs">
+      <Link>Framework\Exceptions\InjectorException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Injection\IInjector.cs">
+      <Link>Framework\Injection\IInjector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Injection\InjectDelegates.cs">
+      <Link>Framework\Injection\InjectDelegates.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Injection\InjectionContext.cs">
+      <Link>Framework\Injection\InjectionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Injection\InjectionMember.cs">
+      <Link>Framework\Injection\InjectionMember.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Injection\Injector.cs">
+      <Link>Framework\Injection\Injector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Types\IFactory.cs">
+      <Link>Framework\Types\IFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Util\MethodDelegates.cs">
+      <Link>Framework\Util\MethodDelegates.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Util\MethodUtils.cs">
+      <Link>Framework\Util\MethodUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Util\TypeUtils.cs">
+      <Link>Framework\Util\TypeUtils.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Framework\" />
+  </ItemGroup>
+</Project>

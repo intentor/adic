@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B4BF52BD-806E-4F41-AE2E-52FDA2FFF3A9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Adic</RootNamespace>
+    <AssemblyName>Adic.Extensions</AssemblyName>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <ReleaseVersion>2.14</ReleaseVersion>
+    <Description>Adic Extensions (Unity only).</Description>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="UnityEditor">
+      <HintPath>..\..\..\..\..\..\..\..\Applications\Unity5\Unity.app\Contents\Frameworks\Managed\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\..\..\..\Applications\Unity5\Unity.app\Contents\Frameworks\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\BindingsPrinter\Editor\BindingsPrinterWindow.cs">
+      <Link>Extensions\BindingsPrinter\Editor\BindingsPrinterWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\BindingsPrinter\Editor\EditorStyles.cs">
+      <Link>Extensions\BindingsPrinter\Editor\EditorStyles.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\BindingsSetup\BindingPriority.cs">
+      <Link>Extensions\BindingsSetup\BindingPriority.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\BindingsSetup\BindingsSetupExtension.cs">
+      <Link>Extensions\BindingsSetup\BindingsSetupExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\BindingsSetup\IBindingsSetup.cs">
+      <Link>Extensions\BindingsSetup\IBindingsSetup.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Command.cs">
+      <Link>Extensions\Commander\Command.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\CommandDispatcher.cs">
+      <Link>Extensions\Commander\CommandDispatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\CommanderContainerExtension.cs">
+      <Link>Extensions\Commander\CommanderContainerExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\CommanderExtension.cs">
+      <Link>Extensions\Commander\CommanderExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\CommanderUtils.cs">
+      <Link>Extensions\Commander\CommanderUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\ICommand.cs">
+      <Link>Extensions\Commander\ICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\ICommandDispatcher.cs">
+      <Link>Extensions\Commander\ICommandDispatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\ICommandPool.cs">
+      <Link>Extensions\Commander\ICommandPool.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\CommandDispatch.cs">
+      <Link>Extensions\Commander\Behaviours\CommandDispatch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\NamespaceCommandBehaviour.cs">
+      <Link>Extensions\Commander\Behaviours\NamespaceCommandBehaviour.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\TimedCommandDispatch.cs">
+      <Link>Extensions\Commander\Behaviours\TimedCommandDispatch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\Editor\CommandDispatchEditor.cs">
+      <Link>Extensions\Commander\Behaviours\Editor\CommandDispatchEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\Editor\NamespaceCommandEditor.cs">
+      <Link>Extensions\Commander\Behaviours\Editor\NamespaceCommandEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\Editor\TimedCommandDispatchEditor.cs">
+      <Link>Extensions\Commander\Behaviours\Editor\TimedCommandDispatchEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Exceptions\CommandException.cs">
+      <Link>Extensions\Commander\Exceptions\CommandException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\ContextRoot.cs">
+      <Link>Extensions\ContextRoot\ContextRoot.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\IContextRoot.cs">
+      <Link>Extensions\ContextRoot\IContextRoot.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\EventCaller\EventCallerBehaviour.cs">
+      <Link>Extensions\EventCaller\EventCallerBehaviour.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\EventCaller\EventCallerContainerExtension.cs">
+      <Link>Extensions\EventCaller\EventCallerContainerExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\EventCaller\IUpdatable.cs">
+      <Link>Extensions\EventCaller\IUpdatable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\MonoInjection\InjectFromContainer.cs">
+      <Link>Extensions\MonoInjection\InjectFromContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\MonoInjection\MonoInjectionExtension.cs">
+      <Link>Extensions\MonoInjection\MonoInjectionExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\UnityBinding\PrefabBinding.cs">
+      <Link>Extensions\UnityBinding\PrefabBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\UnityBinding\UnityBindingContainerExtension.cs">
+      <Link>Extensions\UnityBinding\UnityBindingContainerExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\UnityBinding\UnityBindingExtension.cs">
+      <Link>Extensions\UnityBinding\UnityBindingExtension.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\framework\Adic.Framework.csproj">
+      <Project>{F658C5CD-B885-4B3D-A6EA-224B6FB63802}</Project>
+      <Name>Adic.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
