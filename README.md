@@ -535,8 +535,6 @@ container.Bind<AudioClip>().ToResource("Audio/MyAudio");
 
 **Note 2:** there's no need to decorate constructors' parameteres with `Inject` attributes - they will be resolved automatically.
 
-**Note 3:** currently, injection identifiers are not supported on constructors. However, <a href="#conditions">any conditions</a> (that are not identifiers) on types are also applied to the constructor parameters.
-
 ### <a id="member-injection"></a>Member injection
 
 *Adic* can perform dependency injection on public fields and properties of classes. To make it happen, just decorate the members with the `Inject` attribute:
@@ -715,6 +713,8 @@ this.AddContainer(new InjectionContainer("identifier"))
 	.RegisterExtension<UnityBindingContainerExtension>();
 ```
 
+**Good practice:** identifiers can be any object. However, it's recommended to use only strings and enums.
+
 ##### Adding the attribute
 
 In the `MonoBehaviour` that should receive injection only from a certain container, add the `InjectFromContainer` attribute with the container's identifier:
@@ -791,6 +791,8 @@ namespace MyNamespace {
 }
 ```
 
+**Good practice:** identifiers can be any object. However, it's recommended to use only strings and enums.
+
 2\. Indicate in which objects a binding can be injected, by type or instance:
 
 ```cs
@@ -815,7 +817,7 @@ The context provides the following fields:
 
 1. **member** (`Adic.InjectionMember` enum): the class member in which the injection is occuring (*None*, *Constructor*, *Field* or *Property*).
 2. **memberType** (`System.Type`): the type of the member in which the injection is occuring.
-3. **identifier** (`string`): the identifier of the member in which the injection is occuring (from `Inject` attribute).
+3. **identifier** (`object`): the identifier of the member in which the injection is occuring (from `Inject` attribute).
 4. **parentType** (`System.Type`): the type of the object in which the injection is occuring.
 5. **parentInstance** (`object`): the instance of the object in which the injection is occuring.
 6. **injectType** (`System.Type`): the type of the object being injected.
