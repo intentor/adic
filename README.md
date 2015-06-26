@@ -51,10 +51,11 @@
 		1. <a href="#binder-events">Binder events</a>
 		2. <a href="#injector-events">Injector events</a>
 10. <a href="#general-notes">General notes</a>
-11. <a href="#examples">Examples</a>
-12. <a href="#changelog">Changelog</a>
-13. <a href="#support">Support</a>
-14. <a href="#license">License</a>
+11. <a href="#binaries">Binaries</a>
+12. <a href="#examples">Examples</a>
+13. <a href="#changelog">Changelog</a>
+14. <a href="#support">Support</a>
+15. <a href="#license">License</a>
 
 ## <a id="introduction"></a>Introduction
 
@@ -1674,6 +1675,15 @@ All events are available through `Adic.InjectionContainer`.
 4. Avoid singleton bindings of objects that will be destroyed during execution. This can lead to missing references in the container.
 5. Any transient object, once resolved, is not tracked by *Adic*. So, if you want e.g. a list of all prefabs that were resolved by the container, you'll have to store it manually. Singleton objects are kept inside the container, given there is just a single instance of them.
 6. *Adic* relies on Unity Test Tools for unit testing. You can download it at [Unity Asset Store](https://www.assetstore.unity3d.com/#!/content/13802).
+
+## <a id="binaries"></a>Binaries
+
+If you need compiled binaries of *Adic*, look for them at the [releases page](https://github.com/intentor/adic/releases) (starting from version (2.13)[https://github.com/intentor/adic/releases/tag/v2.13].
+
+The project is divided into 2 binaries:
+
+1. **Adic.Framework.dll**: main framework, decoupled from Unity.
+2. **Adic.Extensions.dll** Unity extensions.
 
 ## <a id="examples"></a>Examples
 

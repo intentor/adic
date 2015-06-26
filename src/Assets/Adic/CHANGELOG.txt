@@ -8,6 +8,7 @@
 Version 2.13 (2015-06-26)
 
 Framework
+- Updated type finding on namespaces to work from external DLL. [Issue #14]
 - Updated identifiers from string to objects. [Issue #27]
 
 Version 2.12 (2015-06-15)

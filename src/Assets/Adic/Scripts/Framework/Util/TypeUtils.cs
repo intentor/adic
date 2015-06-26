@@ -33,6 +33,9 @@ namespace Adic.Util {
 		/// Gets all types assignable from a given <paramref name="baseType"/> 
 		/// in a given <paramref name="namespaceName"/>.
 		/// </summary>
+		/// <remarks>
+		/// Excludes any types in assemblies from Unity or Mono.
+		/// </remarks>
 		/// <param name="baseType">Base type from which the types in the namespace must be assignable.</param>
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <param name="includeChildren">Indicates whether child namespaces should be included.</param>
@@ -40,25 +43,20 @@ namespace Adic.Util {
 		public static Type[] GetAssignableTypesInNamespace(Type baseType, string namespaceName, bool includeChildren) {
 			var typesToBind = new List<Type>();
 
-			//Fills the assembly list.
-			var assemblies = new List<Assembly>();
-			var executingAssembly = Assembly.GetExecutingAssembly();
-			if (executingAssembly != null) {
-				assemblies.Add(executingAssembly);
-			}
-			var callingAssembly = Assembly.GetCallingAssembly();
-			if (callingAssembly != null && callingAssembly != executingAssembly) {
-				assemblies.Add(callingAssembly);
-			}
-			var typeAssembly = Assembly.GetAssembly(baseType);
-			if (typeAssembly != null && typeAssembly != executingAssembly && typeAssembly != callingAssembly) {
-				assemblies.Add(typeAssembly);
-			}
-
 			//Looks for assignable types in all available assemblies.
-			for (int assemblyIndex = 0; assemblyIndex < assemblies.Count; assemblyIndex++) {
+			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			for (int assemblyIndex = 0; assemblyIndex < assemblies.Length; assemblyIndex++) {
+				var assemly = assemblies[assemblyIndex];
+
+				if (assemly.FullName.StartsWith("Unity") ||
+				    assemly.FullName.StartsWith("Boo") ||
+				    assemly.FullName.StartsWith("Mono") ||
+				    assemly.FullName.StartsWith("System") ||
+				    assemly.FullName.StartsWith("mscorlib")) {
+					continue;
+				}
+
 				var allTypes = assemblies[assemblyIndex].GetTypes();
-				
 				for (int typeIndex = 0; typeIndex < allTypes.Length; typeIndex++) {
 					var type = allTypes[typeIndex];
 
