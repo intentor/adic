@@ -1678,7 +1678,7 @@ All events are available through `Adic.InjectionContainer`.
 
 ## <a id="binaries"></a>Binaries
 
-If you need compiled binaries of *Adic*, look for them at the [releases page](https://github.com/intentor/adic/releases) (starting from version (2.13)[https://github.com/intentor/adic/releases/tag/v2.13].
+If you need compiled binaries of *Adic*, look for them at the [releases page](https://github.com/intentor/adic/releases) (starting from version [2.13](https://github.com/intentor/adic/releases/tag/v2.13)).
 
 The project is divided into 2 binaries:
 
