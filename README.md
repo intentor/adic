@@ -1669,7 +1669,7 @@ Allows injection on `StateMachineBehaviour` by providing an `Inject()` method.
 
 #### Configuration
 
-Please see <a href="#statemachinebehaviour-injection">StateMachineBehaviour injection</a> for more information.
+Please see <a href="#behaviour-injection">Behaviour injection</a> for more information.
 
 #### Dependencies
 
