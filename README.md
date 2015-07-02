@@ -28,6 +28,7 @@
 	5. <a href="#multiple-injection">Multiple injection</a>
 	6. <a href="#monobehaviour-injection">MonoBehaviour injection</a>
 	6. <a href="#statemachinebehaviour-injection">StateMachineBehaviour injection</a>
+	6. <a href="#using-base-behaviours">Using base behaviours</a>
 	7. <a href="#conditions">Conditions</a>
 	8. <a href="#update">Update</a>
 	9. <a href="#dispose">Dispose</a>
@@ -701,7 +702,7 @@ namespace MyNamespace {
 
 **Note:** only available on Unity 5+.
 
-#### Using base behaviours
+### <a id="using-base-behaviours"></a>Using base behaviours
 
 To make injection even simpler, create base behaviours from which all your `MonoBehaviour`/'StateMachineBehaviour' will inherit:
 
