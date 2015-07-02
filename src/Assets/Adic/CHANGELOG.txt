@@ -5,6 +5,14 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.14 (2015-07-?)
+
+Mono Injection extension
+- Added InjectionUtil class to group common routines from Mono and State Injection extensions.
+
+State Injection extension
+- Added extension.
+
 Version 2.13 (2015-06-26)
 
 Framework

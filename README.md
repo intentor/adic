@@ -27,6 +27,7 @@
 	4. <a href="#multiple-constructors">Multiple constructors</a>
 	5. <a href="#multiple-injection">Multiple injection</a>
 	6. <a href="#monobehaviour-injection">MonoBehaviour injection</a>
+	6. <a href="#statemachinebehaviour-injection">StateMachineBehaviour injection</a>
 	7. <a href="#conditions">Conditions</a>
 	8. <a href="#update">Update</a>
 	9. <a href="#dispose">Dispose</a>
@@ -45,6 +46,7 @@
 		3. <a href="#extension-context-root">Context Root</a>
 		4. <a href="#extension-event-caller">Event Caller</a>
 		5. <a href="#extension-mono-injection">Mono Injection</a>
+		5. <a href="#extension-state-injection">State Injection</a>
 		6. <a href="#extension-unity-binding">Unity Binding</a>
 	2. <a href="#creating-extensions">Creating extensions</a>
 	3. <a href="#container-events">Container events</a>
@@ -94,7 +96,7 @@ So, a *dependency injection container* holds information about dependencies (the
 
 #### <a id="why-use-it"></a>Why use a DI container?
 
-In a nutshell, **to decouple your code**. 
+In a nutshell, **to decouple your code**.
 
 A DI container, in pair with a good architecture, can ensure [SOLID principles](http://en.wikipedia.org/wiki/SOLID_%28object-oriented_design%29) and help you write better code.
 
@@ -103,7 +105,7 @@ Using such container, you can easily work with abstractions without having to wo
 As a plus, there are other benefits from using a DI container:
 
 1. **Refactorability**: with your code decoupled, it's easy to refactor it without affecting the entire codebase.
-2. **Reusability**: thinking about abstractions allows your code to be even more reusable by making it small and focused on a single responsibility. 
+2. **Reusability**: thinking about abstractions allows your code to be even more reusable by making it small and focused on a single responsibility.
 3. **Easily change implementations**: given all dependencies are configured in the container, it's easy to change a implementation for a given abstraction. It helps e.g. when implementing generic functionality in a platform specific way.
 4. **Testability**: by focusing on abstractions and dependency injection, it's easy to replace implementations with mock objects to test your code.
 5. **Improved architecture**: your codebase will be naturally better and more organized because you'll think about the relationships of your code.
@@ -229,7 +231,7 @@ Methods from the container and bindings creation can be chained to achieve a mor
 
 ```cs
 //Create the container.
-this.AddContainer<InjectionContainer>()		
+this.AddContainer<InjectionContainer>()
 	//Register any extensions the container may use.
 	.RegisterExtension<CommanderContainerExtension>()
 	.RegisterExtension<EventCallerContainerExtension>()
@@ -245,7 +247,7 @@ this.AddContainer<InjectionContainer>()
 ## <a id="quick-start"></a>Quick start
 
 1\. Create the context root (e.g. GameRoot.cs) of your scene by inheriting from `Adic.ContextRoot`.
-   
+
 ```cs
 using UnityEngine;
 
@@ -268,7 +270,7 @@ namespace MyNamespace {
 **Note:** there should be only one context root per scene.
 
 **Hint:** when using a context root for each scene of your game, to make the project more organized, create folders for each of your scenes that will hold their own scripts and context roots.
-   
+
 2\. In the `SetupContainers()` method, create and add any containers you may need, also configuring their bindings.
 
 ```cs
@@ -298,10 +300,10 @@ public override void SetupContainers() {
 
 Binding is the action of linking a type to another type or instance. *Adic* makes it simple by providing different ways to create your bindings.
 
-Every binding must occur from a certain key type by calling the `Bind()` method of the container. 
+Every binding must occur from a certain key type by calling the `Bind()` method of the container.
 
 The simple way to bind e.g. some interface to its class implementation is as below:
-   
+
 ```cs
 container.Bind<SomeInterface>().To<ClassImplementation>();
 ```
@@ -554,7 +556,7 @@ namespace MyNamespace {
 
 		/// <summary>Property to be injected.</summary>
 		[Inject]
-		public SomeOtherClass propertyToInject { get; set; }		
+		public SomeOtherClass propertyToInject { get; set; }
 		/// <summary>Property NOT to be injected.</summary>
 		public SomeOtherClass propertyNotToInject { get; set; }
 	}
@@ -674,10 +676,36 @@ namespace MyNamespace {
 	}
 }
 ```
+### <a id="statemachinebehaviour-injection"></a>StateMachineBehaviour injection
 
-#### Using a base MonoBehaviour
+It's possible to perform injection on custom `StateMachineBehaviour` fields and properties by using the <a href="#extension-state-injection">State Injection</a> extension, which is enabled by default, by calling `this.Inject()` on any of the state events:
 
-To make injection even simpler, create a base behaviour from which all your `MonoBehaviour` will inherit:
+```cs
+using Unity.Engine;
+
+namespace MyNamespace {
+	/// <summary>
+	/// My StateMachineBehaviour summary.
+	/// </summary>
+	public class MyStateMachineBehaviour : StateMachineBehaviour {
+		/// <summary>Field to be injected.</summary>
+		[Inject]
+		public SomeClass fieldToInject;
+
+		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+			this.Inject();
+		}
+	}
+}
+```
+
+**Note:** only available on Unity 5+.
+
+#### Using base behaviours
+
+To make injection even simpler, create base behaviours from which all your `MonoBehaviour`/'StateMachineBehaviour' will inherit:
+
+##### MonoBehaviour
 
 ```cs
 using Unity.Engine;
@@ -689,10 +717,30 @@ namespace MyNamespace {
 	public abstract class BaseBehaviour : MonoBehaviour {
 		/// <summary>
 		/// Called when the component is starting.
-		/// 
+		///
 		/// If overriden on derived classes, always call base.Start().
 		/// </summary>
 		protected virtual void Start() {
+			this.Inject();
+		}
+	}
+}
+```
+
+##### StateMachineBehaviour
+
+```cs
+using Unity.Engine;
+
+namespace MyNamespace {
+	/// <summary>
+	/// Base StateMachineBehaviour.
+	/// </summary>
+	public abstract class BaseStateBehaviour : StateMachineBehaviour {
+		/// <summary>
+		/// Behaviour constructor.
+		/// </summary>
+		public BaseStateBehaviour() {
 			this.Inject();
 		}
 	}
@@ -808,7 +856,7 @@ container.Bind<SomeInterface>().To<SomeClass>().WhenIntoInstance(myClassInstance
 3\. Create complex conditions by using an anonymous method:
 
 ```cs
-container.Bind<SomeInterface>().To<SomeClass>().When(context => 
+container.Bind<SomeInterface>().To<SomeClass>().When(context =>
 		context.member.Equals(InjectionMember.Field) &&
         context.parentType.Equals(typeof(MyClass))
 	);
@@ -920,7 +968,7 @@ To create a bindings setup object, implement the `Adic.IBindingsSetup` interface
 using Adic;
 using Adic.Container;
 
-namespace MyNamespace.Bindings { 
+namespace MyNamespace.Bindings {
 	/// <summary>
 	/// My bindings.
 	/// </summary>
@@ -963,7 +1011,7 @@ However, if you are using `SetupBindings()` with a namespace, it's not possible 
 using Adic;
 using Adic.Container;
 
-namespace MyNamespace.Bindings { 
+namespace MyNamespace.Bindings {
 	/// <summary>
 	/// My bindings.
 	/// </summary>
@@ -1343,7 +1391,7 @@ The game uses a single context root for all scenes. In this strategy, all bindin
 
 It's useful for games that use a single scene or when the recreation of the bindings is not an issue. This is the default strategy, as seem on <a href="#quick-start">Quick start</a>.
 
-### One context root per scene 
+### One context root per scene
 
 The game has one context root per scene, each one with its own container(s). In this case, it's important to use <a href="#bindings-setup">bindings setup</a> to share bindings among all containers and a <a href="#performance">single reflection cache</a> to improve performance and memory consumption.
 
@@ -1578,7 +1626,7 @@ None
 
 ### <a id="extension-mono-injection"></a>Mono Injection
 
-Allows injection on `MonoBehaviour` by provinding an `Inject()` method.
+Allows injection on `MonoBehaviour` by providing an `Inject()` method.
 
 #### Configuration
 
@@ -1587,6 +1635,19 @@ Please see <a href="#monobehaviour-injection">MonoBehaviour injection</a> for mo
 #### Dependencies
 
 * <a href="#extension-context-root">Context Root</a>
+
+### <a id="extension-state-injection"></a>State Injection
+
+Allows injection on `StateMachineBehaviour` by providing an `Inject()` method.
+
+#### Configuration
+
+Please see <a href="#statemachinebehaviour-injection">StateMachineBehaviour injection</a> for more information.
+
+#### Dependencies
+
+* <a href="#extension-context-root">Context Root</a>
+* <a href="#extension-mono-injection">Mono Injection</a>
 
 ### <a id="extension-unity-binding"></a>Unity Binding
 
