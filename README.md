@@ -26,9 +26,7 @@
 	3. <a href="#member-injection">Member injection</a>
 	4. <a href="#multiple-constructors">Multiple constructors</a>
 	5. <a href="#multiple-injection">Multiple injection</a>
-	6. <a href="#monobehaviour-injection">MonoBehaviour injection</a>
-	6. <a href="#statemachinebehaviour-injection">StateMachineBehaviour injection</a>
-	6. <a href="#using-base-behaviours">Using base behaviours</a>
+	6. <a href="#behaviour-injection">Behaviour injection</a>
 	7. <a href="#conditions">Conditions</a>
 	8. <a href="#update">Update</a>
 	9. <a href="#dispose">Dispose</a>
@@ -655,7 +653,11 @@ namespace MyNamespace {
 
 It's possible to manually resolve multiple objects. Please see <a href="#manual-type-resolution">Manual type resolution</a> for more information.
 
-### <a id="monobehaviour-injection"></a>MonoBehaviour injection
+### <a id="behaviour-injection"></a>Behaviour injection
+
+It's possible to perform injection on custom `MonoBehaviour` and `StateMachineBehaviour` scripts through extensions.
+
+#### MonoBehaviour injection
 
 It's possible to perform injection on custom `MonoBehaviour` fields and properties by using the <a href="#extension-mono-injection">Mono Injection</a> extension, which is enabled by default, by calling `this.Inject()` on the `Start()` method of the `MonoBehaviour`:
 
@@ -677,7 +679,7 @@ namespace MyNamespace {
 	}
 }
 ```
-### <a id="statemachinebehaviour-injection"></a>StateMachineBehaviour injection
+#### StateMachineBehaviour injection
 
 It's possible to perform injection on custom `StateMachineBehaviour` fields and properties by using the <a href="#extension-state-injection">State Injection</a> extension, which is enabled by default, by calling `this.Inject()` on any of the state events:
 
@@ -702,9 +704,9 @@ namespace MyNamespace {
 
 **Note:** only available on Unity 5+.
 
-### <a id="using-base-behaviours"></a>Using base behaviours
+#### Using base behaviours
 
-To make injection even simpler, create base behaviours from which all your `MonoBehaviour`/'StateMachineBehaviour' will inherit:
+To make injection even simpler, create base behaviours from which all your `MonoBehaviour`/`StateMachineBehaviour` will inherit:
 
 ##### MonoBehaviour
 
@@ -750,7 +752,7 @@ namespace MyNamespace {
 
 #### Injecting from multiple containers
 
-When injecting into `MonoBehaviour` using the `this.Inject()` method, every available container in the <a href="#quick-start">context root</a> is used. If you want to restrict the containers from which injection occurs, use the `InjectFromContainer` attribute in conjunction with a container identifier.
+When injecting into `MonoBehaviour`/`StateMachineBehaviour` using the `this.Inject()` method, every available container in the <a href="#quick-start">context root</a> is used. If you want to restrict the containers from which injection occurs, use the `InjectFromContainer` attribute in conjunction with a container identifier.
 
 ##### Setting a container identifier
 
@@ -767,7 +769,9 @@ this.AddContainer(new InjectionContainer("identifier"))
 
 ##### Adding the attribute
 
-In the `MonoBehaviour` that should receive injection only from a certain container, add the `InjectFromContainer` attribute with the container's identifier:
+In the `MonoBehaviour`/`StateMachineBehaviour` that should receive injection only from a certain container, add the `InjectFromContainer` attribute with the container's identifier:
+
+##### MonoBehaviour
 
 ```cs
 using Unity.Engine;
@@ -783,6 +787,28 @@ namespace MyNamespace {
 		public SomeClass fieldToInject;
 
 		protected void Start() {
+			this.Inject();
+		}
+	}
+}
+```
+
+##### StateMachineBehaviour
+
+```cs
+using Unity.Engine;
+
+namespace MyNamespace {
+	/// <summary>
+	/// My StateMachineBehaviour summary.
+	/// </summary>
+	[InjectFromContainer("identifier")]
+	public class MyStateMachineBehaviour : StateMachineBehaviour {
+		/// <summary>Field to be injected.</summary>
+		[Inject]
+		public SomeClass fieldToInject;
+
+		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			this.Inject();
 		}
 	}

@@ -2,6 +2,8 @@ using UnityEngine;
 using Adic;
 using Adic.Extensions.MonoInjection;
 
+#if UNITY_5
+
 /// <summary>
 /// Provides an Inject method to <see cref="UnityEngine.StateMachineBehaviour"/>.
 /// 
@@ -21,3 +23,5 @@ public static class StateInjectionExtension {
 		InjectionUtil.Inject(script);
 	}
 }
+
+#endif
