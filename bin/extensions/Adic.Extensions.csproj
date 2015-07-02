@@ -30,14 +30,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
+    <DefineConstants>UNITY_5</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="UnityEditor">
-      <HintPath>..\..\..\..\..\..\..\..\Applications\Unity5\Unity.app\Contents\Frameworks\Managed\UnityEditor.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\..\..\..\Applications\Unity5\Unity.app\Contents\Frameworks\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -132,10 +133,17 @@
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\UnityBinding\UnityBindingExtension.cs">
       <Link>Extensions\UnityBinding\UnityBindingExtension.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\MonoInjection\InjectionUtil.cs">
+      <Link>Extensions\MonoInjection\InjectionUtil.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\StateInjection\StateInjectionExtension.cs">
+      <Link>Extensions\StateInjection\StateInjectionExtension.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Extensions\" />
+    <Folder Include="Extensions\StateInjection\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\framework\Adic.Framework.csproj">
