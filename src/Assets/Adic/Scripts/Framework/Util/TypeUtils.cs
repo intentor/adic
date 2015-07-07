@@ -74,5 +74,35 @@ namespace Adic.Util {
 			
 			return typesToBind.ToArray();
 		}
+		
+		/// <summary>
+		/// Gets a type from a type name.
+		/// </summary>
+		/// <param name="typeName">Type name.</param>
+		/// <returns>The type or NULL.</returns>
+		public static Type GetType(string typeName) {
+			return GetType(string.Empty, typeName);
+		}
+
+		/// <summary>
+		/// Gets a type from a namespace and type names.
+		/// </summary>
+		/// <param name="namespaceName">Namespace name.</param>
+		/// <param name="typeName">Type name.</param>
+		/// <returns>The type or NULL.</returns>
+		public static Type GetType(string namespaceName, string typeName) {
+			Type type = null;
+
+			//Finds the type based on the namespace and command name.
+			if (!string.IsNullOrEmpty(typeName)) {
+				if (string.IsNullOrEmpty(namespaceName) || namespaceName == "-") {
+					type = Type.GetType(typeName);
+				} else {
+					type = Type.GetType(string.Format("{0}.{1}", namespaceName, typeName));
+				}
+			}
+
+			return type;
+		}
 	}
 }

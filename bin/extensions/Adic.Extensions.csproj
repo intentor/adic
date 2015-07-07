@@ -139,11 +139,18 @@
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\StateInjection\StateInjectionExtension.cs">
       <Link>Extensions\StateInjection\StateInjectionExtension.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Types\CommandReference.cs">
+      <Link>Extensions\Commander\Types\CommandReference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Types\Editor\CommandReferenceDrawer.cs">
+      <Link>Extensions\Commander\Types\Editor\CommandReferenceDrawer.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Extensions\StateInjection\" />
+    <Folder Include="Extensions\Commander\Types\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\framework\Adic.Framework.csproj">

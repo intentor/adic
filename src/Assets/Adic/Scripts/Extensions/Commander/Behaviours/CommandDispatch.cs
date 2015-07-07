@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using Adic.Container;
+using Adic.Util;
 
 namespace Adic.Commander.Behaviours {
 	/// <summary>
@@ -10,7 +11,7 @@ namespace Adic.Commander.Behaviours {
 	/// has a binding for the given command.
 	/// </summary>
 	[AddComponentMenu("Adic/Commander/Command dispatch")]
-	public class CommandDispatch : NamespaceCommandBehaviour {		
+	public class CommandDispatch : NamespaceCommandBehaviour {	
 		/// <summary>The type of the command to be called.</summary>
 		protected Type commandType;
 		
@@ -18,16 +19,7 @@ namespace Adic.Commander.Behaviours {
 		/// Called when the script is awaken.
 		/// </summary>
 		protected void Awake() {
-			//Finds the type based on the namespace and command name.
-			if (!string.IsNullOrEmpty(this.commandName)) {
-				if (string.IsNullOrEmpty(this.commandNamespace) ||
-				    this.commandNamespace == "-") {
-					this.commandType = Type.GetType(this.commandName);
-				} else {
-					this.commandType = Type.GetType(
-						string.Format("{0}.{1}", this.commandNamespace, this.commandName));
-				}
-			}
+			this.commandType = TypeUtils.GetType(this.commandNamespace, this.commandName);
 		}
 		
 		/// <summary>

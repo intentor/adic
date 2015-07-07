@@ -679,6 +679,7 @@ namespace MyNamespace {
 	}
 }
 ```
+
 #### StateMachineBehaviour injection
 
 It's possible to perform injection on custom `StateMachineBehaviour` fields and properties by using the <a href="#extension-state-injection">State Injection</a> extension, which is enabled by default, by calling `this.Inject()` on any of the state events:
@@ -1201,7 +1202,7 @@ container.RegisterCommands("MyNamespace.Commands", false);
 
 #### Dispatching commands
 
-##### From code
+##### From code using Command Dispatcher
 
 To dispatch a command, just call the `Dispatch()` method on `Adic.ICommandDispatcher`, using either the generics or the by `System.Type` versions:
 
@@ -1253,6 +1254,31 @@ namespace MyNamespace {
 **Note 1:** when dispatching a command, it's placed in a list in the command dispatcher object, which is the one responsible for pooling and managing existing commands.
 
 **Note 2:** commands in the pool that are not singleton are *reinjected* every time they are executed.
+
+##### From code using CommandReference type
+
+The `Adic.CommandReference` type allows the creation of properties on `MonoBehaviour` that represents a command that can be manually dispatched from code.
+
+```cs
+using Unity.Engine;
+
+namespace MyNamespace {
+	/// <summary>
+	/// My MonoBehaviour summary.
+	/// </summary>
+	public class MyBehaviour : MonoBehaviour {
+		/// <summary>Reference to the command. Can be edited on Inspector.</summary>
+		public CommandReference someCommand;
+
+		/// <summary>
+		/// Manually dispatches the command.
+		/// </summary>
+		protected void DispatchCommand() {
+			this.someCommand.DispatchCommand();
+		}
+	}
+}
+```
 
 ##### From game objects
 

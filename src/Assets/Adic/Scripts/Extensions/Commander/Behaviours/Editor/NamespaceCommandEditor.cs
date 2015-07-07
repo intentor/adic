@@ -26,7 +26,8 @@ namespace Adic.Commander.Behaviours.Editors {
 		
 		public override void OnInspectorGUI() {			
 			//Namespace.
-			var namespaceIndex = this.GetNamespaceIndex(this.component.commandNamespace);
+			var namespaceIndex = Array.IndexOf(this.namespaceNames, this.component.commandNamespace);
+			if (namespaceIndex == -1) namespaceIndex = 0;
 			namespaceIndex = EditorGUILayout.Popup("Namespace", namespaceIndex, this.namespaceNames);
 			this.component.commandNamespace = this.namespaceNames[namespaceIndex];
 			
@@ -39,24 +40,6 @@ namespace Adic.Commander.Behaviours.Editors {
 			
 			//Asks the editor to update the target.
 			EditorUtility.SetDirty(this.target);
-		}
-		
-		/// <summary>
-		/// Gets the index of a namespace.
-		/// </summary>
-		/// <param name="namespaceName">Namespace name.</param>
-		/// <returns>The namespace index.</returns>
-		protected int GetNamespaceIndex(string namespaceName) {
-			var selectedIndex = 0;
-			
-			for (var index = 0; index < this.namespaceNames.Length; index++) {
-				if (this.namespaceNames[index] == namespaceName) {
-					selectedIndex = index;
-					break;
-				}
-			}
-			
-			return selectedIndex;
 		}
 	}
 }

@@ -8,6 +8,7 @@
 Version 2.14 (2015-07-?)
 
 Commander extension
+- Added CommandReference type to provide a dispatchable command reference on MonoBehaviours.
 - Fixed loading of commands on components when using binaries.
 
 Mono Injection extension
