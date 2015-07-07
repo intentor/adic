@@ -1,8 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.Workbench ActiveDocument="../src/Assets/Adic/Scripts/Extensions/MonoInjection/MonoInjectionExtension.cs">
     <Files>
-      <File FileName="../../../../Trixter/Mathema/src/game/Assets/Scripts/Game/Commands/Spawners/SpawnPlatforms.cs" Line="1" Column="1" />
+      <File FileName="../../../../Trixter/Mathema/src/game/Assets/Scripts/Game/Commands/Spawners/SpawnPlatforms.cs" Line="16" Column="27" />
       <File FileName="../src/Assets/Adic/Scripts/Extensions/BindingsPrinter/Editor/BindingsPrinterWindow.cs" Line="1" Column="1" />
       <File FileName="../src/Assets/Adic/Scripts/Extensions/MonoInjection/MonoInjectionExtension.cs" Line="3" Column="12" />
     </Files>

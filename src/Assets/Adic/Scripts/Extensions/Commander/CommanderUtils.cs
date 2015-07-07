@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Adic.Commander.Exceptions;
+using Adic.Util;
 
 namespace Adic.Commander {
 	/// <summary>
@@ -13,15 +14,35 @@ namespace Adic.Commander {
 		/// Gets all the available command types.
 		/// </summary>
 		public static Type[] GetAvailableCommands() {
-			var commandType = typeof(ICommand);
-			var commands = 
-				from t in Assembly.GetExecutingAssembly().GetTypes()
-					where t.IsClass &&
-					t.Namespace != "Adic" &&
-					commandType.IsAssignableFrom(t)
-					select t;
+			var types = new List<Type>();
+			
+			//Looks for assignable commands in all available assemblies.
+			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			for (int assemblyIndex = 0; assemblyIndex < assemblies.Length; assemblyIndex++) {
+				var assemly = assemblies[assemblyIndex];
+				
+				if (assemly.FullName.StartsWith("Unity") ||
+				    assemly.FullName.StartsWith("Boo") ||
+				    assemly.FullName.StartsWith("Mono") ||
+				    assemly.FullName.StartsWith("System") ||
+				    assemly.FullName.StartsWith("mscorlib")) {
+					continue;
+				}
 
-			return commands.ToArray();
+				var commandType = typeof(ICommand);
+				var allTypes = assemblies[assemblyIndex].GetTypes();
+				for (int typeIndex = 0; typeIndex < allTypes.Length; typeIndex++) {
+					var type = allTypes[typeIndex];
+
+					if (type.Namespace != "Adic" &&
+					    type.IsClass &&
+					    TypeUtils.IsAssignable(commandType, type)) {
+						types.Add(type);
+					}
+				}
+			}
+			
+			return types.ToArray();
 		}
 
 		/// <summary>

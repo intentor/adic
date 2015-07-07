@@ -7,6 +7,9 @@
 
 Version 2.14 (2015-07-?)
 
+Commander extension
+- Fixed loading of commands on components when using binaries.
+
 Mono Injection extension
 - Added InjectionUtil class to group common routines from Mono and State Injection extensions.
 
