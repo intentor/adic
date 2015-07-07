@@ -23,10 +23,11 @@ namespace Adic.Commander.Behaviours {
 		}
 		
 		/// <summary>
-		/// Dispatches a command.
+		/// Dispatches the command.
 		/// </summary>
-		public void DispatchCommand() {
-			CommanderUtils.DispatchCommand(this.commandType);
+		/// <param name="parameters">Command parameters.</param>
+		public void DispatchCommand(params object[] parameters) {
+			CommanderUtils.DispatchCommand(this.commandType, parameters);
 		}
 	}
 }

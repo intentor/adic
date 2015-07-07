@@ -78,6 +78,9 @@ namespace Adic.Util {
 		/// <summary>
 		/// Gets a type from a type name.
 		/// </summary>
+		/// <remarks>
+		/// Excludes any type in assemblies from Unity or Mono.
+		/// </remarks>
 		/// <param name="typeName">Type name.</param>
 		/// <returns>The type or NULL.</returns>
 		public static Type GetType(string typeName) {
@@ -87,22 +90,47 @@ namespace Adic.Util {
 		/// <summary>
 		/// Gets a type from a namespace and type names.
 		/// </summary>
+		/// <remarks>
+		/// Excludes any type in assemblies from Unity or Mono.
+		/// </remarks>
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <param name="typeName">Type name.</param>
 		/// <returns>The type or NULL.</returns>
 		public static Type GetType(string namespaceName, string typeName) {
-			Type type = null;
-
-			//Finds the type based on the namespace and command name.
+			string fullName = null;
 			if (!string.IsNullOrEmpty(typeName)) {
 				if (string.IsNullOrEmpty(namespaceName) || namespaceName == "-") {
-					type = Type.GetType(typeName);
+					fullName = typeName;
 				} else {
-					type = Type.GetType(string.Format("{0}.{1}", namespaceName, typeName));
+					fullName = string.Format("{0}.{1}", namespaceName, typeName);
 				}
 			}
 
-			return type;
+			if (string.IsNullOrEmpty(fullName)) return null;
+			
+			//Looks for the type in all available assemblies.
+			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			for (int assemblyIndex = 0; assemblyIndex < assemblies.Length; assemblyIndex++) {
+				var assemly = assemblies[assemblyIndex];
+				
+				if (assemly.FullName.StartsWith("Unity") ||
+				    assemly.FullName.StartsWith("Boo") ||
+				    assemly.FullName.StartsWith("Mono") ||
+				    assemly.FullName.StartsWith("System") ||
+				    assemly.FullName.StartsWith("mscorlib")) {
+					continue;
+				}
+				
+				var allTypes = assemblies[assemblyIndex].GetTypes();
+				for (int typeIndex = 0; typeIndex < allTypes.Length; typeIndex++) {
+					var type = allTypes[typeIndex];
+					if (type.FullName == fullName) {
+						return type;
+					}
+				}
+			}
+
+			return null;
 		}
 	}
 }

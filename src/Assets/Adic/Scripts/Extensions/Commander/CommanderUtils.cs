@@ -49,7 +49,8 @@ namespace Adic.Commander {
 		/// Dispatches a command.
 		/// </summary>
 		/// <param name="type">Command type.</param>
-		public static void DispatchCommand(Type type) {
+		/// <param name="parameters">Command parameters.</param>
+		public static void DispatchCommand(Type type, params object[] parameters) {
 			var bindingFound = false;
 			var containers = ContextRoot.containersData;
 			
@@ -61,7 +62,7 @@ namespace Adic.Commander {
 					
 					if (dispatcher.ContainsRegistration(type)) {
 						bindingFound = true;
-						dispatcher.Dispatch(type);
+						dispatcher.Dispatch(type, parameters);
 						break;
 					}
 				}

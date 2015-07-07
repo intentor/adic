@@ -16,11 +16,12 @@ namespace Adic {
 		public string commandName;
 		
 		/// <summary>
-		/// Dispatches a command.
+		/// Dispatches the command.
 		/// </summary>
-		public void DispatchCommand() {
+		/// <param name="parameters">Command parameters.</param>
+		public void DispatchCommand(params object[] parameters) {
 			var type = TypeUtils.GetType(this.commandNamespace, this.commandName);
-			CommanderUtils.DispatchCommand(type);
+			CommanderUtils.DispatchCommand(type, parameters);
 		}
 	}
 }
