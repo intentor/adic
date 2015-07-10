@@ -21,6 +21,13 @@ namespace Adic.Commander.Behaviours {
 		protected void Awake() {
 			this.commandType = TypeUtils.GetType(this.commandNamespace, this.commandName);
 		}
+
+		/// <summary>
+		/// Dispatches the command.
+		/// </summary>
+		public void DispatchCommand() {
+			CommanderUtils.DispatchCommand(this.commandType);
+		}
 		
 		/// <summary>
 		/// Dispatches the command.
