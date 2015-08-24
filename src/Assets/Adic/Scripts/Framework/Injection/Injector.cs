@@ -298,27 +298,16 @@ namespace Adic.Injection {
 			}
 
 			if (reflectedClass.fields.Length > 0) {
-				for (int fieldIndex = 0; fieldIndex < reflectedClass.fields.Length; fieldIndex++) {
-					var field = reflectedClass.fields[fieldIndex];
-					var valueToSet = this.Resolve(field.type, InjectionMember.Field, instance, field.identifier);
-					field.setter(instance, valueToSet);
-				}
+				this.InjectFields(instance, reflectedClass.fields);
 			}
 
 			if (reflectedClass.properties.Length > 0) {
-				for (int propertyIndex = 0; propertyIndex < reflectedClass.properties.Length; propertyIndex++) {
-					var property = reflectedClass.properties[propertyIndex];
-					var valueToSet = this.Resolve(property.type, InjectionMember.Property, instance, property.identifier);
-					property.setter(instance, valueToSet);
-				}
+				this.InjectProperties(instance, reflectedClass.properties);
 			}
 			
 			//Call post constructors, if there's any.
 			if (reflectedClass.postConstructors.Length > 0) {
-				for (int constIndex = 0; constIndex < reflectedClass.postConstructors.Length; constIndex++) {
-					var method = reflectedClass.postConstructors[constIndex];
-					method(instance);
-				}
+				this.InjectPostConstructors(instance, reflectedClass.postConstructors);
 			}
 
 			if (this.afterInject != null) {
@@ -326,6 +315,50 @@ namespace Adic.Injection {
 			}
 			
 			return instance;
+		}
+
+		/// <summary>
+		/// Injects on fields.
+		/// </summary>
+		/// <param name="instance">The instance to have its dependencies resolved.</param>
+		/// <param name="fields">Public fields of the type that can receive injection.</param>
+		protected void InjectFields(object instance, SetterInfo[] fields) {
+			for (int fieldIndex = 0; fieldIndex < fields.Length; fieldIndex++) {
+				var field = fields[fieldIndex];
+				var valueToSet = this.Resolve(field.type, InjectionMember.Field, instance, field.identifier);
+				field.setter(instance, valueToSet);
+			}
+		}
+
+		/// <summary>
+		/// Injects on properties.
+		/// </summary>
+		/// <param name="instance">The instance to have its dependencies resolved.</param>
+		/// <param name="properties">Public properties of the type that can receive injection.</param>
+		protected void InjectProperties(object instance, SetterInfo[] properties) {
+			for (int propertyIndex = 0; propertyIndex < properties.Length; propertyIndex++) {
+				var property = properties[propertyIndex];
+				var valueToSet = this.Resolve(property.type, InjectionMember.Property, instance, property.identifier);
+				property.setter(instance, valueToSet);
+			}
+		}
+		
+		/// <summary>
+		/// Injects on post constructors.
+		/// </summary>
+		/// <param name="instance">The instance to have its dependencies resolved.</param>
+		/// <param name="postConstructors">Methods that have the PostConstruct attribute.</param>
+		protected void InjectPostConstructors(object instance, PostConstructorInfo[] postConstructors) {
+			for (int constIndex = 0; constIndex < postConstructors.Length; constIndex++) {
+				var method = postConstructors[constIndex];
+
+				if (method.parameters.Length == 0) {
+					method.postConstructor(instance);
+				} else {
+					object[] parameters = this.GetParametersFromInfo(instance, method.parameters);
+					method.paramsPostConstructor(instance, parameters);
+				}
+			}
 		}
 
 		/// <summary>
@@ -425,25 +458,36 @@ namespace Adic.Injection {
 			if (reflectedClass.constructorParameters.Length == 0) {
 				instance = reflectedClass.constructor();
 			} else {
-				object[] parameters = new object[reflectedClass.constructorParameters.Length];
-
-				for (int paramIndex = 0; paramIndex < parameters.Length; paramIndex++) {
-					var parameterInfo = reflectedClass.constructorParameters[paramIndex];
-					
-					parameters[paramIndex] = this.Resolve(
-						parameterInfo.type,
-						InjectionMember.Constructor,
-						instance,
-						parameterInfo.identifier
-             		);
-				}
-
+				object[] parameters = this.GetParametersFromInfo(instance, reflectedClass.constructorParameters);
 				instance = reflectedClass.paramsConstructor(parameters);
 			}
 
 			instance = this.Inject(instance, reflectedClass);
 
 			return instance;
+		}
+
+		/// <summary>
+		/// Gets parameters from a collection of <see cref="Adic.Cache.ParameterInfo"/>.
+		/// </summary>
+		/// <param name="instance">The instance to have its dependencies resolved.</param>
+		/// <param name="parametersInfo">Parameters info collection.</param>
+		/// <returns>The parameters.</returns>
+		protected object[] GetParametersFromInfo(object instance, ParameterInfo[] parametersInfo) {
+			object[] parameters = new object[parametersInfo.Length];
+			
+			for (int paramIndex = 0; paramIndex < parameters.Length; paramIndex++) {
+				var parameterInfo = parametersInfo[paramIndex];
+				
+				parameters[paramIndex] = this.Resolve(
+					parameterInfo.type,
+					InjectionMember.Constructor,
+					instance,
+					parameterInfo.identifier
+				);
+			}
+
+			return parameters;
 		}
 		
 		/// <summary>

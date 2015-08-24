@@ -246,5 +246,27 @@ namespace Adic.Tests {
 			
 			Assert.IsTrue(instance.hasCalledPostConstructor);
 		}
+
+		[Test]
+		public void TestInjectPostConstruct() {
+			var instance = new MockClassWithPostConstructInject();
+			
+			instance = this.containerIdentifierTests.Inject<MockClassWithPostConstructInject>(instance);
+			
+			Assert.AreEqual(typeof(MockIClassWithAttributes), instance.propertyMock1.GetType());
+			Assert.AreEqual(typeof(MockIClass), instance.propertyMock2.GetType());
+			Assert.AreEqual(typeof(MockClassToDepend), instance.propertyMock3.GetType());
+			Assert.AreEqual("MockClass3", instance.propertyMock1.property1);
+		}
+		
+		[Test]
+		public void TestResolvePostConstruct() {
+			var instance = this.containerIdentifierTests.Resolve<MockClassWithPostConstructInject>();
+			
+			Assert.AreEqual(typeof(MockIClassWithAttributes), instance.propertyMock1.GetType());
+			Assert.AreEqual(typeof(MockIClass), instance.propertyMock2.GetType());
+			Assert.AreEqual(typeof(MockClassToDepend), instance.propertyMock3.GetType());
+			Assert.AreEqual("MockClass3", instance.propertyMock1.property1);
+		}
 	}
 }

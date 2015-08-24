@@ -11,13 +11,20 @@ namespace Adic.Util {
 	/// </summary>
 	/// <typeparam name="T">Constructor's object type.</typeparam>
 	/// <param name="parameters">Constructor parameters.</param>
-	public delegate object ParamsConstructor(params object[] parameters);
+	public delegate object ParamsConstructor(object[] parameters);
 
 	/// <summary>
 	/// Calls a post constructor in an instance.
 	/// </summary>
 	/// <param name="instance">Instance to call the post constructor.</param>
 	public delegate void PostConstructor(object instance);
+	
+	/// <summary>
+	/// Calls a post constructor in an instance.
+	/// </summary>
+	/// <param name="instance">Instance to call the post constructor.</param>
+	/// <param name="parameters">Post constructor parameters.</param>
+	public delegate void ParamsPostConstructor(object instance, object[] parameters);
 	
 	/// <summary>
 	/// Calls a setter method for a field or property.

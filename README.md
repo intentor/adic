@@ -592,6 +592,27 @@ namespace MyNamespace {
 }
 ```
 
+`PostConstruct` methods can also accept identified and regular parameters:
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My class summary.
+	/// </summary>
+	public class MyClass {
+		/// <summary>
+		/// Class post constructor, called after all the dependencies have been resolved.
+		/// </summary>
+		/// <param name="param1">Identified parameter description</param>
+		/// <param name="param2">Parameter description</param>
+		[PostConstruct]
+		public void PostConstruct([Inject("Identifier")] param1, SomeType param2) {
+			...
+		}
+	}
+}
+```
+
 ### <a id="multiple-constructors"></a>Multiple constructors
 
 In case you have multiple constructors, it's possible to indicate to *Adic* which one should be used by decorating it with the `Construct` attribute:

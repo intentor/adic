@@ -106,8 +106,8 @@ namespace Adic.Cache {
 		/// Resolves the post constructors for the type.
 		/// </summary>
 		/// <returns>The post constructors.</returns>
-		protected PostConstructor[] ResolvePostConstructors(Type type) {
-			var postConstructors = new List<PostConstructor>();
+		protected PostConstructorInfo[] ResolvePostConstructors(Type type) {
+			var postConstructors = new List<PostConstructorInfo>();
 
 			var methods = type.GetMethods(BindingFlags.FlattenHierarchy |
 				BindingFlags.Public |
@@ -118,9 +118,30 @@ namespace Adic.Cache {
 				var method = methods[methodIndex];
 
 				var attributes = method.GetCustomAttributes(typeof(PostConstruct), true);
-
 				if (attributes.Length > 0) {
-					postConstructors.Add((PostConstructor)MethodUtils.CreateMethod(type, method));
+					var parameters = method.GetParameters();
+					var postConstructorParameters = new ParameterInfo[parameters.Length];
+					for (int paramIndex = 0; paramIndex < postConstructorParameters.Length; paramIndex++) {
+						object identifier = null;
+						var parameter = parameters[paramIndex];
+						
+						var parameterAttributes = parameter.GetCustomAttributes(typeof(Inject), true);
+						if (parameterAttributes.Length > 0) {
+							identifier = (parameterAttributes[0] as Inject).identifier;
+						}
+						
+						postConstructorParameters[paramIndex] = new ParameterInfo(parameter.ParameterType, identifier);
+					}
+
+					var postConstructor = new PostConstructorInfo(postConstructorParameters);
+
+					if (postConstructorParameters.Length == 0) {
+						postConstructor.postConstructor = MethodUtils.CreateParameterlessMethod(type, method);
+					} else {
+						postConstructor.paramsPostConstructor = MethodUtils.CreateParameterizedMethod(type, method);
+					}
+
+					postConstructors.Add(postConstructor);
 				}
 			}
 

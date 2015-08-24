@@ -63,16 +63,16 @@ namespace Adic.Util {
 				
 				//Define parameter position.
 				switch (paramIndex) {
-				case 0: generator.Emit(OpCodes.Ldc_I4_0); break;
-				case 1: generator.Emit(OpCodes.Ldc_I4_1); break;
-				case 2: generator.Emit(OpCodes.Ldc_I4_2); break;
-				case 3: generator.Emit(OpCodes.Ldc_I4_3); break;
-				case 4: generator.Emit(OpCodes.Ldc_I4_4); break;
-				case 5: generator.Emit(OpCodes.Ldc_I4_5); break;
-				case 6: generator.Emit(OpCodes.Ldc_I4_6); break;
-				case 7: generator.Emit(OpCodes.Ldc_I4_7); break;
-				case 8: generator.Emit(OpCodes.Ldc_I4_8); break;
-				default: generator.Emit(OpCodes.Ldc_I4, paramIndex); break;
+					case 0: generator.Emit(OpCodes.Ldc_I4_0); break;
+					case 1: generator.Emit(OpCodes.Ldc_I4_1); break;
+					case 2: generator.Emit(OpCodes.Ldc_I4_2); break;
+					case 3: generator.Emit(OpCodes.Ldc_I4_3); break;
+					case 4: generator.Emit(OpCodes.Ldc_I4_4); break;
+					case 5: generator.Emit(OpCodes.Ldc_I4_5); break;
+					case 6: generator.Emit(OpCodes.Ldc_I4_6); break;
+					case 7: generator.Emit(OpCodes.Ldc_I4_7); break;
+					case 8: generator.Emit(OpCodes.Ldc_I4_8); break;
+					default: generator.Emit(OpCodes.Ldc_I4, paramIndex); break;
 				}
 				
 				//Define parameter type.
@@ -150,7 +150,7 @@ namespace Adic.Util {
 		/// <param name="type">Object type.</param>
 		/// <param name="methodInfo">Method info object.</param>
 		/// <returns>The method caller.</returns>
-		public static PostConstructor CreateMethod(Type type, MethodInfo methodInfo) {
+		public static PostConstructor CreateParameterlessMethod(Type type, MethodInfo methodInfo) {
 			#if UNITY_IOS
 			
 			return (object instance) => methodInfo.Invoke(instance, null);
@@ -168,6 +168,61 @@ namespace Adic.Util {
 			return (PostConstructor)method.CreateDelegate(typeof(PostConstructor));
 			
 			#endif
+		}
+		
+		/// <summary>
+		/// Creates method call with parameters.
+		/// </summary>
+		/// <param name="type">Object type.</param>
+		/// <param name="methodInfo">Method info object.</param>
+		/// <returns>The method caller.</returns>
+		public static ParamsPostConstructor CreateParameterizedMethod(Type type, MethodInfo methodInfo) {
+			return (object instance, object[] parameters) => methodInfo.Invoke(instance, parameters);
+			/*
+			#if UNITY_IOS
+			
+			return (object instance, object[] parameters) => methodInfo.Invoke(instance, parameters);
+			
+			#else
+
+			var parameters = methodInfo.GetParameters();
+			Type[] parametersTypes = new Type[] { OBJECT_TYPE, typeof(object[]) };
+			DynamicMethod method = new DynamicMethod(methodInfo.Name, typeof(void), parametersTypes, true);
+			ILGenerator generator = method.GetILGenerator();
+			
+			//There's always at least a single parameter.
+			generator.Emit(OpCodes.Ldarg_0);
+			
+			//Define parameters.
+			for (int paramIndex = 0; paramIndex < parameters.Length; paramIndex++) {
+				//There's always at least a single parameter.
+				generator.Emit(OpCodes.Ldarg_0);
+
+				//Define parameter position.
+				switch (paramIndex) {
+					case 0: generator.Emit(OpCodes.Ldc_I4_1); break;
+					case 1: generator.Emit(OpCodes.Ldc_I4_2); break;
+					case 2: generator.Emit(OpCodes.Ldc_I4_3); break;
+					case 3: generator.Emit(OpCodes.Ldc_I4_4); break;
+					case 4: generator.Emit(OpCodes.Ldc_I4_5); break;
+					case 5: generator.Emit(OpCodes.Ldc_I4_6); break;
+					case 6: generator.Emit(OpCodes.Ldc_I4_7); break;
+					case 7: generator.Emit(OpCodes.Ldc_I4_8); break;
+					default: generator.Emit(OpCodes.Ldc_I4, paramIndex); break;
+				}
+				
+				//Define parameter type.
+				generator.Emit(OpCodes.Ldelem_Ref);
+				Type paramType = parameters[paramIndex].ParameterType;
+				generator.Emit(paramType.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass, paramType);
+			}
+			
+			generator.Emit(OpCodes.Callvirt, methodInfo);
+			generator.Emit(OpCodes.Ret);
+			
+			return (ParamsPostConstructor)method.CreateDelegate(typeof(ParamsPostConstructor));
+			
+			#endif*/
 		}
 	}
 }

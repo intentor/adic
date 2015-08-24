@@ -162,7 +162,7 @@ namespace Adic.Tests {
 	}
 
 	/// <summary>
-	/// Mock class with dependencies.
+	/// Mock class with a post construct.
 	/// </summary>
 	public class MockClassWithPostConstruct {
 		[Inject]
@@ -176,6 +176,22 @@ namespace Adic.Tests {
 		[PostConstruct]
 		protected void PostConstructor() {
 			this.hasCalledPostConstructor = true;
+		}
+	}
+	
+	/// <summary>
+	/// Mock class with a post construct inject.
+	/// </summary>
+	public class MockClassWithPostConstructInject {
+		public IMockInterface propertyMock1 { get; set; }
+		public MockIClass propertyMock2 { get; set; }
+		public MockClassToDepend propertyMock3 { get; set; }
+		
+		[PostConstruct]
+		protected void PostConstructor([Inject(TestIdentifier.MockClass3)] IMockInterface mock1, MockIClass mock2, MockClassToDepend mock3) {
+			this.propertyMock1 = mock1;
+			this.propertyMock2 = mock2;
+			this.propertyMock3 = mock3;
 		}
 	}
 

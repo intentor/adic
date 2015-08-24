@@ -7,6 +7,9 @@
 
 Version 2.15 (2015-08-?)
 
+Framework
+- Added inject parameters on PostConstructor methods. [Issue #34]
+
 Commander extension
 - Updated commands to be singleton by default. [Issue #31]
 
