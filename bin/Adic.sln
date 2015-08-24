@@ -43,6 +43,6 @@ Global
 		$4.inheritsSet = VisualStudio
 		$4.inheritsScope = text/plain
 		$4.scope = text/plain
-		version = 2.14
+		version = 2.15
 	EndGlobalSection
 EndGlobal
