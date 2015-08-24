@@ -184,14 +184,12 @@ namespace Adic.Tests {
 	/// </summary>
 	public class MockClassWithPostConstructInject {
 		public IMockInterface propertyMock1 { get; set; }
-		public MockIClass propertyMock2 { get; set; }
-		public MockClassToDepend propertyMock3 { get; set; }
+		public MockClassToDepend propertyMock2 { get; set; }
 		
 		[PostConstruct]
-		protected void PostConstructor([Inject(TestIdentifier.MockClass3)] IMockInterface mock1, MockIClass mock2, MockClassToDepend mock3) {
+		protected void PostConstructor([Inject(TestIdentifier.MockClass3)] IMockInterface mock1, MockClassToDepend mock2) {
 			this.propertyMock1 = mock1;
 			this.propertyMock2 = mock2;
-			this.propertyMock3 = mock3;
 		}
 	}
 
