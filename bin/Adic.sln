@@ -23,7 +23,7 @@ Global
 		{F658C5CD-B885-4B3D-A6EA-224B6FB63802}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = framework\Adic.Framework.csproj
+		StartupItem = extensions\Adic.Extensions.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None

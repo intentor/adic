@@ -145,6 +145,9 @@
     <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Util\TypeUtils.cs">
       <Link>Framework\Util\TypeUtils.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\PostConstructorInfo.cs">
+      <Link>Framework\Cache\PostConstructorInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
