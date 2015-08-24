@@ -591,6 +591,8 @@ namespace MyNamespace {
 }
 ```
 
+**Good practice:** `PostConstruct` methods can be used as constructors on `MonoBehaviour` components.
+
 ### <a id="member-injection"></a>Member injection
 
 *Adic* can perform dependency injection on public fields and properties of classes. To make it happen, just decorate the members with the `Inject` attribute:
