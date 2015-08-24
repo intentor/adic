@@ -5,7 +5,7 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
-Version 2.15 (2015-08-?)
+Version 2.15 (2015-08-24)
 
 Framework
 - Added inject parameters on PostConstructor methods. [Issue #34]
