@@ -21,7 +21,7 @@ namespace Adic {
 		/// of your command, there's no need to reinject every dependency or all parameters the command needs
 		/// are passed through the <code>Execute()</code> method.
 		/// </summary>
-		public virtual bool singleton { get { return false; } }
+		public virtual bool singleton { get { return true; } }
 		/// <summary>The quantity of the command to preload on pool (default: 1).</summary>
 		public virtual int preloadPoolSize { get { return 1; } }
 		/// <summary>The maximum size pool for this command (default: 10).</summary>

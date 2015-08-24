@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.15 (2015-08-?)
+
+Commander extension
+- Updated commands to be singleton by default. [Issue #31]
+
 Version 2.14.1 (2015-07-10)
 
 Commander extension

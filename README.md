@@ -1147,7 +1147,9 @@ namespace MyNamespace.Commands {
 }
 ```
 
-**Note:** When using singleton commands, injection is done only through constructors or injection after command instantiation.
+**Note 1:** this is the default command type.
+
+**Note 2:** when using singleton commands, injection is done only through constructors or injection after command instantiation.
 
 #### Registering commands
 
