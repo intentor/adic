@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.15.1 (2015-09-28)
+
+Framework
+- Added catch for ReflectionTypeLoadException when reading assemblies for type inspection.
+
 Version 2.15 (2015-08-24)
 
 Framework
