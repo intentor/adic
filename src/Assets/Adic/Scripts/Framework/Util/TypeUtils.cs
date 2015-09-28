@@ -46,29 +46,34 @@ namespace Adic.Util {
 			//Looks for assignable types in all available assemblies.
 			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 			for (int assemblyIndex = 0; assemblyIndex < assemblies.Length; assemblyIndex++) {
-				var assemly = assemblies[assemblyIndex];
+				var assembly = assemblies[assemblyIndex];
 
-				if (assemly.FullName.StartsWith("Unity") ||
-				    assemly.FullName.StartsWith("Boo") ||
-				    assemly.FullName.StartsWith("Mono") ||
-				    assemly.FullName.StartsWith("System") ||
-				    assemly.FullName.StartsWith("mscorlib")) {
+				if (assembly.FullName.StartsWith("Unity") ||
+				    assembly.FullName.StartsWith("Boo") ||
+				    assembly.FullName.StartsWith("Mono") ||
+				    assembly.FullName.StartsWith("System") ||
+				    assembly.FullName.StartsWith("mscorlib")) {
 					continue;
 				}
 
-				var allTypes = assemblies[assemblyIndex].GetTypes();
-				for (int typeIndex = 0; typeIndex < allTypes.Length; typeIndex++) {
-					var type = allTypes[typeIndex];
+				try {
+					var allTypes = assemblies[assemblyIndex].GetTypes();
+					for (int typeIndex = 0; typeIndex < allTypes.Length; typeIndex++) {
+						var type = allTypes[typeIndex];
 
-					var isTypeInNamespace = 
-						(includeChildren && !string.IsNullOrEmpty(type.Namespace) && type.Namespace.StartsWith(namespaceName)) ||
-						(!includeChildren && type.Namespace == namespaceName);
-					
-					if (isTypeInNamespace && 
-					    type.IsClass &&
-					    TypeUtils.IsAssignable(baseType, type)) {
-						typesToBind.Add(type);
+						var isTypeInNamespace = 
+							(includeChildren && !string.IsNullOrEmpty(type.Namespace) && type.Namespace.StartsWith(namespaceName)) ||
+							(!includeChildren && type.Namespace == namespaceName);
+						
+						if (isTypeInNamespace && 
+						    type.IsClass &&
+						    TypeUtils.IsAssignable(baseType, type)) {
+							typesToBind.Add(type);
+						}
 					}
+				} catch (ReflectionTypeLoadException) {
+					//If the assembly can't be read, just continue.
+					continue;
 				}
 			}
 			
@@ -111,22 +116,27 @@ namespace Adic.Util {
 			//Looks for the type in all available assemblies.
 			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 			for (int assemblyIndex = 0; assemblyIndex < assemblies.Length; assemblyIndex++) {
-				var assemly = assemblies[assemblyIndex];
+				var assembly = assemblies[assemblyIndex];
 				
-				if (assemly.FullName.StartsWith("Unity") ||
-				    assemly.FullName.StartsWith("Boo") ||
-				    assemly.FullName.StartsWith("Mono") ||
-				    assemly.FullName.StartsWith("System") ||
-				    assemly.FullName.StartsWith("mscorlib")) {
+				if (assembly.FullName.StartsWith("Unity") ||
+				    assembly.FullName.StartsWith("Boo") ||
+				    assembly.FullName.StartsWith("Mono") ||
+				    assembly.FullName.StartsWith("System") ||
+				    assembly.FullName.StartsWith("mscorlib")) {
 					continue;
 				}
 				
-				var allTypes = assemblies[assemblyIndex].GetTypes();
-				for (int typeIndex = 0; typeIndex < allTypes.Length; typeIndex++) {
-					var type = allTypes[typeIndex];
-					if (type.FullName == fullName) {
-						return type;
+				try {
+					var allTypes = assemblies[assemblyIndex].GetTypes();
+					for (int typeIndex = 0; typeIndex < allTypes.Length; typeIndex++) {
+						var type = allTypes[typeIndex];
+						if (type.FullName == fullName) {
+							return type;
+						}
 					}
+				} catch (ReflectionTypeLoadException) {
+					//If the assembly can't be read, just continue.
+					continue;
 				}
 			}
 
