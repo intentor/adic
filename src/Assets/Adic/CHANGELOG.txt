@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.15.2 (2015-10-05)
+
+Mono Injection extension
+- Fixed singleton MonoBehaviour duplicate injection call. [Issue #35]
+
 Version 2.15.1 (2015-09-28)
 
 Framework

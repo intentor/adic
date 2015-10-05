@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using Adic;
+using Adic.Container;
 
 namespace Adic.Extensions.MonoInjection {
 	/// <summary>
@@ -45,11 +46,35 @@ namespace Adic.Extensions.MonoInjection {
 			
 			for (int index = 0; index < containers.Count; index++) {
 				var container = containers[index].container;
+				var injectOnContainer = (container.identifier != null && container.identifier.Equals(identifier));
 				
-				if (identifier == null || (container.identifier != null && container.identifier.Equals(identifier))) {
+				if ((identifier == null || injectOnContainer) && !IsSingletonOnContainer(obj, container)) {
 					container.Inject(obj);
 				}
 			}
+		}
+		
+		/// <summary>
+		/// Determines if the object is a singleton in a given container.
+		/// </summary>
+		/// <param name="obj">Target object to check.</param>
+		/// <param name="container">Container to check for bindings.</param>
+		/// <returns><c>true</c> if is singleton on container the specified obj container; otherwise, <c>false</c>.</returns>
+		public static bool IsSingletonOnContainer(object obj, IInjectionContainer container) {
+			var isSingleton = false;
+			var bindings = container.GetBindingsFor(obj.GetType());
+			
+			if (bindings == null) return false;
+			
+			for (var index = 0; index < bindings.Count; index++) {
+				var binding = bindings[index];
+				
+				if (binding.value == obj) {
+					isSingleton = true;
+				}
+			}
+			
+			return isSingleton;
 		}
 	}
 }
