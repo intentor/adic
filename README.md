@@ -682,9 +682,9 @@ It's possible to manually resolve multiple objects. Please see <a href="#manual-
 
 ### <a id="behaviour-injection"></a>Behaviour injection
 
-It's possible to perform injection on custom `MonoBehaviour` and `StateMachineBehaviour` scripts through extensions.
+It's possible to perform injection on custom `MonoBehaviour` and `StateMachineBehaviour` scripts through the extensions <a id="extension-mono-injection">Mono Injection</a> and <a id="extension-state-injection"></a>State Injection</a>, which are enabled by default.
 
-#### MonoBehaviour injection
+#### <a id="monobehaviour-injection"></a>MonoBehaviour injection
 
 To perform injection on custom `MonoBehaviour` fields and properties, simply call the `Inject()` extension method of the `MonoBehaviour`:
 
@@ -732,7 +732,7 @@ namespace MyNamespace {
 }
 ```
 
-#### StateMachineBehaviour injection
+#### <a id="statemachinebehaviour-injection"></a>StateMachineBehaviour injection
 
 To perform injection on custom `StateMachineBehaviour` fields and properties, simply call the `Inject()` extension method on any of the state events:
 
@@ -1757,7 +1757,7 @@ Allows injection on `StateMachineBehaviour` by providing an `Inject()` method.
 
 #### Configuration
 
-Please see <a href="#behaviour-injection">Behaviour injection</a> for more information.
+Please see <a id="statemachinebehaviour-injection"></a>StateMachineBehaviour injection</a> for more information.
 
 #### Dependencies
 
