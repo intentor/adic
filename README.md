@@ -686,7 +686,7 @@ It's possible to perform injection on custom `MonoBehaviour` and `StateMachineBe
 
 #### MonoBehaviour injection
 
-It's possible to perform injection on custom `MonoBehaviour` fields and properties by using the <a href="#extension-mono-injection">Mono Injection</a> extension, which is enabled by default, by calling the `Inject()` of the `MonoBehaviour`:
+To perform injection on custom `MonoBehaviour` fields and properties, simply call the `Inject()` extension method of the `MonoBehaviour`:
 
 
 ```cs
@@ -734,7 +734,7 @@ namespace MyNamespace {
 
 #### StateMachineBehaviour injection
 
-It's possible to perform injection on custom `StateMachineBehaviour` fields and properties by using the <a href="#extension-state-injection">State Injection</a> extension, which is enabled by default, by calling `this.Inject()` on any of the state events:
+To perform injection on custom `StateMachineBehaviour` fields and properties, simply call the `Inject()` extension method on any of the state events:
 
 ```cs
 using Unity.Engine;
@@ -789,11 +789,11 @@ On some performance sensitive games it's important to ensure that every injectio
 
 The injection is performed manually, without a scene wide automatic injection. This is the default setting.
 
-It's recommended to use a <a id="base-monobehaviour">base `MonoBehaviour`</a> to execute injection.
+It's recommended to use a <a id="base-monobehaviour">base MonoBehaviour</a> to perform injections.
 
 ##### Children
 
-The injection is performed only on `MonoBehaviour` added on game objects that are children of the `ContextRoot`. A base behaviour is not required when using this injection type.
+The injection is performed only on `MonoBehaviour` added on game objects that are children of the context root. A base behaviour is not required when using this injection type.
 
 ##### Base type
 
@@ -1538,7 +1538,7 @@ Each game has its own characteristics, and eventually the same game could featur
 
 Sometimes you may face some strange exceptions about null containers, even with containers correctly configured. This may occur because of the [Script Execution Order](http://docs.unity3d.com/Manual/class-ScriptExecution.html) of the injected scripts, which are being called before the <a href="#quick-start">ContextRoot</a> creates the containers.
 
-To prevent this from happening, the execution order of the `ContextRoot` should be set by either clicking on the `Set execution order` button on the `ContextRoot` inspector or by accessing the menu `Edit > Project Settings > Script Execution Order` on Unity.
+To prevent this from happening, the execution order of the context root should be set by either clicking on the `Set execution order` button on the context root inspector or by accessing the menu `Edit > Project Settings > Script Execution Order` on Unity.
 
 ## <a id="performance"></a>Performance
 
@@ -1602,7 +1602,7 @@ Extensions are a way to enhance *Adic* without having to edit it to suit differe
 
 ### <a id="extension-bindings-printer"></a>Bindings Printer
 
-Prints all bindings on any containers on the current `ContextRoot`. It must be executed on Play Mode.
+Prints all bindings on any containers on the current context root. It must be executed on Play Mode.
 
 To open the Bindings Printer windows, click on *Windows/Adic/Bindings Printer* menu.
 
