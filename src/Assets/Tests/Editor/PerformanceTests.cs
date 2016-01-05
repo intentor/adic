@@ -1,6 +1,5 @@
 using System;
 using Adic;
-using NUnit.Core;
 using NUnit.Framework;
 using Adic.Tests.Util;
 

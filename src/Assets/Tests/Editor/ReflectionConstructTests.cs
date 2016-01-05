@@ -2,7 +2,6 @@ using System;
 using System.Reflection;
 using Adic;
 using Adic.Tests.Util;
-using NUnit.Core;
 using NUnit.Framework;
 
 namespace Adic.Tests {
