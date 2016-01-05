@@ -686,7 +686,8 @@ It's possible to perform injection on custom `MonoBehaviour` and `StateMachineBe
 
 #### MonoBehaviour injection
 
-It's possible to perform injection on custom `MonoBehaviour` fields and properties by using the <a href="#extension-mono-injection">Mono Injection</a> extension, which is enabled by default, by calling `this.Inject()` on the `Start()` method of the `MonoBehaviour`:
+It's possible to perform injection on custom `MonoBehaviour` fields and properties by using the <a href="#extension-mono-injection">Mono Injection</a> extension, which is enabled by default, by calling the `Inject()` of the `MonoBehaviour`:
+
 
 ```cs
 using Unity.Engine;
@@ -701,6 +702,30 @@ namespace MyNamespace {
 		public SomeClass fieldToInject;
 
 		protected void Start() {
+			this.Inject();
+		}
+	}
+}
+```
+
+##### <a id="base-monobehaviour"></a>Base MonoBehaviour
+
+To make injection even simpler, create a base behaviour from which all your `MonoBehaviour` can inherit, calling the `Inject()` method during `Start()`:
+
+```cs
+using Unity.Engine;
+
+namespace MyNamespace {
+	/// <summary>
+	/// Base MonoBehaviour.
+	/// </summary>
+	public abstract class BaseBehaviour : MonoBehaviour {
+		/// <summary>
+		/// Called when the component is starting.
+		///
+		/// If overriden on derived classes, always call base.Start().
+		/// </summary>
+		protected virtual void Start() {
 			this.Inject();
 		}
 	}
@@ -732,33 +757,9 @@ namespace MyNamespace {
 
 **Note:** only available on Unity 5+.
 
-#### Using base behaviours
+##### <a id="base-statemachinebehaviour"></a>Base StateMachineBehaviour
 
-To make injection even simpler, create base behaviours from which all your `MonoBehaviour`/`StateMachineBehaviour` will inherit:
-
-##### MonoBehaviour
-
-```cs
-using Unity.Engine;
-
-namespace MyNamespace {
-	/// <summary>
-	/// Base MonoBehaviour.
-	/// </summary>
-	public abstract class BaseBehaviour : MonoBehaviour {
-		/// <summary>
-		/// Called when the component is starting.
-		///
-		/// If overriden on derived classes, always call base.Start().
-		/// </summary>
-		protected virtual void Start() {
-			this.Inject();
-		}
-	}
-}
-```
-
-##### StateMachineBehaviour
+To make injection even simpler, create a base behaviour from which all your `StateMachineBehaviour` can inherit:
 
 ```cs
 using Unity.Engine;
@@ -777,6 +778,26 @@ namespace MyNamespace {
 	}
 }
 ```
+
+#### Scene injection
+
+On some performance sensitive games it's important to ensure that every injection occurs before the game starts, in a scene level. *Adic* provides three ways to perform a scene wide injection, which are configured by selecting the appropriate injection type on the <a href="#extension-context-root">Context Root</a> inspector.
+
+**Note:** there's no better or worse strategy. It only depends on the game you are working on and developer preferences, given all strategies can achieve the same performance goals if all objects used during the game are created before the game starts. Read the <a href="#performance">Performance</a> section for more performance considerations.
+
+##### Manual
+
+The injection is performed manually, without a scene wide automatic injection. This is the default setting.
+
+It's recommended to use a <a id="base-monobehaviour">base `MonoBehaviour`</a> to execute injection.
+
+##### Children
+
+The injection is performed only on `MonoBehaviour` added on game objects that are children of the `ContextRoot`. A base behaviour is not required when using this injection type.
+
+##### Base type
+
+The injection is performed on any `MonoBehaviour` that inherits from a given type (e.g. a <a id="base-monobehaviour">base `MonoBehaviour`</a>), throughout the scene.
 
 #### Injecting from multiple containers
 
@@ -1523,9 +1544,15 @@ To prevent this from happening, the execution order of the `ContextRoot` should 
 
 *Adic* was created with speed in mind, using internal cache to minimize the use of [reflection](http://en.wikipedia.org/wiki/Reflection_%28computer_programming%29) (which is usually slow), ensuring a good performance when resolving and injecting into objects - the container can resolve a 1.000 objects in 1ms<a href="#about-performance-tests">\*</a>.
 
-To maximize performance, always bind all types that will be resolved/injected in the <a href="#quick-start">ContextRoot</a>, so *Adic* can generate cache of the objects and use that information during runtime.
+To maximize performance:
 
-If you have more than one container on the same scene, it's possible to share the cache between them. To do so, create an instance of `Adic.Cache.ReflectionCache` and pass it to any container you create:
+1. always bind all types that will be resolved/injected in the <a href="#quick-start">ContextRoot</a>, so *Adic* can generate cache of the objects and use that information during runtime.
+
+2. always create all game objects that will be used during runtime before the game starts. [Object pooling](https://unity3d.com/pt/learn/tutorials/modules/beginner/live-training-archive/object-pooling) can help achieve that and increase performance by creating (and injecting) game objects upfront and reusing them throughout the game.
+
+3. when injecting on `MonoBehaviour`, use scene wide injection during game start instead of per `MonoBehaviour` injection. Read <a href="#monobehaviour-injection">MonoBehaviour injection</a> for more details about injecting on the entire scene.
+
+4. if you have more than one container on the same scene, it's possible to share cache between them. To do so, create an instance of `Adic.Cache.ReflectionCache` and pass it to any container you create:
 
 ```cs
 using UnityEngine;
