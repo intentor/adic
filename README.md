@@ -28,6 +28,10 @@
 	5. <a href="#multiple-constructors">Multiple constructors</a>
 	6. <a href="#multiple-injection">Multiple injection</a>
 	7. <a href="#behaviour-injection">Behaviour injection</a>
+		1. <a href="#monobehaviour-injection">MonoBehaviour injection</a>
+		2. <a href="#statemachinebehaviour-injection">StateMachineBehaviour injection</a>
+		3. <a href="#scene-injection">Scene injection</a>
+		4. <a href="#injecting-multiple-containers">Injecting from multiple containers</a>
 	8. <a href="#conditions">Conditions</a>
 	9. <a href="#update">Update</a>
 	10. <a href="#dispose">Dispose</a>
@@ -77,6 +81,7 @@ Also available in the [Unity Asset Store](https://www.assetstore.unity3d.com/en/
 * Injection on constructor, fields and properties.
 * Can inject multiple objects of the same type.
 * Can resolve and inject instances from types that are not bound to the container.
+* Can inject automatically on components of a scene.
 * Fast dependency resolution with internal cache.<a href=#performance>\*</a>
 * Use of attributes to indicate injections, preferable constructors and post constructors.
 * Can be easily extended through extensions.
@@ -682,7 +687,7 @@ It's possible to manually resolve multiple objects. Please see <a href="#manual-
 
 ### <a id="behaviour-injection"></a>Behaviour injection
 
-It's possible to perform injection on custom `MonoBehaviour` and `StateMachineBehaviour` scripts through the extensions <a id="extension-mono-injection">Mono Injection</a> and <a id="extension-state-injection"></a>State Injection</a>, which are enabled by default.
+It's possible to perform injection on custom `MonoBehaviour` and `StateMachineBehaviour` scripts through the extensions <a href="extension-mono-injection">Mono Injection</a> and <a href="extension-state-injection"></a>State Injection</a>, which are enabled by default.
 
 #### <a id="monobehaviour-injection"></a>MonoBehaviour injection
 
@@ -779,7 +784,7 @@ namespace MyNamespace {
 }
 ```
 
-#### Scene injection
+#### <a id="scene-injection"></a>Scene injection
 
 On some performance sensitive games it's important to ensure that every injection occurs before the game starts, in a scene level. *Adic* provides three ways to perform a scene wide injection, which are configured by selecting the appropriate injection type on the <a href="#extension-context-root">Context Root</a> inspector.
 
@@ -799,7 +804,7 @@ The injection is performed only on `MonoBehaviour` added on game objects that ar
 
 The injection is performed on any `MonoBehaviour` that inherits from a given type (e.g. a <a id="base-monobehaviour">base `MonoBehaviour`</a>), throughout the scene.
 
-#### Injecting from multiple containers
+#### <a id="injecting-multiple-containers"></a>Injecting from multiple containers
 
 When injecting into `MonoBehaviour`/`StateMachineBehaviour` using the `this.Inject()` method, every available container in the <a href="#quick-start">context root</a> is used. If you want to restrict the containers from which injection occurs, use the `InjectFromContainer` attribute in conjunction with a container identifier.
 
