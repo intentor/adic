@@ -687,7 +687,7 @@ It's possible to manually resolve multiple objects. Please see <a href="#manual-
 
 ### <a id="behaviour-injection"></a>Behaviour injection
 
-It's possible to perform injection on custom `MonoBehaviour` and `StateMachineBehaviour` scripts through the extensions <a href="extension-mono-injection">Mono Injection</a> and <a href="extension-state-injection"></a>State Injection</a>, which are enabled by default.
+It's possible to perform injection on custom `MonoBehaviour` and `StateMachineBehaviour` scripts through the extensions <a href="#extension-mono-injection">Mono Injection</a> and <a href="#extension-state-injection">State Injection</a>, which are enabled by default.
 
 #### <a id="monobehaviour-injection"></a>MonoBehaviour injection
 
