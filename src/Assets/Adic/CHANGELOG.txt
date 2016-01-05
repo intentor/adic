@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.16.1 (2015-01-05)
+
+Context Root extension
+- Fixed editor ExecutionOrderUtils script location, which was preventing build generation.
+
 Version 2.16 (2015-01-05)
 
 Context Root extension
