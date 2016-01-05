@@ -37,8 +37,9 @@
 	14. <a href="#using-commands">Using commands</a>
 6. <a href="#multiple-scenes">Multiple scenes</a>
 7. <a href="#order-of-events">Order of events</a>
-8. <a href="#performance">Performance</a>
-9. <a href="#container-extensions">Extensions</a>
+8. <a href="#script-execution-order">Script execution order</a>
+9. <a href="#performance">Performance</a>
+10. <a href="#container-extensions">Extensions</a>
 	1. <a href="#available-extensions">Available extensions</a>
 		1. <a href="#extension-bindings-printer">Bindings Printer</a>
 		1. <a href="#extension-bindings-setup">Bindings Setup</a>
@@ -52,12 +53,12 @@
 	3. <a href="#container-events">Container events</a>
 		1. <a href="#binder-events">Binder events</a>
 		2. <a href="#injector-events">Injector events</a>
-10. <a href="#general-notes">General notes</a>
-11. <a href="#binaries">Binaries</a>
-12. <a href="#examples">Examples</a>
-13. <a href="#changelog">Changelog</a>
-14. <a href="#support">Support</a>
-15. <a href="#license">License</a>
+11. <a href="#general-notes">General notes</a>
+12. <a href="#binaries">Binaries</a>
+13. <a href="#examples">Examples</a>
+14. <a href="#changelog">Changelog</a>
+15. <a href="#support">Support</a>
+16. <a href="#license">License</a>
 
 ## <a id="introduction"></a>Introduction
 
@@ -1511,6 +1512,12 @@ Each game has its own characteristics, and eventually the same game could featur
 7. Update() is called on every object that implements `Adic.IUpdatable`
 8. Scene is destroyed
 9. Dispose() is called on every object that implements `System.IDisposable`
+
+## <a id="script-execution-order"></a>Script execution order
+
+Sometimes you may face some strange exceptions about null containers, even with containers correctly configured. This may occur because of the [Script Execution Order](http://docs.unity3d.com/Manual/class-ScriptExecution.html) of the injected scripts, which are being called before the <a href="#quick-start">ContextRoot</a> creates the containers.
+
+To prevent this from happening, the execution order of the `ContextRoot` should be set by either clicking on the `Set execution order` button on the `ContextRoot` inspector or by accessing the menu `Edit > Project Settings > Script Execution Order` on Unity.
 
 ## <a id="performance"></a>Performance
 
