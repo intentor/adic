@@ -3,14 +3,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B4BF52BD-806E-4F41-AE2E-52FDA2FFF3A9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Adic</RootNamespace>
     <AssemblyName>Adic.Extensions</AssemblyName>
-    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
-    <ReleaseVersion>2.15</ReleaseVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ReleaseVersion>2.16</ReleaseVersion>
     <Description>Adic Extensions (Unity only).</Description>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -40,6 +40,7 @@
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -145,12 +146,22 @@
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Types\Editor\CommandReferenceDrawer.cs">
       <Link>Extensions\Commander\Types\Editor\CommandReferenceDrawer.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\SceneInjector.cs">
+      <Link>Extensions\ContextRoot\SceneInjector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\Editor\ContextRootEditor.cs">
+      <Link>Extensions\ContextRoot\Editor\ContextRootEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\Util\ExecutionOrderUtils.cs">
+      <Link>Extensions\ContextRoot\Util\ExecutionOrderUtils.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Extensions\StateInjection\" />
     <Folder Include="Extensions\Commander\Types\" />
+    <Folder Include="Extensions\ContextRoot\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\framework\Adic.Framework.csproj">
