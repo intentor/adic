@@ -42,14 +42,14 @@ namespace Adic.Extensions.ContextRoots {
 		}
 
 		/// <summary>
-		/// Performs injection on all type of a given <paramref name="baseType"/>.
+		/// Performs injection on all behaviours of a given <paramref name="baseType"/>.
 		/// </summary>
 		/// <param name="baseType">Base type to perform injection.</param>
 		public void InjectFromBaseType(Type baseType) {
-			var gameObjects = (MonoBehaviour[])Resources.FindObjectsOfTypeAll(baseType);
+			var components = (MonoBehaviour[])Resources.FindObjectsOfTypeAll(baseType);
 
-			for (var index = 0; index < gameObjects.Length; index++) {
-				gameObjects[index].Inject();
+			for (var index = 0; index < components.Length; index++) {
+				components[index].Inject();
 			}
 		}
 	}
