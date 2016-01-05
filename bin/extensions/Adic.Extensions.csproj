@@ -10,7 +10,7 @@
     <RootNamespace>Adic</RootNamespace>
     <AssemblyName>Adic.Extensions</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <ReleaseVersion>2.16</ReleaseVersion>
+    <ReleaseVersion>2.16.1</ReleaseVersion>
     <Description>Adic Extensions (Unity only).</Description>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -152,8 +152,8 @@
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\Editor\ContextRootEditor.cs">
       <Link>Extensions\ContextRoot\Editor\ContextRootEditor.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\Util\ExecutionOrderUtils.cs">
-      <Link>Extensions\ContextRoot\Util\ExecutionOrderUtils.cs</Link>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\Editor\Util\ExecutionOrderUtils.cs">
+      <Link>Extensions\ContextRoot\Editor\Util\ExecutionOrderUtils.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
