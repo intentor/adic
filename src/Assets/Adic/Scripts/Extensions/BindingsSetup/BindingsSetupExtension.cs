@@ -83,7 +83,7 @@ namespace Adic {
 		public static IInjectionContainer SetupBindings(this IInjectionContainer container,
      		string namespaceName,
      		bool includeChildren) {
-			var setups = TypeUtils.GetAssignableTypesInNamespace(
+			var setups = TypeUtils.GetAssignableTypes(
 				typeof(IBindingsSetup), namespaceName, includeChildren);
 			var prioritizedSetups = new PrioritizedBindingSetup[setups.Length];
 			

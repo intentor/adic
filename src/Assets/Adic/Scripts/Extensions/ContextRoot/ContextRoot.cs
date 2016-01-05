@@ -1,7 +1,9 @@
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Adic.Container;
+using Adic.Extensions.ContextRoots;
 using Adic.Util;
 
 namespace Adic {
@@ -28,6 +30,20 @@ namespace Adic {
 				this.destroyOnLoad = destroyOnLoad;
 			}
 		}
+
+		/// <summary>
+		/// MonoBehaviour injection type.
+		/// </summary>
+		public enum MonoBehaviourInjectionType {
+			Manual,
+			Children,
+			BaseType
+		}
+
+		[Tooltip("Type of injection on MonoBehaviours.")]
+		public MonoBehaviourInjectionType injectionType;
+		[Tooltip("Name of the base behaviour type to perform scene injection.")]
+		public string baseBehaviourTypeName;
 		
 		/// <summary>Internal containers list that will be kept through scenes.</summary>
 		public static List<InjectionContainerData> containersData { get; set; }
@@ -54,6 +70,10 @@ namespace Adic {
 		}
 
 		protected void Start() {
+			//The scene injector is added now so its Awake is called before any other Start(),
+			//given the script execution order of the context root is correctly defined.
+			this.gameObject.AddComponent<SceneInjector>();
+
 			this.Init();
 		}
 		

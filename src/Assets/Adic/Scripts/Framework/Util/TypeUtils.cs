@@ -19,14 +19,29 @@ namespace Adic.Util {
 		}
 
 		/// <summary>
+		/// Gets all types assignable from a given <paramref name="baseType"/>.
+		/// </summary>
+		/// <remarks>
+		/// Excludes any types in assemblies from Unity or Mono.
+		/// </remarks>
+		/// <param name="baseType">Base type from which the types in the namespace must be assignable.</param>
+		/// <returns>The assignable types in the namespace.</returns>
+		public static Type[] GetAssignableTypes(Type baseType) {
+			return GetAssignableTypes(baseType, string.Empty, false);
+		}
+
+		/// <summary>
 		/// Gets all types assignable from a given <paramref name="baseType"/> 
 		/// in a given <paramref name="namespaceName"/>.
 		/// </summary>
+		/// <remarks>
+		/// Excludes any types in assemblies from Unity or Mono.
+		/// </remarks>
 		/// <param name="baseType">Base type from which the types in the namespace must be assignable.</param>
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <returns>The assignable types in the namespace.</returns>
-		public static Type[] GetAssignableTypesInNamespace(Type baseType, string namespaceName) {
-			return GetAssignableTypesInNamespace(baseType, namespaceName, false);
+		public static Type[] GetAssignableTypes(Type baseType, string namespaceName) {
+			return GetAssignableTypes(baseType, namespaceName, false);
 		}
 		
 		/// <summary>
@@ -40,7 +55,7 @@ namespace Adic.Util {
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <param name="includeChildren">Indicates whether child namespaces should be included.</param>
 		/// <returns>The assignable types in the namespace.</returns>
-		public static Type[] GetAssignableTypesInNamespace(Type baseType, string namespaceName, bool includeChildren) {
+		public static Type[] GetAssignableTypes(Type baseType, string namespaceName, bool includeChildren) {
 			var typesToBind = new List<Type>();
 
 			//Looks for assignable types in all available assemblies.
@@ -62,6 +77,7 @@ namespace Adic.Util {
 						var type = allTypes[typeIndex];
 
 						var isTypeInNamespace = 
+							(string.IsNullOrEmpty(namespaceName)) ||
 							(includeChildren && !string.IsNullOrEmpty(type.Namespace) && type.Namespace.StartsWith(namespaceName)) ||
 							(!includeChildren && type.Namespace == namespaceName);
 						

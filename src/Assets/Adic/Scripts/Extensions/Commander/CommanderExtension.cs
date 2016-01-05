@@ -78,7 +78,7 @@ namespace Adic {
 		public static IInjectionContainer RegisterCommands(this IInjectionContainer container,
 		    string namespaceName,
 		    bool includeChildren) {
-			var commands = TypeUtils.GetAssignableTypesInNamespace(typeof(ICommand), namespaceName, includeChildren);
+			var commands = TypeUtils.GetAssignableTypes(typeof(ICommand), namespaceName, includeChildren);
 			
 			if (commands.Length > 0) {
 				for (var cmdIndex = 0; cmdIndex < commands.Length; cmdIndex++) {

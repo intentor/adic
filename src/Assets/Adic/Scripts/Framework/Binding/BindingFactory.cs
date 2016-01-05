@@ -115,7 +115,7 @@ namespace Adic.Binding {
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
 		public void ToNamespace(string namespaceName) {
-			var types = TypeUtils.GetAssignableTypesInNamespace(this.bindingType, namespaceName);
+			var types = TypeUtils.GetAssignableTypes(this.bindingType, namespaceName);
 
 			for (int typeIndex = 0; typeIndex < types.Length; typeIndex++) {
 				this.AddBinding(types[typeIndex], BindingInstance.Transient);
@@ -129,7 +129,7 @@ namespace Adic.Binding {
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
 		public void ToNamespaceSingleton(string namespaceName) {
-			var types = TypeUtils.GetAssignableTypesInNamespace(this.bindingType, namespaceName);
+			var types = TypeUtils.GetAssignableTypes(this.bindingType, namespaceName);
 			
 			for (int typeIndex = 0; typeIndex < types.Length; typeIndex++) {
 				this.AddBinding(types[typeIndex], BindingInstance.Singleton);

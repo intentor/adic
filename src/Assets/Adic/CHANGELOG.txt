@@ -8,6 +8,7 @@
 Version 2.16 (2015-01-?)
 
 Context Root extension
+- Added automatic MonoBehaviour injection on scenes. [Issue #37]
 - Added ContextRootEditor to include option to set script execution order of game roots. [Issue #38]
 
 Version 2.15.2 (2015-10-05)
