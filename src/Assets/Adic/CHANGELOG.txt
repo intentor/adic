@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.16.2 (2015-01-15)
+
+Context Root extension
+-  Fixed children inspector fields display of ContextRoot.
+
 Version 2.16.1 (2015-01-05)
 
 Context Root extension
