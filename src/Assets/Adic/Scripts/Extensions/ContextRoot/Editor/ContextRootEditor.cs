@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Adic.Extensions.ContextRoots.Utils;
 using Adic.Util;
+using UnityEditor.SceneManagement;
 
 namespace Adic.Extensions.ContextRoots.Editors {
 	/// <summary>
@@ -34,6 +35,10 @@ namespace Adic.Extensions.ContextRoots.Editors {
 		}
 
 		public override void OnInspectorGUI() {
+			EditorGUI.BeginChangeCheck();
+
+			this.DrawDefaultInspector();
+
 			//Injection type.
 			this.editorItem.injectionType = (ContextRoot.MonoBehaviourInjectionType)
 				EditorGUILayout.EnumPopup(new GUIContent("Injection type", "Type of injection on MonoBehaviours."),
@@ -46,6 +51,10 @@ namespace Adic.Extensions.ContextRoots.Editors {
 				if (index >= 0) this.editorItem.baseBehaviourTypeName = this.customScripts[index];
 			} else {
 				this.editorItem.baseBehaviourTypeName = string.Empty;
+			}
+
+			if (EditorGUI.EndChangeCheck()) {
+				EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
 			}
 
 			//Set execution order.

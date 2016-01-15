@@ -34,15 +34,16 @@ namespace Adic {
 		/// <summary>
 		/// MonoBehaviour injection type.
 		/// </summary>
+		[Serializable]
 		public enum MonoBehaviourInjectionType {
 			Manual,
 			Children,
 			BaseType
 		}
 
-		[Tooltip("Type of injection on MonoBehaviours.")]
+		[Tooltip("Type of injection on MonoBehaviours."), HideInInspector]
 		public MonoBehaviourInjectionType injectionType;
-		[Tooltip("Name of the base behaviour type to perform scene injection.")]
+		[Tooltip("Name of the base behaviour type to perform scene injection."), HideInInspector]
 		public string baseBehaviourTypeName;
 		
 		/// <summary>Internal containers list that will be kept through scenes.</summary>
