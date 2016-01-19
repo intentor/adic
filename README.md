@@ -288,6 +288,8 @@ public override void SetupContainers() {
 }
 ```
 
+**Attention:** the order in which you place the bindings is very important. If class A requires an injection of class B, class B should be bound to the container before class A.
+
 **Hint:** in *Adic*, the lifetime of your bindings is the lifetime of your containers - you can create as many containers as you want to hold your dependencies.
 
 **Good practice:** if you have many bindings to add to a container, it's better to create reusable objects that can setup related bindings together. Please see <a href="#bindings-setup">Bindings setup</a> for more information.
