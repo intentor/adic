@@ -540,9 +540,27 @@ container.Bind<AudioClip>().ToResource("Audio/MyAudio");
 
 *Adic* will always try to resolve any dependencies the constructor may need by using information from its bindings or trying to instantiate any types that are unknown to the binder.
 
-**Note 1:** if there's more than one constructor, *Adic* always look for the one with less parameteres. However, <a href="#multiple-constructors">it's possible to indicate which constructor should be used</a> on a multi constructor class.
+There's no need to decorate constructors' parameteres with `Inject` attributes - they will be resolved automatically. However, if you are using identified parameters, you should use the `Inject` attribute:
 
-**Note 2:** there's no need to decorate constructors' parameteres with `Inject` attributes - they will be resolved automatically.
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My class summary.
+	/// </summary>
+	public class MyClass {
+		/// <summary>
+		/// Class constructor.
+		/// </summary>
+		/// <param name="param1">Identified parameter description.</param>
+		/// <param name="param2">Parameter description.</param>
+		public MyClass([Inject("Identifier")] param1, SomeType param2) {
+			...
+		}
+	}
+}
+```
+
+**Note:** if there's more than one constructor, *Adic* always look for the one with less parameteres. However, <a href="#multiple-constructors">it's possible to indicate which constructor should be used</a> on a multi constructor class.
 
 ### <a id="postconstructors"></a>Post Constructor methods
 
@@ -587,8 +605,8 @@ namespace MyNamespace {
 		/// <summary>
 		/// Class post constructor, called after all the dependencies have been resolved.
 		/// </summary>
-		/// <param name="param1">Identified parameter description</param>
-		/// <param name="param2">Parameter description</param>
+		/// <param name="param1">Identified parameter description.</param>
+		/// <param name="param2">Parameter description.</param>
 		[PostConstruct]
 		public void PostConstruct([Inject("Identifier")] param1, SomeType param2) {
 			...
