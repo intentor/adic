@@ -596,7 +596,7 @@ namespace MyNamespace {
 }
 ```
 
-Post construct methods can also accept identified and regular parameters:
+Post constructor methods can also accept identified and regular parameters:
 
 ```cs
 namespace MyNamespace {
@@ -617,7 +617,7 @@ namespace MyNamespace {
 }
 ```
 
-**Good practice:** post construct methods can be used as constructors on `MonoBehaviour` components.
+**Good practice:** post constructor methods can be used as constructors on `MonoBehaviour` components.
 
 **Good practice:** always use non generic methods as post constructors to prevent [`JIT compile method`](http://docs.unity3d.com/Manual/TroubleShootingIPhone.html) exceptions on iOS devices.
 
