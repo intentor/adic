@@ -619,7 +619,7 @@ namespace MyNamespace {
 
 **Good practice:** post construct methods can be used as constructors on `MonoBehaviour` components.
 
-**Good practice:** always use non generic methods as post constructors to prevent (`JIT compile method`)[http://docs.unity3d.com/Manual/TroubleShootingIPhone.html] exceptions on iOS devices.
+**Good practice:** always use non generic methods as post constructors to prevent [`JIT compile method`](http://docs.unity3d.com/Manual/TroubleShootingIPhone.html) exceptions on iOS devices.
 
 ### <a id="member-injection"></a>Member injection
 
