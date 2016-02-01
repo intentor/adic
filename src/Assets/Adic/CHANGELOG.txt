@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.16.3 (2016-02-01)
+
+Context Root extension
+-  Fixed adding container by type on iOS devices.
+
 Version 2.16.2 (2015-01-15)
 
 Context Root extension

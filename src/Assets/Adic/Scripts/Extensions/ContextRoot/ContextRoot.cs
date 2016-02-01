@@ -96,7 +96,7 @@ namespace Adic {
 		/// <typeparam name="T">Container type.</typeparam>
 		/// <returns>The injection container for chaining.</returns>
 		public IInjectionContainer AddContainer<T>() where T : IInjectionContainer, new() {
-			var container = Expression.Lambda<Func<T>>(Expression.New(typeof(T))).Compile()();
+			var container = Activator.CreateInstance<T>();
 			return this.AddContainer(container, true);
 		}
 		
