@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using Adic;
 using Adic.Container;
+using Adic.Util;
 
 namespace Adic.Extensions.MonoInjection {
 	/// <summary>
@@ -13,7 +14,7 @@ namespace Adic.Extensions.MonoInjection {
 		/// </summary>
 		/// <param name="obj">Target object of the injection.</param>
 		public static void Inject(object obj) {
-			var attributes = obj.GetType().GetCustomAttributes(true);
+			var attributes = TypeUtils.GetCustomAttributes(obj, true);
 			
 			if (attributes.Length == 0) {
 				Inject(obj, null);

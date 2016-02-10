@@ -42,11 +42,7 @@ namespace Adic.Cache {
 		/// <param name="type">Type from which reflection will be resolved.</param>
 		/// <returns>The constructor.</returns>
 		protected ConstructorInfo ResolveConstructor(Type type) {
-			var constructors = type.GetConstructors(
-				BindingFlags.FlattenHierarchy | 
-				BindingFlags.Public |
-				BindingFlags.Instance |
-				BindingFlags.InvokeMethod);
+			var constructors = TypeUtils.GetConstructors(type);
 
 			if (constructors.Length == 0) {
 				return null;
@@ -60,13 +56,13 @@ namespace Adic.Cache {
 			for (int i = 0, length = 0, shortestLength = int.MaxValue; i < constructors.Length; i++) {
 				var constructor = constructors[i];
 
-				object[] attributes = constructor.GetCustomAttributes(typeof(Construct), true);
+				var attributes = constructor.GetCustomAttributes(typeof(Construct), true);
 
-				if (attributes.Length > 0) {
-					return constructor;
-				}
+               	if (attributes.Length > 0) {
+                    return constructor;
+                }
 
-				length = constructor.GetParameters().Length;
+                length = constructor.GetParameters().Length;
 				if (length < shortestLength) {
 					shortestLength = length;
 					shortestConstructor = constructor;
@@ -109,10 +105,7 @@ namespace Adic.Cache {
 		protected PostConstructorInfo[] ResolvePostConstructors(Type type) {
 			var postConstructors = new List<PostConstructorInfo>();
 
-			var methods = type.GetMethods(BindingFlags.FlattenHierarchy |
-				BindingFlags.Public |
-				BindingFlags.NonPublic |
-	            BindingFlags.Instance);
+			var methods = TypeUtils.GetMethods(type);
 
 			for (int methodIndex = 0; methodIndex < methods.Length; methodIndex++) {
 				var method = methods[methodIndex];
@@ -156,10 +149,7 @@ namespace Adic.Cache {
 		protected SetterInfo[] ResolveProperties(Type type) {
 			var setters = new List<SetterInfo>();
 
-			var properties = type.GetProperties(BindingFlags.Instance | 
-			    BindingFlags.Static |
-			    BindingFlags.NonPublic |
-			    BindingFlags.Public);
+			var properties = TypeUtils.GetProperties(type);
 
 			for (int propertyIndex = 0; propertyIndex < properties.Length; propertyIndex++) {
 				var property = properties[propertyIndex] as PropertyInfo;
@@ -184,10 +174,7 @@ namespace Adic.Cache {
 		protected SetterInfo[] ResolveFields(Type type) {
 			var setters = new List<SetterInfo>();
 			
-			var fields = type.GetFields(BindingFlags.Instance | 
-		        BindingFlags.Static |
-		        BindingFlags.NonPublic |
-		        BindingFlags.Public);
+			var fields = TypeUtils.GetFields(type);
 			
 			for (int fieldIndex = 0; fieldIndex < fields.Length; fieldIndex++) {
 				var field = fields[fieldIndex] as FieldInfo;

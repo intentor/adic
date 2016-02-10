@@ -90,7 +90,7 @@ namespace Adic {
 			//Adds setups to "priority" with priority definitions.
 			for (var setupIndex = 0; setupIndex < setups.Length; setupIndex++) {
 				var setup = (IBindingsSetup)container.Resolve(setups[setupIndex]);
-				var attributes = setup.GetType().GetCustomAttributes(typeof(BindingPriority), true);
+				var attributes = TypeUtils.GetCustomAttributes(setup, typeof(BindingPriority), true);
 				
 				if (attributes.Length > 0) {
 					var bindindPriority = attributes[0] as BindingPriority;

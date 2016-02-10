@@ -17,7 +17,7 @@ namespace Adic.Commander {
 			var types = new List<Type>();
 			
 			//Looks for assignable commands in all available assemblies.
-			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			var assemblies = TypeUtils.GetAssemblies();
 			for (int assemblyIndex = 0; assemblyIndex < assemblies.Length; assemblyIndex++) {
 				var assemly = assemblies[assemblyIndex];
 				
@@ -30,12 +30,12 @@ namespace Adic.Commander {
 				}
 
 				var commandType = typeof(ICommand);
-				var allTypes = assemblies[assemblyIndex].GetTypes();
+				var allTypes = TypeUtils.GetTypesFromAssembly(assemblies[assemblyIndex]);
 				for (int typeIndex = 0; typeIndex < allTypes.Length; typeIndex++) {
 					var type = allTypes[typeIndex];
 
 					if (type.Namespace != "Adic" &&
-					    type.IsClass &&
+					    TypeUtils.IsClass(type) &&
 					    TypeUtils.IsAssignable(commandType, type)) {
 						types.Add(type);
 					}

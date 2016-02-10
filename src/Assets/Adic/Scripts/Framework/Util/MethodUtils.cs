@@ -19,7 +19,7 @@ namespace Adic.Util {
 		/// <param name="constructor">Constructor info used to create the function.</param>
 		/// <returns>The object constructor.</returns>
 		public static Constructor CreateConstructor(Type type, ConstructorInfo constructor) {
-			#if UNITY_IOS
+			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
 			
 			return () => {
 				return constructor.Invoke(null);
@@ -43,7 +43,7 @@ namespace Adic.Util {
 		/// <param name="constructor">Constructor info used to create the function.</param>
 		/// <returns>The object constructor.</returns>
 		public static ParamsConstructor CreateConstructorWithParams(Type type, ConstructorInfo constructor) {
-			#if UNITY_IOS
+			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
 			
 			return (object[] parameters) => {
 				return constructor.Invoke(parameters);
@@ -95,7 +95,7 @@ namespace Adic.Util {
 		/// <param name="fieldInfo">Field info object.</param>
 		/// <returns>The field setter.</returns>
 		public static Setter CreateFieldSetter(Type type, FieldInfo fieldInfo) {
-			#if UNITY_IOS
+			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
 			
 			return (object instance, object value) => fieldInfo.SetValue(instance, value);
 			
@@ -122,7 +122,7 @@ namespace Adic.Util {
 		/// <param name="propertyInfo">Property info object.</param>
 		/// <returns>The property setter.</returns>
 		public static Setter CreatePropertySetter(Type type, PropertyInfo propertyInfo) {
-			#if UNITY_IOS
+			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
 			
 			return (object instance, object value) => propertyInfo.SetValue(instance, value, null);
 			
@@ -151,7 +151,7 @@ namespace Adic.Util {
 		/// <param name="methodInfo">Method info object.</param>
 		/// <returns>The method caller.</returns>
 		public static PostConstructor CreateParameterlessMethod(Type type, MethodInfo methodInfo) {
-			#if UNITY_IOS
+			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
 			
 			return (object instance) => methodInfo.Invoke(instance, null);
 			
@@ -178,51 +178,6 @@ namespace Adic.Util {
 		/// <returns>The method caller.</returns>
 		public static ParamsPostConstructor CreateParameterizedMethod(Type type, MethodInfo methodInfo) {
 			return (object instance, object[] parameters) => methodInfo.Invoke(instance, parameters);
-			/*
-			#if UNITY_IOS
-			
-			return (object instance, object[] parameters) => methodInfo.Invoke(instance, parameters);
-			
-			#else
-
-			var parameters = methodInfo.GetParameters();
-			Type[] parametersTypes = new Type[] { OBJECT_TYPE, typeof(object[]) };
-			DynamicMethod method = new DynamicMethod(methodInfo.Name, typeof(void), parametersTypes, true);
-			ILGenerator generator = method.GetILGenerator();
-			
-			//There's always at least a single parameter.
-			generator.Emit(OpCodes.Ldarg_0);
-			
-			//Define parameters.
-			for (int paramIndex = 0; paramIndex < parameters.Length; paramIndex++) {
-				//There's always at least a single parameter.
-				generator.Emit(OpCodes.Ldarg_0);
-
-				//Define parameter position.
-				switch (paramIndex) {
-					case 0: generator.Emit(OpCodes.Ldc_I4_1); break;
-					case 1: generator.Emit(OpCodes.Ldc_I4_2); break;
-					case 2: generator.Emit(OpCodes.Ldc_I4_3); break;
-					case 3: generator.Emit(OpCodes.Ldc_I4_4); break;
-					case 4: generator.Emit(OpCodes.Ldc_I4_5); break;
-					case 5: generator.Emit(OpCodes.Ldc_I4_6); break;
-					case 6: generator.Emit(OpCodes.Ldc_I4_7); break;
-					case 7: generator.Emit(OpCodes.Ldc_I4_8); break;
-					default: generator.Emit(OpCodes.Ldc_I4, paramIndex); break;
-				}
-				
-				//Define parameter type.
-				generator.Emit(OpCodes.Ldelem_Ref);
-				Type paramType = parameters[paramIndex].ParameterType;
-				generator.Emit(paramType.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass, paramType);
-			}
-			
-			generator.Emit(OpCodes.Callvirt, methodInfo);
-			generator.Emit(OpCodes.Ret);
-			
-			return (ParamsPostConstructor)method.CreateDelegate(typeof(ParamsPostConstructor));
-			
-			#endif*/
 		}
 	}
 }
