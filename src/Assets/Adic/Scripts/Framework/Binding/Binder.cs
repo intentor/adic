@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Adic.Exceptions;
-using Adic.Util;
 
 namespace Adic.Binding {
 	/// <summary>
@@ -45,7 +44,7 @@ namespace Adic.Binding {
 		public void AddBinding(BindingInfo binding) {
 			if (binding == null) {
 				throw new BinderException(BinderException.NULL_BINDING);
-			} else if (binding.value is Type && TypeUtils.IsInterface(binding.value as Type)) {
+			} else if (binding.value is Type && (binding.value as Type).IsInterface) {
 				throw new BinderException(BinderException.BINDING_TO_INTERFACE);
 			}
 			

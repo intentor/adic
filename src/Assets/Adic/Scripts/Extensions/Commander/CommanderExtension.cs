@@ -43,7 +43,7 @@ namespace Adic {
 		/// <param name="type">The type of the command to be registered.</param>
 		/// <returns>The injection container for chaining.</returns>
 		public static IInjectionContainer RegisterCommand(this IInjectionContainer container, Type type) {
-			if (!TypeUtils.IsClass(type) || !TypeUtils.IsAssignable(type, typeof(ICommand))) {
+			if (!type.IsClass && type.IsAssignableFrom(typeof(ICommand))) {
 				throw new CommandException(CommandException.TYPE_NOT_A_COMMAND);
 			}
 
@@ -83,7 +83,7 @@ namespace Adic {
 			if (commands.Length > 0) {
 				for (var cmdIndex = 0; cmdIndex < commands.Length; cmdIndex++) {
 					var commandType = commands[cmdIndex];
-					if (!TypeUtils.IsAbsract(commandType)) {
+					if (!commandType.IsAbstract) {
 						container.Bind<ICommand>().To(commandType);
 					}
 				}
