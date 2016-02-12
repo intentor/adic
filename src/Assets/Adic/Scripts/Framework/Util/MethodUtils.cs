@@ -19,7 +19,7 @@ namespace Adic.Util {
 		/// <param name="constructor">Constructor info used to create the function.</param>
 		/// <returns>The object constructor.</returns>
 		public static Constructor CreateConstructor(Type type, ConstructorInfo constructor) {
-            #if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
+			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_WEBGL
 
             return () => {
 				return constructor.Invoke(null);
@@ -43,7 +43,7 @@ namespace Adic.Util {
 		/// <param name="constructor">Constructor info used to create the function.</param>
 		/// <returns>The object constructor.</returns>
 		public static ParamsConstructor CreateConstructorWithParams(Type type, ConstructorInfo constructor) {
-            #if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
+			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_WEBGL
 
             return (object[] parameters) => {
 				return constructor.Invoke(parameters);
@@ -95,7 +95,7 @@ namespace Adic.Util {
 		/// <param name="fieldInfo">Field info object.</param>
 		/// <returns>The field setter.</returns>
 		public static Setter CreateFieldSetter(Type type, FieldInfo fieldInfo) {
-            #if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
+			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_WEBGL
 
             return (object instance, object value) => fieldInfo.SetValue(instance, value);
 			
@@ -122,7 +122,7 @@ namespace Adic.Util {
 		/// <param name="propertyInfo">Property info object.</param>
 		/// <returns>The property setter.</returns>
 		public static Setter CreatePropertySetter(Type type, PropertyInfo propertyInfo) {
-            #if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
+			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_WEBGL
 
             return (object instance, object value) => propertyInfo.SetValue(instance, value, null);
 			
@@ -151,7 +151,7 @@ namespace Adic.Util {
 		/// <param name="methodInfo">Method info object.</param>
 		/// <returns>The method caller.</returns>
 		public static PostConstructor CreateParameterlessMethod(Type type, MethodInfo methodInfo) {
-            #if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
+			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_WEBGL
 
             return (object instance) => methodInfo.Invoke(instance, null);
 			

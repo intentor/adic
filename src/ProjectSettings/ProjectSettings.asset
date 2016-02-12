@@ -457,7 +457,7 @@ PlayerSettings:
   Standalone::ScriptingBackend: 0
   WebGL::ScriptingBackend: 1
   WebGL::audioCompressionFormat: 4
-  WebGL::exceptionSupport: 0
+  WebGL::exceptionSupport: 2
   WebGL::memorySize: 256
   iOS::Architecture: 0
   iOS::EnableIncrementalBuildSupportForIl2cpp: 0
