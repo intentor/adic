@@ -43,7 +43,9 @@
 7. <a href="#order-of-events">Order of events</a>
 8. <a href="#script-execution-order">Script execution order</a>
 9. <a href="#performance">Performance</a>
-10. <a href="#container-extensions">Extensions</a>
+10. <a href="#il2cpp-aot">IL2CPP, AOT and code stripping</a>
+11. <a href="#general-notes">General notes</a>
+12. <a href="#container-extensions">Extensions</a>
 	1. <a href="#available-extensions">Available extensions</a>
 		1. <a href="#extension-bindings-printer">Bindings Printer</a>
 		1. <a href="#extension-bindings-setup">Bindings Setup</a>
@@ -57,12 +59,11 @@
 	3. <a href="#container-events">Container events</a>
 		1. <a href="#binder-events">Binder events</a>
 		2. <a href="#injector-events">Injector events</a>
-11. <a href="#general-notes">General notes</a>
-12. <a href="#binaries">Binaries</a>
-13. <a href="#examples">Examples</a>
-14. <a href="#changelog">Changelog</a>
-15. <a href="#support">Support</a>
-16. <a href="#license">License</a>
+13. <a href="#binaries">Binaries</a>
+14. <a href="#examples">Examples</a>
+15. <a href="#changelog">Changelog</a>
+16. <a href="#support">Support</a>
+17. <a href="#license">License</a>
 
 ## <a id="introduction"></a>Introduction
 
@@ -72,7 +73,7 @@ Based on the proof of concept container from [Sebastiano Mandalà](http://blog.s
 
 The project is compatible with Unity 3D 5 and 4. Tested on Windows/Mac/Linux, Android, iOS, WP10 (IL2CPP), Web Player and WebGL.
 
-Also available in the [Unity Asset Store](https://www.assetstore.unity3d.com/en/#!/content/32157).
+Also available on the [Unity Asset Store](https://www.assetstore.unity3d.com/en/#!/content/32157).
 
 ## <a id="features"></a>Features
 
@@ -619,7 +620,7 @@ namespace MyNamespace {
 
 **Good practice:** post constructor methods can be used as constructors on `MonoBehaviour` components.
 
-**Good practice:** always use non generic methods as post constructors to prevent [`JIT compile method`](http://docs.unity3d.com/Manual/TroubleShootingIPhone.html) exceptions on iOS devices.
+**Good practice:** always use non generic methods as post constructors to prevent [`JIT compile method`](http://docs.unity3d.com/Manual/TroubleShootingIPhone.html) exceptions on [AOT platforms](https://en.wikipedia.org/wiki/Ahead-of-time_compilation) (like iOS and WebGL).
 
 ### <a id="member-injection"></a>Member injection
 
@@ -1621,6 +1622,19 @@ namespace MyNamespace {
 <sup>A *simple resolve* is the resolution of a class without any `Inject` attributes.</sup><br>
 <sup>A *complex resolve* is the resolution of a class that is not bound to the container and has a `Inject` attribute in a field.</sup>
 
+## <a id="il2cpp-aot"></a>IL2CPP, AOT and code stripping
+
+When compiling to [AOT platforms](https://en.wikipedia.org/wiki/Ahead-of-time_compilation) using IL2CPP (like iOS and WebGL), Unity performs *code stripping*, removing any code that is not being used. Although this is useful to reduce build size, it also affects classes that are only instantiated through *Adic*, since they are not created directly. To prevent non-inclusion of these classes, Unity provides the [`Preserve` attribute](http://docs.unity3d.com/ScriptReference/Scripting.PreserveAttribute.html), which should be added to all classes that are only created through the container.
+
+## <a id="general-notes"></a>General notes
+
+1. If an instance is not found, it will be resolved to NULL.
+2. Multiple injections must occur in an array of the desired type.
+3. Order of bindings is controlled by just reordering the bindings during container setup.
+4. Avoid singleton bindings of objects that will be destroyed during execution. This can lead to missing references in the container.
+5. Any transient object, once resolved, is not tracked by *Adic*. So, if you want e.g. a list of all prefabs that were resolved by the container, you'll have to store it manually. Singleton objects are kept inside the container, given there is just a single instance of them.
+6. *Adic* relies on Unity Test Tools for unit testing. You can download it at [Unity Asset Store](https://www.assetstore.unity3d.com/#!/content/13802).
+
 ## <a id="container-extensions"></a>Extensions
 
 Extensions are a way to enhance *Adic* without having to edit it to suit different needs. By using extensions, the core of *Adic* is kept agnostic, so it can be used on any C# environment.
@@ -1869,15 +1883,6 @@ All events are available through `Adic.InjectionContainer`.
 * `bindingResolution`: occures when a binding is resolved to an instance.
 * `beforeInject`: occurs before an instance receives injection.
 * `afterInject`: occurs after an instance receives injection.
-
-## <a id="general-notes">General notes</a>
-
-1. If an instance is not found, it will be resolved to NULL.
-2. Multiple injections must occur in an array of the desired type.
-3. Order of bindings is controlled by just reordering the bindings during container setup.
-4. Avoid singleton bindings of objects that will be destroyed during execution. This can lead to missing references in the container.
-5. Any transient object, once resolved, is not tracked by *Adic*. So, if you want e.g. a list of all prefabs that were resolved by the container, you'll have to store it manually. Singleton objects are kept inside the container, given there is just a single instance of them.
-6. *Adic* relies on Unity Test Tools for unit testing. You can download it at [Unity Asset Store](https://www.assetstore.unity3d.com/#!/content/13802).
 
 ## <a id="binaries"></a>Binaries
 
