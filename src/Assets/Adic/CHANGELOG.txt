@@ -5,6 +5,11 @@
  http://intentor.com.br/
 --------------------------------------------------------------------------------
 
+Version 2.17 (2016-02-12)
+
+Framework
+- Added support for Windows 10 Phone/Universal Apps and WebGL.
+
 Version 2.16.3 (2016-02-01)
 
 Context Root extension
