@@ -23,6 +23,11 @@ src/*.booproj
 
 src/sysinfo.txt
 
+# Windows Phone/Universal builds
+
+src/Assets/WSATest*
+src/UWP/**/*.*
+
 # Vendor
 
 src/Assets/AssetStoreTools*
