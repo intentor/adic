@@ -70,7 +70,7 @@
 
 Based on the proof of concept container from [Sebastiano Mandalà](http://blog.sebaslab.com/ioc-container-for-unity3d-part-1/) and studies of [StrangeIoC](http://strangeioc.github.io/strangeioc/), the intention of the project is to create a dependency injection container that is simple to use and extend, having on its roots the simplicity of the work of Mandalà and the extensibility of StrangeIoC, also borrowing some ideas from the classic [Unity Application Block](https://unity.codeplex.com/).
 
-The project is compatible with Unity 3D 5 and 4 and possibly 3 (not tested) and should work on all available platforms (tested on Windows/Mac/Linux, Android, iOS and Web Player).
+The project is compatible with Unity 3D 5 and 4. Tested on Windows/Mac/Linux, Android, iOS, WP10 (IL2CPP), Web Player and WebGL.
 
 Also available in the [Unity Asset Store](https://www.assetstore.unity3d.com/en/#!/content/32157).
 
@@ -1753,7 +1753,7 @@ Register the extension on any containers that will use it:
 //Create the container.
 this.AddContainer<InjectionContainer>()
 	//Register any extensions the container may use.
-	.RegisterExtension<EventCallerContainerExtension>();
+	.RegisterExtension<EventCallerContainerExtension>();ge
 ```
 
 #### Notes
