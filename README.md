@@ -72,7 +72,7 @@ Based on the proof of concept container from [Sebastiano Mandalà](http://blog.s
 
 The project is compatible with Unity 3D 5 and 4. Tested on Windows/Mac/Linux, Android, iOS, WP10 (IL2CPP), Web Player and WebGL.
 
-Also available in the [Unity Asset Store](https://www.assetstore.unity3d.com/en/#!/content/32157).
+Also available on the [Unity Asset Store](https://www.assetstore.unity3d.com/en/#!/content/32157).
 
 ## <a id="features"></a>Features
 
