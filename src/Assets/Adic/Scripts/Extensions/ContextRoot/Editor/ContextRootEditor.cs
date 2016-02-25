@@ -14,6 +14,8 @@ namespace Adic.Extensions.ContextRoots.Editors {
 	public class ContextRootEditor : Editor {
 		/// <summary>Default context root script execution order time.</summary>
 		protected const int DEFAULT_EXECUTION_ORDER = -100;
+		/// <summary>MonoBehaviour type full qualified name.</summary>
+		protected const string MONO_BEHAVIOUR_TYPE = "UnityEngine.MonoBehaviour";
 
 		/// <summary>Object to be edited.</summary>
 		protected ContextRoot editorItem;
@@ -23,8 +25,11 @@ namespace Adic.Extensions.ContextRoots.Editors {
 		protected void OnEnable() {
 			this.editorItem = (ContextRoot)this.target;
 
-			var customTypes = TypeUtils.GetAssignableTypes(typeof(MonoBehaviour));
 			var customScriptsNames = new List<string>();
+			//The first type is always "UnityEngine.MonoBehaviour".
+			customScriptsNames.Add(MONO_BEHAVIOUR_TYPE);
+
+			var customTypes = TypeUtils.GetAssignableTypes(typeof(MonoBehaviour));
 			foreach (var customType in customTypes) {
 				//Prevent Adic MonoBehaviours from entering the list.
 				if (!customType.FullName.StartsWith("Adic")) {
@@ -32,6 +37,11 @@ namespace Adic.Extensions.ContextRoots.Editors {
 				}
 			}
 			this.customScripts = customScriptsNames.ToArray();
+
+			//Forces the base MonoBehaviour type as base type.
+			if (string.IsNullOrEmpty(this.editorItem.baseBehaviourTypeName)) {
+				this.editorItem.baseBehaviourTypeName = MONO_BEHAVIOUR_TYPE;
+			}
 		}
 
 		public override void OnInspectorGUI() {
@@ -45,12 +55,13 @@ namespace Adic.Extensions.ContextRoots.Editors {
 					this.editorItem.injectionType);
 
 			//Base injection type name.
-			if (this.editorItem.injectionType == ContextRoot.MonoBehaviourInjectionType.BaseType) {
+			if (this.editorItem.injectionType == ContextRoot.MonoBehaviourInjectionType.BaseType ||
+				this.editorItem.injectionType == ContextRoot.MonoBehaviourInjectionType.Children) {
 				var index = Array.IndexOf<string>(this.customScripts, this.editorItem.baseBehaviourTypeName);
 				index = EditorGUILayout.Popup("Base behaviour type", index, this.customScripts);
 				if (index >= 0) this.editorItem.baseBehaviourTypeName = this.customScripts[index];
 			} else {
-				this.editorItem.baseBehaviourTypeName = string.Empty;
+				this.editorItem.baseBehaviourTypeName = MONO_BEHAVIOUR_TYPE;
 			}
 
 			if (EditorGUI.EndChangeCheck()) {

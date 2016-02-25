@@ -10,34 +10,34 @@ namespace Adic.Extensions.ContextRoots {
 	public class SceneInjector : MonoBehaviour {
 		private void Awake() {
 			var contextRoot = this.GetComponent<ContextRoot>();
+			var baseType = (contextRoot.baseBehaviourTypeName == "UnityEngine.MonoBehaviour" ?
+				typeof(MonoBehaviour) : TypeUtils.GetType(contextRoot.baseBehaviourTypeName));
 
 			switch (contextRoot.injectionType) {
 				case ContextRoot.MonoBehaviourInjectionType.Children: {
-					this.InjectOnChildren();
-				}
-				break;
+					this.InjectOnChildren(baseType);
+				} break;
 
 				case ContextRoot.MonoBehaviourInjectionType.BaseType: {
-					var baseType = TypeUtils.GetType(contextRoot.baseBehaviourTypeName);
 					this.InjectFromBaseType(baseType);
-				}
-				break;
+				} break;
 			}
 		}
 
 		/// <summary>
 		/// Performs injection on all children of the current GameObject.
 		/// </summary>
-		public void InjectOnChildren() {
+		/// <param name="baseType">Base type to perform injection.</param>
+		public void InjectOnChildren(Type baseType) {
 			var sceneInjectorType = this.GetType();
-			var components = this.GetComponent<Transform>().GetComponentsInChildren<MonoBehaviour>();
+			var components = this.GetComponent<Transform>().GetComponentsInChildren(baseType, true);
 			foreach (var component in components) {
 				//If the component is a ContextRoot or this component, ignores injection on it.
 				var componentType = component.GetType();
 				if (componentType == sceneInjectorType || 
 					TypeUtils.IsAssignable(typeof(ContextRoot), componentType)) continue;
 				
-				component.Inject();
+				((MonoBehaviour)component).Inject();
 			}
 		}
 

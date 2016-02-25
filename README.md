@@ -821,11 +821,11 @@ It's recommended to use a <a id="base-monobehaviour">base MonoBehaviour</a> to p
 
 ##### Children
 
-The injection is performed only on `MonoBehaviour` added on game objects that are children of the context root. A base behaviour is not required when using this injection type.
+The injection is performed on all `MonoBehaviour` or any `MonoBehaviour` derived type (e.g. a <a id="base-monobehaviour">base `MonoBehaviour`</a>) that are children of the context root.
 
 ##### Base type
 
-The injection is performed on any `MonoBehaviour` that inherits from a given type (e.g. a <a id="base-monobehaviour">base `MonoBehaviour`</a>), throughout the scene.
+The injection is performed on all `MonoBehaviour` or any `MonoBehaviour` derived type (e.g. a <a id="base-monobehaviour">base `MonoBehaviour`</a>) throughout the scene.
 
 #### <a id="injecting-multiple-containers"></a>Injecting from multiple containers
 
