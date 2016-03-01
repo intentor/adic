@@ -1,6 +1,6 @@
 # ![Adic](https://cloud.githubusercontent.com/assets/5340818/6597415/4b95cb42-c7db-11e4-863f-9a284bfab310.png)
 
-***Another* Dependency Injection Container for Unity 3D and beyond**
+***Another* Dependency Injection Container for Unity and beyond**
 
 [![Unity Asset Store](https://cloud.githubusercontent.com/assets/5340818/6855739/9e14c9e0-d3d9-11e4-9171-594941ed056f.png)](https://www.assetstore.unity3d.com/#!/content/32157) [![Donate](https://cloud.githubusercontent.com/assets/5340818/12418027/9434b3ea-be93-11e5-8395-253a3a1aade5.png)](http://donate.intentor.com.br/)
 
@@ -67,11 +67,11 @@
 
 ## <a id="introduction"></a>Introduction
 
-*Adic* is a lightweight dependency injection container for Unity 3D and any C# (or .Net) project.
+*Adic* is a lightweight dependency injection container for Unity and any C# (or .Net) project.
 
 Based on the proof of concept container from [Sebastiano Mandalà](http://blog.sebaslab.com/ioc-container-for-unity3d-part-1/) and studies of [StrangeIoC](http://strangeioc.github.io/strangeioc/), the intention of the project is to create a dependency injection container that is simple to use and extend, having on its roots the simplicity of the work of Mandalà and the extensibility of StrangeIoC, also borrowing some ideas from the classic [Unity Application Block](https://unity.codeplex.com/).
 
-The project is compatible with Unity 3D 5 and 4. Tested on Windows/Mac/Linux, Android, iOS, WP10 (IL2CPP), Web Player and WebGL.
+The project is compatible with Unity 5 and 4. Tested on Windows/Mac/Linux, Android, iOS, WP10 (IL2CPP), Web Player and WebGL.
 
 Also available on the [Unity Asset Store](https://www.assetstore.unity3d.com/en/#!/content/32157).
 
@@ -1709,7 +1709,7 @@ this.AddContainer<InjectionContainer>()
 
 ### <a id="extension-context-root"></a>Context Root
 
-Provides an entry point for the game on Unity 3D.
+Provides an entry point for the game on Unity.
 
 #### Configuration
 
@@ -1807,7 +1807,7 @@ Please see <a id="statemachinebehaviour-injection"></a>StateMachineBehaviour inj
 
 ### <a id="extension-unity-binding"></a>Unity Binding
 
-Provides Unity 3D bindings to the container.
+Provides Unity bindings to the container.
 
 Please see <a href="#bindings">Bindings</a> for more information.
 
