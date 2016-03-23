@@ -1,11 +1,15 @@
---------------------------------------------------------------------------------
- Adic
- Another Dependency Injector Container
- Copyright (c) 2014-2016 Andre "Intentor" Martins
- http://intentor.com.br/
---------------------------------------------------------------------------------
+------------------------------------------------
+Adic
+Another Dependency Injector Container
+Copyright (c) 2014-2016 Andre "Intentor" Martins
+http://intentor.com.br/
+------------------------------------------------
 
-Version 2.18 (2016-0?-??)
+Version 2.18 (2016-03-23)
+
+Bindings Printer Extension
+- Updated rendering to use GUILayout methods.
+- Fix ScrollView when displaying lots of bindings.
 
 Context Root extension
 - Added base type for children injection on scenes.
