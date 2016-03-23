@@ -14,6 +14,7 @@ Bindings Printer Extension
 Context Root extension
 - Added base type for children injection on scenes.
 - Added inactive game objects selection when injecting on children of the root.
+- Fixed making scene dirty when changing values on inspector during Play Mode.
 
 Version 2.17 (2016-02-12)
 

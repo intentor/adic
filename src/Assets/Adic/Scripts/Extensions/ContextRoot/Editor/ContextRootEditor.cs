@@ -64,7 +64,7 @@ namespace Adic.Extensions.ContextRoots.Editors {
 				this.editorItem.baseBehaviourTypeName = MONO_BEHAVIOUR_TYPE;
 			}
 
-			if (EditorGUI.EndChangeCheck()) {
+			if (!Application.isPlaying && EditorGUI.EndChangeCheck()) {
 				EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
 			}
 
