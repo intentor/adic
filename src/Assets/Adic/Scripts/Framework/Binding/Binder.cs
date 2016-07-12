@@ -50,11 +50,13 @@ namespace Adic.Binding {
 
 			//If binding to singleton from other type, binds the singleton first.
 			var valueType = binding.GetValueType();
-			var isSingleton = (binding.instanceType == BindingInstance.Singleton);
-			var isBindingToOtherType = !binding.type.Equals(valueType);
-			var valueTypeBound  = this.typeBindings.ContainsKey(valueType);
-			if (isSingleton && isBindingToOtherType && !valueTypeBound) {
-				this.AddBindingToDictionary(new BindingInfo(valueType, valueType, BindingInstance.Singleton));
+			if (!valueType.Equals(typeof(InjectionContainer))) {
+				var isSingleton = (binding.instanceType == BindingInstance.Singleton);
+				var isBindingToOtherType = !binding.type.Equals(valueType);
+				var valueTypeBound  = this.typeBindings.ContainsKey(valueType);
+				if (isSingleton && isBindingToOtherType && !valueTypeBound) {
+					this.AddBindingToDictionary(new BindingInfo(valueType, valueType, BindingInstance.Singleton));
+				}
 			}
 
 			this.AddBindingToDictionary(binding);
