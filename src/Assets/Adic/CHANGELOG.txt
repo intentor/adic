@@ -5,9 +5,10 @@ Copyright (c) 2014-2016 André "Intentor" Martins
 http://intentor.com.br/
 ------------------------------------------------
 
-Version 2.18.1 (2016-07-XX)
+Version 2.18.1 (2016-07-12)
 
 Event Caller extension
+- Fix adding of already added binding. [Issue #44]
 - Update Time.deltaTime conditional to use Mathf.Approximately instead of direct comparison. [Issue #44]
 
 Version 2.18 (2016-03-23)
