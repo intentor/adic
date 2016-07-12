@@ -47,11 +47,28 @@ namespace Adic.Binding {
 			} else if (binding.value is Type && (binding.value as Type).IsInterface) {
 				throw new BinderException(BinderException.BINDING_TO_INTERFACE);
 			}
-			
+
+			//If binding to singleton from other type, binds the singleton first.
+			var valueType = binding.GetValueType();
+			var isSingleton = (binding.instanceType == BindingInstance.Singleton);
+			var isBindingToOtherType = !binding.type.Equals(valueType);
+			var valueTypeBound  = this.typeBindings.ContainsKey(valueType);
+			if (isSingleton && isBindingToOtherType && !valueTypeBound) {
+				this.AddBindingToDictionary(new BindingInfo(valueType, valueType, BindingInstance.Singleton));
+			}
+
+			this.AddBindingToDictionary(binding);
+		}
+
+		/// <summary>
+		/// Adds the binding to the internal dictionary.
+		/// </summary>
+		/// <param name="binding">The binding to be added.</param>
+		protected void AddBindingToDictionary(BindingInfo binding) {
 			if (this.beforeAddBinding != null) {
 				this.beforeAddBinding(this, ref binding);
 			}
-			
+
 			if (this.typeBindings.ContainsKey(binding.type)) {
 				this.typeBindings[binding.type].Add(binding);
 			} else {
@@ -120,6 +137,35 @@ namespace Adic.Binding {
 			}
 			
 			return bindings;
+		}
+
+		/// <summary>
+		/// Gets the bindings to a given <typeparamref name="T"/>.
+		/// </summary>
+		/// <typeparam name="T">The type to get the bindings from.</typeparam>
+		/// <returns>The bindings to the desired type.</returns>
+		public IList<BindingInfo> GetBindingsTo<T>() {
+			return this.GetBindingsTo(typeof(T));
+		}
+
+		/// <summary>
+		/// Gets the bindings to a given <param name="type">.
+		/// </summary>
+		/// <param name="type">The type to get the bindings from.</param>
+		/// <returns>The bindings to the desired type.</returns>
+		public IList<BindingInfo> GetBindingsTo(Type type) {
+			IList<BindingInfo> bindings = new List<BindingInfo>();
+
+			foreach (var entry in this.typeBindings) {
+				for (var bindingIndex = 0; bindingIndex < entry.Value.Count; bindingIndex++) {
+					var binding = entry.Value[bindingIndex];
+					if (binding.GetValueType().Equals(type)) {
+						bindings.Add(binding);
+					}
+				}
+			}
+
+			return (bindings.Count == 0 ? null : bindings);
 		}
 
 		/// <summary>

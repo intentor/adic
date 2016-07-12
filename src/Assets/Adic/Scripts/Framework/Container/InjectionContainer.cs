@@ -209,6 +209,14 @@ namespace Adic {
 			return this.binder.GetBindingsFor(identifier);
 		}
 
+		public IList<BindingInfo> GetBindingsTo<T>(){
+			return this.binder.GetBindingsTo<T>();
+		}
+
+		public IList<BindingInfo> GetBindingsTo(Type type) {
+			return this.binder.GetBindingsTo(type);
+		}
+
 		public bool ContainsBindingFor<T>() {
 			return this.binder.ContainsBindingFor<T>();
 		}

@@ -37,12 +37,47 @@ namespace Adic.Tests {
 			var binder = new Binder();
 			
 			binder.Bind<IMockInterface>().ToSingleton<MockIClassWithAttributes>();
-			var bindings = binder.GetBindingsFor<IMockInterface>();
-			
-			Assert.AreEqual(1, bindings.Count);
-			Assert.AreEqual(BindingInstance.Singleton, bindings[0].instanceType);
-			Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
-			Assert.AreEqual(typeof(MockIClassWithAttributes), bindings[0].value);
+
+			var bindingsInterface = binder.GetBindingsFor<IMockInterface>();
+			Assert.AreEqual(1, bindingsInterface.Count);
+			Assert.AreEqual(BindingInstance.Singleton, bindingsInterface[0].instanceType);
+			Assert.AreEqual(typeof(IMockInterface), bindingsInterface[0].type);
+			Assert.AreEqual(typeof(MockIClassWithAttributes), bindingsInterface[0].value);
+
+			var bindingsSingleton = binder.GetBindingsFor<MockIClassWithAttributes>();
+			Assert.AreEqual(1, bindingsSingleton.Count);
+			Assert.AreEqual(BindingInstance.Singleton, bindingsSingleton[0].instanceType);
+			Assert.AreEqual(typeof(MockIClassWithAttributes), bindingsSingleton[0].type);
+			Assert.AreEqual(typeof(MockIClassWithAttributes), bindingsSingleton[0].value);
+
+			Assert.AreEqual(bindingsInterface[0].value, bindingsSingleton[0].value);
+		}
+
+		[Test]
+		public void TestBindingInterfacesToSameSingleton() {
+			var binder = new Binder();
+
+			binder.Bind<IMockInterface1>().ToSingleton<MockClassManyInterfaces>();
+			binder.Bind<IMockInterface2>().ToSingleton<MockClassManyInterfaces>();
+			binder.Bind<IMockInterface3>().ToSingleton<MockClassManyInterfaces>();
+
+			var bindingsFor = binder.GetBindingsFor<MockClassManyInterfaces>();
+			Assert.AreEqual(1, bindingsFor.Count);
+			Assert.AreEqual(BindingInstance.Singleton, bindingsFor[0].instanceType);
+			Assert.AreEqual(typeof(MockClassManyInterfaces), bindingsFor[0].value);
+
+			var bindingsTo = binder.GetBindingsTo<MockClassManyInterfaces>();
+			Assert.AreEqual(4, bindingsTo.Count);
+			Assert.AreEqual(BindingInstance.Singleton, bindingsTo[0].instanceType);
+			Assert.AreEqual(BindingInstance.Singleton, bindingsTo[1].instanceType);
+			Assert.AreEqual(BindingInstance.Singleton, bindingsTo[2].instanceType);
+			Assert.AreEqual(BindingInstance.Singleton, bindingsTo[3].instanceType);
+			Assert.AreEqual(bindingsTo[0].value, bindingsTo[1].value);
+			Assert.AreEqual(bindingsTo[0].value, bindingsTo[2].value);
+			Assert.AreEqual(bindingsTo[0].value, bindingsTo[3].value);
+			Assert.AreEqual(bindingsTo[1].value, bindingsTo[2].value);
+			Assert.AreEqual(bindingsTo[1].value, bindingsTo[3].value);
+			Assert.AreEqual(bindingsTo[2].value, bindingsTo[3].value);
 		}
 		
 		[Test]

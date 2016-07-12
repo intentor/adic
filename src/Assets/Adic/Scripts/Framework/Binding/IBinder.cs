@@ -47,6 +47,20 @@ namespace Adic.Binding {
 		/// <param name="identifier">The identifier to get the bindings from.</param>
 		/// <returns>The bindings for the desired type.</returns>
 		IList<BindingInfo> GetBindingsFor(object identifier);
+
+		/// <summary>
+		/// Gets the bindings to a given <typeparamref name="T"/>.
+		/// </summary>
+		/// <typeparam name="T">The type to get the bindings from.</typeparam>
+		/// <returns>The bindings to the desired type.</returns>
+		IList<BindingInfo> GetBindingsTo<T>();
+
+		/// <summary>
+		/// Gets the bindings to a given <param name="type">.
+		/// </summary>
+		/// <param name="type">The type to get the bindings from.</param>
+		/// <returns>The bindings to the desired type.</returns>
+		IList<BindingInfo> GetBindingsTo(Type type);
 		
 		/// <summary>
 		/// Checks whether this binder contains a binding for a given <typeparamref name="T"/>.

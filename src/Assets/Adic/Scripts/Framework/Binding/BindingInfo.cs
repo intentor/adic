@@ -29,6 +29,14 @@ namespace Adic.Binding {
 		}
 
 		/// <summary>
+		/// Gets the type of the value.
+		/// </summary>
+		/// <returns>The value type.</returns>
+		public Type GetValueType() {
+			return (this.value is Type ? (Type)this.value : this.value.GetType());
+		}
+
+		/// <summary>
 		/// Returns a <see cref="System.String"/> that represents the current <see cref="Adic.Binding.BindingInfo"/>.
 		/// </summary>
 		/// <returns>This object to string.</returns>

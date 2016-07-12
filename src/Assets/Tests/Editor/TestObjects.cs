@@ -28,6 +28,36 @@ namespace Adic.Tests {
 		void SomeMethod2();
 		void SomeMethod3();
 	}
+
+	/// <summary>
+	/// Interface 1 for tests with a single method.
+	/// </summary>
+	public interface IMockInterface1 {
+		void Method1();
+	}
+
+	/// <summary>
+	/// Interface 2 for tests with a single method.
+	/// </summary>
+	public interface IMockInterface2 {
+		void Method2();
+	}
+
+	/// <summary>
+	/// Interface 3 for tests with a single method.
+	/// </summary>
+	public interface IMockInterface3 {
+		void Method3();
+	}
+
+	/// <summary>
+	/// Mock class implemeting many interfaces.
+	/// </summary>
+	public class MockClassManyInterfaces : IMockInterface1, IMockInterface2, IMockInterface3 {
+		public void Method1() { }
+		public void Method2() { }
+		public void Method3() { }
+	}
 	
 	/// <summary>
 	/// Test class that is a MonoBehaviour.
