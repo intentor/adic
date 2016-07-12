@@ -11,7 +11,7 @@ namespace Adic {
 		/// </summary>
 		protected void Update() {
 			//It the game is paused, Update is not called.
-			if (Time.deltaTime == 0) return;
+			if (Mathf.Approximately(Time.deltaTime, 0)) return;
 
 			for (var objIndex = 0; objIndex < EventCallerContainerExtension.updateable.Count; objIndex++) {
 				EventCallerContainerExtension.updateable[objIndex].Update();
