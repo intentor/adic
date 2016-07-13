@@ -13,7 +13,7 @@ namespace Adic {
 		/// </summary>
 		ALWAYS_RESOLVE,
 		/// <summary>
-		/// Only resolves types that are bound to the container. Trying to resolve a non bound type will return a
+		/// Only resolves types that are bound to the container. Trying to resolve a non-bound type will return a
 		/// null reference.
 		/// </summary>
 		RETURN_NULL
