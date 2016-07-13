@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adic.Framework", "framework\Adic.Framework.csproj", "{F658C5CD-B885-4B3D-A6EA-224B6FB63802}"
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adic.Extensions", "extensions\Adic.Extensions.csproj", "{B4BF52BD-806E-4F41-AE2E-52FDA2FFF3A9}"
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adic.Editor", "extensions\Adic.Editor.csproj", "{7CA75E90-806D-4F2D-B5A8-C90F65673987}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adic.Extensions", "extensions\Adic.Extensions.csproj", "{B4BF52BD-806E-4F41-AE2E-52FDA2FFF3A9}"
 EndProject

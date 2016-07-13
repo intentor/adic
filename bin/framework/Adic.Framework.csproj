@@ -134,6 +134,9 @@
     <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Injection\Injector.cs">
       <Link>Framework\Injection\Injector.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Injection\ResolutionMode.cs">
+      <Link>Framework\Injection\ResolutionMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Types\IFactory.cs">
       <Link>Framework\Types\IFactory.cs</Link>
     </Compile>
