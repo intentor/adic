@@ -336,7 +336,7 @@ Or a prefab on some `Prefabs/Whatever` resources folder:
 container.Bind<Transform>().ToPrefab("Prefabs/Whatever/MyPrefab");
 ```
 
-And, if needed, non generics versions of bindings' methods are also available:
+And, if needed, non-generics versions of bindings' methods are also available:
 
 ```cs
 container.Bind(someType).To(anotherType);
@@ -621,7 +621,7 @@ namespace MyNamespace {
 
 **Good practice:** post constructor methods can be used as constructors on `MonoBehaviour` components.
 
-**Good practice:** always use non generic methods as post constructors to prevent [`JIT compile method`](http://docs.unity3d.com/Manual/TroubleShootingIPhone.html) exceptions on [AOT platforms](https://en.wikipedia.org/wiki/Ahead-of-time_compilation) (like iOS and WebGL).
+**Good practice:** always use non-generic methods as post constructors to prevent [`JIT compile method`](http://docs.unity3d.com/Manual/TroubleShootingIPhone.html) exceptions on [AOT platforms](https://en.wikipedia.org/wiki/Ahead-of-time_compilation) (like iOS and WebGL).
 
 ### <a id="member-injection"></a>Member injection
 
@@ -993,7 +993,7 @@ See <a href="#extension-event-caller">Event Caller</a> for more information.
 *Adic* provides two instance resolution modes:
 
 1. **ALWAYS_RESOLVE** (default): always try to resolve every type that requires injection, even ones that are not bound to the container.
-2. **RETURN_NULL**: only resolves types that are bound to the container. Trying to resolve a non bound type will return a null reference.
+2. **RETURN_NULL**: only resolves types that are bound to the container. Trying to resolve a non-bound type will return a null reference.
 
 #### Setting a resolution mode
 
