@@ -35,6 +35,7 @@
 	8. <a href="#conditions">Conditions</a>
 	9. <a href="#update">Update</a>
 	10. <a href="#dispose">Dispose</a>
+	11. <a href="#instance-resolution-modes">Instance resolution modes</a>
 	11. <a href="#manual-type-resolution">Manual type resolution</a>
 	12. <a href="#factories">Factories</a>
 	13. <a href="#bindings-setup">Bindings setup</a>
@@ -986,6 +987,24 @@ See <a href="#extension-event-caller">Event Caller</a> for more information.
 When a scene is destroyed, it's possible to have a method that can be called to e.g. free up resources. To do it, implement the `System.IDisposable` interface on any class that you want to have this option.
 
 See <a href="#extension-event-caller">Event Caller</a> for more information.
+
+### <a id="instance-resolution-modes"></a>Instance resolution modes
+
+*Adic* provides two instance resolution modes:
+
+1. **ALWAYS_RESOLVE** (default): always try to resolve every type that requires injection, even ones that are not bound to the container.
+2. **RETURN_NULL**: only resolves types that are bound to the container. Trying to resolve a non bound type will return a null reference.
+
+#### Setting a resolution mode
+
+Instance resolution modes can be configured through the `Adic.InjectionContainer` constructor or by changing the `resolutionMode` property:
+
+```cs
+//Setting a resolution mode through constructor...
+var container = new InjectionContainer(ResolutionMode.RETURN_NULL);
+//...and changing it through property.
+container.resolutionMode = ResolutionMode.ALWAYS_RESOLVE;
+```
 
 ### <a id="manual-type-resolution"></a>Manual type resolution
 

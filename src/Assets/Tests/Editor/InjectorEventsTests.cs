@@ -14,7 +14,7 @@ namespace Adic.Tests {
 
 			IReflectionCache cache = new ReflectionCache();
 			IBinder binder = new Binder();
-			IInjector injector = new Injector(cache, binder);
+			IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
 
 			injector.beforeResolve += delegate(
 				IInjector source,
@@ -48,7 +48,7 @@ namespace Adic.Tests {
 			
 			IReflectionCache cache = new ReflectionCache();
 			IBinder binder = new Binder();
-			IInjector injector = new Injector(cache, binder);
+			IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
 			
 			injector.beforeResolve += delegate(
 				IInjector source,
@@ -84,7 +84,7 @@ namespace Adic.Tests {
 			
 			IReflectionCache cache = new ReflectionCache();
 			IBinder binder = new Binder();
-			IInjector injector = new Injector(cache, binder);
+			IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
 			IMockInterface resolvedInstance = null;
 			
 			injector.afterResolve += delegate(IInjector source,
@@ -120,7 +120,7 @@ namespace Adic.Tests {
 			
 			IReflectionCache cache = new ReflectionCache();
 			IBinder binder = new Binder();
-			IInjector injector = new Injector(cache, binder);
+			IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
 
 			injector.bindingEvaluation += delegate(IInjector source, ref BindingInfo binding) {
 				Assert.AreEqual(injector, source);
@@ -144,7 +144,7 @@ namespace Adic.Tests {
 			
 			IReflectionCache cache = new ReflectionCache();
 			IBinder binder = new Binder();
-			IInjector injector = new Injector(cache, binder);
+			IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
 			var instanceToInject = new MockClassVerySimple();
 
 			injector.beforeInject += delegate(IInjector source, ref object instance, ReflectedClass reflectedClass) {
@@ -171,7 +171,7 @@ namespace Adic.Tests {
 			
 			IReflectionCache cache = new ReflectionCache();
 			IBinder binder = new Binder();
-			IInjector injector = new Injector(cache, binder);
+			IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
 			var instanceToInject = new MockClassVerySimple();
 			
 			injector.afterInject += delegate(IInjector source, ref object instance, ReflectedClass reflectedClass) {

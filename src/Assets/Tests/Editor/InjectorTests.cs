@@ -266,5 +266,24 @@ namespace Adic.Tests {
 			Assert.AreEqual(typeof(MockClassToDepend), instance.propertyMock2.GetType());
 			Assert.AreEqual("MockClass3", instance.propertyMock1.property1);
 		}
+
+		[Test]
+		public void TestResolutionModeReturnNullBound() {
+			var container = new InjectionContainer(ResolutionMode.ALWAYS_RESOLVE);
+			container.Bind<IMockInterface1>().ToSingleton<MockClassManyInterfaces>();
+
+			var instance = container.Resolve<IMockInterface1>();
+
+			Assert.NotNull(instance);
+		}
+
+		[Test]
+		public void TestResolutionModeReturnNullNotBound() {
+			var container = new InjectionContainer(ResolutionMode.RETURN_NULL);
+
+			var instance = container.Resolve<MockClassManyInterfaces>();
+
+			Assert.IsNull(instance);
+		}
 	}
 }

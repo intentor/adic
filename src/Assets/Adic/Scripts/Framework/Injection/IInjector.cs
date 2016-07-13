@@ -17,6 +17,9 @@ namespace Adic.Injection {
 		event InstanceInjectionHandler beforeInject;
 		/// <summary>Occurs after an instance receives injection.</summary>
 		event InstanceInjectionHandler afterInject;
+
+		/// <summary>Instance resolution mode.</summary>
+		ResolutionMode resolutionMode { get; set; }
 		
 		/// <summary>
 		/// Resolves an instance for a specified type.

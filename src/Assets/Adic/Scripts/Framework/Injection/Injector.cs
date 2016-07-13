@@ -26,15 +26,18 @@ namespace Adic.Injection {
 		public IReflectionCache cache { get; protected set; }
 		/// <summary>Binder used to resolved bindings.</summary>
 		public IBinder binder { get; protected set; }
+		/// <summary>Instance resolution mode.</summary>
+		public ResolutionMode resolutionMode { get; set; }
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectorBinder"/> class.
 		/// </summary>
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		/// <param name="binder">Binder used to resolved bindings.</param>
-		public Injector(IReflectionCache cache, IBinder binder) {
+		public Injector(IReflectionCache cache, IBinder binder, ResolutionMode resolutionMode) {
 			this.cache = cache;
 			this.binder = binder;
+			this.resolutionMode = resolutionMode;
 
 			this.binder.beforeAddBinding += this.OnBeforeAddBinding;
 		}
@@ -224,7 +227,11 @@ namespace Adic.Injection {
 			IList<object> instances = new List<object>();
 
 			if (bindings == null) {
-				instances.Add(this.Instantiate(type as Type));
+				if (this.resolutionMode == ResolutionMode.ALWAYS_RESOLVE) {
+					instances.Add(this.Instantiate(type as Type));
+				} else {
+					return null;
+				}
 			} else {
 				for (int bindingIndex = 0; bindingIndex < bindings.Count; bindingIndex++) {
 					var binding = bindings[bindingIndex];

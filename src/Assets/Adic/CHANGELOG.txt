@@ -8,6 +8,7 @@ http://intentor.com.br/
 Version 2.18.1 (2016-07-12)
 
 Framework
+- Add instance resolution mode, so it's possible to return null on types that are not bound to the container. [Resolves #46]
 - Fix singleton instances being created for each binding type. [Issue #44]
 
 Event Caller extension

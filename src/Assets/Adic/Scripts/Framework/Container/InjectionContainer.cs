@@ -14,6 +14,9 @@ namespace Adic {
 	/// and allows the use of extensions to provide new functionalities.
 	/// </summary>
 	public class InjectionContainer : Injector, IInjectionContainer  {
+		/// <summary>Default instance resolution mode.</summary>
+		protected const ResolutionMode DEFAULT_RESOLUTION_MODE = ResolutionMode.ALWAYS_RESOLVE;
+
 		/// <summary>Container identifier.</summary>
 		public object identifier { get; private set; }
 
@@ -26,7 +29,8 @@ namespace Adic {
 		/// <remarks>
 		/// When passing no parameters to the constructor, default internal objects are created.
 		/// </remarks>
-		public InjectionContainer() : base(new ReflectionCache(), new Binder()) {
+		public InjectionContainer() 
+			: base(new ReflectionCache(), new Binder(), DEFAULT_RESOLUTION_MODE) {
 			this.RegisterItself();
 		}
 		
@@ -37,11 +41,12 @@ namespace Adic {
 		/// When passing no parameters to the constructor, default internal objects are created.
 		/// </remarks>
 		/// <param name="identifier">Container identifier.</param>
-		public InjectionContainer(object identifier) : base(new ReflectionCache(), new Binder()) {
+		public InjectionContainer(object identifier) 
+			: base(new ReflectionCache(), new Binder(), DEFAULT_RESOLUTION_MODE) {
 			this.identifier = identifier;
 			this.RegisterItself();
 		}
-		
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
 		/// </summary>
@@ -50,7 +55,18 @@ namespace Adic {
 		/// Default binder and injector objects are created.
 		/// </remarks>
 		/// <param name="cache">Reflection cache used to get type info.</param>
-		public InjectionContainer(IReflectionCache cache) : base(cache, new Binder()) {			
+		public InjectionContainer(IReflectionCache cache) 
+			: base(cache, new Binder(), DEFAULT_RESOLUTION_MODE) {			
+			this.RegisterItself();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
+		/// </summary>
+		/// <remarks>
+		/// <param name="resolutionMode">Instance resolution mode.</param>
+		public InjectionContainer(ResolutionMode resolutionMode) 
+			: base(new ReflectionCache(), new Binder(), resolutionMode) {
 			this.RegisterItself();
 		}
 		
@@ -63,8 +79,23 @@ namespace Adic {
 		/// </remarks>
 		/// <param name="identifier">Container identifier.</param>
 		/// <param name="cache">Reflection cache used to get type info.</param>
-		public InjectionContainer(object identifier, IReflectionCache cache) : base(cache, new Binder()) {	
+		public InjectionContainer(object identifier, IReflectionCache cache)
+			: base(cache, new Binder(), DEFAULT_RESOLUTION_MODE) {
 			this.identifier = identifier;
+			this.RegisterItself();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
+		/// </summary>
+		/// <remarks>
+		/// <remarks>
+		/// Default binder and injector objects are created.
+		/// </remarks>
+		/// <param name="cache">Reflection cache used to get type info.</param>
+		/// <param name="resolutionMode">Instance resolution mode.</param>
+		public InjectionContainer(IReflectionCache cache, ResolutionMode resolutionMode) 
+			: base(cache, new Binder(), resolutionMode) {			
 			this.RegisterItself();
 		}
 
@@ -74,7 +105,34 @@ namespace Adic {
 		/// <remarks>
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		/// <param name="binder">Binder to be used on the container.</param>
-		public InjectionContainer(IReflectionCache cache, IBinder binder) : base(cache, binder) {
+		public InjectionContainer(IReflectionCache cache, IBinder binder) 
+			: base(cache, binder, DEFAULT_RESOLUTION_MODE) {
+			this.RegisterItself();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
+		/// </summary>
+		/// <remarks>
+		/// <param name="identifier">Container identifier.</param>
+		/// <param name="cache">Reflection cache used to get type info.</param>
+		/// <param name="binder">Binder to be used on the container.</param>
+		public InjectionContainer(object identifier, IReflectionCache cache, IBinder binder) 
+			: base(cache, binder, DEFAULT_RESOLUTION_MODE) {
+			this.identifier = identifier;
+			this.RegisterItself();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
+		/// </summary>
+		/// <remarks>
+		/// <param name="identifier">Container identifier.</param>
+		/// <param name="cache">Reflection cache used to get type info.</param>
+		/// <param name="resolutionMode">Instance resolution mode.</param>
+		public InjectionContainer(object identifier, IReflectionCache cache, ResolutionMode resolutionMode) 
+			: base(cache, new Binder(), resolutionMode) {
+			this.identifier = identifier;
 			this.RegisterItself();
 		}
 		
@@ -85,7 +143,9 @@ namespace Adic {
 		/// <param name="identifier">Container identifier.</param>
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		/// <param name="binder">Binder to be used on the container.</param>
-		public InjectionContainer(object identifier, IReflectionCache cache, IBinder binder) : base(cache, binder) {	
+		/// <param name="resolutionMode">Instance resolution mode.</param>
+		public InjectionContainer(object identifier, IReflectionCache cache, IBinder binder, 
+			ResolutionMode resolutionMode) : base(cache, binder, resolutionMode) {	
 			this.identifier = identifier;
 			this.RegisterItself();
 		}
