@@ -13,7 +13,7 @@ Event Caller extension
 Version 2.19 (2016-07-12)
 
 Framework
-- Add instance resolution mode, so it's possible to return null on types that are not bound to the container. [Resolves #46]
+- Add instance resolution mode, so it's possible to return null on types that are not bound to the container. [Issue #46]
 - Fix singleton instances being created for each binding type. [Issue #44]
 
 Event Caller extension
