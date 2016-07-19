@@ -88,10 +88,10 @@ namespace Adic {
 			//Do not add commands.
 			if (binding.instanceType == BindingInstance.Singleton || instance is ICommand) return;
 
-			if (instance is IDisposable && !disposable.Contains((IDisposable)binding.value)) {
+			if (instance is IDisposable && !disposable.Contains((IDisposable)instance)) {
 				disposable.Add((IDisposable)instance);
 			}
-			if (instance is IUpdatable && !updateable.Contains((IUpdatable)binding.value)) {
+			if (instance is IUpdatable && !updateable.Contains((IUpdatable)instance)) {
 				updateable.Add((IUpdatable)instance);
 			}
 		}
