@@ -229,16 +229,27 @@ namespace Adic.Binding {
 		public void Unbind(Type type) {
 			if (!this.ContainsBindingFor(type)) return;
 
-			var bindings = this.GetBindingsFor(type);
+			IList<BindingInfo> bindings = new List<BindingInfo>();
+			IList<Type> keys = new List<Type>();
 
-
+			foreach (var entry in this.typeBindings) {
+				for (var bindingIndex = 0; bindingIndex < entry.Value.Count; bindingIndex++) {
+					var binding = entry.Value[bindingIndex];
+					if (binding.type.Equals(type) || binding.GetValueType().Equals(type)) {
+						bindings.Add(binding);
+						keys.Add(entry.Key);
+					}
+				}
+			}
 
 			if (this.beforeRemoveBinding != null) {
 				this.beforeRemoveBinding(this, type, bindings);
 			}
 
-			this.typeBindings.Remove(type);
-			
+			foreach (var key in keys) {
+				this.typeBindings.Remove(key);
+			}
+
 			if (this.afterRemoveBinding != null) {
 				this.afterRemoveBinding(this, type, bindings);
 			}
