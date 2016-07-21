@@ -311,10 +311,9 @@ namespace Adic.Injection {
 			if (reflectedClass.properties.Length > 0) {
 				this.InjectProperties(instance, reflectedClass.properties);
 			}
-			
-			//Call post constructors, if there's any.
-			if (reflectedClass.postConstructors.Length > 0) {
-				this.InjectPostConstructors(instance, reflectedClass.postConstructors);
+
+			if (reflectedClass.methods.Length > 0) {
+				this.InjectMethods(instance, reflectedClass.methods);
 			}
 
 			if (this.afterInject != null) {
@@ -351,19 +350,19 @@ namespace Adic.Injection {
 		}
 		
 		/// <summary>
-		/// Injects on post constructors.
+		/// Injects on methods.
 		/// </summary>
 		/// <param name="instance">The instance to have its dependencies resolved.</param>
-		/// <param name="postConstructors">Methods that have the PostConstruct attribute.</param>
-		protected void InjectPostConstructors(object instance, PostConstructorInfo[] postConstructors) {
-			for (int constIndex = 0; constIndex < postConstructors.Length; constIndex++) {
-				var method = postConstructors[constIndex];
+		/// <param name="methods">Methods that have the Inject attribute.</param>
+		protected void InjectMethods(object instance, MethodInfo[] methods) {
+			for (int constIndex = 0; constIndex < methods.Length; constIndex++) {
+				var method = methods[constIndex];
 
 				if (method.parameters.Length == 0) {
-					method.postConstructor(instance);
+					method.method(instance);
 				} else {
 					object[] parameters = this.GetParametersFromInfo(instance, method.parameters);
-					method.paramsPostConstructor(instance, parameters);
+					method.paramsMethod(instance, parameters);
 				}
 			}
 		}

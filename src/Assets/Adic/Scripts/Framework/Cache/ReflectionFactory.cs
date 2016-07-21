@@ -28,7 +28,7 @@ namespace Adic.Cache {
 			}
 
 			reflectedClass.constructorParameters = this.ResolveConstructorParameters(constructor);
-			reflectedClass.postConstructors = this.ResolvePostConstructors(type);
+			reflectedClass.methods = this.ResolveMethods(type);
 			reflectedClass.properties = this.ResolveProperties(type);
 			reflectedClass.fields = this.ResolveFields(type);
 
@@ -36,11 +36,11 @@ namespace Adic.Cache {
 		}
 		
 		/// <summary>
-		/// Selects the constructor marked with <see cref="ConstructAttribute"/>
-		/// or with the minimum amount of parameters.
+		/// Selects the constructor marked with <see cref="InjectAttribute"/> or with the minimum amount of parameters.
 		/// </summary>
 		/// <param name="type">Type from which reflection will be resolved.</param>
 		/// <returns>The constructor.</returns>
+		#pragma warning disable 0618
 		protected ConstructorInfo ResolveConstructor(Type type) {
 			var constructors = type.GetConstructors(
 				BindingFlags.FlattenHierarchy | 
@@ -60,9 +60,11 @@ namespace Adic.Cache {
 			for (int i = 0, length = 0, shortestLength = int.MaxValue; i < constructors.Length; i++) {
 				var constructor = constructors[i];
 
-				object[] attributes = constructor.GetCustomAttributes(typeof(Construct), true);
+				//Construct attribute will be removed on future version.
+				var attributesConstruct = constructor.GetCustomAttributes(typeof(Construct), true);
+				var attributesInject = constructor.GetCustomAttributes(typeof(Inject), true);
 
-				if (attributes.Length > 0) {
+				if (attributesConstruct.Length > 0 || attributesInject.Length > 0) {
 					return constructor;
 				}
 
@@ -103,11 +105,12 @@ namespace Adic.Cache {
 		}
 
 		/// <summary>
-		/// Resolves the post constructors for the type.
+		/// Resolves the methods that can be injected.
 		/// </summary>
-		/// <returns>The post constructors.</returns>
-		protected PostConstructorInfo[] ResolvePostConstructors(Type type) {
-			var postConstructors = new List<PostConstructorInfo>();
+		/// <returns>The methods with Inject attributes.</returns>
+		#pragma warning disable 0618
+		protected MethodInfo[] ResolveMethods(Type type) {
+			var methodCalls = new List<MethodInfo>();
 
 			var methods = type.GetMethods(BindingFlags.FlattenHierarchy |
 				BindingFlags.Public |
@@ -116,12 +119,15 @@ namespace Adic.Cache {
 
 			for (int methodIndex = 0; methodIndex < methods.Length; methodIndex++) {
 				var method = methods[methodIndex];
+				
+				//PostConstruct attribute will be removed on future version.
+				var attributesPostConstruct = method.GetCustomAttributes(typeof(PostConstruct), true);
+				var attributesInject = method.GetCustomAttributes(typeof(Inject), true);
 
-				var attributes = method.GetCustomAttributes(typeof(PostConstruct), true);
-				if (attributes.Length > 0) {
+				if (attributesPostConstruct.Length > 0 || attributesInject.Length > 0) {
 					var parameters = method.GetParameters();
-					var postConstructorParameters = new ParameterInfo[parameters.Length];
-					for (int paramIndex = 0; paramIndex < postConstructorParameters.Length; paramIndex++) {
+					var methodParameters = new ParameterInfo[parameters.Length];
+					for (int paramIndex = 0; paramIndex < methodParameters.Length; paramIndex++) {
 						object identifier = null;
 						var parameter = parameters[paramIndex];
 						
@@ -130,22 +136,22 @@ namespace Adic.Cache {
 							identifier = (parameterAttributes[0] as Inject).identifier;
 						}
 						
-						postConstructorParameters[paramIndex] = new ParameterInfo(parameter.ParameterType, identifier);
+						methodParameters[paramIndex] = new ParameterInfo(parameter.ParameterType, identifier);
 					}
 
-					var postConstructor = new PostConstructorInfo(postConstructorParameters);
+					var methodCall = new MethodInfo(methodParameters);
 
-					if (postConstructorParameters.Length == 0) {
-						postConstructor.postConstructor = MethodUtils.CreateParameterlessMethod(type, method);
+					if (methodParameters.Length == 0) {
+						methodCall.method = MethodUtils.CreateParameterlessMethod(type, method);
 					} else {
-						postConstructor.paramsPostConstructor = MethodUtils.CreateParameterizedMethod(type, method);
+						methodCall.paramsMethod = MethodUtils.CreateParameterizedMethod(type, method);
 					}
 
-					postConstructors.Add(postConstructor);
+					methodCalls.Add(methodCall);
 				}
 			}
 
-			return postConstructors.ToArray();
+			return methodCalls.ToArray();
 		}
 
 		/// <summary>

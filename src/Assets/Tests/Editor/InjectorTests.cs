@@ -239,19 +239,19 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
-		public void TestCallPostConstruct() {
-			var instance = new MockClassWithPostConstruct();
+		public void TestCallMethodInject() {
+			var instance = new MockClassParameterlessMethodInject();
 
-			instance = this.injector.Inject<MockClassWithPostConstruct>(instance);
+			instance = this.injector.Inject<MockClassParameterlessMethodInject>(instance);
 			
-			Assert.IsTrue(instance.hasCalledPostConstructor);
+			Assert.IsTrue(instance.hasCalledMethod);
 		}
 
 		[Test]
-		public void TestInjectPostConstruct() {
-			var instance = new MockClassWithPostConstructInject();
+		public void TestInjectMethodInject() {
+			var instance = new MockClassParametersMethodInject();
 			
-			instance = this.containerIdentifierTests.Inject<MockClassWithPostConstructInject>(instance);
+			instance = this.containerIdentifierTests.Inject<MockClassParametersMethodInject>(instance);
 			
 			Assert.AreEqual(typeof(MockIClassWithAttributes), instance.propertyMock1.GetType());
 			Assert.AreEqual(typeof(MockClassToDepend), instance.propertyMock2.GetType());
@@ -259,12 +259,43 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
-		public void TestResolvePostConstruct() {
-			var instance = this.containerIdentifierTests.Resolve<MockClassWithPostConstructInject>();
+		public void TestResolveMethodInject() {
+			var instance = this.containerIdentifierTests.Resolve<MockClassParametersMethodInject>();
 			
 			Assert.AreEqual(typeof(MockIClassWithAttributes), instance.propertyMock1.GetType());
 			Assert.AreEqual(typeof(MockClassToDepend), instance.propertyMock2.GetType());
 			Assert.AreEqual("MockClass3", instance.propertyMock1.property1);
+		}
+
+		[Test]
+		public void TestCallMultipleMethodInject() {
+			var instance = new MockClassMultipleMethodInject();
+
+			instance = this.injector.Inject<MockClassMultipleMethodInject>(instance);
+
+			Assert.IsTrue(instance.calledMethod1);
+			Assert.IsTrue(instance.calledMethod2);
+			Assert.IsTrue(instance.calledMethod3);
+		}
+
+		[Test]
+		public void TestInjectMultipleMethodInject() {
+			var instance = new MockClassMultipleMethodInject();
+
+			instance = this.containerIdentifierTests.Inject<MockClassMultipleMethodInject>(instance);
+
+			Assert.IsTrue(instance.calledMethod1);
+			Assert.IsTrue(instance.calledMethod2);
+			Assert.IsTrue(instance.calledMethod3);
+		}
+
+		[Test]
+		public void TestResolveMultipleMethodInject() {
+			var instance = this.containerIdentifierTests.Resolve<MockClassMultipleMethodInject>();
+
+			Assert.IsTrue(instance.calledMethod1);
+			Assert.IsTrue(instance.calledMethod2);
+			Assert.IsTrue(instance.calledMethod3);
 		}
 
 		[Test]

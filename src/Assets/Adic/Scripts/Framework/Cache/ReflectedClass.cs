@@ -11,13 +11,13 @@ namespace Adic.Cache {
 		/// <summary>The type the reflected class represents.</summary>
 		public Type type { get; set; }
 		/// <summary>The parameterless constructor of the class.</summary>
-		public Constructor constructor { get; set; }
+		public ConstructorCall constructor { get; set; }
 		/// <summary>The constructor with parameters of the class.</summary>
-		public ParamsConstructor paramsConstructor { get; set; }
+		public ParamsConstructorCall paramsConstructor { get; set; }
 		/// <summary>Constructor parameters' infos.</summary>
 		public ParameterInfo[] constructorParameters { get; set; }
-		/// <summary>Methods that have the PostConstruct attribute.</summary>
-		public PostConstructorInfo[] postConstructors { get; set; }
+		/// <summary>Methods that have the Inject attribute.</summary>
+		public MethodInfo[] methods { get; set; }
 		/// <summary>Public properties of the type that can receive injection.</summary>
 		public SetterInfo[] properties { get; set; }
 		/// <summary>Public fields of the type that can receive injection.</summary>

@@ -18,7 +18,7 @@ namespace Adic.Util {
 		/// <param name="type">Object type.</param>
 		/// <param name="constructor">Constructor info used to create the function.</param>
 		/// <returns>The object constructor.</returns>
-		public static Constructor CreateConstructor(Type type, ConstructorInfo constructor) {
+		public static ConstructorCall CreateConstructor(Type type, ConstructorInfo constructor) {
 			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_WEBGL
 
             return () => {
@@ -31,7 +31,7 @@ namespace Adic.Util {
 			ILGenerator generator = method.GetILGenerator();
 			generator.Emit(OpCodes.Newobj, constructor);
 			generator.Emit(OpCodes.Ret);
-			return (Constructor)method.CreateDelegate(typeof(Constructor));
+			return (ConstructorCall)method.CreateDelegate(typeof(ConstructorCall));
 
 			#endif
 		}
@@ -42,7 +42,7 @@ namespace Adic.Util {
 		/// <param name="type">Object type.</param>
 		/// <param name="constructor">Constructor info used to create the function.</param>
 		/// <returns>The object constructor.</returns>
-		public static ParamsConstructor CreateConstructorWithParams(Type type, ConstructorInfo constructor) {
+		public static ParamsConstructorCall CreateConstructorWithParams(Type type, ConstructorInfo constructor) {
 			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_WEBGL
 
             return (object[] parameters) => {
@@ -83,7 +83,7 @@ namespace Adic.Util {
 			
 			generator.Emit(OpCodes.Newobj, constructor);
 			generator.Emit(OpCodes.Ret);
-			return (ParamsConstructor)method.CreateDelegate(typeof(ParamsConstructor));
+			return (ParamsConstructorCall)method.CreateDelegate(typeof(ParamsConstructorCall));
 			
 			#endif
 		}
@@ -94,7 +94,7 @@ namespace Adic.Util {
 		/// <param name="type">Object type.</param>
 		/// <param name="fieldInfo">Field info object.</param>
 		/// <returns>The field setter.</returns>
-		public static Setter CreateFieldSetter(Type type, FieldInfo fieldInfo) {
+		public static SetterCall CreateFieldSetter(Type type, FieldInfo fieldInfo) {
 			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_WEBGL
 
             return (object instance, object value) => fieldInfo.SetValue(instance, value);
@@ -110,7 +110,7 @@ namespace Adic.Util {
 			generator.Emit(OpCodes.Stfld, fieldInfo);
 			generator.Emit(OpCodes.Ret);
 			
-			return (Setter)setMethod.CreateDelegate(typeof(Setter));
+			return (SetterCall)setMethod.CreateDelegate(typeof(SetterCall));
 			
 			#endif
 		}
@@ -121,7 +121,7 @@ namespace Adic.Util {
 		/// <param name="type">Object type.</param>
 		/// <param name="propertyInfo">Property info object.</param>
 		/// <returns>The property setter.</returns>
-		public static Setter CreatePropertySetter(Type type, PropertyInfo propertyInfo) {
+		public static SetterCall CreatePropertySetter(Type type, PropertyInfo propertyInfo) {
 			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_WEBGL
 
             return (object instance, object value) => propertyInfo.SetValue(instance, value, null);
@@ -139,7 +139,7 @@ namespace Adic.Util {
 			generator.Emit(OpCodes.Callvirt, propertySetMethod);
 			generator.Emit(OpCodes.Ret);
 			
-			return (Setter)method.CreateDelegate(typeof(Setter));
+			return (SetterCall)method.CreateDelegate(typeof(SetterCall));
 			
 			#endif
 		}
@@ -150,7 +150,7 @@ namespace Adic.Util {
 		/// <param name="type">Object type.</param>
 		/// <param name="methodInfo">Method info object.</param>
 		/// <returns>The method caller.</returns>
-		public static PostConstructor CreateParameterlessMethod(Type type, MethodInfo methodInfo) {
+		public static MethodCall CreateParameterlessMethod(Type type, MethodInfo methodInfo) {
 			#if UNITY_IOS || UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_WEBGL
 
             return (object instance) => methodInfo.Invoke(instance, null);
@@ -165,7 +165,7 @@ namespace Adic.Util {
 			generator.Emit(OpCodes.Callvirt, methodInfo);
 			generator.Emit(OpCodes.Ret);
 			
-			return (PostConstructor)method.CreateDelegate(typeof(PostConstructor));
+			return (MethodCall)method.CreateDelegate(typeof(MethodCall));
 			
 			#endif
 		}
@@ -176,7 +176,7 @@ namespace Adic.Util {
 		/// <param name="type">Object type.</param>
 		/// <param name="methodInfo">Method info object.</param>
 		/// <returns>The method caller.</returns>
-		public static ParamsPostConstructor CreateParameterizedMethod(Type type, MethodInfo methodInfo) {
+		public static ParamsMethodCall CreateParameterizedMethod(Type type, MethodInfo methodInfo) {
 			return (object instance, object[] parameters) => methodInfo.Invoke(instance, parameters);
 		}
 	}

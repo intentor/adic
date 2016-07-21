@@ -125,7 +125,7 @@ namespace Adic.Tests {
 	}
 
 	/// <summary>
-	/// Test class that implements IMockInterface without a Construct attribute.
+	/// Test class that implements IMockInterface without Inject attributes.
 	/// </summary>
 	public class MockIClassWithoutAttributes : IMockInterface {
 		public string property1 { get; set; }
@@ -144,7 +144,7 @@ namespace Adic.Tests {
 	}
 
 	/// <summary>
-	/// Test class that implements IMockInterface with a Construct attribute and all the other.
+	/// Test class that implements IMockInterface with Inject attributes.
 	/// </summary>
 	public class MockIClassWithAttributes : IMockInterface {
 		public string field1;
@@ -160,11 +160,11 @@ namespace Adic.Tests {
 		public MockClassToDepend property4 { get; set; }
 		
 		public MockIClassWithAttributes() { }
-		[Construct]
+		[Inject]
 		public MockIClassWithAttributes(MockClassToDepend dependency) { }
-		
+
 		public void SomeMethod1() { }		
-		[PostConstruct]
+		[Inject]
 		public void SomeMethod2() { }
 		public void SomeMethod3() { }
 	}
@@ -185,41 +185,65 @@ namespace Adic.Tests {
 		public MockClassToDepend dependencyFromConstructor { get; set; }
 
 		public MockClassWithDependencies() { }
-		[Construct]
+		[Inject]
 		public MockClassWithDependencies(MockClassToDepend dependency) {
 			this.dependencyFromConstructor = dependency;
 		}
 	}
 
 	/// <summary>
-	/// Mock class with a post construct.
+	/// Mock class with a parameterless method inject.
 	/// </summary>
-	public class MockClassWithPostConstruct {
+	public class MockClassParameterlessMethodInject {
 		[Inject]
 		public IMockInterface propertyMockInterface { get; set; }
-		public bool hasCalledPostConstructor { get; set; }
+		public bool hasCalledMethod { get; set; }
 
-		public MockClassWithPostConstruct() {
-			this.hasCalledPostConstructor = false;
+		public MockClassParameterlessMethodInject() {
+			this.hasCalledMethod = false;
 		}
 		
-		[PostConstruct]
+		[Inject]
 		protected void PostConstructor() {
-			this.hasCalledPostConstructor = true;
+			this.hasCalledMethod = true;
 		}
 	}
 	
 	/// <summary>
-	/// Mock class with a post construct inject.
+	/// Mock class with a parameterized method inject.
 	/// </summary>
-	public class MockClassWithPostConstructInject {
+	public class MockClassParametersMethodInject {
 		public IMockInterface propertyMock1 { get; set; }
 		public MockClassToDepend propertyMock2 { get; set; }
 		
-		[PostConstruct]
+		[Inject]
 		protected void PostConstructor([Inject(TestIdentifier.MockClass3)] IMockInterface mock1, MockClassToDepend mock2) {
 			this.propertyMock1 = mock1;
 			this.propertyMock2 = mock2;
+		}
+	}
+
+	/// <summary>
+	/// Mock class with multiple method injection.
+	/// </summary>
+	public class MockClassMultipleMethodInject {
+		public bool calledMethod1 { get; set; }
+		public bool calledMethod2 { get; set; }
+		public bool calledMethod3 { get; set; }
+
+		[Inject]
+		protected void Method1() {
+			this.calledMethod1 = true;
+		}
+
+		[Inject]
+		protected void Method2() {
+			this.calledMethod2 = true;
+		}
+
+		[Inject]
+		protected void Method3() {
+			this.calledMethod3 = true;
 		}
 	}
 

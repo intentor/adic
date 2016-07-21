@@ -16,10 +16,10 @@ namespace Adic.Examples.Prefabs {
 		/// <summary>
 		/// Called after all injections.
 		/// </summary>
-		[PostConstruct]
-		protected void PostConstruct() {
+		[Inject]
+		protected void MethodInjection() {
 			//Setup some messages.
-			this.messages = string.Concat(this.messages, "PostConstruct called.", System.Environment.NewLine);
+			this.messages = string.Concat(this.messages, "MethodInjection called.", System.Environment.NewLine);
 			var cubeInjected = (this.cube == null ? "No..." : "Yes!");
 			this.messages = string.Concat(this.messages, "Cube injected? " + cubeInjected, System.Environment.NewLine);
 		}

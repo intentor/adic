@@ -39,7 +39,7 @@ namespace Adic.Tests {
 			var factory = new ReflectionFactory();			
 			var reflectedClass = factory.Create(typeof(MockIClassWithAttributes));
 
-			Assert.AreEqual(1, reflectedClass.postConstructors.Length);
+			Assert.AreEqual(1, reflectedClass.methods.Length);
 		}
 		
 		[Test]
