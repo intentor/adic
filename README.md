@@ -228,7 +228,7 @@ The structure of *Adic* is divided into five parts:
 
 *Adic* is organized internally into different namespaces that represents the framework components. However, the commonly used components are under `Adic` namespace:
 
-1. Attributes (`Inject`, `Construct`, `PostConstruct`);
+1. `Inject` attribute;
 2. `InjectionContainer`;
 3. `IFactory`;
 4. Extensions (like `ContextRoot` and `UnityBinding`).
@@ -661,7 +661,7 @@ namespace MyNamespace {
 
 ### <a id="multiple-constructors"></a>Multiple constructors
 
-In case you have multiple constructors, it's possible to indicate to *Adic* which one should be used by decorating it with the `Construct` attribute:
+In case you have multiple constructors, it's possible to indicate to *Adic* which one should be used by decorating it with the `Inject` attribute:
 
 ```cs
 namespace MyNamespace {
@@ -680,7 +680,7 @@ namespace MyNamespace {
 		/// Class constructor.
 		/// </summary>
 		/// <param name="parameterName">Parameter description</param>
-		[Construct]
+		[Inject]
 		public MyClass(Type parameterName) {
 			...
 		}
@@ -1941,7 +1941,7 @@ Exemplifies the use of condition identifiers on injections.
 
 ### 4. Prefabs
 
-Exemplifies how to bind to prefabs and the use of `PostConstruct` as a second constructor.
+Exemplifies how to bind to prefabs and the use of method injection as a second constructor.
 
 ### 5. Commander
 
