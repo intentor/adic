@@ -57,17 +57,13 @@ namespace Adic.Extenstions.BindingsPrinter {
 
 				GUILayout.Space(20f);
 				GUILayout.Label("CONTAINER", EditorStyles.containerInfo);
-				GUILayout.FlexibleSpace();
 				GUILayout.Label(					
-					string.Format(
-						"{0} (index: {1}, {2})",
-						data.container.GetType().FullName, dataIndex,
+					string.Format("{0} (index: {1}, {2})", data.container.GetType().FullName, dataIndex,
 						(data.destroyOnLoad ? "destroy on load" : "singleton")
 					),
 					EditorStyles.title
 				);
 
-				GUILayout.FlexibleSpace();
 				GUILayout.Space(10f);
 
 				//Add indentation.
