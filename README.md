@@ -23,8 +23,8 @@
 5. <a href="#api">API</a>
 	1. <a href="#bindings">Bindings</a>
 	2. <a href="#constructor-injection">Constructor injection</a>
-	3. <a href="#postconstructors">Post Constructor methods</a>
 	4. <a href="#member-injection">Member injection</a>
+	3. <a href="#method-injection">Method injection</a>
 	5. <a href="#multiple-constructors">Multiple constructors</a>
 	6. <a href="#multiple-injection">Multiple injection</a>
 	7. <a href="#behaviour-injection">Behaviour injection</a>
@@ -566,63 +566,6 @@ namespace MyNamespace {
 
 **Note:** if there's more than one constructor, *Adic* always look for the one with less parameteres. However, <a href="#multiple-constructors">it's possible to indicate which constructor should be used</a> on a multi constructor class.
 
-### <a id="postconstructors"></a>Post Constructor methods
-
-If you need to perform actions after all injections have been completed, create a method and decorate it with the `PostConstruct` attribute:
-
-```cs
-namespace MyNamespace {
-	/// <summary>
-	/// My class summary.
-	/// </summary>
-	public class MyClass {
-		/// <summary>Field to be injected.</summary>
-		[Inject]
-		public SomeClass fieldToInject;
-
-		/// <summary>
-		/// Class constructor.
-		/// </summary>
-		public MyClass() {
-			...
-		}
-
-		/// <summary>
-		/// Class post constructor, called after all the dependencies have been resolved.
-		/// </summary>
-		[PostConstruct]
-		public void PostConstruct() {
-			...
-		}
-	}
-}
-```
-
-Post constructor methods can also accept identified and regular parameters:
-
-```cs
-namespace MyNamespace {
-	/// <summary>
-	/// My class summary.
-	/// </summary>
-	public class MyClass {
-		/// <summary>
-		/// Class post constructor, called after all the dependencies have been resolved.
-		/// </summary>
-		/// <param name="param1">Identified parameter description.</param>
-		/// <param name="param2">Parameter description.</param>
-		[PostConstruct]
-		public void PostConstruct([Inject("Identifier")] param1, SomeType param2) {
-			...
-		}
-	}
-}
-```
-
-**Good practice:** post constructor methods can be used as constructors on `MonoBehaviour` components.
-
-**Good practice:** always use non-generic methods as post constructors to prevent [`JIT compile method`](http://docs.unity3d.com/Manual/TroubleShootingIPhone.html) exceptions on [AOT platforms](https://en.wikipedia.org/wiki/Ahead-of-time_compilation) (like iOS and WebGL).
-
 ### <a id="member-injection"></a>Member injection
 
 *Adic* can perform dependency injection on public fields and properties of classes. To make it happen, just decorate the members with the `Inject` attribute:
@@ -647,6 +590,74 @@ namespace MyNamespace {
 	}
 }
 ```
+
+### <a id="method-injection"></a>Method injection
+
+Method injection works like constructor injection, but on methods:
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My class summary.
+	/// </summary>
+	public class MyClass {
+		/// <summary>
+		/// Injected method, called after all the dependencies have been resolved.
+		/// </summary>
+		/// <param name="param1">Identified parameter description.</param>
+		/// <param name="param2">Parameter description.</param>
+		[Inject]
+		public void MyMethod1([Inject("Identifier")] SomeType param1, SomeType param2) {
+			...
+		}
+
+		/// <summary>
+		/// Injected method, called after all the dependencies have been resolved.
+		/// </summary>
+		/// <param name="param">Parameter description.</param>
+		[Inject]
+		public void MyMethod2(SomeType param) {
+			...
+		}
+	}
+}
+```
+
+Method injection occurs after all injections on the class. So, it's possible to use it as a post constructor:
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My class summary.
+	/// </summary>
+	public class MyClass {
+		/// <summary>Field to be injected.</summary>
+		[Inject]
+		public SomeClass fieldToInject;
+
+		/// <summary>
+		/// Class constructor.
+		/// </summary>
+		public MyClass() {
+			...
+		}
+
+		/// <summary>
+		/// Injected method acting as a post constructor.
+		/// </summary>
+		[Inject]
+		public void PostConstructor() {
+			...
+		}
+	}
+}
+```
+
+**Good practice:** injected methods can be used as constructors on `MonoBehaviour` components.
+
+**Good practice:** injected methods can be used to perform initilizations or configurations on objects.
+
+**Good practice:** always use non-generic injected methods to prevent [`JIT compile method`](http://docs.unity3d.com/Manual/TroubleShootingIPhone.html) exceptions on [AOT platforms](https://en.wikipedia.org/wiki/Ahead-of-time_compilation) (like iOS and WebGL).
 
 ### <a id="multiple-constructors"></a>Multiple constructors
 
