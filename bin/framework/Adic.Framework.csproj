@@ -10,7 +10,7 @@
     <RootNamespace>Adic</RootNamespace>
     <AssemblyName>Adic.Framework</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <ReleaseVersion>2.19.1</ReleaseVersion>
+    <ReleaseVersion>2.20</ReleaseVersion>
     <Description>Adic Framework</Description>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -140,8 +140,8 @@
     <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Types\IFactory.cs">
       <Link>Framework\Types\IFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Util\MethodDelegates.cs">
-      <Link>Framework\Util\MethodDelegates.cs</Link>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Util\CallDelegates.cs">
+      <Link>Framework\Util\CallDelegates.cs</Link>
     </Compile>
     <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Util\MethodUtils.cs">
       <Link>Framework\Util\MethodUtils.cs</Link>
@@ -149,8 +149,8 @@
     <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Util\TypeUtils.cs">
       <Link>Framework\Util\TypeUtils.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\PostConstructorInfo.cs">
-      <Link>Framework\Cache\PostConstructorInfo.cs</Link>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\MethodInfo.cs">
+      <Link>Framework\Cache\MethodInfo.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
