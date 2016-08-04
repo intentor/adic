@@ -48,6 +48,7 @@ namespace Adic {
 			}
 
 			container.Bind<ICommand>().To(type);
+			container.Resolve<ICommandPool>().PoolCommand(type);
 			
 			return container;
 		}
@@ -81,27 +82,16 @@ namespace Adic {
 			var commands = TypeUtils.GetAssignableTypes(typeof(ICommand), namespaceName, includeChildren);
 			
 			if (commands.Length > 0) {
+				var commandPool = container.Resolve<ICommandPool>();
+
 				for (var cmdIndex = 0; cmdIndex < commands.Length; cmdIndex++) {
 					var commandType = commands[cmdIndex];
 					if (!commandType.IsAbstract) {
 						container.Bind<ICommand>().To(commandType);
+						commandPool.PoolCommand(commandType);
 					}
 				}
-				
-				PoolCommands(container);
 			}
-			
-			return container;
-		}
-
-		/// <summary>
-		/// Pools all commands on the container.
-		/// </summary>
-		/// <param name="container">The container in which the commands have been registered.</param>
-		/// <returns>The injection container for chaining.</returns>
-		public static IInjectionContainer PoolCommands(this IInjectionContainer container) {
-			var commandPool = container.Resolve<ICommandPool>();
-			commandPool.Pool();
 			
 			return container;
 		}

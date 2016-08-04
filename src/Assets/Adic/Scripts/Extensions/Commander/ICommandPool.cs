@@ -6,9 +6,10 @@ namespace Adic {
 	/// </summary>
 	public interface ICommandPool {
 		/// <summary>
-		/// Pools all commands.
+		/// Pools a command of a given type.
 		/// </summary>
-		void Pool();
+		/// <param name="commandType">Command type.</param>
+		void PoolCommand(Type commandType);
 
 		/// <summary>
 		/// Gets a command from the pool.

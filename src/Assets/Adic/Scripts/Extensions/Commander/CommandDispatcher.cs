@@ -167,39 +167,6 @@ namespace Adic {
 		}
 		
 		/// <summary>
-		/// Pools all commands.
-		/// </summary>
-		public void Pool() {
-			var resolvedCommands = container.ResolveAll<ICommand>();
-
-			for (var cmdIndex = 0; cmdIndex < resolvedCommands.Length; cmdIndex++) {
-				var command = resolvedCommands[cmdIndex];
-				var commandType = command.GetType();
-
-				//If the type already exists in the pool, goes to the next type.
-				if (this.commands.ContainsKey(commandType)) continue;
-
-				if (command.singleton) {
-					this.commands.Add(commandType, command);
-				} else {
-					var commandPool = new List<ICommand>(command.preloadPoolSize);
-
-					//Adds the currently resolved command.
-					commandPool.Add(command);
-
-					//Adds other commands until matches preloadPoolSize.
-					if (command.preloadPoolSize > 1) {
-						for (int itemIndex = 1; itemIndex < command.preloadPoolSize; itemIndex++) {
-							commandPool.Add((ICommand)container.Resolve(commandType));
-						}
-					}
-							
-					this.commands.Add(commandType, commandPool);
-				}
-			}
-		}
-		
-		/// <summary>
 		/// Checks whether a given command of <typeparamref name="T"/> is registered.
 		/// </summary>
 		/// <typeparam name="T">Command type.</typeparam>
@@ -223,6 +190,35 @@ namespace Adic {
 		/// <returns>All available registrations.</returns>
 		public Type[] GetAllRegistrations() {
 			return this.commands.Keys.ToArray();
+		}
+
+		/// <summary>
+		/// Pools a command of a given type.
+		/// </summary>
+		/// <param name="commandType">Command type.</param>
+		public void PoolCommand(Type commandType) {
+			var command = (ICommand)container.Resolve(commandType);
+
+			//If the type already exists in the pool, returns.
+			if (this.commands.ContainsKey(commandType)) return;
+
+			if (command.singleton) {
+				this.commands.Add(commandType, command);
+			} else {
+				var commandPool = new List<ICommand>(command.preloadPoolSize);
+
+				//Adds the currently resolved command.
+				commandPool.Add(command);
+
+				//Adds other commands until matches preloadPoolSize.
+				if (command.preloadPoolSize > 1) {
+					for (int itemIndex = 1; itemIndex < command.preloadPoolSize; itemIndex++) {
+						commandPool.Add((ICommand)container.Resolve(commandType));
+					}
+				}
+
+				this.commands.Add(commandType, commandPool);
+			}
 		}
 		
 		/// <summary>
