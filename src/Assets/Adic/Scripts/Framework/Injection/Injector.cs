@@ -51,7 +51,7 @@ namespace Adic.Injection {
 		/// <typeparam name="T">Type to be resolved.</typeparam>
 		/// <returns>The instance or NULL.</returns>
 		public T Resolve<T>() {
-			return (T)this.Resolve(typeof(T), InjectionMember.None, null, null);
+			return (T)this.Resolve(typeof(T), InjectionMember.None, null, null, false);
 		}
 		
 		/// <summary>
@@ -64,7 +64,7 @@ namespace Adic.Injection {
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The instance or NULL.</returns>
 		public T Resolve<T>(object identifier) {
-			return (T)this.Resolve(typeof(T), InjectionMember.None, null, identifier);
+			return (T)this.Resolve(typeof(T), InjectionMember.None, null, identifier, false);
 		}
 		
 		/// <summary>
@@ -76,7 +76,7 @@ namespace Adic.Injection {
 		/// <param name="type">Type to be resolved.</param>
 		/// <returns>The instance or NULL.</returns>
 		public object Resolve(Type type) {
-			return this.Resolve(type, InjectionMember.None, null, null);
+			return this.Resolve(type, InjectionMember.None, null, null, false);
 		}
 		
 		/// <summary>
@@ -89,7 +89,7 @@ namespace Adic.Injection {
 		/// <returns>The instance or NULL.</returns>
 		public object Resolve(object identifier) {
 			//Given no type will be passed, it'll always resolve an array.
-			var instances = (object[])this.Resolve(null, InjectionMember.None, null, identifier);
+			var instances = (object[])this.Resolve(null, InjectionMember.None, null, identifier, false);
 
 			if (instances != null && instances.Length > 0) {
 				return instances[0];
@@ -108,7 +108,7 @@ namespace Adic.Injection {
 		/// <param name="identifier">Identifier to look for.</param>
 		/// <returns>The instance or NULL.</returns>
 		public object Resolve(Type type, object identifier) {
-			return this.Resolve(type, InjectionMember.None, null, identifier);
+			return this.Resolve(type, InjectionMember.None, null, identifier, false);
 		}
 		
 		/// <summary>
@@ -185,7 +185,8 @@ namespace Adic.Injection {
 		/// <param name="member">Member for which the binding is being resolved.</param>
 		/// <param name="parentInstance">Parent object in which the resolve is occuring.</param>
 		/// <param name="identifier">The binding identifier to be looked for.</param>
-		protected object Resolve(Type type, InjectionMember member, object parentInstance, object identifier) {
+		/// <param name="alwaysResolve">Always resolve the type, even when resolution mode is null.</param>
+		protected object Resolve(Type type, InjectionMember member, object parentInstance, object identifier, bool alwaysResolve) {
 			object resolution = null;
 
 			if (this.beforeResolve != null) {
@@ -227,7 +228,7 @@ namespace Adic.Injection {
 			IList<object> instances = new List<object>();
 
 			if (bindings == null) {
-				if (this.resolutionMode == ResolutionMode.ALWAYS_RESOLVE) {
+				if (alwaysResolve || this.resolutionMode == ResolutionMode.ALWAYS_RESOLVE) {
 					instances.Add(this.Instantiate(type as Type));
 				} else {
 					return null;
@@ -331,7 +332,7 @@ namespace Adic.Injection {
 		protected void InjectFields(object instance, SetterInfo[] fields) {
 			for (int fieldIndex = 0; fieldIndex < fields.Length; fieldIndex++) {
 				var field = fields[fieldIndex];
-				var valueToSet = this.Resolve(field.type, InjectionMember.Field, instance, field.identifier);
+				var valueToSet = this.Resolve(field.type, InjectionMember.Field, instance, field.identifier, false);
 				field.setter(instance, valueToSet);
 			}
 		}
@@ -344,7 +345,8 @@ namespace Adic.Injection {
 		protected void InjectProperties(object instance, SetterInfo[] properties) {
 			for (int propertyIndex = 0; propertyIndex < properties.Length; propertyIndex++) {
 				var property = properties[propertyIndex];
-				var valueToSet = this.Resolve(property.type, InjectionMember.Property, instance, property.identifier);
+				var valueToSet = this.Resolve(property.type, InjectionMember.Property, instance, property.identifier, 
+					false);
 				property.setter(instance, valueToSet);
 			}
 		}
@@ -485,12 +487,8 @@ namespace Adic.Injection {
 			for (int paramIndex = 0; paramIndex < parameters.Length; paramIndex++) {
 				var parameterInfo = parametersInfo[paramIndex];
 				
-				parameters[paramIndex] = this.Resolve(
-					parameterInfo.type,
-					InjectionMember.Constructor,
-					instance,
-					parameterInfo.identifier
-				);
+				parameters[paramIndex] = this.Resolve(parameterInfo.type, InjectionMember.Constructor, instance,
+					parameterInfo.identifier, false);
 			}
 
 			return parameters;
@@ -517,6 +515,7 @@ namespace Adic.Injection {
 					var valueTypeIsTheSame = 
 						isSingleton && 
 						bindingIsType && 
+						bindingFromBinder.value != null &&
 						bindingFromBinder.value.GetType().Equals(binding.value);
 					var valueInstanceIsTheSame = 
 						isSingleton && 
@@ -534,8 +533,10 @@ namespace Adic.Injection {
 				if (existingBinding != null) {
 					binding.value = existingBinding.value;
 				} else {
+
 					if (bindingIsType) {
-						var value = this.Resolve(binding.value as Type);
+						//Force resolution to prevent returning null on ResolutionMode.RETURN_NULL.
+						var value = this.Resolve(binding.value as Type, InjectionMember.None, null, null, true);
 						binding.value = value;
 					} else {
 						this.Inject(binding.value);

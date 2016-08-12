@@ -316,5 +316,18 @@ namespace Adic.Tests {
 
 			Assert.IsNull(instance);
 		}
+
+		[Test]
+		public void TestResolutionModeReturnNullSingleton() {
+			var container = new InjectionContainer(ResolutionMode.RETURN_NULL);
+			container.Bind<IMockInterface>().ToSingleton<MockIClassWithAttributes>();
+			
+			var instance = container.Resolve<IMockInterface>();
+
+			Assert.IsNotNull(instance);
+			Assert.AreEqual(typeof(MockIClassWithAttributes), instance.GetType());
+			Assert.Null(((MockIClassWithAttributes)instance).field4);
+			Assert.Null(((MockIClassWithAttributes)instance).property4);
+		}
 	}
 }
