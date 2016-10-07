@@ -55,7 +55,7 @@ namespace Adic.Binding {
 				var isBindingToOtherType = !binding.type.Equals(valueType);
 				var valueTypeBound  = this.typeBindings.ContainsKey(valueType);
 				if (isSingleton && isBindingToOtherType && !valueTypeBound) {
-					this.AddBindingToDictionary(new BindingInfo(valueType, valueType, BindingInstance.Singleton));
+                    this.AddBindingToDictionary(new BindingInfo(valueType, binding.value, BindingInstance.Singleton));
 				}
 			}
 
