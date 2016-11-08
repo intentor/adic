@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2745CDFD-5F81-42C3-982B-4C8C9F745837}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Adic</RootNamespace>
+    <AssemblyName>Adic.Extensions.Editor</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ReleaseVersion>2.20.2</ReleaseVersion>
+    <Description>Adic Extensions Editor (Unity only).</Description>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <DefineConstants>UNITY_5; COMPILE_AOT</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="UnityEditor">
+      <HintPath>..\..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Managed\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\BindingsPrinter\Editor\BindingsPrinterWindow.cs">
+      <Link>Extensions\BindingsPrinter\Editor\BindingsPrinterWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\BindingsPrinter\Editor\EditorStyles.cs">
+      <Link>Extensions\BindingsPrinter\Editor\EditorStyles.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\Editor\CommandDispatchEditor.cs">
+      <Link>Extensions\Commander\Behaviours\Editor\CommandDispatchEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\Editor\NamespaceCommandEditor.cs">
+      <Link>Extensions\Commander\Behaviours\Editor\NamespaceCommandEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\Editor\TimedCommandDispatchEditor.cs">
+      <Link>Extensions\Commander\Behaviours\Editor\TimedCommandDispatchEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Types\Editor\CommandReferenceDrawer.cs">
+      <Link>Extensions\Commander\Types\Editor\CommandReferenceDrawer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\Editor\ContextRootEditor.cs">
+      <Link>Extensions\ContextRoot\Editor\ContextRootEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\Editor\Util\ExecutionOrderUtils.cs">
+      <Link>Extensions\ContextRoot\Editor\Util\ExecutionOrderUtils.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\Adic.Framework.csproj">
+      <Project>{F658C5CD-B885-4B3D-A6EA-224B6FB63802}</Project>
+      <Name>Adic.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Extensions\Adic.Extensions.csproj">
+      <Project>{B4BF52BD-806E-4F41-AE2E-52FDA2FFF3A9}</Project>
+      <Name>Adic.Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

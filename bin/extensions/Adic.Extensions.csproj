@@ -30,13 +30,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <DefineConstants>UNITY_5</DefineConstants>
+    <DefineConstants>UNITY_5; COMPILE_AOT</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="UnityEditor">
-      <HintPath>..\..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Managed\UnityEditor.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Managed\UnityEngine.dll</HintPath>
     </Reference>
@@ -44,12 +41,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\BindingsPrinter\Editor\BindingsPrinterWindow.cs">
-      <Link>Extensions\BindingsPrinter\Editor\BindingsPrinterWindow.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\BindingsPrinter\Editor\EditorStyles.cs">
-      <Link>Extensions\BindingsPrinter\Editor\EditorStyles.cs</Link>
-    </Compile>
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\BindingsSetup\BindingPriority.cs">
       <Link>Extensions\BindingsSetup\BindingPriority.cs</Link>
     </Compile>
@@ -91,15 +82,6 @@
     </Compile>
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\TimedCommandDispatch.cs">
       <Link>Extensions\Commander\Behaviours\TimedCommandDispatch.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\Editor\CommandDispatchEditor.cs">
-      <Link>Extensions\Commander\Behaviours\Editor\CommandDispatchEditor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\Editor\NamespaceCommandEditor.cs">
-      <Link>Extensions\Commander\Behaviours\Editor\NamespaceCommandEditor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Behaviours\Editor\TimedCommandDispatchEditor.cs">
-      <Link>Extensions\Commander\Behaviours\Editor\TimedCommandDispatchEditor.cs</Link>
     </Compile>
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Exceptions\CommandException.cs">
       <Link>Extensions\Commander\Exceptions\CommandException.cs</Link>
@@ -143,28 +125,13 @@
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Types\CommandReference.cs">
       <Link>Extensions\Commander\Types\CommandReference.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\Types\Editor\CommandReferenceDrawer.cs">
-      <Link>Extensions\Commander\Types\Editor\CommandReferenceDrawer.cs</Link>
-    </Compile>
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\SceneInjector.cs">
       <Link>Extensions\ContextRoot\SceneInjector.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\Editor\ContextRootEditor.cs">
-      <Link>Extensions\ContextRoot\Editor\ContextRootEditor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\ContextRoot\Editor\Util\ExecutionOrderUtils.cs">
-      <Link>Extensions\ContextRoot\Editor\Util\ExecutionOrderUtils.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Extensions\" />
-    <Folder Include="Extensions\StateInjection\" />
-    <Folder Include="Extensions\Commander\Types\" />
-    <Folder Include="Extensions\ContextRoot\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\framework\Adic.Framework.csproj">
+    <ProjectReference Include="..\Framework\Adic.Framework.csproj">
       <Project>{F658C5CD-B885-4B3D-A6EA-224B6FB63802}</Project>
       <Name>Adic.Framework</Name>
     </ProjectReference>

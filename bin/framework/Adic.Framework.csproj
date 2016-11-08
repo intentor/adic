@@ -30,7 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <DefineConstants>UNITY_IOS</DefineConstants>
+    <DefineConstants>UNITY_5; COMPILE_AOT</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

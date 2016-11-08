@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("Adic.Framework")]
-[assembly: AssemblyDescription("Adic Framework")]
+[assembly: AssemblyTitle("Adic.Extensions.Editor")]
+[assembly: AssemblyDescription("Adic Extensions Editor (Unity only)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Intentor")]
 [assembly: AssemblyProduct("Adic - Another Dependency Injection Container")]
