@@ -1,0 +1,2 @@
+/Users/intentor/Projetos/Intentor/Componentes/Adic/bin/Framework/bin/Release/Adic.Framework.dll
+/Users/intentor/Projetos/Intentor/Componentes/Adic/bin/Framework/obj/Release/Adic.Framework.dll

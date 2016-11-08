@@ -1,0 +1,4 @@
+/Users/intentor/Projetos/Intentor/Componentes/Adic/bin/Extensions/bin/Release/Adic.Extensions.dll
+/Users/intentor/Projetos/Intentor/Componentes/Adic/bin/Extensions/obj/Release/Adic.Extensions.dll
+/Users/intentor/Projetos/Intentor/Componentes/Adic/bin/Extensions/bin/Release/UnityEngine.dll
+/Users/intentor/Projetos/Intentor/Componentes/Adic/bin/Extensions/bin/Release/Adic.Framework.dll
