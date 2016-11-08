@@ -16,8 +16,12 @@ namespace Adic {
 			"The type must be derived from UnityEngine.Component.";
 		private const string GAMEOBJECT_IS_NULL = 
 			"There's no GameObject to bind the type to.";
-		private const string PREFAB_IS_NULL = 
-			"There's no prefab to bind the type to.";
+        	private const string GAMEOBJECT_NAME_TYPE_IS_NULL =
+            		"There's no GameObject named \"{0}\" to bind the type {1} to.";
+        	private const string GAMEOBJECT_TAG_TYPE_IS_NULL =
+            		"There's no GameObject tagged \"{0}\" to bind the type {1} to.";
+		private const string PREFAB_NAME_TYPE_IS_NULL =
+            		"There's no prefab named \"{0}\" to bind the type {1} to.";
 		private const string RESOURCE_IS_NULL = 
 			"There's no resource to bind the type to.";
 
@@ -142,7 +146,10 @@ namespace Adic {
 			} else {
 				gameObject = GameObject.Find(name);
 			}
-
+		    	
+			if (gameObject == null) {
+                		throw new BindingException(string.Format(GAMEOBJECT_NAME_TYPE_IS_NULL, name, type.ToString()));
+            		}
 			return CreateSingletonBinding(bindingFactory, gameObject, type, isGameObject);
 		}
 
@@ -222,6 +229,10 @@ namespace Adic {
 			}
 			
 			var gameObject = GameObject.FindWithTag(tag);
+			
+		    	if (gameObject == null) {
+			throw new BindingException(string.Format(GAMEOBJECT_TAG_TYPE_IS_NULL, tag, type.ToString()));
+			}
 			
 			return CreateSingletonBinding(bindingFactory, gameObject, type, isGameObject);
 		}
@@ -376,7 +387,7 @@ namespace Adic {
 
 			var prefab = Resources.Load(name);
 			if (prefab == null) {
-				throw new BindingException(PREFAB_IS_NULL);
+				throw new BindingException(string.Format(PREFAB_NAME_TYPE_IS_NULL, name, type.ToString()));
 			}
 
 			var prefabBinding = new PrefabBinding(prefab, type);
@@ -451,7 +462,7 @@ namespace Adic {
 
 			var prefab = Resources.Load(name);
 			if (prefab == null) {
-				throw new BindingException(PREFAB_IS_NULL);
+				throw new BindingException(string.Format(PREFAB_NAME_TYPE_IS_NULL, name, type.ToString()));
 			}
 			
 			var gameObject = (GameObject)MonoBehaviour.Instantiate(prefab);
