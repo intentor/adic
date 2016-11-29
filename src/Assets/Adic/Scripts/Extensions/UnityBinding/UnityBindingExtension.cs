@@ -16,12 +16,12 @@ namespace Adic {
 			"The type must be derived from UnityEngine.Component.";
 		private const string GAMEOBJECT_IS_NULL = 
 			"There's no GameObject to bind the type to.";
-        	private const string GAMEOBJECT_NAME_TYPE_IS_NULL =
-            		"There's no GameObject named \"{0}\" to bind the type {1} to.";
-        	private const string GAMEOBJECT_TAG_TYPE_IS_NULL =
-            		"There's no GameObject tagged \"{0}\" to bind the type {1} to.";
+    	private const string GAMEOBJECT_NAME_TYPE_IS_NULL =
+    		"There's no GameObject named \"{0}\" to bind the type {1} to.";
+    	private const string GAMEOBJECT_TAG_TYPE_IS_NULL =
+    		"There's no GameObject tagged \"{0}\" to bind the type {1} to.";
 		private const string PREFAB_NAME_TYPE_IS_NULL =
-            		"There's no prefab named \"{0}\" to bind the type {1} to.";
+    		"There's no prefab named \"{0}\" to bind the type {1} to.";
 		private const string RESOURCE_IS_NULL = 
 			"There's no resource to bind the type to.";
 
@@ -37,7 +37,7 @@ namespace Adic {
 		/// </remarks>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory) {
+        public static UnityBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory) {
 			return bindingFactory.ToGameObject(bindingFactory.bindingType, null);
 		}
 
@@ -52,7 +52,7 @@ namespace Adic {
 		/// <typeparam name="T">The component type to bind the GameObject to.</typeparam>
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObject<T>(this IBindingFactory bindingFactory) where T : Component {
+        public static UnityBindingConditionFactory ToGameObject<T>(this IBindingFactory bindingFactory) where T : Component {
 			return bindingFactory.ToGameObject(typeof(T), null);
 		}
 
@@ -67,7 +67,7 @@ namespace Adic {
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="type">The component type.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory, Type type) {
+        public static UnityBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory, Type type) {
 			return bindingFactory.ToGameObject(type, null);
 		}
 				
@@ -87,7 +87,7 @@ namespace Adic {
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">The GameObject name.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory, string name) {
+        public static UnityBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory, string name) {
 			return bindingFactory.ToGameObject(bindingFactory.bindingType, name);
 		}
 
@@ -105,7 +105,7 @@ namespace Adic {
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">The GameObject name.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObject<T>(this IBindingFactory bindingFactory, string name) where T : Component {
+        public static UnityBindingConditionFactory ToGameObject<T>(this IBindingFactory bindingFactory, string name) where T : Component {
 			return bindingFactory.ToGameObject(typeof(T), name);
 		}
 
@@ -129,7 +129,7 @@ namespace Adic {
 		/// <param name="type">The component type.</param>
 		/// <param name="name">The GameObject name.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory, Type type, string name) {
+        public static UnityBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory, Type type, string name) {
 			if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
 				throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
 			}
@@ -148,8 +148,9 @@ namespace Adic {
 			}
 		    	
 			if (gameObject == null) {
-                		throw new BindingException(string.Format(GAMEOBJECT_NAME_TYPE_IS_NULL, name, type.ToString()));
-            		}
+    		    throw new BindingException(string.Format(GAMEOBJECT_NAME_TYPE_IS_NULL, name, type.ToString()));
+    		}
+
 			return CreateSingletonBinding(bindingFactory, gameObject, type, isGameObject);
 		}
 
@@ -171,7 +172,7 @@ namespace Adic {
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="tag">The GameObject tag.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObjectWithTag(this IBindingFactory bindingFactory, string tag) {
+        public static UnityBindingConditionFactory ToGameObjectWithTag(this IBindingFactory bindingFactory, string tag) {
 			return bindingFactory.ToGameObjectWithTag(bindingFactory.bindingType, tag);
 		}
 		
@@ -191,7 +192,7 @@ namespace Adic {
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="tag">The GameObject tag.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObjectWithTag<T>(this IBindingFactory bindingFactory, string tag) where T : Component {
+        public static UnityBindingConditionFactory ToGameObjectWithTag<T>(this IBindingFactory bindingFactory, string tag) where T : Component {
 			return bindingFactory.ToGameObjectWithTag(typeof(T), tag);
 		}
 		
@@ -217,7 +218,7 @@ namespace Adic {
 		/// <param name="type">The component type.</param>
 		/// <param name="tag">The GameObject tag.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObjectWithTag(this IBindingFactory bindingFactory, Type type, string tag) {
+        public static UnityBindingConditionFactory ToGameObjectWithTag(this IBindingFactory bindingFactory, Type type, string tag) {
 			if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
 				throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
 			}
@@ -230,8 +231,8 @@ namespace Adic {
 			
 			var gameObject = GameObject.FindWithTag(tag);
 			
-		    	if (gameObject == null) {
-			throw new BindingException(string.Format(GAMEOBJECT_TAG_TYPE_IS_NULL, tag, type.ToString()));
+	    	if (gameObject == null) {
+			    throw new BindingException(string.Format(GAMEOBJECT_TAG_TYPE_IS_NULL, tag, type.ToString()));
 			}
 			
 			return CreateSingletonBinding(bindingFactory, gameObject, type, isGameObject);
@@ -253,7 +254,7 @@ namespace Adic {
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="tag">The GameObject tag.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObjectsWithTag(this IBindingFactory bindingFactory, string tag) {
+        public static IBindingConditionFactory ToGameObjectsWithTag(this IBindingFactory bindingFactory, string tag) {
 			return bindingFactory.ToGameObjectsWithTag(bindingFactory.bindingType, tag);
 		}
 		
@@ -271,7 +272,7 @@ namespace Adic {
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="tag">The GameObject tag.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObjectsWithTag<T>(this IBindingFactory bindingFactory, string tag) where T : Component {
+        public static IBindingConditionFactory ToGameObjectsWithTag<T>(this IBindingFactory bindingFactory, string tag) where T : Component {
 			return bindingFactory.ToGameObjectsWithTag(typeof(T), tag);
 		}
 		
@@ -295,7 +296,7 @@ namespace Adic {
 		/// <param name="type">The component type.</param>
 		/// <param name="tag">The GameObject tag.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToGameObjectsWithTag(this IBindingFactory bindingFactory, Type type, string tag) {
+        public static IBindingConditionFactory ToGameObjectsWithTag(this IBindingFactory bindingFactory, Type type, string tag) {
 			if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
 				throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
 			}
@@ -314,7 +315,7 @@ namespace Adic {
 					CreateSingletonBinding(bindingFactory, gameObjects[gameObjectIndex], type, isGameObject);
 			}
 
-			return new MultipleBindingConditionFactory(bindingFactories, bindingFactory.binder);
+            return new MultipleBindingConditionFactory(bindingFactories, bindingFactory.binder);
 		}
 
 		/// <summary>
@@ -334,7 +335,7 @@ namespace Adic {
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToPrefab(this IBindingFactory bindingFactory, string name) {
+        public static UnityBindingConditionFactory ToPrefab(this IBindingFactory bindingFactory, string name) {
 			return bindingFactory.ToPrefab(bindingFactory.bindingType, name);
 		}		
 		
@@ -354,7 +355,7 @@ namespace Adic {
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToPrefab<T>(this IBindingFactory bindingFactory, string name) where T : Component {
+        public static UnityBindingConditionFactory ToPrefab<T>(this IBindingFactory bindingFactory, string name) where T : Component {
 			return bindingFactory.ToPrefab(typeof(T), name);
 		}
 
@@ -374,7 +375,7 @@ namespace Adic {
 		/// <param name="type">The component type.</param>
 		/// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToPrefab(this IBindingFactory bindingFactory, Type type, string name) {
+        public static UnityBindingConditionFactory ToPrefab(this IBindingFactory bindingFactory, Type type, string name) {
 			if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
 				throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
 			}
@@ -392,7 +393,7 @@ namespace Adic {
 
 			var prefabBinding = new PrefabBinding(prefab, type);
 
-			return bindingFactory.AddBinding(prefabBinding, BindingInstance.Transient);
+            return new UnityBindingConditionFactory(bindingFactory.AddBinding(prefabBinding, BindingInstance.Transient), prefab.name);
 		}
 			
 		/// <summary>
@@ -411,8 +412,8 @@ namespace Adic {
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">Prefab name.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToPrefabSingleton(this IBindingFactory bindingFactory, string name) {
-			return bindingFactory.ToPrefabSingleton(bindingFactory.bindingType, name);
+        public static UnityBindingConditionFactory ToPrefabSingleton(this IBindingFactory bindingFactory, string name) {
+            return bindingFactory.ToPrefabSingleton(bindingFactory.bindingType, name);
 		}
 
 		/// <summary>
@@ -430,8 +431,8 @@ namespace Adic {
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToPrefabSingleton<T>(this IBindingFactory bindingFactory, string name) where T : Component {
-			return bindingFactory.ToPrefabSingleton(typeof(T), name);
+        public static UnityBindingConditionFactory ToPrefabSingleton<T>(this IBindingFactory bindingFactory, string name) where T : Component {
+            return bindingFactory.ToPrefabSingleton(typeof(T), name);
 		}
 			
 		/// <summary>
@@ -449,7 +450,7 @@ namespace Adic {
 		/// <param name="type">The component type.</param>
 		/// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToPrefabSingleton(this IBindingFactory bindingFactory, Type type, string name) {
+        public static UnityBindingConditionFactory ToPrefabSingleton(this IBindingFactory bindingFactory, Type type, string name) {
 			if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
 				throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
 			}
@@ -481,7 +482,7 @@ namespace Adic {
 		/// <param name="bindingFactory">The original binding factory.</param>
 		/// <param name="name">Resource name. It will be loaded using <c>Resources.Load<c/>.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public static IBindingConditionFactory ToResource(this IBindingFactory bindingFactory, string name) {			
+        public static UnityBindingConditionFactory ToResource(this IBindingFactory bindingFactory, string name) {			
 			if (!TypeUtils.IsAssignable(typeof(UnityEngine.Object), bindingFactory.bindingType)) {
 				throw new BindingException(TYPE_NOT_OBJECT);
 			}
@@ -491,7 +492,7 @@ namespace Adic {
 				throw new BindingException(RESOURCE_IS_NULL);
 			}
 
-			return bindingFactory.AddBinding(resource, BindingInstance.Singleton);
+            return new UnityBindingConditionFactory(bindingFactory.AddBinding(resource, BindingInstance.Singleton), resource.name);
 		}
 
 		/// <summary>
@@ -502,7 +503,7 @@ namespace Adic {
 		/// <param name="type">The type of the binding.</param>
 		/// <param name="typeIsGameObject">Indicates whether the type is a GameObject.</param>
 		/// <returns>The binding condition object related to the binding.</returns>
-		private static IBindingConditionFactory CreateSingletonBinding(IBindingFactory bindingFactory,
+        private static UnityBindingConditionFactory CreateSingletonBinding(IBindingFactory bindingFactory,
 			GameObject gameObject,
 			Type type,
 			bool typeIsGameObject) {
@@ -511,7 +512,7 @@ namespace Adic {
 			}
 			
 			if (typeIsGameObject) {
-				return bindingFactory.AddBinding(gameObject, BindingInstance.Singleton);
+                return new UnityBindingConditionFactory(bindingFactory.AddBinding(gameObject, BindingInstance.Singleton), gameObject.name);
 			} else {
 				var component = gameObject.GetComponent(type);
 				
@@ -519,7 +520,7 @@ namespace Adic {
 					component = gameObject.AddComponent(type);
 				}
 				
-				return bindingFactory.AddBinding(component, BindingInstance.Singleton);
+                return new UnityBindingConditionFactory(bindingFactory.AddBinding(component, BindingInstance.Singleton), gameObject.name);
 			}
 		}
 	}

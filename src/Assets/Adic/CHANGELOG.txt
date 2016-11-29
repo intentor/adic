@@ -10,6 +10,9 @@ Version 2.20.3 (2016-10-??)
 Framework
 - Fix singleton binding adding type instead of value when binging different types. [Issue #45]
 
+Unity Binding Extension
+- Added setting of identifiers using the same name of Unity Objects. [Issue #62]
+
 Version 2.20.2 (2016-08-11)
 
 Framework

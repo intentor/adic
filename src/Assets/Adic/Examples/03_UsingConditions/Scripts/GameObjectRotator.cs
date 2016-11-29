@@ -6,8 +6,8 @@ namespace Adic.Examples.UsingConditions {
 	/// Game object rotator script.
 	/// </summary>
 	public class GameObjectRotator : MonoBehaviour {
-		/// <summary>Object to rotate. It will only rotate the object with identifier "LeftCube".</summary>
-		[Inject("LeftCube")]
+        /// <summary>Object to rotate. It will only rotate the object with identifier "RightCube".</summary>
+		[Inject("RightCube")]
 		public Transform objectToRotate;
 
 		protected void Start() {

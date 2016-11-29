@@ -8,13 +8,14 @@ namespace Adic.Examples.UsingConditions {
 	public class GameRoot : ContextRoot {
 		public override void SetupContainers() {
 			//Create the container.
-			this.AddContainer<InjectionContainer>()
-				//Register any extensions the container may use.
+            this.AddContainer<InjectionContainer>()
+                //Register any extensions the container may use.
 				.RegisterExtension<UnityBindingContainerExtension>()
-				//Bind a Transform component to the two cubes on the scene, using a "As" condition
-				//to define their identifiers.
-				.Bind<Transform>().ToGameObject("LeftCube").As("LeftCube")
-				.Bind<Transform>().ToGameObject("RightCube").As("RightCube")
+                //Bind a Transform component to the two cubes on the scene, using a "As" condition.
+                .Bind<Transform>().ToGameObject("LeftCube").As("LeftCube")
+                //Bind a Transform component to the two cubes on the scene, using a "AsObjectName" condition.
+                //This condition will use the Unity Object name as identifier. In this case, the Game Object name.
+                .Bind<Transform>().ToGameObject("RightCube").AsObjectName()
 				//Bind the "GameObjectRotator" component to a new game object of the same name.
 				//This component will then receive the reference to the "LeftCube", making only
 				//this cube rotate.
