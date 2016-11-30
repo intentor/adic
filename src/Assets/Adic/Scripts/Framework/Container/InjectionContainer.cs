@@ -299,6 +299,10 @@ namespace Adic {
 
 		public void Unbind(object identifier) {
 			this.binder.Unbind(identifier);
-		}
+        }
+
+        public void UnbindInstance(object instance) {
+            this.binder.UnbindInstance(instance);
+        }
 	}
 }

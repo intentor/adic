@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Adic.Injection;
 using Adic.Exceptions;
 
 namespace Adic.Binding {
@@ -14,7 +15,13 @@ namespace Adic.Binding {
 		/// <summary>Occurs before a binding is removed.</summary>
 		public event BindingRemovedHandler beforeRemoveBinding;
 		/// <summary>Occurs after a binding is removed.</summary>
-		public event BindingRemovedHandler afterRemoveBinding;
+        public event BindingRemovedHandler afterRemoveBinding;
+
+        /// <summary>
+        /// Checks whether a binding can be removed.
+        /// </summary>
+        /// <param name="binding">Binding to be evaluated.</param>
+        public delegate bool CanRemoveBindingHandler(BindingInfo binding);
 
 		/// <summary>Type bindings of the binder.</summary>
 		protected Dictionary<Type, IList<BindingInfo>> typeBindings = new Dictionary<Type, IList<BindingInfo>>();
@@ -260,29 +267,46 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="identifier">The identifier to be unbound.</param>
 		public void Unbind(object identifier) {
-			var bindingsToRemove = new List<BindingInfo>();
-
-			foreach (var entry in this.typeBindings) {
-				for (var bindingIndex = 0; bindingIndex < entry.Value.Count; bindingIndex++) {
-					var binding = entry.Value[bindingIndex];
-					bindingsToRemove.Clear();
-					
-					if (binding.identifier != null && binding.identifier.Equals(identifier)) {						
-						bindingsToRemove.Add(binding);
-
-						if (this.beforeRemoveBinding != null) {
-							this.beforeRemoveBinding(this, binding.type, bindingsToRemove);
-						}
-
-						entry.Value.RemoveAt(bindingIndex--);						
-						
-						if (this.afterRemoveBinding != null) {
-							this.afterRemoveBinding(this, binding.type, bindingsToRemove);
-						}
-					}
-				}
-			}
+            this.Unbind(binding => binding.identifier != null && binding.identifier.Equals(identifier));  
 		}
+
+        /// <summary>
+        /// Unbinds any bindings that holds the given instance, either as a value or on conditions.
+        /// </summary>
+        /// <param name="instance">Instance.</param>
+        public void UnbindInstance(object instance) {
+            this.Unbind(binding => binding.value == instance
+                || (binding.condition != null && binding.condition(new InjectionContext() { parentInstance = instance })));
+        }
+
+        /// <summary>
+        /// Unbinds bindings using a given condition.
+        /// </summary>
+        /// <param name="canRemoveBinding">Condition to check for bindings removal.</param>
+        protected void Unbind(CanRemoveBindingHandler canRemoveBinding) {
+            var bindingsToRemove = new List<BindingInfo>();
+
+            foreach (var entry in this.typeBindings) {
+                for (var bindingIndex = 0; bindingIndex < entry.Value.Count; bindingIndex++) {
+                    var binding = entry.Value[bindingIndex];
+                    bindingsToRemove.Clear();
+
+                    if (canRemoveBinding(binding)) {                      
+                        bindingsToRemove.Add(binding);
+
+                        if (this.beforeRemoveBinding != null) {
+                            this.beforeRemoveBinding(this, binding.type, bindingsToRemove);
+                        }
+
+                        entry.Value.RemoveAt(bindingIndex--);                       
+
+                        if (this.afterRemoveBinding != null) {
+                            this.afterRemoveBinding(this, binding.type, bindingsToRemove);
+                        }
+                    }
+                }
+            }
+        }
 
 		/// <summary>
 		/// Resolves the binding provider.

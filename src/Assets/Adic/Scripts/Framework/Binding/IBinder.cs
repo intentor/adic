@@ -99,6 +99,12 @@ namespace Adic.Binding {
 		/// Unbinds any bindings to a certain <paramref name="identifier"/>.
 		/// </summary>
 		/// <param name="identifier">The identifier to be unbound.</param>
-		void Unbind(object identifier);
+        void Unbind(object identifier);
+
+        /// <summary>
+        /// Unbinds any bindings that holds the given instance, either as a value or on conditions.
+        /// </summary>
+        /// <param name="instance">Instance.</param>
+        void UnbindInstance(object instance);
 	}
 }
