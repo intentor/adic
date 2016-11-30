@@ -10,7 +10,7 @@
     <RootNamespace>Adic</RootNamespace>
     <AssemblyName>Adic.Extensions</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <ReleaseVersion>2.20.2</ReleaseVersion>
+    <ReleaseVersion>2.21</ReleaseVersion>
     <Description>Adic Extensions (Unity only).</Description>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -109,6 +109,9 @@
     </Compile>
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\UnityBinding\PrefabBinding.cs">
       <Link>Extensions\UnityBinding\PrefabBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\UnityBinding\UnityBindingConditionFactory.cs">
+      <Link>Extensions\UnityBinding\UnityBindingConditionFactory.cs</Link>
     </Compile>
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\UnityBinding\UnityBindingContainerExtension.cs">
       <Link>Extensions\UnityBinding\UnityBindingContainerExtension.cs</Link>
