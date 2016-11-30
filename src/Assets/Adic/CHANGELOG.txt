@@ -9,6 +9,7 @@ Version 2.20.3 (2016-10-??)
 
 Framework
 - Added UnbindByInstance method on binder. [Issues #59 and #60]
+- Added more informative binding exception messages. [Pull request #64]
 - Fix singleton binding adding type instead of value when binging different types. [Issue #45]
 
 Unity Binding Extension
