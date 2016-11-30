@@ -247,7 +247,8 @@ this.AddContainer<InjectionContainer>()
 	//Add bindings.
     .Bind<Type1>.To<AnotherType1>()
     .Bind<Type2>.To<AnotherType2>().As("Identifier")
-    .Bind<Type3>.ToSingleton<AnotherType3>();
+    .Bind<Type3>.ToGameObject("GameObjectName").AsObjectName()
+    .Bind<Type4>.ToSingleton<AnotherType3>();
 ```
 
 **Good practice:** when chaining, always place the bindings in the end of the chain or use <a href="#bindings-setup">bindings setup</a> to organize your bindings.
@@ -916,6 +917,12 @@ When binding:
 
 ```cs
 container.Bind<SomeInterface>().To<SomeClass>().As("Identifier");
+```
+
+When binding to Unity Objects, it's possible to use the object name automatically as the binding:
+
+```cs
+container.Bind<SomeInterface>().ToGameObject("GameObjectName").AsObjectName();
 ```
 
 When injecting into constructor parameters:
