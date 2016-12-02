@@ -245,7 +245,44 @@ namespace Adic.Tests {
 		protected void Method3() {
 			this.calledMethod3 = true;
 		}
-	}
+    }
+
+    /// <summary>
+    /// Mock class with inject on all members.
+    /// </summary>
+    public class MockClassInjectAll {
+        [Inject]
+        public IMockInterface property1 { get; set; }
+        [Inject]
+        public IMockInterface property2 { get; set; }
+        [Inject]
+        public IMockInterface property3 { get; set; }
+
+        [Inject]
+        public IMockInterface field1;
+        [Inject]
+        public IMockInterface field2;
+        [Inject]
+        public IMockInterface field3;
+
+        public MockClassToDepend fieldFromConstructor1;
+        public MockClassToDepend fieldFromConstructor2;
+
+        public MockClassToDepend fieldFromMethod1;
+        public MockClassToDepend fieldFromMethod2;
+
+        [Inject]
+        public MockClassInjectAll(MockClassToDepend field1, MockClassToDepend field2) {
+            this.fieldFromConstructor1 = field1;
+            this.fieldFromConstructor2 = field2;
+        }
+
+        [Inject]
+        public void Method(MockClassToDepend field1, MockClassToDepend field2) {
+            this.fieldFromMethod1 = field1;
+            this.fieldFromMethod2 = field2;
+        }
+    }
 
 	/// <summary>
 	/// Test factory for ClassWithAtrributes.

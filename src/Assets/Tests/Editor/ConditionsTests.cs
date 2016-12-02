@@ -126,7 +126,7 @@ namespace Adic.Tests {
 		}
 		
 		[Test]
-		public void TestBindWhenComplexCondition() {
+		public void TestBindWhenComplexConditionField() {
 			var instance1 = new MockClassVerySimple();
 			var instance2 = new MockClassSimple();
 			var instance3 = new MockClassSimple();
@@ -134,8 +134,8 @@ namespace Adic.Tests {
 			var container = new InjectionContainer();
 
 			container.Bind<IMockInterface>().To<MockIClass>().When(context =>
-	        		context.member.Equals(InjectionMember.Field) &&
-			        context.parentInstance.Equals(instance3)
+	        		context.member.Equals(InjectionMember.Field)
+                        && context.parentInstance.Equals(instance3)
                 );
 			
 			container.Inject(instance1);
@@ -147,6 +147,41 @@ namespace Adic.Tests {
 			Assert.IsNull(instance2.property);
 			Assert.AreEqual(typeof(MockIClass), instance3.field.GetType());
 			Assert.IsNull(instance3.property);
-		}
+        }
+
+        [Test]
+        public void TestBindWhenComplexConditionByMemberName() {
+            var container = new InjectionContainer(ResolutionMode.RETURN_NULL);
+
+            container.Bind<IMockInterface>().To<MockIClass>().When(context =>
+                context.memberName.Equals("property2")
+            );
+            container.Bind<IMockInterface>().To<MockIClass>().When(context =>
+                context.memberName.Equals("field2")
+            );
+            container.Bind<MockClassToDepend>().ToSelf().When(context =>
+                context.member.Equals(InjectionMember.Method)
+                    && context.memberName.Equals("field2")
+            );
+            container.Bind<MockClassInjectAll>().ToSingleton();
+
+            var instance = container.Resolve<MockClassInjectAll>();
+
+            Assert.IsNull(instance.property1);
+            Assert.AreEqual(typeof(MockIClass), instance.property2.GetType());
+            Assert.IsNull(instance.property3);
+
+            Assert.IsNull(instance.field1);
+            Assert.AreEqual(typeof(MockIClass), instance.field2.GetType());
+            Assert.IsNull(instance.field3);
+
+            Assert.AreNotEqual(instance.property2, instance.field2);
+
+            Assert.IsNull(instance.fieldFromConstructor1);
+            Assert.IsNull(instance.fieldFromConstructor2);
+
+            Assert.IsNull(instance.fieldFromMethod1);
+            Assert.IsNotNull(instance.fieldFromMethod2);
+        }
 	}
 }

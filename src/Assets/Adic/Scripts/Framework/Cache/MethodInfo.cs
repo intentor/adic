@@ -7,7 +7,9 @@ namespace Adic.Cache {
 	/// </summary>
 	public class MethodInfo {
 		/// <summary>The parameterless method.</summary>
-		public MethodCall method;
+        public MethodCall method;
+        /// <summary>Method name.</summary>
+        public string name;
 		/// <summary>The method with parameters.</summary>
 		public ParamsMethodCall paramsMethod;
 		/// <summary>Method parameters' infos.</summary>
@@ -15,9 +17,11 @@ namespace Adic.Cache {
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.Cache.MethodInfo"/> class.
-		/// </summary>
+        /// </summary>
+        /// <param name="name">Method name.</param>
 		/// <param name="parameters">Method parameters' infos.</param>
-		public MethodInfo(ParameterInfo[] parameters) {
+        public MethodInfo(String name, ParameterInfo[] parameters) {
+            this.name = name;
 			this.parameters = parameters;
 		}
 	}

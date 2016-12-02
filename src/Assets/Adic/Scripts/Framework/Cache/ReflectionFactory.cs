@@ -98,7 +98,7 @@ namespace Adic.Cache {
 					identifier = (attributes[0] as Inject).identifier;
 				}
 
-				constructorParameters[paramIndex] = new ParameterInfo(parameter.ParameterType, identifier);
+                constructorParameters[paramIndex] = new ParameterInfo(parameter.ParameterType, parameter.Name, identifier);
 			}
 
 			return constructorParameters;
@@ -136,10 +136,10 @@ namespace Adic.Cache {
 							identifier = (parameterAttributes[0] as Inject).identifier;
 						}
 						
-						methodParameters[paramIndex] = new ParameterInfo(parameter.ParameterType, identifier);
+                        methodParameters[paramIndex] = new ParameterInfo(parameter.ParameterType, parameter.Name, identifier);
 					}
 
-					var methodCall = new MethodInfo(methodParameters);
+                    var methodCall = new MethodInfo(method.Name, methodParameters);
 
 					if (methodParameters.Length == 0) {
 						methodCall.method = MethodUtils.CreateParameterlessMethod(type, method);
@@ -174,7 +174,7 @@ namespace Adic.Cache {
 				if (attributes.Length > 0) {
 					var attribute = attributes[0] as Inject;
 					var method = MethodUtils.CreatePropertySetter(type, property);
-					var info = new SetterInfo(property.PropertyType, attribute.identifier, method);
+                    var info = new SetterInfo(property.PropertyType, property.Name, attribute.identifier, method);
 					setters.Add(info);
 				}
 			}
@@ -202,7 +202,7 @@ namespace Adic.Cache {
 				if (attributes.Length > 0) {
 					var attribute = attributes[0] as Inject;
 					var method = MethodUtils.CreateFieldSetter(type, field);
-					var info = new SetterInfo(field.FieldType, attribute.identifier, method);
+                    var info = new SetterInfo(field.FieldType, field.Name, attribute.identifier, method);
 					setters.Add(info);
 				}
 			}

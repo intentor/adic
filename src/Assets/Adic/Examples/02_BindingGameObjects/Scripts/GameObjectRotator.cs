@@ -16,7 +16,7 @@ namespace Adic.Examples.BindingGameObjects {
 			this.Inject();
 		}
 
-		protected void Update () {
+		protected void Update() {
 			this.objectToRotate.Rotate(1.0f, 1.0f, 1.0f);
 		}
 	}
