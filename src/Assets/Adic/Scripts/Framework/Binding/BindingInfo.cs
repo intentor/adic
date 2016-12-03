@@ -49,7 +49,7 @@ namespace Adic.Binding {
 				"Conditions: {5}\n",
 				this.type.FullName,
 				(this.value == null ? "-" : this.value.ToString()),
-				(this.value is Type ? "type" : "instance"),
+				(this.value is Type ? "type" : "instance [" + this.GetHashCode() + "]"),
 				this.instanceType.ToString(),
 				(this.identifier == null ? "-" : this.identifier.ToString()),
 				(this.condition == null ? "no" : "yes")
