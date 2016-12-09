@@ -33,13 +33,14 @@
 		3. <a href="#scene-injection">Scene injection</a>
 		4. <a href="#injecting-multiple-containers">Injecting from multiple containers</a>
 	8. <a href="#conditions">Conditions</a>
-	9. <a href="#update">Update</a>
-	10. <a href="#dispose">Dispose</a>
-	11. <a href="#instance-resolution-modes">Instance resolution modes</a>
-	11. <a href="#manual-type-resolution">Manual type resolution</a>
-	12. <a href="#factories">Factories</a>
-	13. <a href="#bindings-setup">Bindings setup</a>
-	14. <a href="#using-commands">Using commands</a>
+	9. <a href="#tags">Tags</a>
+	10. <a href="#update">Update</a>
+	11. <a href="#dispose">Dispose</a>
+	12. <a href="#instance-resolution-modes">Instance resolution modes</a>
+	13. <a href="#manual-type-resolution">Manual type resolution</a>
+	14. <a href="#factories">Factories</a>
+	15. <a href="#bindings-setup">Bindings setup</a>
+	16. <a href="#using-commands">Using commands</a>
 6. <a href="#multiple-scenes">Multiple scenes</a>
 7. <a href="#order-of-events">Order of events</a>
 8. <a href="#script-execution-order">Script execution order</a>
@@ -911,7 +912,7 @@ Conditions allow a more customized approach when injecting dependencies into con
 
 Using conditions you can:
 
-1\. Tag a binding with an identifier, so you can indicate it as a parameter in the `Inject` attribute on constructors and fields/properties:
+1\. Identify a binding with an identifier, so you can indicate it as a parameter in the `Inject` attribute on constructors and fields/properties:
 
 When binding:
 
@@ -994,6 +995,22 @@ The context provides the following fields:
 5. **parentType** (`System.Type`): the type of the object in which the injection is occuring.
 6. **parentInstance** (`object`): the instance of the object in which the injection is occuring.
 7. **injectType** (`System.Type`): the type of the object being injected.
+
+### <a id="tags"></a>Tags
+
+Tags can be used to easily unbind bindings.
+
+1\. Tag a binding with as many tags as required:
+
+```cs
+container.Bind<SomeInterface>().To<SomeClass>().As("Identifier").Tag("Tag1", "Tag2", "Tag3");
+```
+
+2\. Unbind all bindings with a given tag:
+
+```cs
+container.UnbindByTag("Tag1");
+```
 
 ### <a id="update"></a>Update
 

@@ -85,7 +85,20 @@ namespace Adic.Binding {
 			}
 			
 			return this;
-		}
+        }
+
+        //// <summary>
+        /// Adds tags to the binding.
+        /// </summary>
+        /// <param name="tags">Tags of the binding.</param>
+        /// <returns>The current binding condition.</returns>
+        public IBindingConditionFactory Tag(params string[] tags) {
+            for (var index = 0; index < this.bindingConditionFactories.Length; index++) {
+                this.bindingConditionFactories[index].Tag(tags);
+            }
+
+            return this;
+        }
 
 		/// <summary>
 		/// Binds a type to another type or instance. Used for chaining.

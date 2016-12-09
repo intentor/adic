@@ -304,5 +304,9 @@ namespace Adic {
         public void UnbindInstance(object instance) {
             this.binder.UnbindInstance(instance);
         }
+        
+        public void UnbindByTag(string tag) {
+            this.binder.UnbindByTag(tag);
+        }
 	}
 }

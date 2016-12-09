@@ -62,7 +62,7 @@ namespace Adic.Binding {
 				var isBindingToOtherType = !binding.type.Equals(valueType);
 				var valueTypeBound  = this.typeBindings.ContainsKey(valueType);
 				if (isSingleton && isBindingToOtherType && !valueTypeBound) {
-                    this.AddBindingToDictionary(new BindingInfo(valueType, binding.value, BindingInstance.Singleton));
+                    this.AddBindingToDictionary(new BindingInfo(valueType, binding.value, BindingInstance.Singleton, binding));
 				}
 			}
 
@@ -280,6 +280,17 @@ namespace Adic.Binding {
         }
 
         /// <summary>
+        /// Unbinds any bindings that contains the given tag.
+        /// </summary>
+        /// <param name="tag">Tag value.</param>
+        public void UnbindByTag(string tag) {
+            if (!string.IsNullOrEmpty(tag)) {
+                this.Unbind(binding => binding.tags != null 
+                    && Array.Exists(binding.tags, element => element != null && element.Equals(tag)));
+            }
+        }
+
+        /// <summary>
         /// Unbinds bindings using a given condition.
         /// </summary>
         /// <param name="canRemoveBinding">Condition to check for bindings removal.</param>
@@ -291,7 +302,7 @@ namespace Adic.Binding {
                     var binding = entry.Value[bindingIndex];
                     bindingsToRemove.Clear();
 
-                    if (canRemoveBinding(binding)) {                      
+                    if (canRemoveBinding(binding)) {                  
                         bindingsToRemove.Add(binding);
 
                         if (this.beforeRemoveBinding != null) {

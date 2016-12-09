@@ -9,6 +9,7 @@ Version 2.22 (2016-12-??)
 
 Framework
 - Added member name on InjectionContext. [Issue #58]
+- Added possibility of adding tags to bindings. [Issue #61]
 
 Version 2.21 (2016-11-29)
 

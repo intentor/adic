@@ -94,6 +94,15 @@ namespace Adic {
         public IBindingConditionFactory WhenIntoInstance(object instance) {
             return this.bindingConditionFactory.WhenIntoInstance(instance);
         }
+
+        //// <summary>
+        /// Adds tags to the binding.
+        /// </summary>
+        /// <param name="tags">Tags of the binding.</param>
+        /// <returns>The current binding condition.</returns>
+        public IBindingConditionFactory Tag(params string[] tags) {
+            return this.bindingConditionFactory.Tag(tags);
+        }
     }
 }
 

@@ -106,5 +106,11 @@ namespace Adic.Binding {
         /// </summary>
         /// <param name="instance">Instance.</param>
         void UnbindInstance(object instance);
+
+        /// <summary>
+        /// Unbinds any bindings that contains the given tag.
+        /// </summary>
+        /// <param name="tag">Tag value.</param>
+        void UnbindByTag(string tag);
 	}
 }

@@ -539,7 +539,6 @@ namespace Adic.Injection {
 				if (existingBinding != null) {
 					binding.value = existingBinding.value;
 				} else {
-
 					if (bindingIsType) {
 						//Force resolution to prevent returning null on ResolutionMode.RETURN_NULL.
 						var value = this.Resolve(binding.value as Type, InjectionMember.None, null, null, null, true);

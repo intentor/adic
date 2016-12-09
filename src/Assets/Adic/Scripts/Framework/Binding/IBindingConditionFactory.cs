@@ -10,7 +10,7 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="identifier">Identifier of the binding.</param>
 		/// <returns>The current binding condition.</returns>
-		IBindingConditionFactory As(object identifier);
+        IBindingConditionFactory As(object identifier);
 
 		/// <summary>
 		/// Conditions the binding to be injected only if BindingConditionEvaluator returns true.
@@ -40,6 +40,13 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="instance">The enclosing instance.</param>
 		/// <returns>The current binding condition.</returns>
-		IBindingConditionFactory WhenIntoInstance(object instance);
+        IBindingConditionFactory WhenIntoInstance(object instance);
+
+        //// <summary>
+        /// Adds tags to the binding.
+        /// </summary>
+        /// <param name="tags">Tags of the binding.</param>
+        /// <returns>The current binding condition.</returns>
+        IBindingConditionFactory Tag(params string[] tags);
 	}
 }

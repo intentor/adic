@@ -195,6 +195,23 @@ namespace Adic.Tests {
 			var bindings = binder.GetBindings();
 
 			Assert.AreEqual(0, bindings.Count);
-		}
+        }
+
+        [Test]
+        public void TestUnbindByTag() {
+            var binder = new Binder();
+
+            binder.Bind<MockIClass>().ToSelf();
+            binder.Bind<MockClassToDepend>().ToSelf().Tag("Tag1");
+            binder.Bind<IMockInterface>().To<MockIClass>().As("ID").Tag("Tag2");
+            binder.Bind<IMockInterface>().ToSingleton<MockIClassWithAttributes>().Tag("Tag2", "Tag3");
+            binder.Bind<MockIClassWithAttributes>().ToSingleton().Tag("Tag1", "Tag3", "Tag4");
+
+            binder.UnbindByTag("Tag2");
+
+            var bindings = binder.GetBindings();
+
+            Assert.AreEqual(3, bindings.Count);
+        }
 	}
 }
