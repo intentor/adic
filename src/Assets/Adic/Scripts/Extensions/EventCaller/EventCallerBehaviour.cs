@@ -19,6 +19,36 @@ namespace Adic {
 		}
 
 		/// <summary>
+		/// Called when the application's focus is changing
+		/// </summary>
+		protected void OnApplicationFocus(bool hasFocus)
+		{
+			for (var objIndex = 0; objIndex < EventCallerContainerExtension.focusable.Count; objIndex++) {
+				EventCallerContainerExtension.focusable[objIndex].OnApplicationFocus(hasFocus);
+			}
+		}
+
+		/// <summary>
+		/// Called when the application is pausing
+		/// </summary>
+		protected void OnApplicationPause(bool isPaused)
+		{
+			for (var objIndex = 0; objIndex < EventCallerContainerExtension.pausable.Count; objIndex++) {
+				EventCallerContainerExtension.pausable[objIndex].OnApplicationPause(isPaused);
+			}
+		}
+
+		/// <summary>
+		/// Called when the application is quitting
+		/// </summary>
+		protected void OnApplicationQuit()
+		{
+			for (var objIndex = 0; objIndex < EventCallerContainerExtension.quitable.Count; objIndex++) {
+				EventCallerContainerExtension.quitable[objIndex].OnApplicationQuit();
+			}
+		}
+
+		/// <summary>
 		/// Called when the component is destroyed.
 		/// </summary>
 		protected void OnDestroy() {
@@ -28,6 +58,8 @@ namespace Adic {
 
 			EventCallerContainerExtension.disposable.Clear();
 			EventCallerContainerExtension.updateable.Clear();
+			EventCallerContainerExtension.pausable.Clear();
+			EventCallerContainerExtension.quitable.Clear();
 		}
 	}
 }
