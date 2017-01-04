@@ -5,6 +5,11 @@ Copyright (c) 2014-2016 André "Intentor" Martins
 http://intentor.com.br/
 ------------------------------------------------
 
+Version 2.21 (2017-01-??)
+
+Event Caller extension
+- Added support for Unity events OnApplicationFocus, OnApplicationPause and OnApplicationQuit. [Pull Request #68]
+
 Version 2.22 (2016-12-12)
 
 Framework

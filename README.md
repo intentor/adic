@@ -1980,6 +1980,10 @@ Exemplifies the use of bindings setups to better organize the bindings for a con
 
 Exemplifies the use of a factory to create and position cubes as a matrix.
 
+### 8. Unity Events
+
+Exemplifies the use of Unity events on regular classes.
+
 ## <a id="changelog"></a>Changelog
 
 Please see [CHANGELOG.txt](src/Assets/Adic/CHANGELOG.txt).
