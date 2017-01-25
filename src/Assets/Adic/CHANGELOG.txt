@@ -9,6 +9,7 @@ Version 2.21 (2017-01-??)
 
 Framework
 - Added Android IL2CPP support. [Issue #71]
+- Removed registering/unregistering of extensions by instance. [Issue #70]
 
 Event Caller extension
 - Added support for Unity events OnApplicationFocus, OnApplicationPause, OnApplicationQuit, LateUpdate and FixedUpdate. [Pull Request #68 and Issue #69]

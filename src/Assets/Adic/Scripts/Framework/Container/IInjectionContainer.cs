@@ -22,13 +22,6 @@ namespace Adic.Container {
 		/// <typeparam name="T">The type of the extension to be registered.</param>
 		/// <returns>The injection container for chaining.</returns>
 		IInjectionContainer RegisterExtension<T>() where T : IContainerExtension;
-
-		/// <summary>
-		/// Registers a container extension.
-		/// </summary>
-		/// <param name="extension">The extension to be registered.</param>
-		/// <returns>The injection container for chaining.</returns>
-		IInjectionContainer RegisterExtension(IContainerExtension extension);
 		
 		/// <summary>
 		/// Unegisters a container extension.
@@ -36,12 +29,19 @@ namespace Adic.Container {
 		/// <typeparam name="T">The type of the extension(s) to be unregistered.</param>
 		/// <returns>The injection container for chaining.</returns>
 		IInjectionContainer UnregisterExtension<T>() where T : IContainerExtension;
-		
-		/// <summary>
-		/// Unegisters a container extension.
-		/// </summary>
-		/// <param name="extension">The extension to be unregistered.</param>
-		/// <returns>The injection container for chaining.</returns>
-		IInjectionContainer UnregisterExtension(IContainerExtension extension);
+
+        /// <summary>
+        /// Check whether an extensions is added to this container.
+        /// </summary>
+        /// <typeparam name="T">The type of the extension.</typeparam>
+        /// <returns><c>true</c> if the container has extension; otherwise, <c>false</c>.</returns>
+        bool HasExtension<T>();
+
+        /// <summary>
+        /// Check whether an extensions is added to this container.
+        /// </summary>
+        /// <param name="type">The type of the extension.</param>
+        /// <returns><c>true</c> if the container has extension; otherwise, <c>false</c>.</returns>
+        bool HasExtension(Type type);
 	}
 }

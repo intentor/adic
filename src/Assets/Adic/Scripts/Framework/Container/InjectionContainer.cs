@@ -14,6 +14,8 @@ namespace Adic {
 	/// and allows the use of extensions to provide new functionalities.
 	/// </summary>
 	public class InjectionContainer : Injector, IInjectionContainer  {
+        /// <summary>Message for the extension already registered exception.</summary>
+        protected const string EXTENSION_REGISTERED_EXCEPTION_MESSAGE = "Extension {0} already registered.";
 		/// <summary>Default instance resolution mode.</summary>
 		protected const ResolutionMode DEFAULT_RESOLUTION_MODE = ResolutionMode.ALWAYS_RESOLVE;
 
@@ -30,9 +32,8 @@ namespace Adic {
 		/// When passing no parameters to the constructor, default internal objects are created.
 		/// </remarks>
 		public InjectionContainer() 
-			: base(new ReflectionCache(), new Binder(), DEFAULT_RESOLUTION_MODE) {
-			this.RegisterItself();
-		}
+            : this(GenerateIdentifier(), new ReflectionCache(), new Binder(), DEFAULT_RESOLUTION_MODE) {
+        }
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
@@ -42,10 +43,8 @@ namespace Adic {
 		/// </remarks>
 		/// <param name="identifier">Container identifier.</param>
 		public InjectionContainer(object identifier) 
-			: base(new ReflectionCache(), new Binder(), DEFAULT_RESOLUTION_MODE) {
-			this.identifier = identifier;
-			this.RegisterItself();
-		}
+            : this(identifier, new ReflectionCache(), new Binder(), DEFAULT_RESOLUTION_MODE) {
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
@@ -56,9 +55,8 @@ namespace Adic {
 		/// </remarks>
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		public InjectionContainer(IReflectionCache cache) 
-			: base(cache, new Binder(), DEFAULT_RESOLUTION_MODE) {			
-			this.RegisterItself();
-		}
+            : this(GenerateIdentifier(), cache, new Binder(), DEFAULT_RESOLUTION_MODE) {
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
@@ -66,9 +64,8 @@ namespace Adic {
 		/// <remarks>
 		/// <param name="resolutionMode">Instance resolution mode.</param>
 		public InjectionContainer(ResolutionMode resolutionMode) 
-			: base(new ReflectionCache(), new Binder(), resolutionMode) {
-			this.RegisterItself();
-		}
+            : this(GenerateIdentifier(), new ReflectionCache(), new Binder(), resolutionMode) {
+        }
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
@@ -80,10 +77,8 @@ namespace Adic {
 		/// <param name="identifier">Container identifier.</param>
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		public InjectionContainer(object identifier, IReflectionCache cache)
-			: base(cache, new Binder(), DEFAULT_RESOLUTION_MODE) {
-			this.identifier = identifier;
-			this.RegisterItself();
-		}
+            : this(identifier, cache, new Binder(), DEFAULT_RESOLUTION_MODE) {
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
@@ -95,9 +90,8 @@ namespace Adic {
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		/// <param name="resolutionMode">Instance resolution mode.</param>
 		public InjectionContainer(IReflectionCache cache, ResolutionMode resolutionMode) 
-			: base(cache, new Binder(), resolutionMode) {			
-			this.RegisterItself();
-		}
+            : this(GenerateIdentifier(), cache, new Binder(), resolutionMode) {
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
@@ -106,9 +100,8 @@ namespace Adic {
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		/// <param name="binder">Binder to be used on the container.</param>
 		public InjectionContainer(IReflectionCache cache, IBinder binder) 
-			: base(cache, binder, DEFAULT_RESOLUTION_MODE) {
-			this.RegisterItself();
-		}
+            : this(GenerateIdentifier(), cache, binder, DEFAULT_RESOLUTION_MODE) {
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
@@ -118,10 +111,8 @@ namespace Adic {
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		/// <param name="binder">Binder to be used on the container.</param>
 		public InjectionContainer(object identifier, IReflectionCache cache, IBinder binder) 
-			: base(cache, binder, DEFAULT_RESOLUTION_MODE) {
-			this.identifier = identifier;
-			this.RegisterItself();
-		}
+            : this(identifier, cache, binder, DEFAULT_RESOLUTION_MODE) {
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
@@ -131,10 +122,8 @@ namespace Adic {
 		/// <param name="cache">Reflection cache used to get type info.</param>
 		/// <param name="resolutionMode">Instance resolution mode.</param>
 		public InjectionContainer(object identifier, IReflectionCache cache, ResolutionMode resolutionMode) 
-			: base(cache, new Binder(), resolutionMode) {
-			this.identifier = identifier;
-			this.RegisterItself();
-		}
+            : this(identifier, cache, new Binder(), resolutionMode) {
+        }
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
@@ -157,60 +146,53 @@ namespace Adic {
 			this.cache = null;
 			this.binder = null;
 		}
-				
-		/// <summary>
-		/// Registers a container extension.
-		/// </summary>
-		/// <typeparam name="T">The type of the extension to be registered.</param>
-		/// <returns>The injection container for chaining.</returns>
+		
 		public IInjectionContainer RegisterExtension<T>() where T : IContainerExtension {
-			this.RegisterExtension(this.Resolve<T>());
+            IContainerExtension extension = this.Resolve<T>();
 
-			return this;
-		}
+            if (this.extensions == null) {
+                this.extensions = new List<IContainerExtension>();
+            }
 
-		/// <summary>
-		/// Registers a container extension.
-		/// </summary>
-		/// <param name="extension">The extension to be registered.</param>
-		/// <returns>The injection container for chaining.</returns>
-		public IInjectionContainer RegisterExtension(IContainerExtension extension) {
-			if (this.extensions == null) this.extensions = new List<IContainerExtension>();
+            if (this.HasExtension(extension.GetType())) {
+                throw new ArgumentException(String.Format(EXTENSION_REGISTERED_EXCEPTION_MESSAGE, extension));
+            }
 
-			this.extensions.Add(extension);
-			extension.OnRegister(this);
-			
-			return this;
+            this.extensions.Add(extension);
+            extension.OnRegister(this);
+
+            return this;
 		}
 		
-		/// <summary>
-		/// Unegisters a container extension.
-		/// </summary>
-		/// <typeparam name="T">The type of the extension(s) to be unregistered.</param>
-		/// <returns>The injection container for chaining.</returns>
 		public IInjectionContainer UnregisterExtension<T>() where T : IContainerExtension {
 			var extensionsToUnregister = this.extensions.OfType<T>().ToList();
 			
 			foreach (var extension in extensionsToUnregister) {
-				this.UnregisterExtension(extension);
+                this.extensions.Remove(extension);
+                extension.OnUnregister(this);
 			}
 			
 			return this;
 		}
-		
-		/// <summary>
-		/// Unegisters a container extension.
-		/// </summary>
-		/// <param name="extension">The extension to be unregistered.</param>
-		/// <returns>The injection container for chaining.</returns>
-		public IInjectionContainer UnregisterExtension(IContainerExtension extension) {
-			if (!this.extensions.Contains(extension)) return this;
-			
-			this.extensions.Remove(extension);
-			extension.OnUnregister(this);
-			
-			return this;
-		}
+
+        public bool HasExtension<T>() {
+            return HasExtension(typeof(T));
+        }
+
+        public bool HasExtension(Type type) {
+            bool exists = false;
+
+            if (extensions != null) {
+                foreach (var extension in extensions) {
+                    if (extension.GetType().Equals(type)) {
+                        exists = true;
+                        break;
+                    }
+                }
+            }
+
+            return exists;
+        }
 
 		/* Container */
 
@@ -307,6 +289,14 @@ namespace Adic {
         
         public void UnbindByTag(string tag) {
             this.binder.UnbindByTag(tag);
+        }
+
+        /// <summary>
+        /// Generates a container identifier.
+        /// </summary>
+        /// <returns>The container identifier.</returns>
+        private static string GenerateIdentifier() {
+            return Guid.NewGuid().ToString().Substring(0, 10);
         }
 	}
 }
