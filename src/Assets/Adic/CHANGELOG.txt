@@ -7,6 +7,9 @@ http://intentor.com.br/
 
 Version 2.21 (2017-01-??)
 
+Framework
+- Added Android IL2CPP support. [Issue #71]
+
 Event Caller extension
 - Added support for Unity events OnApplicationFocus, OnApplicationPause and OnApplicationQuit. [Pull Request #68]
 
