@@ -17,6 +17,10 @@ namespace Adic {
         public static List<IDisposable> disposable = new List<IDisposable>();
         /// <summary>The updateable instances.</summary>
         public static List<IUpdatable> updateable = new List<IUpdatable>();
+        /// <summary>The late updateable instances.</summary>
+        public static List<ILateUpdatable> lateUpdateable = new List<ILateUpdatable>();
+        /// <summary>The fixed updateable instances.</summary>
+        public static List<IFixedUpdatable> fixedUpdateable = new List<IFixedUpdatable>();
         /// <summary>The focusable instances.</summary>
         public static List<IFocusable> focusable = new List<IFocusable>();
         /// <summary>The pausable instances.</summary>
@@ -56,6 +60,8 @@ namespace Adic {
 
             disposable.Clear();
             updateable.Clear();
+            lateUpdateable.Clear();
+            fixedUpdateable.Clear();
             focusable.Clear();
             pausable.Clear();
             quitable.Clear();
@@ -79,6 +85,8 @@ namespace Adic {
 
                 this.BindUnityExtension(disposable, binding.value);
                 this.BindUnityExtension(updateable, binding.value);
+                this.BindUnityExtension(lateUpdateable, binding.value);
+                this.BindUnityExtension(fixedUpdateable, binding.value);
                 this.BindUnityExtension(focusable, binding.value);
                 this.BindUnityExtension(pausable, binding.value);
                 this.BindUnityExtension(quitable, binding.value);
@@ -101,6 +109,8 @@ namespace Adic {
 
             this.BindUnityExtension(disposable, instance);
             this.BindUnityExtension(updateable, instance);
+            this.BindUnityExtension(lateUpdateable, binding.value);
+            this.BindUnityExtension(fixedUpdateable, binding.value);
             this.BindUnityExtension(focusable, instance);
             this.BindUnityExtension(pausable, instance);
             this.BindUnityExtension(quitable, instance);

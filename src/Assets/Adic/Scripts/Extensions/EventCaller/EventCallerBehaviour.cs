@@ -11,14 +11,36 @@ namespace Adic {
         /// </summary>
         protected void Update() {
             //It the game is paused, Update is not called.
-            if (Mathf.Approximately(Time.deltaTime, 0))
+            if (Mathf.Approximately(Time.deltaTime, 0)) {
                 return;
+            }
 
             for (var objIndex = 0; objIndex < EventCallerContainerExtension.updateable.Count; objIndex++) {
                 EventCallerContainerExtension.updateable[objIndex].Update();
             }
         }
 
+        /// <summary>
+        /// Called once per frame after Update has finished.
+        /// </summary>
+        protected void LateUpdate() {
+            //It the game is paused, LateUpdate is not called.
+            if (Mathf.Approximately(Time.deltaTime, 0)) {
+                return;
+            }
+
+            for (var objIndex = 0; objIndex < EventCallerContainerExtension.lateUpdateable.Count; objIndex++) {
+                EventCallerContainerExtension.lateUpdateable[objIndex].LateUpdate();
+            }
+        }
+        /// <summary>
+        /// Called on a reliable time. Can be called more frequently than Update.
+        /// </summary>
+        protected void FixedUpdate() {
+            for (var objIndex = 0; objIndex < EventCallerContainerExtension.fixedUpdateable.Count; objIndex++) {
+                EventCallerContainerExtension.fixedUpdateable[objIndex].FixedUpdate();
+            }
+        }
 
         /// <summary>
         /// Called when the application focus is changing.

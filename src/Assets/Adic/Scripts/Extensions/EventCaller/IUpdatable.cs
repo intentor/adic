@@ -4,7 +4,7 @@
     /// </summary>
     public interface IUpdatable {
         /// <summary>
-        /// Called every frame.
+        /// Called once per frame.
         /// </summary>
         void Update();
     }

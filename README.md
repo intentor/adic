@@ -1782,16 +1782,101 @@ Calls events on classes that implement certain interfaces. The classes must be b
 
 ##### Update
 
-Calls `Update()` method on classes that implement `Adic.IUpdatable` interface.
+Calls `Update()` method on classes that implement `Adic.IUpdatable` interface. It's not called when the game is paused.
 
 ```cs
 namespace MyNamespace {
 	/// <summary>
 	/// My updateable class.
 	/// </summary>
-	public class MyUpdateableClass : Adic.IUpdatable {
+	public class MyClass : Adic.IUpdatable {
 		public void Update() {
 			//Update code.
+		}
+	}
+}
+```
+
+##### LateUpdate
+
+Calls `LateUpdate()` method on classes that implement `Adic.ILateUpdatable` interface. It's not called when the game is paused.
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My late updateable class.
+	/// </summary>
+	public class MyClass : Adic.ILateUpdatable {
+		public void LateUpdate() {
+			//Late update code.
+		}
+	}
+}
+```
+
+##### FixedUpdate
+
+Calls `FixedUpdate()` method on classes that implement `Adic.IFixedUpdatable` interface. It's called even when the game is paused.
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My fixed updateable class.
+	/// </summary>
+	public class MyClass : Adic.IFixedUpdatable {
+		public void FixedUpdate() {
+			//Fixed update code.
+		}
+	}
+}
+```
+
+##### IPausable
+
+Calls `OnApplicationPause()` method on classes that implement `Adic.IPausable` interface.
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My pausable class.
+	/// </summary>
+	public class MyClass : Adic.IPausable {
+		public void OnApplicationPause(bool isPaused) {
+			//Called when the application is paused.
+		}
+	}
+}
+```
+
+##### IFocusable
+
+Calls `OnApplicationFocus()` method on classes that implement `Adic.IFocusable` interface.
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My focusable class.
+	/// </summary>
+	public class MyClass : Adic.IFocusable {
+		public void OnApplicationFocus(hasFocus) {
+			//Called when the application focus is changing.
+		}
+	}
+}
+```
+
+##### IQuitable
+
+Calls `OnApplicationQuit()` method on classes that implement `Adic.IQuitable` interface.
+
+```cs
+namespace MyNamespace {
+	/// <summary>
+	/// My quitable class.
+	/// </summary>
+	public class MyClass : Adic.IQuitable {
+		public void OnApplicationQuit() {
+			//Called when the application quits.
 		}
 	}
 }
@@ -1806,7 +1891,7 @@ namespace MyNamespace {
 	/// <summary>
 	/// My disposable class.
 	/// </summary>
-	public class MyDisposableClass : System.IDisposable {
+	public class MyClass : System.IDisposable {
 		public void Dispose() {
 			//Dispose code.
 		}

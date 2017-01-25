@@ -6,9 +6,17 @@ namespace Adic.Examples.Events {
     /// <summary>
     /// Event receiver behaviour.
     /// </summary>
-    public class EventReceiver : IUpdatable, IPausable, IQuitable {
+    public class EventReceiver : IUpdatable, ILateUpdatable, IFixedUpdatable, IFocusable, IPausable, IQuitable {
         public void Update() {
             Debug.Log("Updating...");
+        }
+
+        public void LateUpdate() {
+            Debug.Log("Late updating...");
+        }
+
+        public void FixedUpdate() {
+            Debug.Log("Fixed updating...");
         }
 
         public void OnApplicationFocus(bool hasFocus) {
