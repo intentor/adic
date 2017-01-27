@@ -1,4 +1,6 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Adic {
@@ -78,5 +80,18 @@ namespace Adic {
 		/// </summary>
 		/// <returns>All available registrations.</returns>
 		Type[] GetAllRegistrations();
+
+        /// <summary>
+        /// Starts acoroutine.
+        /// </summary>
+        /// <param name="routine">Routine.</param>
+        /// <returns>Created coroutine.</returns>
+        Coroutine StartCoroutine(IEnumerator routine);
+
+        /// <summary>
+        /// Stops a coroutine.
+        /// </summary>
+        /// <param name="coroutine">Coroutine to be stopped.</param>
+        void StopCoroutine(Coroutine coroutine);
 	}
 }

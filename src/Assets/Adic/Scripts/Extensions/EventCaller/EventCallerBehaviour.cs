@@ -6,6 +6,9 @@ namespace Adic {
     /// Trigger events on objects added by the Event Caller Container Extension.
     /// </summary>
     public class EventCallerBehaviour : MonoBehaviour {
+        /// <summary>Event Caller extension related to this behaviour.</summary>
+        public EventCallerContainerExtension extension { get; set; }
+
         /// <summary>
         /// Called once per frame.
         /// </summary>
@@ -15,8 +18,8 @@ namespace Adic {
                 return;
             }
 
-            for (var objIndex = 0; objIndex < EventCallerContainerExtension.updateable.Count; objIndex++) {
-                EventCallerContainerExtension.updateable[objIndex].Update();
+            for (var objIndex = 0; objIndex < extension.updateable.Count; objIndex++) {
+                extension.updateable[objIndex].Update();
             }
         }
 
@@ -29,16 +32,16 @@ namespace Adic {
                 return;
             }
 
-            for (var objIndex = 0; objIndex < EventCallerContainerExtension.lateUpdateable.Count; objIndex++) {
-                EventCallerContainerExtension.lateUpdateable[objIndex].LateUpdate();
+            for (var objIndex = 0; objIndex < extension.lateUpdateable.Count; objIndex++) {
+                extension.lateUpdateable[objIndex].LateUpdate();
             }
         }
         /// <summary>
         /// Called on a reliable time. Can be called more frequently than Update.
         /// </summary>
         protected void FixedUpdate() {
-            for (var objIndex = 0; objIndex < EventCallerContainerExtension.fixedUpdateable.Count; objIndex++) {
-                EventCallerContainerExtension.fixedUpdateable[objIndex].FixedUpdate();
+            for (var objIndex = 0; objIndex < extension.fixedUpdateable.Count; objIndex++) {
+                extension.fixedUpdateable[objIndex].FixedUpdate();
             }
         }
 
@@ -47,8 +50,8 @@ namespace Adic {
         /// </summary>
         /// <param name="hasFocus">If set to <c>true</c> has focus.</param>
         protected void OnApplicationFocus(bool hasFocus) {
-            for (var objIndex = 0; objIndex < EventCallerContainerExtension.focusable.Count; objIndex++) {
-                EventCallerContainerExtension.focusable[objIndex].OnApplicationFocus(hasFocus);
+            for (var objIndex = 0; objIndex < extension.focusable.Count; objIndex++) {
+                extension.focusable[objIndex].OnApplicationFocus(hasFocus);
             }
         }
 
@@ -57,8 +60,8 @@ namespace Adic {
         /// </summary>
         /// <param name="isPaused">If set to <c>true</c> is paused.</param>
         protected void OnApplicationPause(bool isPaused) {
-            for (var objIndex = 0; objIndex < EventCallerContainerExtension.pausable.Count; objIndex++) {
-                EventCallerContainerExtension.pausable[objIndex].OnApplicationPause(isPaused);
+            for (var objIndex = 0; objIndex < extension.pausable.Count; objIndex++) {
+                extension.pausable[objIndex].OnApplicationPause(isPaused);
             }
         }
 
@@ -66,8 +69,8 @@ namespace Adic {
         /// Called when the application is quitting.
         /// </summary>
         protected void OnApplicationQuit() {
-            for (var objIndex = 0; objIndex < EventCallerContainerExtension.quitable.Count; objIndex++) {
-                EventCallerContainerExtension.quitable[objIndex].OnApplicationQuit();
+            for (var objIndex = 0; objIndex < extension.quitable.Count; objIndex++) {
+                extension.quitable[objIndex].OnApplicationQuit();
             }
         }
 
@@ -75,15 +78,9 @@ namespace Adic {
         /// Called when the component is destroyed.
         /// </summary>
         protected void OnDestroy() {
-            foreach (var obj in EventCallerContainerExtension.disposable) {
+            foreach (var obj in extension.disposable) {
                 obj.Dispose();
             }
-
-            EventCallerContainerExtension.disposable.Clear();
-            EventCallerContainerExtension.updateable.Clear();
-            EventCallerContainerExtension.focusable.Clear();
-            EventCallerContainerExtension.pausable.Clear();
-            EventCallerContainerExtension.quitable.Clear();
         }
     }
 }

@@ -1978,7 +1978,8 @@ Extensions on *Adic* can be created in 3 ways:
 2. Creating extension methods to any part of the framework;
 3. Creating a container extension, which allows for the interception of internal events, which can alter the inner workings of the framework.
 
-**Note:** always place the public parts of extensions into *Adic* namespace.
+**Note 1:** always place the public parts of extensions into *Adic* namespace.
+**Note 2:** a container can have only a single instance of each extension.
 
 To create a *container extension*, which can intercept internal *Adic* events, you have to:
 

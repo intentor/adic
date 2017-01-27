@@ -7,3 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Adic/Examples/07_Factory/Factory.unity
+  - enabled: 1
+    path: Assets/Tests/MultiScene/TestMultiSceneScene1.unity
+  - enabled: 1
+    path: Assets/Tests/MultiScene/TestMultiSceneScene2.unity

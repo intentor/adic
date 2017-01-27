@@ -26,9 +26,23 @@ namespace Adic.Container {
 		/// <summary>
 		/// Unegisters a container extension.
 		/// </summary>
-		/// <typeparam name="T">The type of the extension(s) to be unregistered.</param>
+		/// <typeparam name="T">The type of the extension to be unregistered.</param>
 		/// <returns>The injection container for chaining.</returns>
 		IInjectionContainer UnregisterExtension<T>() where T : IContainerExtension;
+
+        /// <summary>
+        /// Gets a extension registered in the container.
+        /// </summary>
+        /// <typeparam name="T">The type of the extension to get.</param>
+        /// <returns>The extension.</returns>
+        T GetExtension<T>() where T : IContainerExtension;
+
+        /// <summary>
+        /// Gets a extension registered in the container.
+        /// </summary>
+        /// <param name="type">The type of the extension.</param>
+        /// <returns>The extension.</returns>
+        IContainerExtension GetExtension(Type type);
 
         /// <summary>
         /// Check whether an extensions is added to this container.

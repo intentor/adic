@@ -78,7 +78,7 @@ namespace Adic {
 		/// <param name="routine">Routine to be started.</param>
 		/// <returns>The coroutine.</returns>
 		protected Coroutine StartCoroutine(IEnumerator routine) {
-			var coroutine = EventCallerContainerExtension.eventCaller.StartCoroutine(routine);
+            var coroutine = dispatcher.StartCoroutine(routine);
 			this.coroutines.Add(coroutine);
 			this.Retain();
 
@@ -90,7 +90,7 @@ namespace Adic {
 		/// </summary>
 		/// <param name="coroutine">Coroutine to be stopped.</param>
 		protected void StopCoroutine(Coroutine coroutine) {
-			EventCallerContainerExtension.eventCaller.StopCoroutine(coroutine);
+            dispatcher.StopCoroutine(coroutine);
 			this.coroutines.Remove(coroutine);
 		}
 

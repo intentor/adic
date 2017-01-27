@@ -14,35 +14,37 @@ namespace Adic {
     /// </summary>
     public class EventCallerContainerExtension : IContainerExtension {
         /// <summary>The disposable instances.</summary>
-        public static List<IDisposable> disposable = new List<IDisposable>();
+        public List<IDisposable> disposable { get; private set; }
         /// <summary>The updateable instances.</summary>
-        public static List<IUpdatable> updateable = new List<IUpdatable>();
+        public List<IUpdatable> updateable { get; private set; }
         /// <summary>The late updateable instances.</summary>
-        public static List<ILateUpdatable> lateUpdateable = new List<ILateUpdatable>();
+        public List<ILateUpdatable> lateUpdateable { get; private set; }
         /// <summary>The fixed updateable instances.</summary>
-        public static List<IFixedUpdatable> fixedUpdateable = new List<IFixedUpdatable>();
+        public List<IFixedUpdatable> fixedUpdateable { get; private set; }
         /// <summary>The focusable instances.</summary>
-        public static List<IFocusable> focusable = new List<IFocusable>();
+        public List<IFocusable> focusable { get; private set; }
         /// <summary>The pausable instances.</summary>
-        public static List<IPausable> pausable = new List<IPausable>();
+        public List<IPausable> pausable { get; private set; }
         /// <summary>The quitable instances.</summary>
-        public static List<IQuitable> quitable = new List<IQuitable>();
+        public List<IQuitable> quitable { get; private set; }
         /// <summary>The event caller behaviour.</summary>
-        public static EventCallerBehaviour eventCaller;
+        public EventCallerBehaviour behaviour { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Adic.EventCallerContainerExtension"/> class.
         /// </summary>
         public EventCallerContainerExtension() {
-            //Creates a new game object for UpdateableBehaviour.
-            var gameObject = new GameObject();
-            gameObject.name = "EventCaller";
-            eventCaller = gameObject.AddComponent<EventCallerBehaviour>();
+            this.disposable = new List<IDisposable>();
+            this.updateable = new List<IUpdatable>();
+            this.lateUpdateable = new List<ILateUpdatable>();
+            this.fixedUpdateable  = new List<IFixedUpdatable>();
+            this.focusable = new List<IFocusable>();
+            this.pausable = new List<IPausable>();
+            this.quitable = new List<IQuitable>();
         }
 
         public void OnRegister(IInjectionContainer container) {
-            //Adds the container to the disposable list.
-            disposable.Add(container);
+            this.CreateBehaviour(container.identifier);
 
             //Checks whether a binding for the ICommandDispatcher exists.
             if (container.ContainsBindingFor<ICommandDispatcher>()) {
@@ -66,7 +68,28 @@ namespace Adic {
             pausable.Clear();
             quitable.Clear();
 
-            MonoBehaviour.Destroy(eventCaller);
+            if (behaviour != null && behaviour.gameObject != null) {
+                MonoBehaviour.DestroyImmediate(behaviour.gameObject);
+            }
+            behaviour = null;
+        }
+
+        /// <summary>
+        /// Create the EventCalledBehaviour. At any time there should be a single behaviour on the scene.
+        /// </summary>
+        /// <param name="containerID">Container ID.</param>
+        private void CreateBehaviour(object containerID) {
+            if (behaviour == null) {
+                //Creates a new game object for UpdateableBehaviour.
+                var gameObject = new GameObject();
+                gameObject.name = String.Format("EventCaller ({0})", containerID);
+
+                //The behaviour should only be removed during unregister.
+                MonoBehaviour.DontDestroyOnLoad(gameObject);
+
+                behaviour = gameObject.AddComponent<EventCallerBehaviour>();
+                behaviour.extension = this;
+            }
         }
 
         /// <summary>

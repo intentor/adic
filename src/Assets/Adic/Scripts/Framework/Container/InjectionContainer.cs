@@ -142,7 +142,13 @@ namespace Adic {
 		/// <summary>
 		/// Releases all resources used by the <see cref="Adic.InjectionContainer"/> object.
 		/// </summary>
-		public void Dispose() {
+        public void Dispose() {
+            foreach (var extension in extensions) {
+                extension.OnUnregister(this);
+            }
+            this.extensions.Clear();
+
+            this.extensions = null;
 			this.cache = null;
 			this.binder = null;
 		}
@@ -173,25 +179,33 @@ namespace Adic {
 			}
 			
 			return this;
-		}
+        }
+
+        public T GetExtension<T>() where T : IContainerExtension {
+            return (T) GetExtension(typeof(T));
+        }
+
+        public IContainerExtension GetExtension(Type type) {
+            IContainerExtension found = null;
+
+            if (extensions != null) {
+                foreach (var extension in extensions) {
+                    if (extension.GetType().Equals(type)) {
+                        found = extension;
+                        break;
+                    }
+                }
+            }
+
+            return found;
+        }
 
         public bool HasExtension<T>() {
             return HasExtension(typeof(T));
         }
 
         public bool HasExtension(Type type) {
-            bool exists = false;
-
-            if (extensions != null) {
-                foreach (var extension in extensions) {
-                    if (extension.GetType().Equals(type)) {
-                        exists = true;
-                        break;
-                    }
-                }
-            }
-
-            return exists;
+            return GetExtension(type) != null;
         }
 
 		/* Container */

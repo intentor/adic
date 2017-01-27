@@ -1,4 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace Adic {
 		protected Dictionary<Type, object> commands;
 		/// <summary>The container from which the command dispatcher was created.</summary>
 		protected IInjectionContainer container;
+        /// <summary>Underlying behaviour. </summary>
+        protected EventCallerContainerExtension eventCallerExtension;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.CommandDispatcher"/> class.
@@ -22,6 +25,12 @@ namespace Adic {
 		public CommandDispatcher(IInjectionContainer container) {
 			this.commands = new Dictionary<Type, object>();
 			this.container = container;
+
+            this.eventCallerExtension = this.container.GetExtension<EventCallerContainerExtension>();
+            if (eventCallerExtension == null) {
+                this.container.RegisterExtension<EventCallerContainerExtension>();
+                this.eventCallerExtension = this.container.GetExtension<EventCallerContainerExtension>();
+            }
 		}
 
 		/// <summary>
@@ -58,8 +67,8 @@ namespace Adic {
 
 				if (command.keepAlive) {
 					//If the command has IUpdatable interface, adds it to the EventCaller extension.
-					if (command is IUpdatable && !EventCallerContainerExtension.updateable.Contains((IUpdatable)command)) {
-						EventCallerContainerExtension.updateable.Add((IUpdatable)command);
+                    if (command is IUpdatable && !eventCallerExtension.updateable.Contains((IUpdatable)command)) {
+                        eventCallerExtension.updateable.Add((IUpdatable)command);
 					}
 				} else {
 					this.Release(command);
@@ -77,7 +86,7 @@ namespace Adic {
 		/// <param name="time">Time to dispatch the command (seconds).</param>
 		/// <param name="parameters">Command parameters.</param>
 		public void InvokeDispatch<T>(float time, params object[] parameters) where T : ICommand {
-			EventCallerContainerExtension.eventCaller.StartCoroutine(this.DispatchInvoke(typeof(T), time, parameters));
+            this.StartCoroutine(this.DispatchInvoke(typeof(T), time, parameters));
 		}
 		
 		/// <summary>
@@ -87,7 +96,7 @@ namespace Adic {
 		/// <param name="time">Time to dispatch the command (seconds).</param>
 		/// <param name="parameters">Command parameters.</param>
 		public void InvokeDispatch(Type type, float time, params object[] parameters) {
-			EventCallerContainerExtension.eventCaller.StartCoroutine(this.DispatchInvoke(type, time, parameters));
+            this.StartCoroutine(this.DispatchInvoke(type, time, parameters));
 		}
 
 		/// <summary>
@@ -109,8 +118,8 @@ namespace Adic {
 			if (!command.running) return;
 
 			//If the command has IUpdatable interface, and is on the EventCaller extension, removes it.
-			if (command is IUpdatable && EventCallerContainerExtension.updateable.Contains((IUpdatable)command)) {
-				EventCallerContainerExtension.updateable.Remove((IUpdatable)command);
+            if (command is IUpdatable && eventCallerExtension.updateable.Contains((IUpdatable)command)) {
+                eventCallerExtension.updateable.Remove((IUpdatable)command);
 			}
 			//If the command has IDisposable interface, calls the Dispose() method. 
 			if (command is IDisposable) {
@@ -190,7 +199,24 @@ namespace Adic {
 		/// <returns>All available registrations.</returns>
 		public Type[] GetAllRegistrations() {
 			return this.commands.Keys.ToArray();
-		}
+        }
+
+        /// <summary>
+        /// Starts acoroutine.
+        /// </summary>
+        /// <param name="routine">Routine.</param>
+        /// <returns>Created coroutine.</returns>
+        public Coroutine StartCoroutine(IEnumerator routine) {
+            return eventCallerExtension.behaviour.StartCoroutine(routine);
+        }
+
+        /// <summary>
+        /// Stops a coroutine.
+        /// </summary>
+        /// <param name="coroutine">Coroutine to be stopped.</param>
+        public void StopCoroutine(Coroutine coroutine) {
+            eventCallerExtension.behaviour.StopCoroutine(coroutine);
+        }
 
 		/// <summary>
 		/// Pools a command of a given type.
