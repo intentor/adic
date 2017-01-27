@@ -5,7 +5,7 @@ Copyright (c) 2014-2017 André "Intentor" Martins
 http://intentor.com.br/
 ------------------------------------------------
 
-Version 2.24 (2017-01-27)
+Version 2.23 (2017-01-27)
 
 Framework
 - Added Android IL2CPP support. [Issue #71]

@@ -10,7 +10,7 @@
     <RootNamespace>Adic</RootNamespace>
     <AssemblyName>Adic.Extensions</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <ReleaseVersion>2.21</ReleaseVersion>
+    <ReleaseVersion>2.23</ReleaseVersion>
     <Description>Adic Extensions (Unity only).</Description>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
