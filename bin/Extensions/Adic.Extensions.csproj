@@ -98,6 +98,21 @@
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\EventCaller\EventCallerContainerExtension.cs">
       <Link>Extensions\EventCaller\EventCallerContainerExtension.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\EventCaller\IFixedUpdatable.cs">
+      <Link>Extensions\EventCaller\IFixedUpdatable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\EventCaller\IFocusable.cs">
+      <Link>Extensions\EventCaller\IFocusable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\EventCaller\ILateUpdatable.cs">
+      <Link>Extensions\EventCaller\ILateUpdatable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\EventCaller\IPausable.cs">
+      <Link>Extensions\EventCaller\IPausable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\EventCaller\IQuitable.cs">
+      <Link>Extensions\EventCaller\IQuitable.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\EventCaller\IUpdatable.cs">
       <Link>Extensions\EventCaller\IUpdatable.cs</Link>
     </Compile>
