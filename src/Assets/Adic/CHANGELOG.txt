@@ -5,6 +5,11 @@ Copyright (c) 2014-2017 André "Intentor" Martins
 http://intentor.com.br/
 ------------------------------------------------
 
+Version 2.24 (2017-03-XX)
+
+Event Caller extension
+- Fixed LateUpdate not working for resolved instances. [Issue #70]
+
 Version 2.23 (2017-01-27)
 
 Framework

@@ -132,8 +132,8 @@ namespace Adic {
 
             this.BindUnityExtension(disposable, instance);
             this.BindUnityExtension(updateable, instance);
-            this.BindUnityExtension(lateUpdateable, binding.value);
-            this.BindUnityExtension(fixedUpdateable, binding.value);
+            this.BindUnityExtension(lateUpdateable, instance);
+            this.BindUnityExtension(fixedUpdateable, instance);
             this.BindUnityExtension(focusable, instance);
             this.BindUnityExtension(pausable, instance);
             this.BindUnityExtension(quitable, instance);
