@@ -7,6 +7,8 @@ http://intentor.com.br/
 
 Version 2.24 (2017-03-XX)
 
+Framework
+- Fixed NullReferenceException when disposing containers. [Issue #74]
 Event Caller extension
 - Fixed disposing of IDisposable objects when unregistering the extension. [Issue #75]
 - Fixed LateUpdate not working for resolved instances. [Issue #77]

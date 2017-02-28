@@ -143,12 +143,14 @@ namespace Adic {
 		/// Releases all resources used by the <see cref="Adic.InjectionContainer"/> object.
 		/// </summary>
         public void Dispose() {
-            foreach (var extension in extensions) {
-                extension.OnUnregister(this);
+            if (extensions != null) {
+                foreach (var extension in extensions) {
+                    extension.OnUnregister(this);
+                }
+                this.extensions.Clear();
+                this.extensions = null;
             }
-            this.extensions.Clear();
 
-            this.extensions = null;
 			this.cache = null;
 			this.binder = null;
 		}
