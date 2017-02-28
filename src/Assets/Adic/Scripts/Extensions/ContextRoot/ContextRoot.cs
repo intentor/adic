@@ -98,7 +98,20 @@ namespace Adic {
 		public IInjectionContainer AddContainer<T>() where T : IInjectionContainer, new() {
 			var container = Activator.CreateInstance<T>();
 			return this.AddContainer(container, true);
-		}
+        }
+
+        /// <summary>
+        /// Adds the specified container.
+        /// </summary>
+        /// <param name="identifier">The container identifier.</param>
+        /// <typeparam name="T">Container type.</typeparam>
+        /// <returns>The injection container for chaining.</returns>
+        public IInjectionContainer AddContainer<T>(object identifier) where T : IInjectionContainer {
+            var containerType = typeof(T);
+            var constructor = containerType.GetConstructor(new Type[] { typeof(object) });
+            var container = (IInjectionContainer) constructor.Invoke(new object[] { identifier });
+            return this.AddContainer(container, true);
+        }
 		
 		/// <summary>
 		/// Adds the specified container.
