@@ -187,7 +187,8 @@ namespace Adic.Injection {
 		/// <param name="parentInstance">Parent object in which the resolve is occuring.</param>
 		/// <param name="identifier">The binding identifier to be looked for.</param>
 		/// <param name="alwaysResolve">Always resolve the type, even when resolution mode is null.</param>
-        protected object Resolve(Type type, InjectionMember member, string memberName, object parentInstance, object identifier, bool alwaysResolve) {
+        protected object Resolve(Type type, InjectionMember member, string memberName, object parentInstance,
+            object identifier, bool alwaysResolve) {
 			object resolution = null;
 
 			if (this.beforeResolve != null) {
@@ -230,7 +231,7 @@ namespace Adic.Injection {
 
 			if (bindings == null) {
 				if (alwaysResolve || this.resolutionMode == ResolutionMode.ALWAYS_RESOLVE) {
-					instances.Add(this.Instantiate(type as Type));
+                    instances.Add(this.Instantiate(typeToGet));
 				} else {
 					return null;
 				}
@@ -380,12 +381,8 @@ namespace Adic.Injection {
 		/// <param name="parentInstance">Parent object in which the resolve is occuring.</param>
 		/// <param name="identifier">The binding identifier to be looked for.</param>
 		/// <returns>The resolved instance from the binding.</returns>
-		protected object ResolveBinding(BindingInfo binding, 
-			Type type,
-            InjectionMember member,
-            string memberName,
-			object parentInstance,
-        	object identifier) {
+		protected object ResolveBinding(BindingInfo binding, Type type, InjectionMember member, string memberName,
+			object parentInstance, object identifier) {
 			//Condition evaluation.
 			if (binding.condition != null) {
 				var context = new InjectionContext() {
@@ -457,10 +454,14 @@ namespace Adic.Injection {
 		}
 
 		/// <summary>
-		/// Instantiate and resolve the dependencies for the specified type.
+		/// Instantiate and resolve dependencies for the specified type.
 		/// </summary>
 		/// <param name="type">The type to be instantiated.</param>
 		protected object Instantiate(Type type) {
+            if (type.IsInterface) {
+                throw new InjectorException(string.Format(InjectorException.CANNOT_INSTANTIATE_INTERFACE, type.ToString()));
+            }
+
 			var reflectedClass = this.cache.GetClass(type);
 			object instance = null;
 
@@ -471,7 +472,7 @@ namespace Adic.Injection {
 			if (reflectedClass.constructorParameters.Length == 0) {
 				instance = reflectedClass.constructor();
 			} else {
-                object[] parameters = this.GetParametersFromInfo(instance, reflectedClass.constructorParameters, InjectionMember.Constructor);
+                object[] parameters = this.GetParametersFromInfo(null, reflectedClass.constructorParameters, InjectionMember.Constructor);
 				instance = reflectedClass.paramsConstructor(parameters);
 			}
 

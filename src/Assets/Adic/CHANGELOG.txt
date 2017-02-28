@@ -8,6 +8,7 @@ http://intentor.com.br/
 Version 2.24 (2017-03-XX)
 
 Framework
+- Added exception when trying to instantiate interfaces.
 - Fixed NullReferenceException when disposing containers. [Issue #74]
 
 Bindings Printer Extension

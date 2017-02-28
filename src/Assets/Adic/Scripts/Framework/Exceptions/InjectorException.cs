@@ -5,7 +5,8 @@ namespace Adic.Exceptions {
 	/// Injector exception.
 	/// </summary>
 	public class InjectorException : Exception {
-		public const string NO_CONSTRUCTORS = "There are no constructors on the type {0}.";
+        public const string NO_CONSTRUCTORS = "There are no constructors on the type \"{0}\".";
+        public const string CANNOT_INSTANTIATE_INTERFACE = "Interface \"{0}\" cannot be instantiated.";
 				
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.Exceptions.InjectorException"/> class.
