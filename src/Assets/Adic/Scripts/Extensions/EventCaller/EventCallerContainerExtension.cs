@@ -60,6 +60,11 @@ namespace Adic {
             container.afterAddBinding -= this.OnAfterAddBinding;
             container.bindingResolution -= this.OnBindingResolution;
 
+            if (behaviour != null && behaviour.gameObject != null) {
+                MonoBehaviour.DestroyImmediate(behaviour.gameObject);
+            }
+            behaviour = null;
+
             disposable.Clear();
             updateable.Clear();
             lateUpdateable.Clear();
@@ -67,11 +72,6 @@ namespace Adic {
             focusable.Clear();
             pausable.Clear();
             quitable.Clear();
-
-            if (behaviour != null && behaviour.gameObject != null) {
-                MonoBehaviour.DestroyImmediate(behaviour.gameObject);
-            }
-            behaviour = null;
         }
 
         /// <summary>

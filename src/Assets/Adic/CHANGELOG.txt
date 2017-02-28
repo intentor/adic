@@ -8,7 +8,8 @@ http://intentor.com.br/
 Version 2.24 (2017-03-XX)
 
 Event Caller extension
-- Fixed LateUpdate not working for resolved instances. [Issue #70]
+- Fixed disposing of IDisposable objects when unregistering the extension. [Issue #75]
+- Fixed LateUpdate not working for resolved instances. [Issue #77]
 
 Version 2.23 (2017-01-27)
 
