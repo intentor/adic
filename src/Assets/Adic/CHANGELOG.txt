@@ -9,6 +9,10 @@ Version 2.24 (2017-03-XX)
 
 Framework
 - Fixed NullReferenceException when disposing containers. [Issue #74]
+
+Bindings Printer Extension
+- Added container identifier.
+
 Event Caller extension
 - Fixed disposing of IDisposable objects when unregistering the extension. [Issue #75]
 - Fixed LateUpdate not working for resolved instances. [Issue #77]
@@ -34,7 +38,7 @@ Version 2.21 (2016-11-29)
 Framework
 - Added UnbindByInstance method on binder. [Issues #59 and #60]
 - Added more informative binding exception messages. [Pull request #64]
-- Fix singleton binding adding type instead of value when binging different types. [Issue #45]
+- Fixed singleton binding adding type instead of value when binging different types. [Issue #45]
 
 Unity Binding Extension
 - Added setting of identifiers using the same name of Unity Objects. [Issue #62]
@@ -42,44 +46,44 @@ Unity Binding Extension
 Version 2.20.2 (2016-08-11)
 
 Framework
-- Fix singleton binding when ResolutionMode is RETURN_NULL. [Issue #54]
+- Fixed singleton binding when ResolutionMode is RETURN_NULL. [Issue #54]
 
 Version 2.20.1 (2016-08-03)
 
 Commander extension
-- Fix command pooling. [Issue #53]
+- Fixed command pooling. [Issue #53]
 
 Version 2.20 (2016-07-24)
 
 Framework
-- Add inject on methods. [Issue #48]
-- Fix unbinding of singleton types. [Issue #50]
+- Added inject on methods. [Issue #48]
+- Fixed unbinding of singleton types. [Issue #50]
 - Construct attribute is now deprecated. Please use Inject instead.
 - PostConstruct attribute is now deprecated. Please use Inject instead.
 
 Bindings Printer Extension
-- Fix inconsistent space around container name.
+- Fixed inconsistent space around container name.
 
 Version 2.19.1 (2016-07-18)
 
 Event Caller extension
-- Fix incorrect checking of already added bindings. [Issue #51]
+- Fixed incorrect checking of already added bindings. [Issue #51]
 
 Version 2.19 (2016-07-12)
 
 Framework
-- Add instance resolution mode, so it's possible to return null on types that are not bound to the container. [Issue #46]
-- Fix singleton instances being created for each binding type. [Issue #44]
+- Added instance resolution mode, so it's possible to return null on types that are not bound to the container. [Issue #46]
+- Fixed singleton instances being created for each binding type. [Issue #44]
 
 Event Caller extension
-- Fix adding of already added binding. [Issue #44]
-- Update Time.deltaTime conditional to use Mathf.Approximately instead of direct comparison. [Issue #44]
+- Fixed adding of already added binding. [Issue #44]
+- Updated Time.deltaTime conditional to use Mathf.Approximately instead of direct comparison. [Issue #44]
 
 Version 2.18 (2016-03-23)
 
 Bindings Printer Extension
 - Updated rendering to use GUILayout methods.
-- Fix ScrollView when displaying lots of bindings.
+- Fixed ScrollView when displaying lots of bindings.
 
 Context Root extension
 - Added base type for children injection on scenes.
@@ -174,7 +178,7 @@ Commander extension
 - Added automatic command retention when invoking or starting a coroutine. [Issue #21]
 - Added stopping of coroutines when releasing commands. [Issue #21]
 - Added release of commands by type. [Issue #18]
-- Implemented IDisposable interface on the command class. [Issue #21]
+- Added IDisposable interface on the command class. [Issue #21]
 
 Context Root extension
 - Fixed new instantiation of existing container's data on Awake().

@@ -57,9 +57,9 @@ namespace Adic.Extenstions.BindingsPrinter {
 
 				GUILayout.Space(20f);
 				GUILayout.Label("CONTAINER", EditorStyles.containerInfo);
-				GUILayout.Label(					
-					string.Format("{0} (index: {1}, {2})", data.container.GetType().FullName, dataIndex,
-						(data.destroyOnLoad ? "destroy on load" : "singleton")
+				GUILayout.Label(
+                    string.Format("[{1}] {0} ({2} | {3})", data.container.GetType().FullName, dataIndex,
+                        data.container.identifier, (data.destroyOnLoad ? "destroy on load" : "singleton")
 					),
 					EditorStyles.title
 				);
