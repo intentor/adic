@@ -33,8 +33,10 @@ namespace Adic.Examples.Prefabs {
 			this.Inject();
 		}
 
-		protected void Update () {
-			this.cube.Rotate(1.0f, 1.0f, 1.0f);
+		protected void Update() {
+            if (this.cube != null) {
+                this.cube.Rotate(1.0f, 1.0f, 1.0f);
+            }
 		}
 
 		protected void OnGUI() {

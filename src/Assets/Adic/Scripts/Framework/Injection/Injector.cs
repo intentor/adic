@@ -338,7 +338,8 @@ namespace Adic.Injection {
 			for (int fieldIndex = 0; fieldIndex < fields.Length; fieldIndex++) {
 				var field = fields[fieldIndex];
                 
-                if (field.getter(instance) == null) {
+                var value = field.getter(instance);
+                if (value == null || "null".Equals(value.ToString())) {
                     var valueToSet = this.Resolve(field.type, InjectionMember.Field, field.name, instance, 
                         field.identifier, false);
                     field.setter(instance, valueToSet);
@@ -357,8 +358,9 @@ namespace Adic.Injection {
 		protected void InjectProperties(object instance, AcessorInfo[] properties) {
 			for (int propertyIndex = 0; propertyIndex < properties.Length; propertyIndex++) {
 				var property = properties[propertyIndex];
-                
-                if (property.getter == null || property.getter(instance) == null) {
+
+                var value = property.getter == null ? null : property.getter(instance);
+                if (value == null || "null".Equals(value.ToString())) {
                     var valueToSet = this.Resolve(property.type, InjectionMember.Property, property.name, instance, 
                         property.identifier, false);
                     property.setter(instance, valueToSet);
