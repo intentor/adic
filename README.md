@@ -591,6 +591,8 @@ namespace MyNamespace {
 }
 ```
 
+**Attention:** injecting on reference objects will only occur if the object has no value (its value is `null`).
+
 ### <a id="method-injection"></a>Method injection
 
 Method injection works like constructor injection, but on methods:

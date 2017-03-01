@@ -5,11 +5,12 @@ Copyright (c) 2014-2017 André "Intentor" Martins
 http://intentor.com.br/
 ------------------------------------------------
 
-Version 2.24 (2017-03-XX)
+Version 2.24 (2017-03-01)
 
 Framework
-- Fixed NullReferenceException when disposing containers. [Issue #74]
 - Added exception when trying to instantiate interfaces.
+- Added injecting on acessors only if no value has been injected. [Issue #73]
+- Fixed NullReferenceException when disposing containers. [Issue #74]
 - Fixed throwing exception then readding extensions.
 
 Bindings Printer Extension

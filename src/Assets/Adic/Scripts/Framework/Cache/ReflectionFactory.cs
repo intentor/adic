@@ -159,8 +159,8 @@ namespace Adic.Cache {
 		/// </summary>
 		/// <param name="type">Type from which reflection will be resolved.</param>
 		/// <returns>The properties.</returns>
-		protected SetterInfo[] ResolveProperties(Type type) {
-			var setters = new List<SetterInfo>();
+		protected AcessorInfo[] ResolveProperties(Type type) {
+			var setters = new List<AcessorInfo>();
 
 			var properties = type.GetProperties(BindingFlags.Instance | 
 			    BindingFlags.Static |
@@ -173,8 +173,10 @@ namespace Adic.Cache {
 
 				if (attributes.Length > 0) {
 					var attribute = attributes[0] as Inject;
-					var method = MethodUtils.CreatePropertySetter(type, property);
-                    var info = new SetterInfo(property.PropertyType, property.Name, attribute.identifier, method);
+                    var getter = MethodUtils.CreatePropertyGetter(type, property);
+                    var setter = MethodUtils.CreatePropertySetter(type, property);
+                    var info = new AcessorInfo(property.PropertyType, property.Name, attribute.identifier, getter, 
+                        setter);
 					setters.Add(info);
 				}
 			}
@@ -187,8 +189,8 @@ namespace Adic.Cache {
 		/// </summary>
 		/// <param name="type">Type from which reflection will be resolved.</param>
 		/// <returns>The fields.</returns>
-		protected SetterInfo[] ResolveFields(Type type) {
-			var setters = new List<SetterInfo>();
+		protected AcessorInfo[] ResolveFields(Type type) {
+			var setters = new List<AcessorInfo>();
 			
 			var fields = type.GetFields(BindingFlags.Instance | 
 		        BindingFlags.Static |
@@ -201,8 +203,9 @@ namespace Adic.Cache {
 				
 				if (attributes.Length > 0) {
 					var attribute = attributes[0] as Inject;
-					var method = MethodUtils.CreateFieldSetter(type, field);
-                    var info = new SetterInfo(field.FieldType, field.Name, attribute.identifier, method);
+                    var getter = MethodUtils.CreateFieldGetter(type, field);
+                    var setter = MethodUtils.CreateFieldSetter(type, field);
+                    var info = new AcessorInfo(field.FieldType, field.Name, attribute.identifier, getter, setter);
 					setters.Add(info);
 				}
 			}

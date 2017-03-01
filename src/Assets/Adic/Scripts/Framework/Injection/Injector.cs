@@ -328,28 +328,41 @@ namespace Adic.Injection {
 
 		/// <summary>
 		/// Injects on fields.
-		/// </summary>
+        /// </summary>
+        /// <remarks>
+        /// The value is set only if the field has no value already set.
+        /// </remarks>
 		/// <param name="instance">The instance to have its dependencies resolved.</param>
 		/// <param name="fields">Public fields of the type that can receive injection.</param>
-		protected void InjectFields(object instance, SetterInfo[] fields) {
+		protected void InjectFields(object instance, AcessorInfo[] fields) {
 			for (int fieldIndex = 0; fieldIndex < fields.Length; fieldIndex++) {
 				var field = fields[fieldIndex];
-                var valueToSet = this.Resolve(field.type, InjectionMember.Field, field.name, instance, field.identifier, false);
-				field.setter(instance, valueToSet);
+                
+                if (field.getter(instance) == null) {
+                    var valueToSet = this.Resolve(field.type, InjectionMember.Field, field.name, instance, 
+                        field.identifier, false);
+                    field.setter(instance, valueToSet);
+                }
 			}
 		}
 
 		/// <summary>
 		/// Injects on properties.
 		/// </summary>
+        /// <remarks>
+        /// The value is set only if the property has no value already set.
+        /// </remarks>
 		/// <param name="instance">The instance to have its dependencies resolved.</param>
 		/// <param name="properties">Public properties of the type that can receive injection.</param>
-		protected void InjectProperties(object instance, SetterInfo[] properties) {
+		protected void InjectProperties(object instance, AcessorInfo[] properties) {
 			for (int propertyIndex = 0; propertyIndex < properties.Length; propertyIndex++) {
 				var property = properties[propertyIndex];
-                var valueToSet = this.Resolve(property.type, InjectionMember.Property, property.name, instance, property.identifier, 
-					false);
-				property.setter(instance, valueToSet);
+                
+                if (property.getter == null || property.getter(instance) == null) {
+                    var valueToSet = this.Resolve(property.type, InjectionMember.Property, property.name, instance, 
+                        property.identifier, false);
+                    property.setter(instance, valueToSet);
+                }
 			}
 		}
 		

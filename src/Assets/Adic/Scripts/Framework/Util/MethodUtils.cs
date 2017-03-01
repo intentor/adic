@@ -114,6 +114,16 @@ namespace Adic.Util {
 			
 			#endif
 		}
+
+        /// <summary>
+        /// Creates a field getter method.
+        /// </summary>
+        /// <param name="type">Object type.</param>
+        /// <param name="fieldInfo">Field info object.</param>
+        /// <returns>The field getter.</returns>
+        public static GetterCall CreateFieldGetter(Type type, FieldInfo fieldInfo) {
+            return (object instance) => fieldInfo.GetValue(instance);
+        }
 		
 		/// <summary>
 		/// Creates a property setter method.
@@ -142,7 +152,21 @@ namespace Adic.Util {
 			return (SetterCall)method.CreateDelegate(typeof(SetterCall));
 			
 			#endif
-		}
+        }
+
+        /// <summary>
+        /// Creates a property getter method.
+        /// </summary>
+        /// <param name="type">Object type.</param>
+        /// <param name="propertyInfo">Property info object.</param>
+        /// <returns>The property getter or null if the property can't be read.</returns>
+        public static GetterCall CreatePropertyGetter(Type type, PropertyInfo propertyInfo) {
+            if (propertyInfo.CanRead) {
+                return (object instance) => propertyInfo.GetValue(instance, null);
+            } else {
+                return null;
+            }
+        }
 		
 		/// <summary>
 		/// Creates method call without parameters.

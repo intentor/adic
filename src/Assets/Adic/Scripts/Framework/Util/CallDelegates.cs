@@ -24,7 +24,14 @@ namespace Adic.Util {
 	/// </summary>
 	/// <param name="instance">Instance to call the post constructor.</param>
 	/// <param name="parameters">Post constructor parameters.</param>
-	public delegate void ParamsMethodCall(object instance, object[] parameters);
+    public delegate void ParamsMethodCall(object instance, object[] parameters);
+
+    /// <summary>
+    /// Calls a getter method for a field or property.
+    /// </summary>
+    /// <param name="instance">Instance to have the field/property gotten.</param>
+    /// <returns>Getter value.</returns>
+    public delegate object GetterCall(object instance);
 	
 	/// <summary>
 	/// Calls a setter method for a field or property.

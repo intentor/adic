@@ -19,8 +19,8 @@ namespace Adic.Cache {
 		/// <summary>Methods that have the Inject attribute.</summary>
 		public MethodInfo[] methods { get; set; }
 		/// <summary>Public properties of the type that can receive injection.</summary>
-		public SetterInfo[] properties { get; set; }
+		public AcessorInfo[] properties { get; set; }
 		/// <summary>Public fields of the type that can receive injection.</summary>
-		public SetterInfo[] fields { get; set; }
+		public AcessorInfo[] fields { get; set; }
 	}
 }
