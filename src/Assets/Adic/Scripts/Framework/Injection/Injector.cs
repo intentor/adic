@@ -339,7 +339,10 @@ namespace Adic.Injection {
 				var field = fields[fieldIndex];
                 
                 var value = field.getter(instance);
-                if (value == null || "null".Equals(value.ToString())) {
+
+                //The Equals(null) comparison is used to ensure correct null evaluation due to the null trick
+                //Unity uses for objects derived from UnityEngine.Object.
+                if (value == null || value.Equals(null)) {
                     var valueToSet = this.Resolve(field.type, InjectionMember.Field, field.name, instance, 
                         field.identifier, false);
                     field.setter(instance, valueToSet);
@@ -360,7 +363,10 @@ namespace Adic.Injection {
 				var property = properties[propertyIndex];
 
                 var value = property.getter == null ? null : property.getter(instance);
-                if (value == null || "null".Equals(value.ToString())) {
+
+                //The Equals(null) comparison is used to ensure correct null evaluation due to the null trick
+                //Unity uses for objects derived from UnityEngine.Object.
+                if (value == null || value.Equals(null)) {
                     var valueToSet = this.Resolve(property.type, InjectionMember.Property, property.name, instance, 
                         property.identifier, false);
                     property.setter(instance, valueToSet);
