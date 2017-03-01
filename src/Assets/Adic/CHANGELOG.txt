@@ -8,9 +8,9 @@ http://intentor.com.br/
 Version 2.24 (2017-03-XX)
 
 Framework
+- Fixed NullReferenceException when disposing containers. [Issue #74]
 - Added exception when trying to instantiate interfaces.
 - Fixed throwing exception then readding extensions.
-- Fixed NullReferenceException when disposing containers. [Issue #74]
 
 Bindings Printer Extension
 - Added container identifier.
@@ -21,6 +21,7 @@ Context Root extension
 Event Caller extension
 - Fixed disposing of IDisposable objects when unregistering the extension. [Issue #75]
 - Fixed LateUpdate not working for resolved instances. [Issue #77]
+- Fixed UnityEvents context root class on scene.
 
 Version 2.23 (2017-01-27)
 
