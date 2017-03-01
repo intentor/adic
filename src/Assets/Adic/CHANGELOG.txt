@@ -9,7 +9,7 @@ Version 2.24 (2017-03-01)
 
 Framework
 - Added exception when trying to instantiate interfaces.
-- Added injecting on acessors only if no value has been injected. [Issue #73]
+- Added injection on acessors only if no value has been injected. [Issue #73]
 - Fixed NullReferenceException when disposing containers. [Issue #74]
 - Fixed throwing exception then readding extensions.
 
