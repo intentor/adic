@@ -98,8 +98,8 @@
     <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\ReflectionFactory.cs">
       <Link>Framework\Cache\ReflectionFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\SetterInfo.cs">
-      <Link>Framework\Cache\SetterInfo.cs</Link>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Cache\AcessorInfo.cs">
+      <Link>Framework\Cache\AcessorInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\src\Assets\Adic\Scripts\Framework\Container\IContainerExtension.cs">
       <Link>Framework\Container\IContainerExtension.cs</Link>
