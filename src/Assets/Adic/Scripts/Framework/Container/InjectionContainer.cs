@@ -14,8 +14,6 @@ namespace Adic {
 	/// and allows the use of extensions to provide new functionalities.
 	/// </summary>
 	public class InjectionContainer : Injector, IInjectionContainer  {
-        /// <summary>Message for the extension already registered exception.</summary>
-        protected const string EXTENSION_REGISTERED_EXCEPTION_MESSAGE = "Extension {0} already registered.";
 		/// <summary>Default instance resolution mode.</summary>
 		protected const ResolutionMode DEFAULT_RESOLUTION_MODE = ResolutionMode.ALWAYS_RESOLVE;
 
@@ -156,18 +154,17 @@ namespace Adic {
 		}
 		
 		public IInjectionContainer RegisterExtension<T>() where T : IContainerExtension {
-            IContainerExtension extension = this.Resolve<T>();
-
             if (this.extensions == null) {
                 this.extensions = new List<IContainerExtension>();
             }
 
-            if (this.HasExtension(extension.GetType())) {
-                throw new ArgumentException(String.Format(EXTENSION_REGISTERED_EXCEPTION_MESSAGE, extension));
-            }
+            IContainerExtension extension = this.Resolve<T>();
 
-            this.extensions.Add(extension);
-            extension.OnRegister(this);
+            // Only adds the extension if it's not already added.
+            if (!this.HasExtension(extension.GetType())) {
+                this.extensions.Add(extension);
+                extension.OnRegister(this);
+            }
 
             return this;
 		}

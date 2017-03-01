@@ -15,8 +15,7 @@ namespace Adic {
 	/// </summary>
 	public class CommanderContainerExtension : IContainerExtension {		
 		public void OnRegister(IInjectionContainer container) {			
-			//Binds the command dispatcher to a singleton, so every command can
-			//receive the instance.
+			//Binds the command dispatcher to a singleton, so every command can receive the instance.
 			container.Bind<ICommandDispatcher>().ToSingleton<CommandDispatcher>();
 			//Binds the command pool to the CommandDispatcher.
 			var dispatcher = (CommandDispatcher)container.Resolve<ICommandDispatcher>();
