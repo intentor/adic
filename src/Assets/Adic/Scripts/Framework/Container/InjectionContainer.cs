@@ -64,6 +64,16 @@ namespace Adic {
 		public InjectionContainer(ResolutionMode resolutionMode) 
             : this(GenerateIdentifier(), new ReflectionCache(), new Binder(), resolutionMode) {
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
+        /// </summary>
+        /// <remarks>
+        /// <param name="identifier">Container identifier.</param>
+        /// <param name="resolutionMode">Instance resolution mode.</param>
+        public InjectionContainer(object identifier, ResolutionMode resolutionMode) 
+            : this(identifier, new ReflectionCache(), new Binder(), resolutionMode) {
+        }
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.InjectionContainer"/> class.
@@ -309,7 +319,7 @@ namespace Adic {
         /// </summary>
         /// <returns>The container identifier.</returns>
         private static string GenerateIdentifier() {
-            return Guid.NewGuid().ToString().Substring(0, 10);
+            return Guid.NewGuid().ToString();
         }
 	}
 }

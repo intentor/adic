@@ -107,9 +107,42 @@ namespace Adic {
         /// <typeparam name="T">Container type.</typeparam>
         /// <returns>The injection container for chaining.</returns>
         public IInjectionContainer AddContainer<T>(object identifier) where T : IInjectionContainer {
+            return this.AddContainer<T>(new Type[] { typeof(object) }, new object[] { identifier });
+        }
+
+        /// <summary>
+        /// Adds the specified container.
+        /// </summary>
+        /// <param name="resolutionMode">Instance resolution mode.</param>
+        /// <typeparam name="T">Container type.</typeparam>
+        /// <returns>The injection container for chaining.</returns>
+        public IInjectionContainer AddContainer<T>(ResolutionMode resolutionMode) where T : IInjectionContainer {
+            return this.AddContainer<T>(new Type[] { typeof(ResolutionMode) }, new object[] { resolutionMode });
+        }
+
+        /// <summary>
+        /// Adds the specified container.
+        /// </summary>
+        /// <param name="identifier">The container identifier.</param>
+        /// <param name="resolutionMode">Instance resolution mode.</param>
+        /// <typeparam name="T">Container type.</typeparam>
+        /// <returns>The injection container for chaining.</returns>
+        public IInjectionContainer AddContainer<T>(object identifier, ResolutionMode resolutionMode) where T : IInjectionContainer {
+            return this.AddContainer<T>(new Type[] { typeof(object), typeof(ResolutionMode) }, 
+                new object[] { identifier, resolutionMode });
+        }
+
+        /// <summary>
+        /// Adds the specified container.
+        /// </summary>
+        /// <param name="parameterTypes">Type of the constructor parameters.</param>
+        /// <param name="parameterValues">Construtor parameters values.</param>
+        /// <typeparam name="T">Container type.</typeparam>
+        /// <returns>The injection container for chaining.</returns>
+        private IInjectionContainer AddContainer<T>(Type[] parameterTypes, object[] parameterValues) where T : IInjectionContainer {
             var containerType = typeof(T);
-            var constructor = containerType.GetConstructor(new Type[] { typeof(object) });
-            var container = (IInjectionContainer) constructor.Invoke(new object[] { identifier });
+            var constructor = containerType.GetConstructor(parameterTypes);
+            var container = (IInjectionContainer) constructor.Invoke(parameterValues);
             return this.AddContainer(container, true);
         }
 		

@@ -17,6 +17,7 @@ Bindings Printer Extension
 
 Context Root extension
 - Added container identifier overload when adding containers.
+- Added container resolution mode overload when adding containers.
 
 Event Caller extension
 - Fixed disposing of IDisposable objects when unregistering the extension. [Issue #75]
