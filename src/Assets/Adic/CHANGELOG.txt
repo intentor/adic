@@ -10,6 +10,9 @@ Version 2.25 (2017-03-??)
 Framework
 - Improved chaining on containers. [Issue #78]
 
+Bindings Printer Extension
+- Fixed instance hash code display for bindings. [Issue #78]
+
 Version 2.24 (2017-03-01)
 
 Framework
