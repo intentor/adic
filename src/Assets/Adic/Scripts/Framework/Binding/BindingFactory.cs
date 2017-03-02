@@ -114,12 +114,8 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public void ToNamespace(string namespaceName) {
-			var types = TypeUtils.GetAssignableTypes(this.bindingType, namespaceName);
-
-			for (int typeIndex = 0; typeIndex < types.Length; typeIndex++) {
-				this.AddBinding(types[typeIndex], BindingInstance.Transient);
-			}
+        public IBindingConditionFactory ToNamespace(string namespaceName) {
+            return ToNamespace(namespaceName, BindingInstance.Transient);
 		}
 		
 		/// <summary>
@@ -128,13 +124,27 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public void ToNamespaceSingleton(string namespaceName) {
-			var types = TypeUtils.GetAssignableTypes(this.bindingType, namespaceName);
-			
-			for (int typeIndex = 0; typeIndex < types.Length; typeIndex++) {
-				this.AddBinding(types[typeIndex], BindingInstance.Singleton);
-			}
-		}
+        public IBindingConditionFactory ToNamespaceSingleton(string namespaceName) {
+            return ToNamespace(namespaceName, BindingInstance.Singleton);
+        }
+
+        /// <summary>
+        /// Binds the key type to all assignable types in a given <paramref name="namespaceName"/>
+        /// as singleton bindings.
+        /// </summary>
+        /// <param name="namespaceName">Namespace name.</param>
+        /// <param name="bindingInstance">Binding instance type.</param>.</param>
+        /// <returns>The binding condition object related to this binding.</returns>
+        protected IBindingConditionFactory ToNamespace(string namespaceName, BindingInstance bindingInstance) {
+            var types = TypeUtils.GetAssignableTypes(this.bindingType, namespaceName);
+
+            IBindingConditionFactory[] bindingConditionFactories = new IBindingConditionFactory[types.Length];
+            for (int typeIndex = 0; typeIndex < types.Length; typeIndex++) {
+                bindingConditionFactories[typeIndex] = this.AddBinding(types[typeIndex], BindingInstance.Singleton);
+            }
+
+            return this.CreateBindingConditionFactoryProvider(bindingConditionFactories);
+        }
 
 		//// <summary>
 		/// Binds the key type to a <typeparamref name="T"/> factory.
@@ -177,16 +187,26 @@ namespace Adic.Binding {
 			var binding = new BindingInfo(this.bindingType, value, instanceType);
 			this.binder.AddBinding(binding);
 
-			return this.BindingConditionFactoryProvider(binding);
-		}
+			return this.CreateBindingConditionFactoryProvider(binding);
+        }
 		
 		//// <summary>
 		/// Resolves the binding provider.
 		/// </summary>
 		/// <param name="type">The type being bound.</param>
 		/// <returns>The binding provider.</returns>
-		protected virtual IBindingConditionFactory BindingConditionFactoryProvider(BindingInfo binding) {
+		protected virtual IBindingConditionFactory CreateBindingConditionFactoryProvider(BindingInfo binding) {
 			return new SingleBindingConditionFactory(binding, this.binder);
-		}
+        }
+
+        //// <summary>
+        /// Resolves the binding provider.
+        /// </summary>
+        /// <param name="bindingConditionFactories">Binding factories.</param>
+        /// <returns>The binding provider.</returns>
+        protected virtual IBindingConditionFactory CreateBindingConditionFactoryProvider(
+            IBindingConditionFactory[] bindingConditionFactories) {
+            return new MultipleBindingConditionFactory(bindingConditionFactories, this.binder);
+        }
 	}
 }

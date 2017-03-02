@@ -13,10 +13,10 @@ namespace Assets.Test.MultiContainer {
         private TestCommand Command;
 
         public override void SetupContainers() {
-            var containerOne = this.AddContainer<InjectionContainer>("container1");
-            containerOne.RegisterExtension<CommanderContainerExtension>()
+            var container1 = this.AddContainer<InjectionContainer>("container1");
+            container1.RegisterExtension<CommanderContainerExtension>()
                 .Bind<ITestInterface>().ToNamespace("Assets.Test.MultiContainer.Example");
-            containerOne.RegisterCommands("Assets.Test.MultiContainer.Command");
+            container1.RegisterCommands("Assets.Test.MultiContainer.Command");
                 
             this.AddContainer<InjectionContainer>("container2");
         }

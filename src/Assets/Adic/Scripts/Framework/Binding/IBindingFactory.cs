@@ -74,7 +74,7 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		void ToNamespace(string namespaceName);
+        IBindingConditionFactory ToNamespace(string namespaceName);
 		
 		/// <summary>
 		/// Binds the key to all assignable types in a given <paramref name="namespaceName"/>
@@ -82,7 +82,7 @@ namespace Adic.Binding {
 		/// </summary>
 		/// <param name="namespaceName">Namespace name.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		void ToNamespaceSingleton(string namespaceName);
+        IBindingConditionFactory ToNamespaceSingleton(string namespaceName);
 		
 		//// <summary>
 		/// Binds the key type to a <typeparamref name="T"/> factory.
