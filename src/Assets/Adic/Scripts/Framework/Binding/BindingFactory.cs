@@ -140,7 +140,7 @@ namespace Adic.Binding {
 
             IBindingConditionFactory[] bindingConditionFactories = new IBindingConditionFactory[types.Length];
             for (int typeIndex = 0; typeIndex < types.Length; typeIndex++) {
-                bindingConditionFactories[typeIndex] = this.AddBinding(types[typeIndex], BindingInstance.Singleton);
+                bindingConditionFactories[typeIndex] = this.AddBinding(types[typeIndex], bindingInstance);
             }
 
             return this.CreateBindingConditionFactoryProvider(bindingConditionFactories);
