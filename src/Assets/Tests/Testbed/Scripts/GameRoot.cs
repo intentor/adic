@@ -7,8 +7,9 @@ namespace Adic.Examples.Testbed {
 	/// </summary>
 	public class GameRoot : ContextRoot {
 		public override void SetupContainers() {
-            var container = this.AddContainer<InjectionContainer>()
-                .RegisterExtension<UnityBindingContainerExtension>()
+            var container = this.AddContainer<InjectionContainer>();
+
+            container.RegisterExtension<UnityBindingContainerExtension>()
                 .Bind<TestBehaviour>().ToGameObject();
 		}
 		
