@@ -67,7 +67,7 @@ namespace Adic {
 				containersData = new List<InjectionContainerData>(1);
 			}
 			this.SetupContainers();
-			this.InitContainers();
+            this.InitContainers();
 		}
 
 		protected void Start() {

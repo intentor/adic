@@ -20,6 +20,8 @@ namespace Adic {
 		/// <summary>Container identifier.</summary>
 		public object identifier { get; private set; }
 
+        /// <summary>Indicates whether the container has been initialized.</summary>
+        private bool isInitialized;
 		/// <summary>Registered container extensions.</summary>
 		private List<IContainerExtension> extensions;
 
@@ -151,6 +153,12 @@ namespace Adic {
         /// Initializes the container.
         /// </summary>
         public void Init() {
+            if (this.isInitialized) {
+                return;
+            }
+
+            UnityEngine.Debug.Log(this.identifier);
+
             this.cache.CacheFromBinder(this);
 
             if (extensions != null) {
@@ -158,6 +166,8 @@ namespace Adic {
                     extension.Init(this);
                 }
             }
+
+            this.isInitialized = true;
         }
 
 		/// <summary>
