@@ -8,11 +8,14 @@ http://intentor.com.br/
 Version 2.25 (2017-03-??)
 
 Framework
-- Add init event to containers and extensions. [Issue #80]
+- Add initialize event to containers and extensions. [Issue #80]
 - Improved chaining on containers. [Issue #78]
 
 Bindings Printer Extension
 - Fixed instance hash code display for bindings. [Issue #79]
+
+Commander extension
+- Added late binding to allow command registration in any order. [Issue #80]
 
 Version 2.24 (2017-03-01)
 
