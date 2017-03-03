@@ -147,6 +147,19 @@ namespace Adic {
 			this.RegisterItself();
 		}
 
+        /// <summary>
+        /// Initializes the container.
+        /// </summary>
+        public void Init() {
+            this.cache.CacheFromBinder(this);
+
+            if (extensions != null) {
+                foreach (var extension in extensions) {
+                    extension.Init(this);
+                }
+            }
+        }
+
 		/// <summary>
 		/// Releases all resources used by the <see cref="Adic.InjectionContainer"/> object.
 		/// </summary>

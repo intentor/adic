@@ -14,7 +14,11 @@ namespace Adic {
 	/// Ensures that the resolution of transient prefabs instantiates them.
 	/// </summary>
 	public class UnityBindingContainerExtension : IContainerExtension {
-		protected const string CANNOT_RESOLVE_MONOBEHAVIOUR = "A MonoBehaviour cannot be resolved directly.";
+        protected const string CANNOT_RESOLVE_MONOBEHAVIOUR = "A MonoBehaviour cannot be resolved directly.";
+
+        public void Init(IInjectionContainer container) {
+            //Does nothing.
+        }
 
 		public void OnRegister(IInjectionContainer container) {
 			container.beforeAddBinding += this.OnBeforeAddBinding;

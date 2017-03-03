@@ -1609,13 +1609,15 @@ Each game has its own characteristics, and eventually the same game could featur
 
 1. Unity Awake()
 2. ContextRoot calls SetupContainers()
-3. ContextRoot asks for each container to generate cache for its types
-4. ContextRoot calls Init()
-5. Unity Start() on all `MonoBehaviour`
-6. Injection on `MonoBehaviour`
-7. Update() is called on every object that implements `Adic.IUpdatable`
-8. Scene is destroyed
-9. Dispose() is called on every object that implements `System.IDisposable`
+3. ContextRoot calls Init() on all containers
+4. Each container generates cache for its types
+5. Each container initializes their extensions
+6. ContextRoot calls Init()
+7. Unity Start() on all `MonoBehaviour`
+8. Injection on `MonoBehaviour`
+9. Update() is called on every object that implements `Adic.IUpdatable`
+10. Scene is destroyed
+11. Dispose() is called on every object that implements `System.IDisposable`
 
 ## <a id="script-execution-order"></a>Script execution order
 
@@ -2002,6 +2004,8 @@ public void OnUnregister(IInjectionContainer container) {
 	container.beforeAddBinding -= this.OnBeforeAddBinding;
 }
 ```
+
+5\. Use the `Init()` method to initialize the extension. It's always called after all extensions and bindings have been added to the container, so it can be used as a late initialization method that may rely on bindings that were not available during registration.
 
 ## <a id="container-events"></a>Container events
 

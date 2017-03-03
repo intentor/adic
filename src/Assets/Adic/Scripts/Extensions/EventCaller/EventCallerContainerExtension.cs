@@ -43,6 +43,10 @@ namespace Adic {
             this.quitable = new List<IQuitable>();
         }
 
+        public void Init(IInjectionContainer container) {
+            //Does nothing.
+        }
+
         public void OnRegister(IInjectionContainer container) {
             this.CreateBehaviour(container.identifier);
 

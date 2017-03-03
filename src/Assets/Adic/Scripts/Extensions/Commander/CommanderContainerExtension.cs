@@ -13,7 +13,11 @@ namespace Adic {
 	/// 
 	/// Ensures the <see cref="Adic.CommandDispatcher"/> is added to the container.
 	/// </summary>
-	public class CommanderContainerExtension : IContainerExtension {		
+    public class CommanderContainerExtension : IContainerExtension {	
+        public void Init(IInjectionContainer container) {
+            //Does nothing.
+        }
+
 		public void OnRegister(IInjectionContainer container) {			
 			//Binds the command dispatcher to a singleton, so every command can receive the instance.
 			container.Bind<ICommandDispatcher>().ToSingleton<CommandDispatcher>();

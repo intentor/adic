@@ -8,6 +8,7 @@ http://intentor.com.br/
 Version 2.25 (2017-03-??)
 
 Framework
+- Add init event to containers and extensions. [Issue #80]
 - Improved chaining on containers. [Issue #78]
 
 Bindings Printer Extension

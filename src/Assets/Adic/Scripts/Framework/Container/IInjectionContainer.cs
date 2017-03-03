@@ -16,6 +16,14 @@ namespace Adic.Container {
 		/// <summary>Reflection cache used to get type info.</summary>
 		IReflectionCache cache { get; }
 
+        /// <summary>
+        /// Initializes the container.
+        /// </summary>
+        /// <remarks>
+        /// Should be called after all extensions and bindings have been added.
+        /// </remarks>
+        void Init();
+
 		/// <summary>
 		/// Registers a container extension.
 		/// </summary>

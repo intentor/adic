@@ -67,7 +67,7 @@ namespace Adic {
 				containersData = new List<InjectionContainerData>(1);
 			}
 			this.SetupContainers();
-			this.CacheBindings();
+			this.InitContainers();
 		}
 
 		protected void Start() {
@@ -182,12 +182,11 @@ namespace Adic {
 		public abstract void Init();
 
 		/// <summary>
-		/// Caches all the bindings on containers.
+		/// Initializes all containers.
 		/// </summary>
-		private void CacheBindings() {
+		private void InitContainers() {
 			for (var containerIndex = 0; containerIndex < containersData.Count; containerIndex++) {
-				var container = containersData[containerIndex].container;
-				container.cache.CacheFromBinder(container);
+                containersData[containerIndex].container.Init();
 			}
 		}
 	}
