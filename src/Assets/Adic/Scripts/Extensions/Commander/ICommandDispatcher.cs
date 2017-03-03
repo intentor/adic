@@ -8,6 +8,11 @@ namespace Adic {
 	/// Defines a command dispatcher.
 	/// </summary>
 	public interface ICommandDispatcher {
+        /// <summary>
+        /// Initializes the dispatcher. Should be called during container initialization.
+        /// </summary>
+        void Init();
+
 		/// <summary>
 		/// Dispatches a command by type.
 		/// </summary>

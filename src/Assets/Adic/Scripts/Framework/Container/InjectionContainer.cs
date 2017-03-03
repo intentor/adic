@@ -157,8 +157,6 @@ namespace Adic {
                 return;
             }
 
-            UnityEngine.Debug.Log(this.identifier);
-
             this.cache.CacheFromBinder(this);
 
             if (extensions != null) {

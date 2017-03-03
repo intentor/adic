@@ -15,7 +15,7 @@ namespace Adic {
 	/// </summary>
     public class CommanderContainerExtension : IContainerExtension {	
         public void Init(IInjectionContainer container) {
-            //Does nothing.
+            container.Resolve<ICommandDispatcher>().Init();
         }
 
 		public void OnRegister(IInjectionContainer container) {			

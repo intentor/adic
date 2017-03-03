@@ -17,6 +17,8 @@ namespace Adic {
 		protected IInjectionContainer container;
         /// <summary>Underlying behaviour. </summary>
         protected EventCallerContainerExtension eventCallerExtension;
+        /// <summary>Commands to be registered during initialization.</summary>
+        protected IList<Type> commandsToRegister;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Adic.CommandDispatcher"/> class.
@@ -25,13 +27,23 @@ namespace Adic {
 		public CommandDispatcher(IInjectionContainer container) {
 			this.commands = new Dictionary<Type, object>();
 			this.container = container;
+            this.commandsToRegister = new List<Type>();
 
             this.eventCallerExtension = this.container.GetExtension<EventCallerContainerExtension>();
             if (eventCallerExtension == null) {
                 this.container.RegisterExtension<EventCallerContainerExtension>();
                 this.eventCallerExtension = this.container.GetExtension<EventCallerContainerExtension>();
             }
-		}
+        }
+
+        /// <summary>
+        /// Initializes the dispatcher. Should be called during container initialization.
+        /// </summary>
+        public void Init() {
+            foreach (var command in this.commandsToRegister) {
+                this.RegisterCommand(command);
+            }
+        }
 
 		/// <summary>
 		/// Dispatches a command
@@ -218,14 +230,21 @@ namespace Adic {
             eventCallerExtension.behaviour.StopCoroutine(coroutine);
         }
 
+        /// <summary>
+        /// Adds a command of type <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The type of the command to be added.</param>
+        public void AddCommand(Type type) {
+            commandsToRegister.Add(type);
+        }
+
 		/// <summary>
 		/// Pools a command of a given type.
 		/// </summary>
 		/// <param name="commandType">Command type.</param>
 		public void PoolCommand(Type commandType) {
 			var command = (ICommand)container.Resolve(commandType);
-
-			//If the type already exists in the pool, returns.
+            
 			if (this.commands.ContainsKey(commandType)) return;
 
 			if (command.singleton) {
@@ -308,5 +327,20 @@ namespace Adic {
 			this.ReleaseAll();
 			this.commands.Clear();
 		}
+
+        /// <summary>
+        /// Register a command for a given type.
+        /// </summary>
+        /// <param name="commandType">Type to be registered.</param>
+        private void RegisterCommand(Type commandType) {
+            if (!commandType.IsClass && commandType.IsAssignableFrom(typeof(ICommand))) {
+                throw new CommandException(CommandException.TYPE_NOT_A_COMMAND);
+            }
+
+            if (!commandType.IsAbstract) {
+                container.Bind<ICommand>().To(commandType);
+                this.PoolCommand(commandType);
+            }
+        }
 	}
 }
