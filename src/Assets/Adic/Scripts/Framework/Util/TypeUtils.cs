@@ -53,7 +53,7 @@ namespace Adic.Util {
 		/// </remarks>
 		/// <param name="baseType">Base type from which the types in the namespace must be assignable.</param>
 		/// <param name="namespaceName">Namespace name.</param>
-		/// <param name="includeChildren">Indicates whether child namespaces should be included.</param>
+		/// <param name="includeChildren">Indicates whether children namespaces should be included.</param>
 		/// <returns>The assignable types in the namespace.</returns>
 		public static Type[] GetAssignableTypes(Type baseType, string namespaceName, bool includeChildren) {
 			var typesToBind = new List<Type>();

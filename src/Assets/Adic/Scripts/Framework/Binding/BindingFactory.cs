@@ -123,10 +123,9 @@ namespace Adic.Binding {
 		/// as transient bindings.
 		/// </summary>
 		/// <param name="namespaceName">Namespace name.</param>
-		/// <param name="includeChildren">Indicates whether child namespaces should be included.</param>
+        /// <param name="includeChildren">Indicates whether children namespaces should be included.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public IBindingConditionFactory ToNamespace(string namespaceName, bool includeChildren)
-		{
+		public IBindingConditionFactory ToNamespace(string namespaceName, bool includeChildren) {
 			return this.ToNamespace(namespaceName, BindingInstance.Transient, includeChildren);
 		}
 
@@ -145,12 +144,12 @@ namespace Adic.Binding {
 		/// as singleton bindings.
 		/// </summary>
 		/// <param name="namespaceName">Namespace name.</param>
-		/// <param name="includeChildren">Indicates whether child namespaces should be included.</param>
+		/// <param name="includeChildren">Indicates whether children namespaces should be included.</param>
 		/// <returns>The binding condition object related to this binding.</returns>
-		public IBindingConditionFactory ToNamespaceSingleton(string namespaceName, bool includeChildren)
-		{
-			return this.ToNamespace(namespaceName, BindingInstance.Singleton, false);
+		public IBindingConditionFactory ToNamespaceSingleton(string namespaceName, bool includeChildren) {
+            return this.ToNamespace(namespaceName, BindingInstance.Singleton, includeChildren);
 		}
+
 		/// <summary>
 		/// Binds the key type to all assignable types in a given <paramref name="namespaceName"/>
 		/// as singleton bindings.
