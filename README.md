@@ -401,6 +401,9 @@ Binds the key type to all assignable types in a given namespace as transient bin
 
 ```cs
 container.Bind<SomeType>().ToNamespace("MyNamespace.Whatever");
+
+// Includes children namespaces
+container.Bind<SomeType>().ToNamespace("MyNamespace.Whatever", true);
 ```
 
 #### To all types in a namespace as singleton
@@ -413,6 +416,9 @@ Binds the key type to all assignable types in a given namespace as singleton bin
 
 ```cs
 container.Bind<SomeType>().ToNamespaceSingleton("MyNamespace.Whatever");
+
+// Includes children namespaces
+container.Bind<SomeType>().ToNamespaceSingleton("MyNamespace.Whatever", true);
 ```
 
 #### To a Factory
