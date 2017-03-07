@@ -10,6 +10,7 @@ Version 2.25 (2017-03-??)
 Framework
 - Add initialize event to containers and extensions. [Issue #80]
 - Improved chaining on containers. [Issue #78]
+- Add includeChildren to ToNamespace and ToNamespaceSingleton. [Pull request #81]
 
 Bindings Printer Extension
 - Fixed instance hash code display for bindings. [Issue #79]
