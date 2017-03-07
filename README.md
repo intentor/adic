@@ -400,9 +400,10 @@ Binds the key type to all assignable types in a given namespace as transient bin
 **Note 2:** currently it's not possible to use conditions when binding to all types in a namespace.
 
 ```cs
+// Only the informed namespace.
 container.Bind<SomeType>().ToNamespace("MyNamespace.Whatever");
 
-// Includes children namespaces
+// Including children namespaces.
 container.Bind<SomeType>().ToNamespace("MyNamespace.Whatever", true);
 ```
 
@@ -415,9 +416,10 @@ Binds the key type to all assignable types in a given namespace as singleton bin
 **Note 2:** currently it's not possible to use conditions when binding to all types in a namespace.
 
 ```cs
+// Only the informed namespace.
 container.Bind<SomeType>().ToNamespaceSingleton("MyNamespace.Whatever");
 
-// Includes children namespaces
+// Including children namespaces.
 container.Bind<SomeType>().ToNamespaceSingleton("MyNamespace.Whatever", true);
 ```
 
