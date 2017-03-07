@@ -20,7 +20,7 @@ namespace Adic.Binding {
 			this.bindindCreator = bindindCreator;
 		}
 
-		//// <summary>
+		/// <summary>
 		/// Conditions the binding to be injected through an identifier.
 		/// </summary>
 		/// <param name="identifier">Identifier of the binding.</param>
@@ -87,7 +87,7 @@ namespace Adic.Binding {
 			return this;
         }
 
-        //// <summary>
+        /// <summary>
         /// Adds tags to the binding.
         /// </summary>
         /// <param name="tags">Tags of the binding.</param>

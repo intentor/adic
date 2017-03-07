@@ -5,7 +5,7 @@ namespace Adic.Binding {
 	/// Defines the conditions of a binding.
 	/// </summary>
 	public interface IBindingConditionFactory : IBindingCreator {
-		//// <summary>
+		/// <summary>
 		/// Conditions the binding to be injected through an identifier.
 		/// </summary>
 		/// <param name="identifier">Identifier of the binding.</param>
@@ -42,7 +42,7 @@ namespace Adic.Binding {
 		/// <returns>The current binding condition.</returns>
         IBindingConditionFactory WhenIntoInstance(object instance);
 
-        //// <summary>
+        /// <summary>
         /// Adds tags to the binding.
         /// </summary>
         /// <param name="tags">Tags of the binding.</param>
