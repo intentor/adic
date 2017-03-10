@@ -347,8 +347,9 @@ namespace Adic.Injection {
 		                var valueToSet = this.Resolve(field.type, InjectionMember.Field, field.name, instance,
 			                field.identifier, false);
 		                field.setter(instance, valueToSet);
-	                } catch (InjectorException e) {
-		                throw new InjectorException(string.Format("Unable to instantiate field {0} on object {1}.\n  Caused by: {2}", field.name, instance.GetType(), e.Message));
+                    } catch (Exception e) {
+                        throw new InjectorException(string.Format("Unable to inject on field {0} at object {1}.\n" +
+                            "Caused by: {2}", field.name, instance.GetType(), e.Message), e);
 	                }
                 }
 			}
@@ -371,9 +372,14 @@ namespace Adic.Injection {
                 //The Equals(null) comparison is used to ensure correct null evaluation due to the null trick
                 //Unity uses for objects derived from UnityEngine.Object.
                 if (value == null || value.Equals(null)) {
-                    var valueToSet = this.Resolve(property.type, InjectionMember.Property, property.name, instance, 
-                        property.identifier, false);
-                    property.setter(instance, valueToSet);
+                    try {
+                        var valueToSet = this.Resolve(property.type, InjectionMember.Property, property.name, instance, 
+                            property.identifier, false);
+                        property.setter(instance, valueToSet);
+                    } catch (Exception e) {
+                        throw new InjectorException(string.Format("Unable to inject on property {0} at object {1}.\n" +
+                            "Caused by: {2}", property.name, instance.GetType(), e.Message), e);
+                    }
                 }
 			}
 		}
@@ -387,12 +393,17 @@ namespace Adic.Injection {
 			for (int constIndex = 0; constIndex < methods.Length; constIndex++) {
 				var method = methods[constIndex];
 
-				if (method.parameters.Length == 0) {
-					method.method(instance);
-				} else {
-                    object[] parameters = this.GetParametersFromInfo(instance, method.parameters, InjectionMember.Method);
-					method.paramsMethod(instance, parameters);
-				}
+                try {
+    				if (method.parameters.Length == 0) {
+    					method.method(instance);
+    				} else {
+                        object[] parameters = this.GetParametersFromInfo(instance, method.parameters, InjectionMember.Method);
+    					method.paramsMethod(instance, parameters);
+                    }
+                } catch (Exception e) {
+                    throw new InjectorException(string.Format("Unable to inject on method {0} at object {1}.\n" +
+                        "Caused by: {2}", method.name, instance.GetType(), e.Message), e);
+                }
 			}
 		}
 

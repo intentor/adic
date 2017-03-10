@@ -12,6 +12,13 @@ namespace Adic.Exceptions {
 		/// Initializes a new instance of the <see cref="Adic.Exceptions.InjectorException"/> class.
 		/// </summary>
 		/// <param name="message">Exception message.</param>
-		public InjectorException(string message) : base(message) { }
+        public InjectorException(string message) : base(message) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Adic.Exceptions.InjectorException"/> class.
+        /// </summary>
+        /// <param name="message">Exception message.</param>
+        /// <param name="cause">Exception that caused this exception to throw.</param>
+        public InjectorException(string message, Exception cause) : base(message, cause) { }
 	}
 }
