@@ -343,9 +343,13 @@ namespace Adic.Injection {
                 //The Equals(null) comparison is used to ensure correct null evaluation due to the null trick
                 //Unity uses for objects derived from UnityEngine.Object.
                 if (value == null || value.Equals(null)) {
-                    var valueToSet = this.Resolve(field.type, InjectionMember.Field, field.name, instance, 
-                        field.identifier, false);
-                    field.setter(instance, valueToSet);
+	                try {
+		                var valueToSet = this.Resolve(field.type, InjectionMember.Field, field.name, instance,
+			                field.identifier, false);
+		                field.setter(instance, valueToSet);
+	                } catch (InjectorException e) {
+		                throw new InjectorException(string.Format("Unable to instantiate field {0} on object {1}.\n  Caused by: {2}", field.name, instance.GetType(), e.Message));
+	                }
                 }
 			}
 		}
