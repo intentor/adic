@@ -5,7 +5,7 @@ Copyright (c) 2014-2017 André "Intentor" Martins
 http://intentor.com.br/
 ------------------------------------------------
 
-Version 2.25 (2017-03-??)
+Version 2.25 (2017-03-10)
 
 Framework
 - Addded initialize event to containers and extensions. [Issue #80]
