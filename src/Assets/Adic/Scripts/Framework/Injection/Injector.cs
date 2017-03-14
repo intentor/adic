@@ -231,7 +231,7 @@ namespace Adic.Injection {
 
 			if (bindings == null) {
 				if (alwaysResolve || this.resolutionMode == ResolutionMode.ALWAYS_RESOLVE) {
-					if (!type.IsArray) {
+					if (!(typeToGet.IsInterface && type.IsArray)) {
 						instances.Add(this.Instantiate(typeToGet));
 					}
 				} else {
