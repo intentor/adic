@@ -7,11 +7,11 @@ namespace Adic.Examples.BindingsSetup {
 	/// </summary>
 	public class GameRoot : ContextRoot {
 		public override void SetupContainers() {
-			//Create the container.
+			// Create the container.
 			this.AddContainer<InjectionContainer>()
-				//Register any extensions the container may use.
+				// Register any extensions the container may use.
 				.RegisterExtension<UnityBindingContainerExtension>()
-				//Setups bindings from a namespace.
+				// Setup bindings from a namespace.
 				.SetupBindings("Adic.Examples.BindingsSetup.Bindings");
 		}
 		

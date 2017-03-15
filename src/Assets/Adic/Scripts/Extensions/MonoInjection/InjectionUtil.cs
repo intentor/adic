@@ -29,7 +29,7 @@ namespace Adic.Extensions.MonoInjection {
 					}
 				}
 				
-				//If no attribute InjectFromContainer has been found, does regular injection.
+                // If no InjectFromContainer attribute has been found, does regular injection.
 				if (!containInjectFromContainer) {
 					Inject(obj, null);
 				}

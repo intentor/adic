@@ -11,8 +11,8 @@ namespace Adic.Examples.UsingConditions {
 		public Transform objectToRotate;
 
 		protected void Start() {
-			//Call "Inject" to inject any dependencies to the component.
-			//On a production game, it's useful to place this in a base component.
+			// Call "Inject" to inject any dependencies to the component.
+			// On a production game, it's useful to place this in a base component.
 			this.Inject();
 		}
 

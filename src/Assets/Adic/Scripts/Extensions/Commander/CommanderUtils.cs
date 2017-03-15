@@ -16,7 +16,7 @@ namespace Adic.Commander {
 		public static Type[] GetAvailableCommands() {
 			var types = new List<Type>();
 			
-			//Looks for assignable commands in all available assemblies.
+			// Look for assignable commands in all available assemblies.
 			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 			for (int assemblyIndex = 0; assemblyIndex < assemblies.Length; assemblyIndex++) {
 				var assemly = assemblies[assemblyIndex];

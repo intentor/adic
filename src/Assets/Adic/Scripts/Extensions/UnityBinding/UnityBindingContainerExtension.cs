@@ -17,7 +17,7 @@ namespace Adic {
         protected const string CANNOT_RESOLVE_MONOBEHAVIOUR = "A MonoBehaviour cannot be resolved directly.";
 
         public void Init(IInjectionContainer container) {
-            //Does nothing.
+            // Does nothing.
         }
 
 		public void OnRegister(IInjectionContainer container) {
@@ -52,7 +52,7 @@ namespace Adic {
 		/// <param name="source">Source.</param>
 		/// <param name="binding">Binding.</param>
 		protected object OnBindingEvaluation(IInjector source, ref BindingInfo binding) {
-			//Checks whether a prefab should be instantiated.
+			// Check whether a prefab should be instantiated.
 			if (binding.value is PrefabBinding &&
 			    binding.instanceType == BindingInstance.Transient) {
 				var prefabBinding = (PrefabBinding)binding.value;

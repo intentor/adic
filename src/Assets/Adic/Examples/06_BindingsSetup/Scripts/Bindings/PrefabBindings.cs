@@ -8,11 +8,11 @@ namespace Adic.Examples.BindingsSetup.Bindings {
 	public class PrefabBindings : Adic.IBindingsSetup {
 		public void SetupBindings(IInjectionContainer container) {
 			container
-				//Bind the "CubeA" prefab.
+				// Bind "CubeA" prefab.
 				.Bind<Transform>().ToPrefabSingleton("06_BindingsSetup/CubeA")
-				//Bind the "CubeB" prefab.
+				// Bind "CubeB" prefab.
 				.Bind<Transform>().ToPrefabSingleton("06_BindingsSetup/CubeB")
-				//Bind the "CubeC" prefab.
+				// Bind "CubeC" prefab.
 				.Bind<Transform>().ToPrefabSingleton("06_BindingsSetup/CubeC");
 		}		
 	}

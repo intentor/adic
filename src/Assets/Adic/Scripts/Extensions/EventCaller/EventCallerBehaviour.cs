@@ -13,7 +13,7 @@ namespace Adic {
         /// Called once per frame.
         /// </summary>
         protected void Update() {
-            //It the game is paused, Update is not called.
+            // If the game is paused, Update is not called.
             if (Mathf.Approximately(Time.deltaTime, 0)) {
                 return;
             }
@@ -27,7 +27,7 @@ namespace Adic {
         /// Called once per frame after Update has finished.
         /// </summary>
         protected void LateUpdate() {
-            //It the game is paused, LateUpdate is not called.
+            // If the game is paused, LateUpdate is not called.
             if (Mathf.Approximately(Time.deltaTime, 0)) {
                 return;
             }

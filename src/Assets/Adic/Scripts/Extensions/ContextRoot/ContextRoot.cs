@@ -71,8 +71,8 @@ namespace Adic {
 		}
 
 		protected void Start() {
-			//The scene injector is added now so its Awake is called before any other Start(),
-			//given the script execution order of the context root is correctly defined.
+			// The scene injector is added now so its Awake is called before any other Start(), given the script 
+            // execution order of the context root is correctly defined.
 			this.gameObject.AddComponent<SceneInjector>();
 
 			this.Init();

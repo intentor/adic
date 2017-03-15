@@ -16,13 +16,10 @@ namespace Adic.Examples.Commander.Commands {
 		public override void Execute(params object[] parameters) {
 			this.objectToRotate = (Transform)parameters[0];
 
-			//Call "Retain()" to keep the command running
-			//after the "Execute()" method is called.
-			//This way the command can receive update events.
-			//In this example the command will not be released
-			//manually. However, depending on the action being
-			//executed (e.g. some network call) you'll have to
-			//release the command manually by calling "Release()".
+			// Call "Retain()" to keep the command running after the "Execute()" method is called.
+			// This way the command can receive update events.
+			// In this example the command will not be released manually. However, depending on the action being
+			// executed (e.g. some network call) you'll have to release the command manually by calling "Release()".
 			this.Retain();
 		}
 

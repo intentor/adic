@@ -87,7 +87,7 @@ namespace Adic {
 				typeof(IBindingsSetup), namespaceName, includeChildren);
 			var prioritizedSetups = new PrioritizedBindingSetup[setups.Length];
 			
-			//Adds setups to "priority" with priority definitions.
+			// Add setups to "priority" with priority definitions.
 			for (var setupIndex = 0; setupIndex < setups.Length; setupIndex++) {
 				var setup = (IBindingsSetup)container.Resolve(setups[setupIndex]);
 				var attributes = setup.GetType().GetCustomAttributes(typeof(BindingPriority), true);
@@ -99,7 +99,7 @@ namespace Adic {
 						priority = bindindPriority.priority
 					};
 				} else {
-					//If the binding has no priority, saves it with priority 0.
+					// If the binding has no priority, saves it with priority 0.
 					prioritizedSetups[setupIndex] = new PrioritizedBindingSetup() {
 						setup = setup,
 						priority = 0
@@ -107,7 +107,7 @@ namespace Adic {
 				}
 			}
 			
-			//Orders the priority list and executes the setups.
+			// Order the priority list and executes the setups.
 			prioritizedSetups = prioritizedSetups.OrderByDescending(setup => setup.priority).ToArray();
 			for (var setupIndex = 0; setupIndex < prioritizedSetups.Length; setupIndex++) {
 				prioritizedSetups[setupIndex].setup.SetupBindings(container);

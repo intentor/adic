@@ -60,7 +60,7 @@ namespace Adic.Cache {
 			for (int i = 0, length = 0, shortestLength = int.MaxValue; i < constructors.Length; i++) {
 				var constructor = constructors[i];
 
-				//Construct attribute will be removed on future version.
+				// Construct attribute will be removed on future version.
 				var attributesConstruct = constructor.GetCustomAttributes(typeof(Construct), true);
 				var attributesInject = constructor.GetCustomAttributes(typeof(Inject), true);
 
@@ -120,7 +120,7 @@ namespace Adic.Cache {
 			for (int methodIndex = 0; methodIndex < methods.Length; methodIndex++) {
 				var method = methods[methodIndex];
 				
-				//PostConstruct attribute will be removed on future version.
+				// PostConstruct attribute will be removed on future version.
 				var attributesPostConstruct = method.GetCustomAttributes(typeof(PostConstruct), true);
 				var attributesInject = method.GetCustomAttributes(typeof(Inject), true);
 

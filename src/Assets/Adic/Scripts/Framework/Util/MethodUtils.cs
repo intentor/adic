@@ -57,11 +57,11 @@ namespace Adic.Util {
 			var method = new DynamicMethod(type.Name, type, parametersTypes, type);
 			ILGenerator generator = method.GetILGenerator();
 			
-			//Define parameters.
+			// Define parameters.
 			for (int paramIndex = 0; paramIndex < parameters.Length; paramIndex++) {
 				generator.Emit(OpCodes.Ldarg_0);
 				
-				//Define parameter position.
+				// Define parameter position.
 				switch (paramIndex) {
 					case 0: generator.Emit(OpCodes.Ldc_I4_0); break;
 					case 1: generator.Emit(OpCodes.Ldc_I4_1); break;
@@ -75,7 +75,7 @@ namespace Adic.Util {
 					default: generator.Emit(OpCodes.Ldc_I4, paramIndex); break;
 				}
 				
-				//Define parameter type.
+				// Define parameter type.
 				generator.Emit(OpCodes.Ldelem_Ref);
 				Type paramType = parameters[paramIndex].ParameterType;
 				generator.Emit(paramType.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass, paramType);

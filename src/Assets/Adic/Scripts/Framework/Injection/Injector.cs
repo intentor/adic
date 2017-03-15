@@ -207,14 +207,14 @@ namespace Adic.Injection {
 				}
 			}
 
-			//Array is used for multiple injection.
-			//So, when the type is an array, the type to be read from the bindings list is the element type.
+			// Array is used for multiple injection.
+			// So, when the type is an array, the type to be read from the bindings list is the element type.
 			Type typeToGet;
 			IList<BindingInfo> bindings;
 			if (type == null) {
 				typeToGet = typeof(object);
 
-				//If no type is provided, look for bindings by identifier.
+				// If no type is provided, look for bindings by identifier.
 				bindings = this.binder.GetBindingsFor(identifier);
 			} else {
 				if (type.IsArray) {
@@ -223,7 +223,7 @@ namespace Adic.Injection {
 					typeToGet = type;
 				}
 			
-				//If a type is provided, look for bindings by identifier.
+				// If a type is provided, look for bindings by identifier.
 				bindings = this.binder.GetBindingsFor(typeToGet);
 			}
 
@@ -342,8 +342,8 @@ namespace Adic.Injection {
                 
                 var value = field.getter(instance);
 
-                //The Equals(null) comparison is used to ensure correct null evaluation due to the null trick
-                //Unity uses for objects derived from UnityEngine.Object.
+                // The Equals(null) comparison is used to ensure correct null evaluation due to the null trick
+                // Unity uses for objects derived from UnityEngine.Object.
                 if (value == null || value.Equals(null)) {
 	                try {
 		                var valueToSet = this.Resolve(field.type, InjectionMember.Field, field.name, instance,
@@ -371,8 +371,8 @@ namespace Adic.Injection {
 
                 var value = property.getter == null ? null : property.getter(instance);
 
-                //The Equals(null) comparison is used to ensure correct null evaluation due to the null trick
-                //Unity uses for objects derived from UnityEngine.Object.
+                // The Equals(null) comparison is used to ensure correct null evaluation due to the null trick
+                // Unity uses for objects derived from UnityEngine.Object.
                 if (value == null || value.Equals(null)) {
                     try {
                         var valueToSet = this.Resolve(property.type, InjectionMember.Property, property.name, instance, 
@@ -421,7 +421,7 @@ namespace Adic.Injection {
 		/// <returns>The resolved instance from the binding.</returns>
 		protected object ResolveBinding(BindingInfo binding, Type type, InjectionMember member, string memberName,
 			object parentInstance, object identifier) {
-			//Condition evaluation.
+			// Condition evaluation.
 			if (binding.condition != null) {
 				var context = new InjectionContext() {
 					member = member,
@@ -438,7 +438,7 @@ namespace Adic.Injection {
 				}
 			}
 
-			//Identifier evaluation.
+			// Identifier evaluation.
 			bool resolveByIdentifier = identifier != null;
 			bool bindingHasIdentifier = binding.identifier != null;
 			if ((!resolveByIdentifier && bindingHasIdentifier) ||
@@ -447,7 +447,7 @@ namespace Adic.Injection {
 				return null;
 			}
 
-			//Instance evaluation.
+			// Instance evaluation.
 			object instance = null;
 
 			if (this.bindingEvaluation != null) {
@@ -473,9 +473,9 @@ namespace Adic.Injection {
 
 					instance = (binding.value as IFactory).Create(context);
 				} else {
-					//Binding is a singleton object.
+					// Binding is a singleton object.
 					
-					//If the binding value is a type, instantiate it.
+					// If the binding value is a type, instantiate it.
 					if (binding.value is Type) {
 						binding.value = this.Instantiate(binding.value as Type);
 					}
@@ -547,7 +547,7 @@ namespace Adic.Injection {
 		protected void OnBeforeAddBinding(IBinder source, ref BindingInfo binding) {
 			if (binding.instanceType == BindingInstance.Singleton ||
 			    binding.instanceType == BindingInstance.Factory) {
-				//Check whether a binding for the same type already exists.
+				// Check whether a binding for the same type already exists.
 				var bindings = this.binder.GetBindings();
 				var bindingIsType = binding.value is Type;
 				BindingInfo existingBinding = null;
@@ -569,8 +569,7 @@ namespace Adic.Injection {
 
 					if (valueTypeIsTheSame || valueInstanceIsTheSame) {
 						existingBinding = bindingFromBinder;
-						//Breaks because if one is found, any other that already exists
-						//will already be the same instance.
+						// Break because if one is found, any other that already exists will be the same instance.
 						break;
 					}
 				}
@@ -579,7 +578,7 @@ namespace Adic.Injection {
 					binding.value = existingBinding.value;
 				} else {
 					if (bindingIsType) {
-						//Force resolution to prevent returning null on ResolutionMode.RETURN_NULL.
+						// Force resolution to prevent returning null on ResolutionMode.RETURN_NULL.
 						var value = this.Resolve(binding.value as Type, InjectionMember.None, null, null, null, true);
 						binding.value = value;
 					} else {

@@ -31,10 +31,8 @@ namespace Adic.Examples.Factory.Bindings {
 		public CubeFactory(IInjectionContainer container) {
 			this.container = container;
 			
-			//To make instantiation easier, binds the "Cube" behaviour
-			//to the "Cube" prefab.
-			//In this example, "Cube" is not in the prefab and will be
-			//added during resolution.
+            // To make instantiation easier, binds the "Cube" behaviour to the "Cube" prefab.
+			// In this example, "Cube" is not in the prefab and will be added during resolution.
 			this.container.Bind<Cube>().ToPrefab("07_Factory/Cube");
 		}
 
@@ -44,24 +42,23 @@ namespace Adic.Examples.Factory.Bindings {
 		/// <param name="context">Injection context.</param>
 		/// <returns>The instance.</returns>
 		public object Create(InjectionContext context) {
-			//Resolve a cube.
+			// Resolve a cube.
 			var cube = this.container.Resolve<Cube>();
 
-			//Add the "Rotator" behaviour to the cube and sets its speed.
-			//This script could already be in the prefab. It's added here
-			//only to show that factories can be used to fully configure
-			//any object they create.
+			// Add the "Rotator" behaviour to the cube and sets its speed.
+			// This script could already be in the prefab. It's added here only to show that factories can be used 
+            // to fully configure any object they create.
 			var rotator = cube.gameObject.AddComponent<Rotator>();
 			rotator.speed = Random.Range(0.05f, 5.0f);
 
-			//Set the cube's color.
+			// Set the cube's color.
 			cube.color = new Color(Random.Range(0, 1.0f), Random.Range(0, 1.0f), Random.Range(0, 1.0f));
 
-			//Set its position in the matrix.
+			// Set its position in the matrix.
 			var transform = cube.GetComponent<Transform>();
 			transform.position = new Vector3(1.5f * this.currentColumn++, -1.5f * this.currentLine, 0);
 
-			//Check for line break.
+			// Check for line break.
 			if (this.currentColumn >= MAX_COLUMNS) {
 				this.currentLine++;
 				this.currentColumn = 0;

@@ -18,7 +18,7 @@ namespace Adic.Examples.Prefabs {
 		/// </summary>
 		[Inject]
 		protected void MethodInjection() {
-			//Setup some messages.
+			// Setup some messages.
 			this.messages = string.Concat(this.messages, "MethodInjection called.", System.Environment.NewLine);
 			var cubeInjected = (this.cube == null ? "No..." : "Yes!");
 			this.messages = string.Concat(this.messages, "Cube injected? " + cubeInjected, System.Environment.NewLine);
@@ -28,8 +28,8 @@ namespace Adic.Examples.Prefabs {
 		/// Start is called after PostConstruct.
 		/// </summary>
 		protected void Start() {
-			//Calls "Inject" to inject any dependencies in the component.
-			//In a production game, it's useful to place this in a base component.
+			// Call "Inject" to inject any dependencies in the component.
+			// In a production game, it's useful to place this in a base component.
 			this.Inject();
 		}
 

@@ -58,7 +58,7 @@ namespace Adic.Util {
 		public static Type[] GetAssignableTypes(Type baseType, string namespaceName, bool includeChildren) {
 			var typesToBind = new List<Type>();
 
-			//Looks for assignable types in all available assemblies.
+			// Look for assignable types in all available assemblies.
 			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 			for (int assemblyIndex = 0; assemblyIndex < assemblies.Length; assemblyIndex++) {
 				var assembly = assemblies[assemblyIndex];
@@ -88,7 +88,7 @@ namespace Adic.Util {
 						}
 					}
 				} catch (ReflectionTypeLoadException) {
-					//If the assembly can't be read, just continue.
+					// If the assembly can't be read, just continue.
 					continue;
 				}
 			}
@@ -129,7 +129,7 @@ namespace Adic.Util {
 
 			if (string.IsNullOrEmpty(fullName)) return null;
 			
-			//Looks for the type in all available assemblies.
+			// Look for the type in all available assemblies.
 			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 			for (int assemblyIndex = 0; assemblyIndex < assemblies.Length; assemblyIndex++) {
 				var assembly = assemblies[assemblyIndex];
@@ -151,7 +151,7 @@ namespace Adic.Util {
 						}
 					}
 				} catch (ReflectionTypeLoadException) {
-					//If the assembly can't be read, just continue.
+					// If the assembly can't be read, just continue.
 					continue;
 				}
 			}

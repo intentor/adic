@@ -32,7 +32,6 @@ namespace Adic.Extensions.ContextRoots {
 			var sceneInjectorType = this.GetType();
 			var components = this.GetComponent<Transform>().GetComponentsInChildren(baseType, true);
 			foreach (var component in components) {
-				//If the component is a ContextRoot or this component, ignores injection on it.
 				var componentType = component.GetType();
 				if (componentType == sceneInjectorType || 
 					TypeUtils.IsAssignable(typeof(ContextRoot), componentType)) continue;

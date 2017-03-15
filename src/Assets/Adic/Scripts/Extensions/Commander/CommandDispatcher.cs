@@ -65,10 +65,10 @@ namespace Adic {
 
 				var item = this.commands[type];
 				if (item is ICommand) {
-					//Singleton.
+					// Singleton.
 					command = (ICommand)item;
 				} else {
-					//Transient.
+					// Transient.
 					command = this.GetCommandFromPool(type, (List<ICommand>)item);
 					this.container.Inject(command);
 				}
@@ -78,7 +78,6 @@ namespace Adic {
 				command.Execute(parameters);
 
 				if (command.keepAlive) {
-					//If the command has IUpdatable interface, adds it to the EventCaller extension.
                     if (command is IUpdatable && !eventCallerExtension.updateable.Contains((IUpdatable)command)) {
                         eventCallerExtension.updateable.Add((IUpdatable)command);
 					}
@@ -129,11 +128,10 @@ namespace Adic {
 		public void Release(ICommand command) {
 			if (!command.running) return;
 
-			//If the command has IUpdatable interface, and is on the EventCaller extension, removes it.
             if (command is IUpdatable && eventCallerExtension.updateable.Contains((IUpdatable)command)) {
                 eventCallerExtension.updateable.Remove((IUpdatable)command);
 			}
-			//If the command has IDisposable interface, calls the Dispose() method. 
+
 			if (command is IDisposable) {
 				((IDisposable)command).Dispose();
 			}
@@ -252,10 +250,10 @@ namespace Adic {
 			} else {
 				var commandPool = new List<ICommand>(command.preloadPoolSize);
 
-				//Adds the currently resolved command.
+				// Add the currently resolved command.
 				commandPool.Add(command);
 
-				//Adds other commands until matches preloadPoolSize.
+				// Add other commands until matches preloadPoolSize.
 				if (command.preloadPoolSize > 1) {
 					for (int itemIndex = 1; itemIndex < command.preloadPoolSize; itemIndex++) {
 						commandPool.Add((ICommand)container.Resolve(commandType));
@@ -292,7 +290,7 @@ namespace Adic {
 		public ICommand GetCommandFromPool(Type commandType, List<ICommand> pool) {
 			ICommand command = null;
 			
-			//Finds the first available command on the list.
+			// Find the first available command on the list.
 			for (int cmdIndex = 0; cmdIndex < pool.Count; cmdIndex++) {
 				var commandOnPool = pool[cmdIndex];
 				
@@ -302,7 +300,7 @@ namespace Adic {
 				}
 			}
 			
-			//If no command is found, instantiates a new one until command.maxPoolSize is reached.
+			// If no command is found, instantiates a new one until command.maxPoolSize is reached.
 			if (command == null) {
 				if (pool.Count > 0 && pool.Count >= pool[0].maxPoolSize) {							
 					throw new CommandException(

@@ -12,8 +12,8 @@ namespace Adic.Examples.Factory.Commands {
 		public IInjectionContainer container;
 
 		public override void Execute(params object[] parameters) {
-			//Spawn 36 cubes in the scene.
-			//Cubes have been bound to the "GameObject" type.
+			// Spawn 36 cubes in the scene.
+			// Cubes have been bound to the "GameObject" type.
 			for (var cubeIndex = 0; cubeIndex < 36; cubeIndex++) {
 				var cube = container.Resolve<GameObject>();
 				cube.name = string.Format("Cube {0:00}", cubeIndex);

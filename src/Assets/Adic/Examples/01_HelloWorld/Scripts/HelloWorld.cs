@@ -7,7 +7,7 @@ namespace Adic.Examples.HelloWorld {
 	/// </summary>
 	public class HelloWorld  {
 		/// <summary>
-		/// Displays "Hello, world!" on console.
+		/// Display "Hello, world!" on console.
 		/// </summary>
 		public void DisplayHelloWorld() {
 			Debug.Log("Hello, world!");

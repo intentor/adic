@@ -44,13 +44,13 @@ namespace Adic {
         }
 
         public void Init(IInjectionContainer container) {
-            //Does nothing.
+            // Does nothing.
         }
 
         public void OnRegister(IInjectionContainer container) {
             this.CreateBehaviour(container.identifier);
 
-            //Checks whether a binding for the ICommandDispatcher exists.
+            // Check whether a binding for the ICommandDispatcher exists.
             if (container.ContainsBindingFor<ICommandDispatcher>()) {
                 var dispatcher = container.Resolve<ICommandDispatcher>();
                 BindUnityExtension(disposable, dispatcher);
@@ -84,11 +84,11 @@ namespace Adic {
         /// <param name="containerID">Container ID.</param>
         private void CreateBehaviour(object containerID) {
             if (behaviour == null) {
-                //Creates a new game object for UpdateableBehaviour.
+                // Create a new game object for UpdateableBehaviour.
                 var gameObject = new GameObject();
                 gameObject.name = String.Format("EventCaller ({0})", containerID);
 
-                //The behaviour should only be removed during unregister.
+                // The behaviour should only be removed during unregister.
                 MonoBehaviour.DontDestroyOnLoad(gameObject);
 
                 behaviour = gameObject.AddComponent<EventCallerBehaviour>();
@@ -104,8 +104,7 @@ namespace Adic {
         /// <param name="source">Source.</param>
         /// <param name="binding">Binding.</param>
         protected void OnAfterAddBinding(IBinder source, ref BindingInfo binding) {
-            if (binding.instanceType == BindingInstance.Singleton) {				
-                //Do not add commands.
+            if (binding.instanceType == BindingInstance.Singleton) {
                 if (binding.value is ICommand) {
                     return;
                 }
@@ -129,7 +128,6 @@ namespace Adic {
         /// <param name="binding">Binding.</param>
         /// <param name="instance">Instance.</param>
         protected void OnBindingResolution(IInjector source, ref BindingInfo binding, ref object instance) {
-            //Do not add commands.
             if (binding.instanceType == BindingInstance.Singleton || instance is ICommand) {
                 return;
             }
