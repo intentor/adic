@@ -5,11 +5,16 @@ Copyright (c) 2014-2017 André "Intentor" Martins
 http://intentor.com.br/
 ------------------------------------------------
 
+Version 2.26 (2017-03-??)
+
+Framework
+- Fixed resolution of arrays. [PR #83]
+
 Version 2.25 (2017-03-10)
 
 Framework
-- Addded initialize event to containers and extensions. [Issue #80]
-- Addded includeChildren to ToNamespace and ToNamespaceSingleton. [Pull request #81]
+- Adddd initialize event to containers and extensions. [Issue #80]
+- Added includeChildren to ToNamespace and ToNamespaceSingleton. [Pull request #81]
 - Improved messages when an InjectorException occurs. [Pull request #82]
 - Improved chaining on containers. [Issue #78]
 
