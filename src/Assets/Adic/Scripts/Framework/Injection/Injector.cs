@@ -231,7 +231,9 @@ namespace Adic.Injection {
 
 			if (bindings == null) {
 				if (alwaysResolve || this.resolutionMode == ResolutionMode.ALWAYS_RESOLVE) {
-                    instances.Add(this.Instantiate(typeToGet));
+					if (!(typeToGet.IsInterface && type.IsArray)) {
+						instances.Add(this.Instantiate(typeToGet));
+					}
 				} else {
 					return null;
 				}
@@ -249,7 +251,7 @@ namespace Adic.Injection {
 			
 			if (type != null && !type.IsArray && instances.Count == 1) {
 				resolution = instances[0];
-			} else if (instances.Count > 0) {
+			} else if (type.IsArray) {
 				var array = Array.CreateInstance(typeToGet, instances.Count);
 				for (int listIndex = 0; listIndex < instances.Count; listIndex++) {
 					array.SetValue(instances[listIndex], listIndex);
