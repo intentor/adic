@@ -4,155 +4,154 @@ using Adic.Binding;
 using NUnit.Framework;
 
 namespace Adic.Tests {
-	[TestFixture]
-	public class BinderTests {
+    [TestFixture]
+    public class BinderTests {
+        [Test]
+        public void TestGetAll() {
+            var binder = new Binder();
 
-		[Test]
-		public void TestGetAll() {
-			var binder = new Binder();
+            binder.Bind(typeof(IMockInterface)).To<MockIClassWithAttributes>();
+            binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("test");
 
-			binder.Bind(typeof(IMockInterface)).To<MockIClassWithAttributes>();
-			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("test");
+            var bindings = binder.GetBindings();
 
-			var bindings = binder.GetBindings();
+            Assert.AreEqual(2, bindings.Count);
+        }
 
-			Assert.AreEqual(2, bindings.Count);
-		}
+        [Test]
+        public void TestGetBindingsForGenerics() {
+            var binder = new Binder();
+			
+            binder.Bind<MockClassToDepend>().ToSelf();
+            binder.Bind(typeof(IMockInterface)).To<MockIClassWithAttributes>();
+            binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("test");
+			
+            var bindings = binder.GetBindingsFor<IMockInterface>();
+			
+            Assert.AreEqual(2, bindings.Count);
+            Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
+            Assert.IsNull(bindings[0].identifier);
+            Assert.AreEqual(typeof(IMockInterface), bindings[1].type);
+            Assert.AreEqual("test", bindings[1].identifier);
+        }
 
-		[Test]
-		public void TestGetBindingsForGenerics() {
-			var binder = new Binder();
+        [Test]
+        public void TestGetBindingsForType() {
+            var binder = new Binder();
 			
-			binder.Bind<MockClassToDepend>().ToSelf();
-			binder.Bind(typeof(IMockInterface)).To<MockIClassWithAttributes>();
-			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("test");
+            binder.Bind<MockClassToDepend>().ToSelf();
+            binder.Bind(typeof(IMockInterface)).To<MockIClassWithAttributes>();
+            binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("test");
 			
-			var bindings = binder.GetBindingsFor<IMockInterface>();
+            var bindings = binder.GetBindingsFor(typeof(IMockInterface));
 			
-			Assert.AreEqual(2, bindings.Count);
-			Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
-			Assert.IsNull(bindings[0].identifier);
-			Assert.AreEqual(typeof(IMockInterface), bindings[1].type);
-			Assert.AreEqual("test", bindings[1].identifier);
-		}
+            Assert.AreEqual(2, bindings.Count);
+            Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
+            Assert.IsNull(bindings[0].identifier);
+            Assert.AreEqual(typeof(IMockInterface), bindings[1].type);
+            Assert.AreEqual("test", bindings[1].identifier);
+        }
 
-		[Test]
-		public void TestGetBindingsForType() {
-			var binder = new Binder();
+        [Test]
+        public void TestGetBindingsForIdentifier() {
+            var binder = new Binder();
 			
-			binder.Bind<MockClassToDepend>().ToSelf();
-			binder.Bind(typeof(IMockInterface)).To<MockIClassWithAttributes>();
-			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("test");
+            binder.Bind<MockClassToDepend>().ToSelf();
+            binder.Bind(typeof(MockIClassWithAttributes)).ToSelf();
+            binder.Bind<IMockInterface>().To<MockIClass>();
+            binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("Identifier");
+            binder.Bind<IMockInterface>().To<MockIClassWithoutAttributes>().As("Identifier");
 			
-			var bindings = binder.GetBindingsFor(typeof(IMockInterface));
+            var bindings = binder.GetBindingsFor("Identifier");
 			
-			Assert.AreEqual(2, bindings.Count);
-			Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
-			Assert.IsNull(bindings[0].identifier);
-			Assert.AreEqual(typeof(IMockInterface), bindings[1].type);
-			Assert.AreEqual("test", bindings[1].identifier);
-		}
-		
-		[Test]
-		public void TestGetBindingsForIdentifier() {
-			var binder = new Binder();
-			
-			binder.Bind<MockClassToDepend>().ToSelf();
-			binder.Bind(typeof(MockIClassWithAttributes)).ToSelf();
-			binder.Bind<IMockInterface>().To<MockIClass>();
-			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("Identifier");
-			binder.Bind<IMockInterface>().To<MockIClassWithoutAttributes>().As("Identifier");
-			
-			var bindings = binder.GetBindingsFor("Identifier");
-			
-			Assert.AreEqual(2, bindings.Count);
-			Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
-			Assert.AreEqual(typeof(MockIClassWithAttributes), bindings[0].value);
-			Assert.AreEqual("Identifier", bindings[0].identifier);
-			Assert.AreEqual(typeof(IMockInterface), bindings[1].type);
-			Assert.AreEqual(typeof(MockIClassWithoutAttributes), bindings[1].value);
-			Assert.AreEqual("Identifier", bindings[1].identifier);
-		}
-		
-		[Test]
-		public void TestContainsByGenerics() {
-			var binder = new Binder();
-			
-			binder.Bind<MockClassToDepend>().ToSelf();
-			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
+            Assert.AreEqual(2, bindings.Count);
+            Assert.AreEqual(typeof(IMockInterface), bindings[0].type);
+            Assert.AreEqual(typeof(MockIClassWithAttributes), bindings[0].value);
+            Assert.AreEqual("Identifier", bindings[0].identifier);
+            Assert.AreEqual(typeof(IMockInterface), bindings[1].type);
+            Assert.AreEqual(typeof(MockIClassWithoutAttributes), bindings[1].value);
+            Assert.AreEqual("Identifier", bindings[1].identifier);
+        }
 
-			var contains = binder.ContainsBindingFor<IMockInterface>();
+        [Test]
+        public void TestContainsByGenerics() {
+            var binder = new Binder();
 			
-			Assert.AreEqual(true, contains);
-		}
-		
-		[Test]
-		public void TestContainsByType() {
-			var binder = new Binder();
-			
-			binder.Bind<MockClassToDepend>().ToSelf();
-			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
+            binder.Bind<MockClassToDepend>().ToSelf();
+            binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
 
-			var contains = binder.ContainsBindingFor(typeof(IMockInterface));
+            var contains = binder.ContainsBindingFor<IMockInterface>();
 			
-			Assert.AreEqual(true, contains);
-		}
-		
-		[Test]
-		public void TestContainsByIdentifier() {
-			var binder = new Binder();
-			
-			binder.Bind<IMockInterface>().To<MockIClass>();
-			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("Identifier");
-			
-			var contains = binder.ContainsBindingFor("Identifier");
-			
-			Assert.AreEqual(true, contains);
-		}
-		
-		[Test]
-		public void TestUnbindByGenerics() {
-			var binder = new Binder();
-			
-			binder.Bind<MockClassToDepend>().ToSelf();
-			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
-			binder.Unbind<IMockInterface>();
-			
-			var bindings = binder.GetBindings();
-			
-			Assert.AreEqual(1, bindings.Count);
-			Assert.AreEqual(typeof(MockClassToDepend), bindings[0].type);
-		}
-		
-		[Test]
-		public void TestUnbindByType() {
-			var binder = new Binder();
-			
-			binder.Bind<MockClassToDepend>().ToSelf();
-			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
-			binder.Unbind(typeof(IMockInterface));
-			
-			var bindings = binder.GetBindings();
+            Assert.AreEqual(true, contains);
+        }
 
-			Assert.AreEqual(1, bindings.Count);
-			Assert.AreEqual(typeof(MockClassToDepend), bindings[0].type);
-		}
-		
-		[Test]
-		public void TestUnbindByIdentifier() {
-			var binder = new Binder();
+        [Test]
+        public void TestContainsByType() {
+            var binder = new Binder();
 			
-			binder.Bind<MockClassToDepend>().ToSelf();
-			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("Mock1");
-			binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("Mock2");
-			binder.Unbind("Mock1");
+            binder.Bind<MockClassToDepend>().ToSelf();
+            binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
+
+            var contains = binder.ContainsBindingFor(typeof(IMockInterface));
 			
-			var bindings = binder.GetBindings();
+            Assert.AreEqual(true, contains);
+        }
+
+        [Test]
+        public void TestContainsByIdentifier() {
+            var binder = new Binder();
 			
-			Assert.AreEqual(2, bindings.Count);
-			Assert.AreEqual(typeof(MockClassToDepend), bindings[0].type);
-			Assert.AreEqual(typeof(IMockInterface), bindings[1].type);
-			Assert.AreEqual("Mock2", bindings[1].identifier);
+            binder.Bind<IMockInterface>().To<MockIClass>();
+            binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("Identifier");
+			
+            var contains = binder.ContainsBindingFor("Identifier");
+			
+            Assert.AreEqual(true, contains);
+        }
+
+        [Test]
+        public void TestUnbindByGenerics() {
+            var binder = new Binder();
+			
+            binder.Bind<MockClassToDepend>().ToSelf();
+            binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
+            binder.Unbind<IMockInterface>();
+			
+            var bindings = binder.GetBindings();
+			
+            Assert.AreEqual(1, bindings.Count);
+            Assert.AreEqual(typeof(MockClassToDepend), bindings[0].type);
+        }
+
+        [Test]
+        public void TestUnbindByType() {
+            var binder = new Binder();
+			
+            binder.Bind<MockClassToDepend>().ToSelf();
+            binder.Bind<IMockInterface>().To<MockIClassWithAttributes>();
+            binder.Unbind(typeof(IMockInterface));
+			
+            var bindings = binder.GetBindings();
+
+            Assert.AreEqual(1, bindings.Count);
+            Assert.AreEqual(typeof(MockClassToDepend), bindings[0].type);
+        }
+
+        [Test]
+        public void TestUnbindByIdentifier() {
+            var binder = new Binder();
+			
+            binder.Bind<MockClassToDepend>().ToSelf();
+            binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("Mock1");
+            binder.Bind<IMockInterface>().To<MockIClassWithAttributes>().As("Mock2");
+            binder.Unbind("Mock1");
+			
+            var bindings = binder.GetBindings();
+			
+            Assert.AreEqual(2, bindings.Count);
+            Assert.AreEqual(typeof(MockClassToDepend), bindings[0].type);
+            Assert.AreEqual(typeof(IMockInterface), bindings[1].type);
+            Assert.AreEqual("Mock2", bindings[1].identifier);
         }
 
         [Test]
@@ -171,30 +170,30 @@ namespace Adic.Tests {
             Assert.AreEqual(typeof(MockClassToDepend), bindings[0].type);
         }
 
-		[Test]
-		public void TestUnbindSingleton() {
-			var binder = new Binder();
+        [Test]
+        public void TestUnbindSingleton() {
+            var binder = new Binder();
 
-			binder.Bind<MockIClassWithAttributes>().ToSingleton();
+            binder.Bind<MockIClassWithAttributes>().ToSingleton();
 
-			binder.Unbind<MockIClassWithAttributes>();
+            binder.Unbind<MockIClassWithAttributes>();
 
-			var bindings = binder.GetBindings();
+            var bindings = binder.GetBindings();
 
-			Assert.AreEqual(0, bindings.Count);
-		}
+            Assert.AreEqual(0, bindings.Count);
+        }
 
-		[Test]
-		public void TestUnbindSingletonFromInterface() {
-			var binder = new Binder();
+        [Test]
+        public void TestUnbindSingletonFromInterface() {
+            var binder = new Binder();
 
-			binder.Bind<IMockInterface>().ToSingleton<MockIClassWithAttributes>();
+            binder.Bind<IMockInterface>().ToSingleton<MockIClassWithAttributes>();
 
-			binder.Unbind<MockIClassWithAttributes>();
+            binder.Unbind<MockIClassWithAttributes>();
 
-			var bindings = binder.GetBindings();
+            var bindings = binder.GetBindings();
 
-			Assert.AreEqual(0, bindings.Count);
+            Assert.AreEqual(0, bindings.Count);
         }
 
         [Test]
@@ -213,5 +212,5 @@ namespace Adic.Tests {
 
             Assert.AreEqual(3, bindings.Count);
         }
-	}
+    }
 }

@@ -6,189 +6,191 @@ using Adic.Injection;
 using NUnit.Framework;
 
 namespace Adic.Tests {
-	[TestFixture]
-	public class InjectorEventsTests {
-		[Test]
-		public void TestBeforeResolveContinue() {
-			var eventCalled = false;
+    [TestFixture]
+    public class InjectorEventsTests {
+        [Test]
+        public void TestBeforeResolveContinue() {
+            var eventCalled = false;
 
-			IReflectionCache cache = new ReflectionCache();
-			IBinder binder = new Binder();
-			IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
+            IReflectionCache cache = new ReflectionCache();
+            IBinder binder = new Binder();
+            IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
 
-			injector.beforeResolve += delegate(
-				IInjector source,
-           		Type type,
-           		InjectionMember member,
-           		object parentInstance,
-               	object identifier,
-           		ref object resolutionInstance) {
-				Assert.AreEqual(injector, source);
-				Assert.AreEqual(typeof(IMockInterface), type);
-				Assert.AreEqual(InjectionMember.None, member);
-				Assert.IsNull(parentInstance);
-				Assert.IsNull(identifier);
-				Assert.IsNull(resolutionInstance);
+            injector.beforeResolve += delegate(
+                IInjector source,
+                Type type,
+                InjectionMember member,
+                object parentInstance,
+                object identifier,
+                ref object resolutionInstance) {
+                Assert.AreEqual(injector, source);
+                Assert.AreEqual(typeof(IMockInterface), type);
+                Assert.AreEqual(InjectionMember.None, member);
+                Assert.IsNull(parentInstance);
+                Assert.IsNull(identifier);
+                Assert.IsNull(resolutionInstance);
 
-				eventCalled = true;
+                eventCalled = true;
 				
-				return true;
-			};
+                return true;
+            };
 			
-			binder.Bind<IMockInterface>().To<MockIClass>();
-			var instance = injector.Resolve<IMockInterface>();
+            binder.Bind<IMockInterface>().To<MockIClass>();
+            var instance = injector.Resolve<IMockInterface>();
 			
-			Assert.IsTrue(eventCalled);
-			Assert.AreEqual(typeof(MockIClass), instance.GetType());
-		}
-		
-		[Test]
-		public void TestBeforeResolveStop() {
-			var eventCalled = false;
-			
-			IReflectionCache cache = new ReflectionCache();
-			IBinder binder = new Binder();
-			IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
-			
-			injector.beforeResolve += delegate(
-				IInjector source,
-				Type type,
-				InjectionMember member,
-				object parentInstance,
-				object identifier,
-				ref object resolutionInstance) {
-				Assert.AreEqual(injector, source);
-				Assert.AreEqual(typeof(IMockInterface), type);
-				Assert.AreEqual(InjectionMember.None, member);
-				Assert.IsNull(parentInstance);
-				Assert.IsNull(identifier);
-				Assert.IsNull(resolutionInstance);
+            Assert.IsTrue(eventCalled);
+            Assert.AreEqual(typeof(MockIClass), instance.GetType());
+        }
 
-				resolutionInstance = new MockIClassWithoutAttributes();
+        [Test]
+        public void TestBeforeResolveStop() {
+            var eventCalled = false;
+			
+            IReflectionCache cache = new ReflectionCache();
+            IBinder binder = new Binder();
+            IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
+			
+            injector.beforeResolve += delegate(
+                IInjector source,
+                Type type,
+                InjectionMember member,
+                object parentInstance,
+                object identifier,
+                ref object resolutionInstance) {
+                Assert.AreEqual(injector, source);
+                Assert.AreEqual(typeof(IMockInterface), type);
+                Assert.AreEqual(InjectionMember.None, member);
+                Assert.IsNull(parentInstance);
+                Assert.IsNull(identifier);
+                Assert.IsNull(resolutionInstance);
+
+                resolutionInstance = new MockIClassWithoutAttributes();
 				
-				eventCalled = true;
+                eventCalled = true;
 				
-				return false;
-			};
+                return false;
+            };
 			
-			binder.Bind<IMockInterface>().To<MockIClass>();
-			var instance = injector.Resolve<IMockInterface>();
+            binder.Bind<IMockInterface>().To<MockIClass>();
+            var instance = injector.Resolve<IMockInterface>();
 			
-			Assert.IsTrue(eventCalled);
-			Assert.AreEqual(typeof(MockIClassWithoutAttributes), instance.GetType());
-		}
+            Assert.IsTrue(eventCalled);
+            Assert.AreEqual(typeof(MockIClassWithoutAttributes), instance.GetType());
+        }
 
-		[Test]
-		public void TestAfterResolve() {
-			var eventCalled = false;
+        [Test]
+        public void TestAfterResolve() {
+            var eventCalled = false;
 			
-			IReflectionCache cache = new ReflectionCache();
-			IBinder binder = new Binder();
-			IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
-			IMockInterface resolvedInstance = null;
+            IReflectionCache cache = new ReflectionCache();
+            IBinder binder = new Binder();
+            IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
+            IMockInterface resolvedInstance = null;
 			
-			injector.afterResolve += delegate(IInjector source,
-				Type type,
-				InjectionMember member,
-				object parentInstance,
-              	object identifier,
-				ref object resolutionInstance) {
-				Assert.AreEqual(injector, source);
-				Assert.AreEqual(typeof(IMockInterface), type);
-				Assert.AreEqual(InjectionMember.None, member);
-				Assert.IsNull(parentInstance);
-				Assert.IsNull(identifier);
-				Assert.IsNotNull(resolutionInstance);
+            injector.afterResolve += delegate(IInjector source,
+                                              Type type,
+                                              InjectionMember member,
+                                              object parentInstance,
+                                              object identifier,
+                                              ref object resolutionInstance) {
+                Assert.AreEqual(injector, source);
+                Assert.AreEqual(typeof(IMockInterface), type);
+                Assert.AreEqual(InjectionMember.None, member);
+                Assert.IsNull(parentInstance);
+                Assert.IsNull(identifier);
+                Assert.IsNotNull(resolutionInstance);
 
-				resolvedInstance = (IMockInterface)resolutionInstance;
-				eventCalled = true;
+                resolvedInstance = (IMockInterface) resolutionInstance;
+                eventCalled = true;
 
-				return false;
-			};
+                return false;
+            };
 			
-			binder.Bind<IMockInterface>().To<MockIClass>();
-			var instance = injector.Resolve<IMockInterface>();
+            binder.Bind<IMockInterface>().To<MockIClass>();
+            var instance = injector.Resolve<IMockInterface>();
 			
-			Assert.IsTrue(eventCalled);
-			Assert.AreEqual(typeof(MockIClass), instance.GetType());
-			Assert.AreEqual(resolvedInstance, instance);
-		}
+            Assert.IsTrue(eventCalled);
+            Assert.AreEqual(typeof(MockIClass), instance.GetType());
+            Assert.AreEqual(resolvedInstance, instance);
+        }
 
-		[Test]
-		public void TestBindingEvaluation() {
-			var eventCalled = false;
+        [Test]
+        public void TestBindingEvaluation() {
+            var eventCalled = false;
 			
-			IReflectionCache cache = new ReflectionCache();
-			IBinder binder = new Binder();
-			IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
+            IReflectionCache cache = new ReflectionCache();
+            IBinder binder = new Binder();
+            IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
 
-			injector.bindingEvaluation += delegate(IInjector source, ref BindingInfo binding) {
-				Assert.AreEqual(injector, source);
-				Assert.NotNull(binding);
+            injector.bindingEvaluation += delegate(IInjector source, ref BindingInfo binding) {
+                Assert.AreEqual(injector, source);
+                Assert.NotNull(binding);
 
-				eventCalled = true;
+                eventCalled = true;
 				
-				return new MockIClassWithoutAttributes();
-			};
+                return new MockIClassWithoutAttributes();
+            };
 			
-			binder.Bind<IMockInterface>().To<MockIClass>();
-			var instance = injector.Resolve<IMockInterface>();
+            binder.Bind<IMockInterface>().To<MockIClass>();
+            var instance = injector.Resolve<IMockInterface>();
 			
-			Assert.IsTrue(eventCalled);
-			Assert.AreEqual(typeof(MockIClassWithoutAttributes), instance.GetType());
-		}
+            Assert.IsTrue(eventCalled);
+            Assert.AreEqual(typeof(MockIClassWithoutAttributes), instance.GetType());
+        }
 
-		[Test]
-		public void TestBeforeInject() {
-			var eventCalled = false;
+        [Test]
+        public void TestBeforeInject() {
+            var eventCalled = false;
 			
-			IReflectionCache cache = new ReflectionCache();
-			IBinder binder = new Binder();
-			IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
-			var instanceToInject = new MockClassVerySimple();
+            IReflectionCache cache = new ReflectionCache();
+            IBinder binder = new Binder();
+            IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
+            var instanceToInject = new MockClassVerySimple();
 
-			injector.beforeInject += delegate(IInjector source, ref object instance, ReflectedClass reflectedClass) {
-				//The if below is just to avoid checking when injecting on MockIClass.
-				if (reflectedClass.type != typeof(MockClassVerySimple)) return;
+            injector.beforeInject += delegate(IInjector source, ref object instance, ReflectedClass reflectedClass) {
+                //The if below is just to avoid checking when injecting on MockIClass.
+                if (reflectedClass.type != typeof(MockClassVerySimple))
+                    return;
 
-				Assert.AreEqual(injector, source);
-				Assert.AreEqual(instanceToInject, instance);
-				Assert.IsNull(instanceToInject.field);
+                Assert.AreEqual(injector, source);
+                Assert.AreEqual(instanceToInject, instance);
+                Assert.IsNull(instanceToInject.field);
 
-				eventCalled = true;
-			};
+                eventCalled = true;
+            };
 			
-			binder.Bind<IMockInterface>().To<MockIClass>();
-			injector.Inject(instanceToInject);
+            binder.Bind<IMockInterface>().To<MockIClass>();
+            injector.Inject(instanceToInject);
 			
-			Assert.IsTrue(eventCalled);
-			Assert.AreEqual(typeof(MockIClass), instanceToInject.field.GetType());
-		}
+            Assert.IsTrue(eventCalled);
+            Assert.AreEqual(typeof(MockIClass), instanceToInject.field.GetType());
+        }
 
-		[Test]
-		public void TestAfterInject() {
-			var eventCalled = false;
+        [Test]
+        public void TestAfterInject() {
+            var eventCalled = false;
 			
-			IReflectionCache cache = new ReflectionCache();
-			IBinder binder = new Binder();
-			IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
-			var instanceToInject = new MockClassVerySimple();
+            IReflectionCache cache = new ReflectionCache();
+            IBinder binder = new Binder();
+            IInjector injector = new Injector(cache, binder, ResolutionMode.ALWAYS_RESOLVE);
+            var instanceToInject = new MockClassVerySimple();
 			
-			injector.afterInject += delegate(IInjector source, ref object instance, ReflectedClass reflectedClass) {
-				//The if below is just to avoid checking when injecting on MockIClass.
-				if (reflectedClass.type != typeof(MockClassVerySimple)) return;
+            injector.afterInject += delegate(IInjector source, ref object instance, ReflectedClass reflectedClass) {
+                //The if below is just to avoid checking when injecting on MockIClass.
+                if (reflectedClass.type != typeof(MockClassVerySimple))
+                    return;
 				
-				Assert.AreEqual(injector, source);
-				Assert.AreEqual(instanceToInject, instance);
-				Assert.AreEqual(typeof(MockIClass), instanceToInject.field.GetType());
+                Assert.AreEqual(injector, source);
+                Assert.AreEqual(instanceToInject, instance);
+                Assert.AreEqual(typeof(MockIClass), instanceToInject.field.GetType());
 				
-				eventCalled = true;
-			};
+                eventCalled = true;
+            };
 			
-			binder.Bind<IMockInterface>().To<MockIClass>();
-			injector.Inject(instanceToInject);
+            binder.Bind<IMockInterface>().To<MockIClass>();
+            injector.Inject(instanceToInject);
 			
-			Assert.IsTrue(eventCalled);
-		}
-	}
+            Assert.IsTrue(eventCalled);
+        }
+    }
 }
