@@ -15,18 +15,25 @@ namespace Adic {
     public class EventCallerContainerExtension : IContainerExtension {
         /// <summary>The disposable instances.</summary>
         public List<IDisposable> disposable { get; private set; }
+
         /// <summary>The updateable instances.</summary>
         public List<IUpdatable> updateable { get; private set; }
+
         /// <summary>The late updateable instances.</summary>
         public List<ILateUpdatable> lateUpdateable { get; private set; }
+
         /// <summary>The fixed updateable instances.</summary>
         public List<IFixedUpdatable> fixedUpdateable { get; private set; }
+
         /// <summary>The focusable instances.</summary>
         public List<IFocusable> focusable { get; private set; }
+
         /// <summary>The pausable instances.</summary>
         public List<IPausable> pausable { get; private set; }
+
         /// <summary>The quitable instances.</summary>
         public List<IQuitable> quitable { get; private set; }
+
         /// <summary>The event caller behaviour.</summary>
         public EventCallerBehaviour behaviour { get; private set; }
 
@@ -37,7 +44,7 @@ namespace Adic {
             this.disposable = new List<IDisposable>();
             this.updateable = new List<IUpdatable>();
             this.lateUpdateable = new List<ILateUpdatable>();
-            this.fixedUpdateable  = new List<IFixedUpdatable>();
+            this.fixedUpdateable = new List<IFixedUpdatable>();
             this.focusable = new List<IFocusable>();
             this.pausable = new List<IPausable>();
             this.quitable = new List<IQuitable>();

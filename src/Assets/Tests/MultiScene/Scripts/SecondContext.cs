@@ -11,7 +11,7 @@ namespace Assets.Test.MultiScene {
         }
 
         public override void Init() {
-            //Init the game.
+            // Init the game.
         }
     }
 }

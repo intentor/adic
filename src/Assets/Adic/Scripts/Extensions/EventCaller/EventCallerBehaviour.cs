@@ -36,6 +36,7 @@ namespace Adic {
                 extension.lateUpdateable[objIndex].LateUpdate();
             }
         }
+
         /// <summary>
         /// Called on a reliable time. Can be called more frequently than Update.
         /// </summary>

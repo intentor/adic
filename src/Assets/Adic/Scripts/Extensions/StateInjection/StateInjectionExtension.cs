@@ -15,13 +15,13 @@ using Adic.Extensions.MonoInjection;
 /// - MonoInjection Extension
 /// </remarks>
 public static class StateInjectionExtension {
-	/// <summary>
-	/// Does dependency injection on a StateMachineBehaviour.
-	/// </summary>
-	/// <param name="script">Target script of the injection.</param>
-	public static void Inject(this StateMachineBehaviour script) {
-		InjectionUtil.Inject(script);
-	}
+    /// <summary>
+    /// Does dependency injection on a StateMachineBehaviour.
+    /// </summary>
+    /// <param name="script">Target script of the injection.</param>
+    public static void Inject(this StateMachineBehaviour script) {
+        InjectionUtil.Inject(script);
+    }
 }
 
 #endif

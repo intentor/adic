@@ -11,7 +11,7 @@
     /// Test class one.
     /// </summary>
     public class TestClassOne : ITestInterface {
-        public int value { get { return 666; }}
+        public int value { get { return 666; } }
     }
 
     /// <summary>

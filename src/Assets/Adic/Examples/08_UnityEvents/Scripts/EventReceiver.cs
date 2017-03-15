@@ -26,7 +26,7 @@ namespace Adic.Examples.Events {
         public void OnApplicationPause(bool isPaused) {
             Debug.LogFormat("Is paused? {0}", isPaused);
         }
-        
+
         public void OnApplicationQuit() {
             Debug.Log("Game quit");
         }
