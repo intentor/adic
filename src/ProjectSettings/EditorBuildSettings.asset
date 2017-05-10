@@ -7,7 +7,13 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Adic/Examples/07_Factory/Factory.unity
+    guid: 8f5c199eaad324f438256bda01434cef
+  - enabled: 1
+    path: Assets/Tests/MultiContainer/MultiContainer.unity
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Tests/MultiScene/TestMultiSceneScene1.unity
+    guid: caf927588c12a498789ec1a18a910d58
   - enabled: 1
     path: Assets/Tests/MultiScene/TestMultiSceneScene2.unity
+    guid: 3fe480c66fd3140ddbbdde90ac012bd3
