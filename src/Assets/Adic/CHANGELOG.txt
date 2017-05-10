@@ -11,9 +11,9 @@ Framework
 - Fixed resolution of arrays. [PR #83]
 
 Unity Binding Extension
-- Added a ToPrefab implementation using GameObject. [Issue #87]
-- Added a ToPrefabSingleton implementation using GameObject. [Issue #87]
-- Marked all methods that use Resource loading as obsolete to comply with Unity guidelines. [Issue #87]
+- Added a ToPrefab implementation using GameObject. [Issue #88]
+- Added a ToPrefabSingleton implementation using GameObject. [Issue #88]
+- Marked all methods that use Resource loading as obsolete to comply with Unity guidelines. [Issue #88]
 
 Version 2.25 (2017-03-10)
 
