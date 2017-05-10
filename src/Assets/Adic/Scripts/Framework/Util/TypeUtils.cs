@@ -15,7 +15,7 @@ namespace Adic.Util {
         /// <param name="potentialDescendant">Potential descendant type.</param>
         /// <returns>Boolean.</returns>
         public static bool IsAssignable(Type potentialBase, Type potentialDescendant) {
-            return potentialBase.IsAssignableFrom(potentialDescendant);
+            return potentialBase.Equals(potentialDescendant) || potentialBase.IsAssignableFrom(potentialDescendant);
         }
 
         /// <summary>

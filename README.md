@@ -327,13 +327,16 @@ container.Bind<SomeInterface>().To(someInstance);
 You can also bind a Unity component to a game object that has that particular component:
 
 ```cs
+// By name...
 container.Bind<Transform>().ToGameObject("GameObjectNameOnHierarchy");
+// ...or by passing the actual GameObject.
+container.Bind<Transform>().ToGameObject(myGameObject);
 ```
 
-Or a prefab on some `Prefabs/Whatever` resources folder:
+Or a loaded prefab:
 
 ```cs
-container.Bind<Transform>().ToPrefab("Prefabs/Whatever/MyPrefab");
+container.Bind<Transform>().ToPrefab(myPrefab);
 ```
 
 And, if needed, non-generics versions of bindings' methods are also available:
@@ -463,6 +466,8 @@ Binds the key type to a singleton `UnityEngine.Component` of itself or some type
 
 If the component is not found on the game object, it will be added.
 
+##### By name
+
 ```cs
 //Binding to itself by name...
 container.Bind<SomeMonoBehaviour>().ToGameObject("GameObjectName");
@@ -470,6 +475,17 @@ container.Bind<SomeMonoBehaviour>().ToGameObject("GameObjectName");
 container.Bind<SomeInterface>().ToGameObject<SomeMonoBehaviour>("GameObjectName");
 //..or some other component by instance type and name.
 container.Bind<SomeInterface>()().ToGameObject(someMonoBehaviourType, "GameObjectName");
+```
+
+##### By instance
+
+```cs
+//Binding to itself by instance...
+container.Bind<SomeMonoBehaviour>().ToGameObject(myGameObject);
+//...or some other component using generics and instance...
+container.Bind<SomeInterface>().ToGameObject<SomeMonoBehaviour>(myGameObject);
+//..or some other component by instance type and instance.
+container.Bind<SomeInterface>()().ToGameObject(someMonoBehaviourType, myGameObject);
 ```
 
 #### To game object with tag
@@ -516,11 +532,11 @@ If the component is not found on the game object, it will be added.
 
 ```cs
 //Binding prefab to itself...
-container.Bind<SomeMonoBehaviour>().ToPrefab("Prefabs/Whatever/MyPrefab");
+container.Bind<SomeMonoBehaviour>().ToPrefab(myPrefab);
 //...or to another component on the prefab using generics...
-container.Bind<SomeInterface>().ToPrefab<SomeMonoBehaviour>("Prefabs/Whatever/MyPrefab");
+container.Bind<SomeInterface>().ToPrefab<SomeMonoBehaviour>(myPrefab);
 //...or to another component on the prefab using instance tyoe.
-container.Bind<SomeInterface>().ToPrefab(someMonoBehaviourType, "Tag");
+container.Bind<SomeInterface>().ToPrefab(someMonoBehaviourType, myPrefab);
 ```
 
 #### To prefab singleton
@@ -531,21 +547,11 @@ Binds the key type to a singleton `UnityEngine.Component` of itself or some type
 
 ```cs
 //Binding singleton prefab to itself...
-container.Bind<SomeMonoBehaviour>().ToPrefabSingleton("Prefabs/Whatever/MyPrefab");
+container.Bind<SomeMonoBehaviour>().ToPrefabSingleton(myPrefab);
 //...or to another component on the prefab using generics...
-container.Bind<SomeInterface>().ToPrefabSingleton<SomeMonoBehaviour>("Prefabs/Whatever/MyPrefab");
+container.Bind<SomeInterface>().ToPrefabSingleton<SomeMonoBehaviour>(myPrefab);
 //...or to another component on the prefab using instance type.
-container.Bind<SomeInterface>().ToPrefabSingleton(someMonoBehaviourType, "Tag");
-```
-
-#### To resource
-
-Binds the key type to a singleton `UnityEngine.Object` loaded from the Resources folder.
-
-**Good practice:** To prevent references to destroyed objects, only bind to resources that won't be destroyed in the scene.
-
-```cs
-container.Bind<AudioClip>().ToResource("Audio/MyAudio");
+container.Bind<SomeInterface>().ToPrefabSingleton(someMonoBehaviourType, myPrefab);
 ```
 
 ### <a id="constructor-injection"></a>Constructor injection

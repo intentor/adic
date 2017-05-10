@@ -6,6 +6,9 @@ namespace Adic.Examples.UsingConditions {
     /// Game context root.
     /// </summary>
     public class GameRoot : ContextRoot {
+        [Tooltip("On scene right cube.")]
+        public GameObject rightCube;
+
         public override void SetupContainers() {
             // Create the container.
             this.AddContainer<InjectionContainer>()
@@ -15,7 +18,7 @@ namespace Adic.Examples.UsingConditions {
                 .Bind<Transform>().ToGameObject("LeftCube").As("LeftCube")
                 // Bind a Transform component to the two cubes on the scene, using a "AsObjectName" condition.
                 // This condition will use the Unity Object name as identifier. In this case, the Game Object name.
-                .Bind<Transform>().ToGameObject("RightCube").AsObjectName()
+                .Bind<Transform>().ToGameObject(rightCube).AsObjectName()
                 // Bind the "GameObjectRotator" component to a new game object of the same name.
                 // This component will then receive the reference to the "LeftCube", making only
                 // this cube rotate.

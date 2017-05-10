@@ -24,6 +24,13 @@ namespace Adic {
             "There's no prefab named \"{0}\" to bind the type {1} to.";
         private const string RESOURCE_IS_NULL = 
             "There's no resource to bind the type to.";
+        private static readonly Type TYPE_GAME_OBJECT;
+        private static readonly Type TYPE_COMPONENT;
+
+        static UnityBindingExtension() {
+            TYPE_GAME_OBJECT = typeof(GameObject);
+            TYPE_COMPONENT = typeof(Component);
+        }
 
         /// <summary>
         /// Binds the key type to a singleton of itself on a new GameObject.
@@ -38,7 +45,7 @@ namespace Adic {
         /// <param name="bindingFactory">The original binding factory.</param>
         /// <returns>The binding condition object related to this binding.</returns>
         public static UnityBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory) {
-            return bindingFactory.ToGameObject(bindingFactory.bindingType, null);
+            return bindingFactory.ToGameObject(bindingFactory.bindingType, String.Empty);
         }
 
         /// <summary>
@@ -53,7 +60,7 @@ namespace Adic {
         /// <param name="bindingFactory">The original binding factory.</param>
         /// <returns>The binding condition object related to this binding.</returns>
         public static UnityBindingConditionFactory ToGameObject<T>(this IBindingFactory bindingFactory) where T : Component {
-            return bindingFactory.ToGameObject(typeof(T), null);
+            return bindingFactory.ToGameObject(typeof(T), String.Empty);
         }
 
         /// <summary>
@@ -68,7 +75,7 @@ namespace Adic {
         /// <param name="type">The component type.</param>
         /// <returns>The binding condition object related to this binding.</returns>
         public static UnityBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory, Type type) {
-            return bindingFactory.ToGameObject(type, null);
+            return bindingFactory.ToGameObject(type, String.Empty);
         }
 
         /// <summary>
@@ -110,7 +117,7 @@ namespace Adic {
         }
 
         /// <summary>
-        /// Binds the key type to a singleton  <paramref name="type"/> on a GameObject 
+        /// Binds the key type to a singleton <paramref name="type"/> on a GameObject 
         /// of a given <paramref name="name"/>.
         /// 
         /// If <paramref name="type"/> is <see cref="UnityEngine.GameObject"/>, binds the
@@ -134,8 +141,8 @@ namespace Adic {
                 throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
             }
 
-            var isGameObject = TypeUtils.IsAssignable(typeof(GameObject), type);
-            var isComponent = TypeUtils.IsAssignable(typeof(Component), type);
+            var isGameObject = TypeUtils.IsAssignable(TYPE_GAME_OBJECT, type);
+            var isComponent = TypeUtils.IsAssignable(TYPE_COMPONENT, type);
             if (!isGameObject && !isComponent) {
                 throw new BindingException(TYPE_NOT_COMPONENT);
             }
@@ -151,6 +158,69 @@ namespace Adic {
                 throw new BindingException(string.Format(GAMEOBJECT_NAME_TYPE_IS_NULL, name, type.ToString()));
             }
 
+            return CreateSingletonBinding(bindingFactory, gameObject, type, isGameObject);
+        }
+
+        /// <summary>
+        /// Binds the key type to a singleton <see cref="UnityEngine.Component"/> on a given <paramref name="gameObject"/>.
+        /// 
+        /// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
+        /// </summary>
+        /// <remarks>
+        /// To prevent references to destroyed objects, only bind to game objects that won't 
+        /// be destroyed in the scene.
+        /// </remarks>
+        /// <param name="bindingFactory">The original binding factory.</param>
+        /// <param name="gameObject">The GameObject object.</param>
+        /// <returns>The binding condition object related to this binding.</returns>
+        public static UnityBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory, GameObject gameObject) {
+            return bindingFactory.ToGameObject(bindingFactory.bindingType, gameObject);
+        }
+
+        /// <summary>
+        /// Binds the key type to a singleton <see cref="UnityEngine.Component"/>
+        /// of <typeparamref name="T"/> on a given <paramref name="gameObject"/>.
+        /// 
+        /// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
+        /// </summary>
+        /// <remarks>
+        /// To prevent references to destroyed objects, only bind to game objects that won't 
+        /// be destroyed in the scene.
+        /// </remarks>
+        /// <typeparam name="Type">The component type to bind the GameObject to.</typeparam>
+        /// <param name="bindingFactory">The original binding factory.</param>
+        /// <param name="gameObject">The GameObject object.</param>
+        /// <returns>The binding condition object related to this binding.</returns>
+        public static UnityBindingConditionFactory ToGameObject<T>(this IBindingFactory bindingFactory, GameObject gameObject) {
+            return bindingFactory.ToGameObject(typeof(T), gameObject);
+        }
+
+        /// <summary>
+        /// Binds the key type to a singleton <paramref name="type"/> to a given <paramref name="gameObject"/>.
+        /// 
+        /// If <paramref name="type"/> is <see cref="UnityEngine.GameObject"/>, binds the
+        /// key to the GameObject itself.
+        /// 
+        /// If <paramref name="type"/> is see cref="UnityEngine.Component"/>, binds the key
+        /// to the the instance of the component.
+        /// 
+        /// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
+        /// </summary>
+        /// <remarks>
+        /// To prevent references to destroyed objects, only bind to game objects that won't 
+        /// be destroyed in the scene.
+        /// </remarks>
+        /// <param name="bindingFactory">The original binding factory.</param>
+        /// <param name="type">The component type.</param>
+        /// <param name="gameObject">The GameObject object.</param>
+        /// <returns>The binding condition object related to this binding.</returns>
+        public static UnityBindingConditionFactory ToGameObject(this IBindingFactory bindingFactory, Type type, GameObject gameObject) {
+            var isGameObject = TypeUtils.IsAssignable(TYPE_GAME_OBJECT, type);
+            var isComponent = TypeUtils.IsAssignable(TYPE_COMPONENT, type);
+            if (!isGameObject && !isComponent) {
+                throw new BindingException(TYPE_NOT_COMPONENT);
+            }
+            
             return CreateSingletonBinding(bindingFactory, gameObject, type, isGameObject);
         }
 
@@ -223,8 +293,8 @@ namespace Adic {
                 throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
             }
 			
-            var isGameObject = TypeUtils.IsAssignable(typeof(GameObject), type);
-            var isComponent = TypeUtils.IsAssignable(typeof(Component), type);
+            var isGameObject = TypeUtils.IsAssignable(TYPE_GAME_OBJECT, type);
+            var isComponent = TypeUtils.IsAssignable(TYPE_COMPONENT, type);
             if (!isGameObject && !isComponent) {
                 throw new BindingException(TYPE_NOT_COMPONENT);
             }
@@ -301,8 +371,8 @@ namespace Adic {
                 throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
             }
 			
-            var isGameObject = TypeUtils.IsAssignable(typeof(GameObject), type);
-            var isComponent = TypeUtils.IsAssignable(typeof(Component), type);
+            var isGameObject = TypeUtils.IsAssignable(TYPE_GAME_OBJECT, type);
+            var isComponent = TypeUtils.IsAssignable(TYPE_COMPONENT, type);
             if (!isGameObject && !isComponent) {
                 throw new BindingException(TYPE_NOT_COMPONENT);
             }
@@ -333,8 +403,151 @@ namespace Adic {
         /// missing references in the container.
         /// </remarks>
         /// <param name="bindingFactory">The original binding factory.</param>
+        /// <param name="prefab">Prefab object.</param>
+        /// <returns>The binding condition object related to this binding.</returns>
+        public static UnityBindingConditionFactory ToPrefab(this IBindingFactory bindingFactory, GameObject prefab) {
+            return bindingFactory.ToPrefab(bindingFactory.bindingType, prefab);
+        }
+
+        /// <summary>
+        /// Binds the key type to a transient <see cref="UnityEngine.Component"/>
+        /// of <typeparamref name="T"/> on the prefab.
+        /// 
+        /// If the <see cref="UnityEngine.Component"/> is not found on the prefab
+        /// at the moment of the instantiation, it will be added.
+        /// </summary>
+        /// <remarks>
+        /// Every resolution of a transient prefab will generate a new instance. So, even
+        /// if the component resolved from the prefab is destroyed, it won't generate any
+        /// missing references in the container.
+        /// </remarks>
+        /// <typeparam name="Type">The component type to bind the GameObject to.</typeparam>
+        /// <param name="bindingFactory">The original binding factory.</param>
+        /// <param name="prefab">Prefab object.</param>
+        /// <returns>The binding condition object related to this binding.</returns>
+        public static UnityBindingConditionFactory ToPrefab<T>(this IBindingFactory bindingFactory, GameObject prefab) where T : Component {
+            return bindingFactory.ToPrefab(typeof(T), prefab);
+        }
+
+        /// <summary>
+        /// Binds the key type to a transient <see cref="UnityEngine.Component"/>
+        /// of <paramref name="type"/> on the prefab.
+        /// 
+        /// If the <see cref="UnityEngine.Component"/> is not found on the prefab
+        /// at the moment of the instantiation, it will be added.
+        /// </summary>
+        /// <remarks>
+        /// Every resolution of a transient prefab will generate a new instance. So, even
+        /// if the component resolved from the prefab is destroyed, it won't generate any
+        /// missing references in the container.
+        /// </remarks>
+        /// <param name="bindingFactory">The original binding factory.</param>
+        /// <param name="type">The component type.</param>
+        /// <param name="prefab">Prefab object.</param>
+        /// <returns>The binding condition object related to this binding.</returns>
+        public static UnityBindingConditionFactory ToPrefab(this IBindingFactory bindingFactory, Type type, GameObject prefab) {
+            if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
+                throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
+            }
+
+            var isGameObject = TypeUtils.IsAssignable(TYPE_GAME_OBJECT, type);
+            var isComponent = TypeUtils.IsAssignable(TYPE_COMPONENT, type);
+            if (!isGameObject && !isComponent) {
+                throw new BindingException(TYPE_NOT_COMPONENT);
+            }
+
+            return new UnityBindingConditionFactory(bindingFactory.AddBinding(new PrefabBinding(prefab, type), 
+                    BindingInstance.Transient), prefab.name);
+        }
+
+        /// <summary>
+        /// Binds the key type to a singleton of itself on a newly instantiated prefab.
+        /// 
+        /// If the <see cref="UnityEngine.Component"/> is not found on the prefab
+        /// at the moment of the instantiation, it will be added.
+        /// 
+        /// The key type must be derived either from <see cref="UnityEngine.GameObject"/>
+        /// or <see cref="UnityEngine.Component"/>.
+        /// </summary>
+        /// <remarks>
+        /// To prevent references to destroyed objects, only bind to prefabs that won't 
+        /// be destroyed in the scene.
+        /// </remarks>
+        /// <param name="bindingFactory">The original binding factory.</param>
+        /// <param name="prefab">Prefab object.</param>
+        /// <returns>The binding condition object related to this binding.</returns>
+        public static UnityBindingConditionFactory ToPrefabSingleton(this IBindingFactory bindingFactory, GameObject prefab) {
+            return bindingFactory.ToPrefabSingleton(bindingFactory.bindingType, prefab);
+        }
+
+        /// <summary>
+        /// Binds the key type to a singleton <see cref="UnityEngine.Component"/>
+        /// of <typeparamref name="T"/> on a newly instantiated prefab.
+        /// 
+        /// If the <see cref="UnityEngine.Component"/> is not found on the prefab
+        /// at the moment of the instantiation, it will be added.
+        /// </summary>
+        /// <remarks>
+        /// To prevent references to destroyed objects, only bind to prefabs that won't 
+        /// be destroyed in the scene.
+        /// </remarks>
+        /// <typeparam name="Type">The component type to bind the GameObject to.</typeparam>
+        /// <param name="bindingFactory">The original binding factory.</param>
+        /// <param name="prefab">Prefab object.</param>
+        /// <returns>The binding condition object related to this binding.</returns>
+        public static UnityBindingConditionFactory ToPrefabSingleton<T>(this IBindingFactory bindingFactory, GameObject prefab) where T : Component {
+            return bindingFactory.ToPrefabSingleton(typeof(T), prefab);
+        }
+
+        /// <summary>
+        /// Binds the key type to a singleton <see cref="UnityEngine.Component"/>
+        /// of <paramref name="type"/> on a newly instantiated prefab.
+        /// 
+        /// If the <see cref="UnityEngine.Component"/> is not found on the prefab
+        /// at the moment of the instantiation, it will be added.
+        /// </summary>
+        /// <remarks>
+        /// To prevent references to destroyed objects, only bind to prefabs that won't 
+        /// be destroyed in the scene.
+        /// </remarks>
+        /// <param name="bindingFactory">The original binding factory.</param>
+        /// <param name="type">The component type.</param>
+        /// <param name="prefab">Prefab object.</param>
+        /// <returns>The binding condition object related to this binding.</returns>
+        public static UnityBindingConditionFactory ToPrefabSingleton(this IBindingFactory bindingFactory, Type type, GameObject prefab) {
+            if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
+                throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
+            }
+
+            var isGameObject = TypeUtils.IsAssignable(TYPE_GAME_OBJECT, type);
+            var isComponent = TypeUtils.IsAssignable(TYPE_COMPONENT, type);
+            if (!isGameObject && !isComponent) {
+                throw new BindingException(TYPE_NOT_COMPONENT);
+            }
+
+            var gameObject = (GameObject) MonoBehaviour.Instantiate(prefab);
+
+            return CreateSingletonBinding(bindingFactory, gameObject, type, isGameObject);
+        }
+
+        /// <summary>
+        /// Binds the key type to a transient of itself on the prefab.
+        /// 
+        /// The key type must be derived either from <see cref="UnityEngine.GameObject"/>
+        /// or <see cref="UnityEngine.Component"/>.
+        /// 
+        /// If the <see cref="UnityEngine.Component"/> is not found on the prefab
+        /// at the moment of the instantiation, it will be added.
+        /// </summary>
+        /// <remarks>
+        /// Every resolution of a transient prefab will generate a new instance. So, even
+        /// if the component resolved from the prefab is destroyed, it won't generate any
+        /// missing references in the container.
+        /// </remarks>
+        /// <param name="bindingFactory">The original binding factory.</param>
         /// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
         /// <returns>The binding condition object related to this binding.</returns>
+        [Obsolete("Loading from Resources is not recommended by Unity. Please use ToPrefab(GameObject) instead.")]
         public static UnityBindingConditionFactory ToPrefab(this IBindingFactory bindingFactory, string name) {
             return bindingFactory.ToPrefab(bindingFactory.bindingType, name);
         }
@@ -355,6 +568,7 @@ namespace Adic {
         /// <param name="bindingFactory">The original binding factory.</param>
         /// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
         /// <returns>The binding condition object related to this binding.</returns>
+        [Obsolete("Loading from Resources is not recommended by Unity. Please use ToPrefab<T>(GameObject) instead.")]
         public static UnityBindingConditionFactory ToPrefab<T>(this IBindingFactory bindingFactory, string name) where T : Component {
             return bindingFactory.ToPrefab(typeof(T), name);
         }
@@ -375,13 +589,14 @@ namespace Adic {
         /// <param name="type">The component type.</param>
         /// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
         /// <returns>The binding condition object related to this binding.</returns>
+        [Obsolete("Loading from Resources is not recommended by Unity. Please use ToPrefab(Type, GameObject) instead.")]
         public static UnityBindingConditionFactory ToPrefab(this IBindingFactory bindingFactory, Type type, string name) {
             if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
                 throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
             }
 
-            var isGameObject = TypeUtils.IsAssignable(typeof(GameObject), type);
-            var isComponent = TypeUtils.IsAssignable(typeof(Component), type);
+            var isGameObject = TypeUtils.IsAssignable(TYPE_GAME_OBJECT, type);
+            var isComponent = TypeUtils.IsAssignable(TYPE_COMPONENT, type);
             if (!isGameObject && !isComponent) {
                 throw new BindingException(TYPE_NOT_COMPONENT);
             }
@@ -412,6 +627,7 @@ namespace Adic {
         /// <param name="bindingFactory">The original binding factory.</param>
         /// <param name="name">Prefab name.</param>
         /// <returns>The binding condition object related to this binding.</returns>
+        [Obsolete("Loading from Resources is not recommended by Unity. Please use ToPrefabSingleton(GameObject) instead.")]
         public static UnityBindingConditionFactory ToPrefabSingleton(this IBindingFactory bindingFactory, string name) {
             return bindingFactory.ToPrefabSingleton(bindingFactory.bindingType, name);
         }
@@ -431,6 +647,7 @@ namespace Adic {
         /// <param name="bindingFactory">The original binding factory.</param>
         /// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
         /// <returns>The binding condition object related to this binding.</returns>
+        [Obsolete("Loading from Resources is not recommended by Unity. Please use ToPrefabSingleton(GameObject) instead.")]
         public static UnityBindingConditionFactory ToPrefabSingleton<T>(this IBindingFactory bindingFactory, string name) where T : Component {
             return bindingFactory.ToPrefabSingleton(typeof(T), name);
         }
@@ -450,13 +667,14 @@ namespace Adic {
         /// <param name="type">The component type.</param>
         /// <param name="name">Prefab name. It will be loaded using <c>Resources.Load<c/>.</param>
         /// <returns>The binding condition object related to this binding.</returns>
+        [Obsolete("Loading from Resources is not recommended by Unity. Please use ToPrefabSingleton(GameObject) instead.")]
         public static UnityBindingConditionFactory ToPrefabSingleton(this IBindingFactory bindingFactory, Type type, string name) {
             if (!TypeUtils.IsAssignable(bindingFactory.bindingType, type)) {
                 throw new BindingException(BindingException.TYPE_NOT_ASSIGNABLE);
             }
 
-            var isGameObject = TypeUtils.IsAssignable(typeof(GameObject), type);
-            var isComponent = TypeUtils.IsAssignable(typeof(Component), type);
+            var isGameObject = TypeUtils.IsAssignable(TYPE_GAME_OBJECT, type);
+            var isComponent = TypeUtils.IsAssignable(TYPE_COMPONENT, type);
             if (!isGameObject && !isComponent) {
                 throw new BindingException(TYPE_NOT_COMPONENT);
             }
@@ -482,6 +700,7 @@ namespace Adic {
         /// <param name="bindingFactory">The original binding factory.</param>
         /// <param name="name">Resource name. It will be loaded using <c>Resources.Load<c/>.</param>
         /// <returns>The binding condition object related to this binding.</returns>
+        [Obsolete("Loading from Resources is not recommended by Unity. Please use other binding methods.")]
         public static UnityBindingConditionFactory ToResource(this IBindingFactory bindingFactory, string name) {			
             if (!TypeUtils.IsAssignable(typeof(UnityEngine.Object), bindingFactory.bindingType)) {
                 throw new BindingException(TYPE_NOT_OBJECT);
@@ -503,10 +722,8 @@ namespace Adic {
         /// <param name="type">The type of the binding.</param>
         /// <param name="typeIsGameObject">Indicates whether the type is a GameObject.</param>
         /// <returns>The binding condition object related to the binding.</returns>
-        private static UnityBindingConditionFactory CreateSingletonBinding(IBindingFactory bindingFactory,
-                                                                           GameObject gameObject,
-                                                                           Type type,
-                                                                           bool typeIsGameObject) {
+        private static UnityBindingConditionFactory CreateSingletonBinding(IBindingFactory bindingFactory, 
+                                                                           GameObject gameObject, Type type, bool typeIsGameObject) {
             if (gameObject == null) {
                 throw new BindingException(GAMEOBJECT_IS_NULL);
             }

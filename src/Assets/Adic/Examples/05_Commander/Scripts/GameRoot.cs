@@ -7,6 +7,9 @@ namespace Adic.Examples.Commander {
     /// Game context root.
     /// </summary>
     public class GameRoot : ContextRoot {
+        [Tooltip("Prefab for the prism.")]
+        public GameObject prismPrefab;
+
         /// <summary>The command dispatcher.</summary>
         protected ICommandDispatcher dispatcher;
 
@@ -22,7 +25,7 @@ namespace Adic.Examples.Commander {
                 // Register all commands under the namespace "Adic.Examples.Commander.Commands".
 				.RegisterCommands("Adic.Examples.Commander.Commands")
                 // Bind the "Prism" prefab.
-				.Bind<Transform>().ToPrefab("05_Commander/Prism");
+                .Bind<Transform>().ToPrefab(prismPrefab);
 		
             // Get a reference to the command dispatcher so it can be used to dispatch commands in the Init() method.
             this.dispatcher = container.GetCommandDispatcher();

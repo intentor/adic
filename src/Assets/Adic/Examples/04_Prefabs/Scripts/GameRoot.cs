@@ -6,15 +6,20 @@ namespace Adic.Examples.Prefabs {
     /// Game context root.
     /// </summary>
     public class GameRoot : ContextRoot {
+        [Tooltip("Prefab for the cube.")]
+        public GameObject cubePrefab;
+        [Tooltip("Prefab for the plane.")]
+        public GameObject planePrefab;
+
         public override void SetupContainers() {
             // Create the container.
             this.AddContainer<InjectionContainer>()
                 // Register any extensions the container may use.
 				.RegisterExtension<UnityBindingContainerExtension>()
                 // Bind the "Cube" prefab. It will be injected in CubeRotator.
-				.Bind<Transform>().ToPrefab("04_Prefabs/Cube").As("cube")
+                .Bind<Transform>().ToPrefab(cubePrefab).As("cube")
                 // Bind the "Plane" prefab. It exists just to make the scene less empty.
-				.Bind<GameObject>().ToPrefabSingleton("04_Prefabs/Plane");
+                .Bind<GameObject>().ToPrefabSingleton(planePrefab);
         }
 
         public override void Init() {
