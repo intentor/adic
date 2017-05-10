@@ -90,13 +90,15 @@ namespace Adic.Injection {
         /// <param name="identifier">Identifier to look for.</param>
         /// <returns>The instance or NULL.</returns>
         public object Resolve(object identifier) {
-            //Given no type will be passed, it'll always resolve an array.
-            var instances = (object[]) this.Resolve(null, InjectionMember.None, null, null, identifier, false);
+            var resolution = this.Resolve(null, InjectionMember.None, null, null, identifier, false);
 
-            if (instances != null && instances.Length > 0) {
-                return instances[0];
+            if (resolution != null && resolution.GetType().IsArray) {
+                var instances = (object[]) resolution;
+                return instances.Length > 0 ? instances[0] : null;
+            } else if (resolution != null) {
+                return resolution;
             } else {
-                return instances;
+                return null;
             }
         }
 
@@ -129,7 +131,7 @@ namespace Adic.Injection {
         /// <param name="identifier">Identifier to look for.</param>
         /// <returns>The list of instances or NULL if there are no instances.</returns>
         public T[] ResolveAll<T>(object identifier) {
-            var instance = this.Resolve(typeof(T), identifier);
+            var instance = this.Resolve(typeof(T[]), identifier);
 			
             if (instance == null) {
                 return null;
@@ -190,7 +192,7 @@ namespace Adic.Injection {
         /// <param name="identifier">The binding identifier to be looked for.</param>
         /// <param name="alwaysResolve">Always resolve the type, even when resolution mode is null.</param>
         protected object Resolve(Type type, InjectionMember member, string memberName, object parentInstance,
-                                 object identifier, bool alwaysResolve) {
+            object identifier, bool alwaysResolve) {
             object resolution = null;
 
             if (this.beforeResolve != null) {
@@ -213,7 +215,8 @@ namespace Adic.Injection {
             // So, when the type is an array, the type to be read from the bindings list is the element type.
             Type typeToGet;
             IList<BindingInfo> bindings;
-            if (type == null) {
+            Boolean typeIsnull = type == null;
+            if (typeIsnull) {
                 typeToGet = typeof(object);
 
                 // If no type is provided, look for bindings by identifier.
@@ -251,9 +254,9 @@ namespace Adic.Injection {
                 }
             }
 			
-            if (type != null && !type.IsArray && instances.Count == 1) {
+            if ((typeIsnull && instances.Count == 1) || (!typeIsnull && !type.IsArray && instances.Count == 1)) {
                 resolution = instances[0];
-            } else if (type.IsArray) {
+            } else if ((typeIsnull && instances.Count > 1) || (!typeIsnull && type.IsArray)) {
                 var array = Array.CreateInstance(typeToGet, instances.Count);
                 for (int listIndex = 0; listIndex < instances.Count; listIndex++) {
                     array.SetValue(instances[listIndex], listIndex);
