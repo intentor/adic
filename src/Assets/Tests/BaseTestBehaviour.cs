@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.TestTools;
+using System.Collections;
 
 namespace Adic.Tests {
     /// <summary>
@@ -14,13 +15,38 @@ namespace Adic.Tests {
             get { return isFinished; }
         }
 
+        /// <summary>Time to wait before evaluation (seconds).</summary>
+        public virtual float wait {
+            get { return 0; }
+        }
+
     	private void Awake() {
             this.Init();
     	}
     	
         private void Start() {
-            this.Evaluate();
+            if (this.wait == 0) {
+                this.Evaluate();
+                this.Clean();
+            } else {
+                this.StartCoroutine(this.CheckEvaluation());
+            }
     	}
+
+        /// <summary>
+        /// Checks whether the evaluation shout take place.
+        /// </summary>
+        /// <returns>Coroutine enumerator.</returns>
+        private IEnumerator CheckEvaluation() {
+            yield return new WaitForEndOfFrame();
+
+            yield return new WaitForSeconds(this.wait);
+
+            this.Evaluate();
+            this.Clean();
+
+            yield return null;
+        }
 
         /// <summary>
         /// Initializes the test.
@@ -31,5 +57,12 @@ namespace Adic.Tests {
         /// Executes evaluations.
         /// </summary>
         protected abstract void Evaluate();
+
+        /// <summary>
+        /// Cleans any objects the test created.
+        /// </summary>
+        protected virtual void Clean() {
+
+        }
     }
 }

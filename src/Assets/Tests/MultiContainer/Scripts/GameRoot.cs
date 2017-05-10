@@ -7,7 +7,7 @@ namespace Assets.Test.MultiContainer {
     /// <summary>
     /// Test context root.
     /// </summary>
-    public class GameContext : ContextRoot {
+    public class GameRoot : ContextRoot {
         /// <summary>Command to test.</summary>
         [Inject] 
         private TestCommand Command;

@@ -24,7 +24,11 @@ namespace Adic.Tests {
                 LogAssert.NoUnexpectedReceived();
                 isFinished = true;
             }
-        }
 
+            protected override void Clean() {
+                //SceneManager.UnloadSceneAsync("TestMultiSceneScene1");
+                //SceneManager.UnloadSceneAsync("TestMultiSceneScene2");
+            }
+        }
     }
 }

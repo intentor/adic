@@ -6,11 +6,32 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Adic/Examples/01_HelloWorld/HelloWorld.unity
+    guid: b903a9652a1cd455ca0839139d442fc3
+  - enabled: 1
+    path: Assets/Adic/Examples/02_BindingGameObjects/BindingGameObjects.unity
+    guid: bede71b9d850a4e0bbe64525ad240f51
+  - enabled: 1
+    path: Assets/Adic/Examples/03_UsingConditions/UsingConditions.unity
+    guid: 87c2cb8f49787462e9c99cae4724eb19
+  - enabled: 1
+    path: Assets/Adic/Examples/04_Prefabs/Prefabs.unity
+    guid: ea05f78e54b59a544beec21912dcf872
+  - enabled: 1
+    path: Assets/Adic/Examples/05_Commander/Commander.unity
+    guid: b4cbaadc1f1d7449380aaa67fc9d3bda
+  - enabled: 1
+    path: Assets/Adic/Examples/06_BindingsSetup/BindingsSetup.unity
+    guid: bf208c596294d4a23910164033b155be
+  - enabled: 1
     path: Assets/Adic/Examples/07_Factory/Factory.unity
     guid: 8f5c199eaad324f438256bda01434cef
   - enabled: 1
-    path: Assets/Tests/MultiContainer/MultiContainer.unity
+    path: Assets/Adic/Examples/08_UnityEvents/UnityEvents.unity
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Tests/MultiContainer/MultiContainer.unity
+    guid: afbfaf570490a45bb8910d6b2ee60f7c
   - enabled: 1
     path: Assets/Tests/MultiScene/TestMultiSceneScene1.unity
     guid: caf927588c12a498789ec1a18a910d58
