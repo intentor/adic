@@ -58,5 +58,6 @@ namespace Adic.Extenstions.BindingsPrinter {
                 style.alignment = TextAnchor.UpperLeft;			
                 return style;
             }
+        }
     }
 }
