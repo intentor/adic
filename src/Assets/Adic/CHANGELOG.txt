@@ -11,6 +11,9 @@ Framework
 - Added inject on private members. [Issue #85]
 - Fixed resolution of arrays. [PR #83]
 
+Commander extension
+- Added tag when dispatching commands. [Issue #52]
+
 Unity Binding Extension
 - Added a ToPrefab implementation using GameObject. [Issue #88]
 - Added a ToPrefabSingleton implementation using GameObject. [Issue #88]

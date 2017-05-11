@@ -36,30 +36,17 @@ namespace Adic {
             }
         }
 
-        /// <summary>
-        /// Initializes the dispatcher. Should be called during container initialization.
-        /// </summary>
         public void Init() {
             foreach (var command in this.commandsToRegister) {
                 this.RegisterCommand(command);
             }
         }
 
-		/// <summary>
-		/// Dispatches a command
-		/// </summary>
-		/// <typeparam name="T">The type of the command to be dispatched.</typeparam>
-		/// <param name="parameters">Command parameters.</param>
-		public void Dispatch<T>(params object[] parameters) where T : ICommand {
-			this.Dispatch(typeof(T), parameters);
+        public DispatcherOptions Dispatch<T>(params object[] parameters) where T : ICommand {
+			return this.Dispatch(typeof(T), parameters);
 		}
 		
-		/// <summary>
-		/// Dispatches a command
-		/// </summary>
-		/// <param name="type">The type of the command to be dispatched.</typeparam>
-		/// <param name="parameters">Command parameters.</param>
-		public void Dispatch(Type type, params object[] parameters) {
+        public DispatcherOptions Dispatch(Type type, params object[] parameters) {
 			if (this.ContainsRegistration(type)) {
 				ICommand command = null;
 
@@ -80,9 +67,11 @@ namespace Adic {
 				if (command.keepAlive) {
                     if (command is IUpdatable && !eventCallerExtension.updateable.Contains((IUpdatable)command)) {
                         eventCallerExtension.updateable.Add((IUpdatable)command);
-					}
+                    }
+                    return new DispatcherOptions(this, command);
 				} else {
 					this.Release(command);
+                    return new DispatcherOptions(this);
 				}
 			} else {
 				throw new CommandException(
@@ -90,41 +79,14 @@ namespace Adic {
 			}
 		}
 		
-		/// <summary>
-		/// Dispatches a command by type after a given time in seconds.
-		/// </summary>
-		/// <typeparam name="T">The type of the command to be dispatched.</typeparam>
-		/// <param name="time">Time to dispatch the command (seconds).</param>
-		/// <param name="parameters">Command parameters.</param>
 		public void InvokeDispatch<T>(float time, params object[] parameters) where T : ICommand {
             this.StartCoroutine(this.DispatchInvoke(typeof(T), time, parameters));
 		}
 		
-		/// <summary>
-		/// Dispatches a command by type after a given time in seconds.
-		/// </summary>
-		/// <param name="type">The type of the command to be dispatched.</typeparam>
-		/// <param name="time">Time to dispatch the command (seconds).</param>
-		/// <param name="parameters">Command parameters.</param>
 		public void InvokeDispatch(Type type, float time, params object[] parameters) {
             this.StartCoroutine(this.DispatchInvoke(type, time, parameters));
 		}
 
-		/// <summary>
-		/// Dispatches a command by type after a given time in seconds.
-		/// </summary>
-		/// <typeparam name="T">The type of the command to be dispatched.</typeparam>
-		/// <param name="time">Time to dispatch the command (seconds).</param>
-		/// <param name="parameters">Command parameters.</param>
-		protected IEnumerator DispatchInvoke(Type type, float time, params object[] parameters) {
-			yield return new UnityEngine.WaitForSeconds(time);
-			this.Dispatch(type, parameters);
-		}
-
-		/// <summary>
-		/// Releases a command.
-		/// </summary>
-		/// <param name="command">Command to be released.</param>
 		public void Release(ICommand command) {
 			if (!command.running) return;
 
@@ -139,10 +101,7 @@ namespace Adic {
 			command.running = false;
 			command.keepAlive = false;
 		}
-		
-		/// <summary>
-		/// Releases all commands that are running.
-		/// </summary>
+
 		public void ReleaseAll() {
 			foreach (var entry in this.commands) {
 				if (entry.Value is ICommand) {
@@ -156,18 +115,10 @@ namespace Adic {
 			}
 		}
 
-		/// <summary>
-		/// Releases all commands that are running.
-		/// </summary>
-		/// <typeparam name="T">The type of the commands to be released.</typeparam>
 		public void ReleaseAll<T>() where T : ICommand {
 			this.ReleaseAll(typeof(T));
 		}
 		
-		/// <summary>
-		/// Releases all commands that are running.
-		/// </summary>
-		/// <param name="type">The type of the commands to be released.</param>
 		public void ReleaseAll(Type type) {
 			foreach (var entry in this.commands) {
 				if (entry.Value is ICommand && entry.Value.GetType().Equals(type)) {
@@ -185,45 +136,22 @@ namespace Adic {
 			}
 		}
 		
-		/// <summary>
-		/// Checks whether a given command of <typeparamref name="T"/> is registered.
-		/// </summary>
-		/// <typeparam name="T">Command type.</typeparam>
-		/// <returns><c>true</c>, if registration exists, <c>false</c> otherwise.</returns>
 		public bool ContainsRegistration<T>() where T : ICommand {
 			return this.commands.ContainsKey(typeof(T));
 		}
 
-		/// <summary>
-		/// Checks whether a given command of <paramref name="type"/> is registered.
-		/// </summary>
-		/// <param name="type">Command type.</param>
-		/// <returns><c>true</c>, if registration exists, <c>false</c> otherwise.</returns>
 		public bool ContainsRegistration(Type type) {
 			return this.commands.ContainsKey(type);
 		}
 
-		/// <summary>
-		/// Gets all commands registered in the command dispatcher.
-		/// </summary>
-		/// <returns>All available registrations.</returns>
 		public Type[] GetAllRegistrations() {
 			return this.commands.Keys.ToArray();
         }
 
-        /// <summary>
-        /// Starts acoroutine.
-        /// </summary>
-        /// <param name="routine">Routine.</param>
-        /// <returns>Created coroutine.</returns>
         public Coroutine StartCoroutine(IEnumerator routine) {
             return eventCallerExtension.behaviour.StartCoroutine(routine);
         }
 
-        /// <summary>
-        /// Stops a coroutine.
-        /// </summary>
-        /// <param name="coroutine">Coroutine to be stopped.</param>
         public void StopCoroutine(Coroutine coroutine) {
             eventCallerExtension.behaviour.StopCoroutine(coroutine);
         }
@@ -324,7 +252,18 @@ namespace Adic {
 		public void Dispose() {
 			this.ReleaseAll();
 			this.commands.Clear();
-		}
+        }
+
+        /// <summary>
+        /// Dispatches a command by type after a given time in seconds.
+        /// </summary>
+        /// <typeparam name="T">The type of the command to be dispatched.</typeparam>
+        /// <param name="time">Time to dispatch the command (seconds).</param>
+        /// <param name="parameters">Command parameters.</param>
+        private IEnumerator DispatchInvoke(Type type, float time, params object[] parameters) {
+            yield return new UnityEngine.WaitForSeconds(time);
+            this.Dispatch(type, parameters);
+        }
 
         /// <summary>
         /// Register a command for a given type.
