@@ -329,5 +329,16 @@ namespace Adic.Tests {
             Assert.Null(((MockIClassWithAttributes) instance).field4);
             Assert.Null(((MockIClassWithAttributes) instance).property4);
         }
+
+        [Test]
+        public void TestInjectOnPrivateMembers() {
+            var instance = new MockClassPrivateInject();
+
+            instance = this.injector.Inject<MockClassPrivateInject>(instance);
+
+            Assert.IsTrue(instance.hasCalledMethod);
+            Assert.NotNull(instance.fieldValue);
+            Assert.NotNull(instance.propertyValue);
+        }
     }
 }

@@ -256,6 +256,33 @@ namespace Adic.Tests {
     }
 
     /// <summary>
+    /// Mock class with a private injections.
+    /// </summary>
+    public class MockClassPrivateInject {
+        [Inject]
+        private IMockInterface fieldMockInterface;
+        [Inject]
+        private IMockInterface propertyMockInterface { get; set; }
+
+        public bool hasCalledMethod { get; set; }
+        public IMockInterface fieldValue {
+            get { return this.fieldMockInterface; }
+        }
+        public IMockInterface propertyValue {
+            get { return this.propertyMockInterface; }
+        }
+
+        public MockClassPrivateInject() {
+            this.hasCalledMethod = false;
+        }
+
+        [Inject]
+        private void PostConstructor() {
+            this.hasCalledMethod = true;
+        }
+    }
+
+    /// <summary>
     /// Mock class with a parameterized method inject.
     /// </summary>
     public class MockClassParametersMethodInject {

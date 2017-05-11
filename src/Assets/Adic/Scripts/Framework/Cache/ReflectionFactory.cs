@@ -46,6 +46,7 @@ namespace Adic.Cache {
             var constructors = type.GetConstructors(
                                    BindingFlags.FlattenHierarchy |
                                    BindingFlags.Public |
+                                   BindingFlags.NonPublic |
                                    BindingFlags.Instance |
                                    BindingFlags.InvokeMethod);
 
@@ -166,8 +167,8 @@ namespace Adic.Cache {
 
             var properties = type.GetProperties(BindingFlags.Instance |
                                  BindingFlags.Static |
-                                 BindingFlags.NonPublic |
-                                 BindingFlags.Public);
+                                 BindingFlags.Public |
+                                 BindingFlags.NonPublic);
 
             for (int propertyIndex = 0; propertyIndex < properties.Length; propertyIndex++) {
                 var property = properties[propertyIndex] as PropertyInfo;
@@ -196,8 +197,8 @@ namespace Adic.Cache {
 			
             var fields = type.GetFields(BindingFlags.Instance |
                              BindingFlags.Static |
-                             BindingFlags.NonPublic |
-                             BindingFlags.Public);
+                             BindingFlags.Public |
+                             BindingFlags.NonPublic);
 			
             for (int fieldIndex = 0; fieldIndex < fields.Length; fieldIndex++) {
                 var field = fields[fieldIndex] as FieldInfo;

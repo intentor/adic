@@ -83,6 +83,7 @@ Also available on the [Unity Asset Store](https://www.assetstore.unity3d.com/en/
 * Instance resolution by type, identifier and complex conditions.
 * Injection on constructor, fields and properties.
 * Can inject multiple objects of the same type.
+* Can inject on non public members.
 * Can resolve and inject instances from types that are not bound to the container.
 * Can inject automatically on components of a scene.
 * Fast dependency resolution with internal cache.<a href=#performance>\*</a>
@@ -582,7 +583,7 @@ namespace MyNamespace {
 
 ### <a id="member-injection"></a>Member injection
 
-*Adic* can perform dependency injection on public fields and properties of classes. To make it happen, just decorate the members with the `Inject` attribute:
+*Adic* can perform dependency injection on public and non public (private, protected and internal) fields and properties of classes. To make it happen, just decorate the members with the `Inject` attribute:
 
 ```cs
 namespace MyNamespace {
@@ -598,9 +599,9 @@ namespace MyNamespace {
 
 		/// <summary>Property to be injected.</summary>
 		[Inject]
-		public SomeOtherClass propertyToInject { get; set; }
+		private SomeOtherClass propertyToInject { get; set; }
 		/// <summary>Property NOT to be injected.</summary>
-		public SomeOtherClass propertyNotToInject { get; set; }
+		private SomeOtherClass propertyNotToInject { get; set; }
 	}
 }
 ```
@@ -632,7 +633,7 @@ namespace MyNamespace {
 		/// </summary>
 		/// <param name="param">Parameter description.</param>
 		[Inject]
-		public void MyMethod2(SomeType param) {
+		private void MyMethod2(SomeType param) {
 			...
 		}
 	}
@@ -649,7 +650,7 @@ namespace MyNamespace {
 	public class MyClass {
 		/// <summary>Field to be injected.</summary>
 		[Inject]
-		public SomeClass fieldToInject;
+		private SomeClass fieldToInject;
 
 		/// <summary>
 		/// Class constructor.
@@ -662,7 +663,7 @@ namespace MyNamespace {
 		/// Injected method acting as a post constructor.
 		/// </summary>
 		[Inject]
-		public void PostConstructor() {
+		private void PostConstructor() {
 			...
 		}
 	}

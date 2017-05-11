@@ -8,6 +8,7 @@ http://intentor.com.br/
 Version 2.26 (2017-05-??)
 
 Framework
+- Added inject on private members. [PR #85]
 - Fixed resolution of arrays. [PR #83]
 
 Unity Binding Extension

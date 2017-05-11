@@ -158,7 +158,7 @@ namespace Adic.Util {
 			
             #else
 			
-            var propertySetMethod = propertyInfo.GetSetMethod();
+            var propertySetMethod = propertyInfo.GetSetMethod(true);
 			
             var parametersTypes = new Type[] { OBJECT_TYPE, OBJECT_TYPE };
             DynamicMethod method = new DynamicMethod(propertyInfo.Name, typeof(void), parametersTypes, true);
