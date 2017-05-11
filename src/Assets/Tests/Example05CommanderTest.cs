@@ -6,21 +6,21 @@ using System.Collections;
 
 namespace Adic.Tests {
     /// <summary>
-    /// Tests for example 01 - Hello World.
+    /// Tests for example 05 - Commander.
     /// </summary>
-    public class Example01HelloWorldTest {
+    public class Example05CommanderTest {
         [UnityTest]
-        public IEnumerator TestLogHelloWorld() {
-            yield return new MonoBehaviourTest<LogHelloWorldTestBehaviour>();
+        public IEnumerator TestBindings() {
+            yield return new MonoBehaviourTest<GameObjectCheckTestBehaviour>();
         }
 
-        public class LogHelloWorldTestBehaviour : BaseTestBehaviour {
+        public class GameObjectCheckTestBehaviour : BaseTestBehaviour {
             protected override void Init() {
-                SceneManager.LoadScene("HelloWorld", LoadSceneMode.Additive);
+                SceneManager.LoadScene("Commander", LoadSceneMode.Additive);
             }
 
             protected override void Evaluate() {
-                LogAssert.Expect(LogType.Log, "Hello, world!");
+                Assert.NotNull(GameObject.Find("Prism(Clone)"));
                 LogAssert.NoUnexpectedReceived();
                 isFinished = true;
             }

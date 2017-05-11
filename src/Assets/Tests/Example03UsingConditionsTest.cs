@@ -6,9 +6,9 @@ using System.Collections;
 
 namespace Adic.Tests {
     /// <summary>
-    /// Tests for example 02 - Binding GameObjects.
+    /// Tests for example 03 - Using Conditions.
     /// </summary>
-    public class Example02BindingGameObjectsTest {
+    public class Example03UsingConditionsTest {
         [UnityTest]
         public IEnumerator TestBindings() {
             yield return new MonoBehaviourTest<GameObjectCheckTestBehaviour>();
@@ -16,11 +16,12 @@ namespace Adic.Tests {
 
         public class GameObjectCheckTestBehaviour : BaseTestBehaviour {
             protected override void Init() {
-                SceneManager.LoadScene("BindingGameObjects", LoadSceneMode.Additive);
+                SceneManager.LoadScene("UsingConditions", LoadSceneMode.Additive);
             }
 
             protected override void Evaluate() {
-                Assert.NotNull(GameObject.Find("Cube"));
+                Assert.NotNull(GameObject.Find("LeftCube"));
+                Assert.NotNull(GameObject.Find("RightCube"));
                 Assert.NotNull(GameObject.Find("GameObjectRotator"));
                 LogAssert.NoUnexpectedReceived();
                 isFinished = true;

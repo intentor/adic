@@ -17,7 +17,7 @@ namespace Adic.Tests {
 
         /// <summary>Time to wait before evaluation (seconds).</summary>
         public virtual float wait {
-            get { return 0; }
+            get { return 0.1f; }
         }
 
     	private void Awake() {
@@ -27,7 +27,6 @@ namespace Adic.Tests {
         private void Start() {
             if (this.wait == 0) {
                 this.Evaluate();
-                this.Clean();
             } else {
                 this.StartCoroutine(this.CheckEvaluation());
             }
@@ -43,7 +42,6 @@ namespace Adic.Tests {
             yield return new WaitForSeconds(this.wait);
 
             this.Evaluate();
-            this.Clean();
 
             yield return null;
         }
@@ -57,12 +55,5 @@ namespace Adic.Tests {
         /// Executes evaluations.
         /// </summary>
         protected abstract void Evaluate();
-
-        /// <summary>
-        /// Cleans any objects the test created.
-        /// </summary>
-        protected virtual void Clean() {
-
-        }
     }
 }

@@ -15,6 +15,10 @@ namespace Adic.Tests {
         }
 
         public class MultiSceneTestBehaviour : BaseTestBehaviour {
+            public override float wait {
+                get { return 0; }
+            }
+
             protected override void Init() {
                 SceneManager.LoadScene("TestMultiSceneScene1", LoadSceneMode.Additive);
             }
@@ -23,11 +27,6 @@ namespace Adic.Tests {
                 LogAssert.Expect(LogType.Log, "Updating...");
                 LogAssert.NoUnexpectedReceived();
                 isFinished = true;
-            }
-
-            protected override void Clean() {
-                //SceneManager.UnloadSceneAsync("TestMultiSceneScene1");
-                //SceneManager.UnloadSceneAsync("TestMultiSceneScene2");
             }
         }
     }
