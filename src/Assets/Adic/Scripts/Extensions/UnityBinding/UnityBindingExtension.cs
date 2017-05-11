@@ -16,8 +16,6 @@ namespace Adic {
             "The type must be derived from UnityEngine.Component.";
         private const string GAMEOBJECT_IS_NULL = 
             "There's no GameObject to bind the type to.";
-        private const string GAMEOBJECT_NAME_TYPE_IS_NULL =
-            "There's no GameObject named \"{0}\" to bind the type {1} to.";
         private const string GAMEOBJECT_TAG_TYPE_IS_NULL =
             "There's no GameObject tagged \"{0}\" to bind the type {1} to.";
         private const string PREFAB_NAME_TYPE_IS_NULL =
@@ -82,6 +80,8 @@ namespace Adic {
         /// Binds the key type to a singleton <see cref="UnityEngine.Component"/>
         /// of itself on a GameObject of a given <paramref name="name"/>.
         /// 
+        /// If the GameObject of a given <paramref name="name"/> is not found, it's added to the scene.
+        /// 
         /// The key type must be derived either from <see cref="UnityEngine.GameObject"/>
         /// or <see cref="UnityEngine.Component"/>.
         /// 
@@ -102,6 +102,8 @@ namespace Adic {
         /// Binds the key type to a singleton <see cref="UnityEngine.Component"/>
         /// of <typeparamref name="T"/> on a GameObject of a given <paramref name="name"/>.
         /// 
+        /// If the GameObject of a given <paramref name="name"/> is not found, it's added to the scene.
+        /// 
         /// If the <see cref="UnityEngine.Component"/> is not found on the GameObject, it will be added.
         /// </summary>
         /// <remarks>
@@ -119,6 +121,8 @@ namespace Adic {
         /// <summary>
         /// Binds the key type to a singleton <paramref name="type"/> on a GameObject 
         /// of a given <paramref name="name"/>.
+        /// 
+        /// If the GameObject of a given <paramref name="name"/> is not found, it's added to the scene.
         /// 
         /// If <paramref name="type"/> is <see cref="UnityEngine.GameObject"/>, binds the
         /// key to the GameObject itself.
@@ -152,10 +156,10 @@ namespace Adic {
                 gameObject = new GameObject(type.Name);
             } else {
                 gameObject = GameObject.Find(name);
-            }
-		    	
-            if (gameObject == null) {
-                throw new BindingException(string.Format(GAMEOBJECT_NAME_TYPE_IS_NULL, name, type.ToString()));
+
+                if (gameObject == null) {
+                    gameObject = new GameObject(name);
+                }
             }
 
             return CreateSingletonBinding(bindingFactory, gameObject, type, isGameObject);
