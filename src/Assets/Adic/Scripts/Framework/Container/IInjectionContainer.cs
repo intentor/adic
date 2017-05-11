@@ -22,7 +22,8 @@ namespace Adic.Container {
         /// <remarks>
         /// Should be called after all extensions and bindings have been added.
         /// </remarks>
-        void Init();
+        /// <returns>The injection container for chaining.</returns>
+        IInjectionContainer Init();
 
         /// <summary>
         /// Registers a container extension.

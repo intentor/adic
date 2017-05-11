@@ -10,24 +10,31 @@ namespace Adic {
     public class DispatcherOptions : ICommandDispatcher {
         /// <summary>Dispatcher that dispatched the command.</summary>
         private ICommandDispatcher dispatcher;
-        /// <summary>Dispatched command. Can be null for non alive commands.</summary>
-        private ICommand command;
+        /// <summary>Command tag.</summary>
+        private string tag;
+        /// <summary>Command related to the dispatcher options.</summary>
+        private ICommand internalCommand;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Adic.DispatcherOptions"/> class.
-        /// </summary>
-        /// <param name="dispatcher">Command dispatcher.</param>
-        public DispatcherOptions(ICommandDispatcher dispatcher) : this(dispatcher, null) {
+        /// <summary>Command related to the dispatcher options.</summary>
+        public ICommand command {
+            get {
+                return internalCommand;
+            }
+            set {
+                internalCommand = value;
+
+                if (internalCommand != null) {
+                    ApplyTag(internalCommand);
+                }
+            }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Adic.DispatcherOptions"/> class.
         /// </summary>
         /// <param name="dispatcher">Command dispatcher.</param>
-        /// <param name="command">Dispatched command.</param>
-        public DispatcherOptions(ICommandDispatcher dispatcher, ICommand command) {
+        public DispatcherOptions(ICommandDispatcher dispatcher) {
             this.dispatcher = dispatcher;
-            this.command = command;
         }
 
         /// <summary>
@@ -39,11 +46,23 @@ namespace Adic {
         /// </summary>
         /// <param name="tag">Tag.</param>
         public ICommandDispatcher Tag(string tag) {
+            this.tag = tag;
+
             if (this.command != null) {
-                this.command.tag = tag;
+                this.ApplyTag(this.command);
             }
 
             return this.dispatcher;
+        }
+
+        /// <summary>
+        /// Applies to tag to a command.
+        /// </summary>
+        /// <param name="commandToApply">Command to apply.</param>
+        private void ApplyTag(ICommand commandToApply) {
+            if (!string.IsNullOrEmpty(this.tag)) {
+                command.tag = tag;
+            }
         }
 
         public void Init() {
@@ -58,12 +77,12 @@ namespace Adic {
             return this.dispatcher.Dispatch(type, parameters);
         }
 
-        public void InvokeDispatch<T>(float time, params object[] parameters) where T : ICommand {
-            this.dispatcher.InvokeDispatch<T>(time, parameters);
+        public DispatcherOptions InvokeDispatch<T>(float time, params object[] parameters) where T : ICommand {
+            return this.dispatcher.InvokeDispatch<T>(time, parameters);
         }
 
-        public void InvokeDispatch(Type type, float time, params object[] parameters) {
-            this.dispatcher.InvokeDispatch(type, time, parameters);
+        public DispatcherOptions InvokeDispatch(Type type, float time, params object[] parameters) {
+            return this.dispatcher.InvokeDispatch(type, time, parameters);
         }
 
         public ICommandDispatcher Release(ICommand command) {

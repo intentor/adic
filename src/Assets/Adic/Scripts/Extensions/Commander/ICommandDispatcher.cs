@@ -35,7 +35,8 @@ namespace Adic {
         /// <typeparam name="T">The type of the command to be dispatched.</typeparam>
         /// <param name="time">Time to dispatch the command (seconds).</param>
         /// <param name="parameters">Command parameters.</param>
-        void InvokeDispatch<T>(float time, params object[] parameters) where T : ICommand;
+        /// <returns>Dispatcher options.</returns>
+        DispatcherOptions InvokeDispatch<T>(float time, params object[] parameters) where T : ICommand;
 
         /// <summary>
         /// Dispatches a command by type after a given time in seconds.
@@ -43,7 +44,8 @@ namespace Adic {
         /// <param name="type">The type of the command to be dispatched.</typeparam>
         /// <param name="time">Time to dispatch the command (seconds).</param>
         /// <param name="parameters">Command parameters.</param>
-        void InvokeDispatch(Type type, float time, params object[] parameters);
+        /// <returns>Dispatcher options.</returns>
+        DispatcherOptions InvokeDispatch(Type type, float time, params object[] parameters);
 
         /// <summary>
         /// Releases a command.

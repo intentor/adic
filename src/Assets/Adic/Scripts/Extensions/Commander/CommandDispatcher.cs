@@ -47,6 +47,18 @@ namespace Adic {
         }
 
         public DispatcherOptions Dispatch(Type type, params object[] parameters) {
+            var options = new DispatcherOptions(this);
+            this.Dispatch(type, options, parameters);
+            return options;
+        }
+
+        /// <summary>
+        /// Dispatches a command by type.
+        /// </summary>
+        /// <param name="type">The type of the command to be dispatched.</typeparam>
+        /// <param name="options">Dispatcher options to be applied to the command.</param>
+        /// <param name="parameters">Command parameters.</param>
+        private void Dispatch(Type type, DispatcherOptions options, params object[] parameters) {
             if (this.ContainsRegistration(type)) {
                 ICommand command = null;
 
@@ -63,15 +75,14 @@ namespace Adic {
                 command.dispatcher = this;
                 command.running = true;
                 command.Execute(parameters);
+                options.command = command;
 
                 if (command.keepAlive) {
                     if (command is IUpdatable && !eventCallerExtension.updateable.Contains((IUpdatable) command)) {
                         eventCallerExtension.updateable.Add((IUpdatable) command);
                     }
-                    return new DispatcherOptions(this, command);
                 } else {
                     this.Release(command);
-                    return new DispatcherOptions(this);
                 }
             } else {
                 throw new CommandException(
@@ -79,12 +90,26 @@ namespace Adic {
             }
         }
 
-        public void InvokeDispatch<T>(float time, params object[] parameters) where T : ICommand {
-            this.StartCoroutine(this.DispatchInvoke(typeof(T), time, parameters));
+        public DispatcherOptions InvokeDispatch<T>(float time, params object[] parameters) where T : ICommand {
+            return this.InvokeDispatch(typeof(T), time, parameters);
         }
 
-        public void InvokeDispatch(Type type, float time, params object[] parameters) {
-            this.StartCoroutine(this.DispatchInvoke(type, time, parameters));
+        public DispatcherOptions InvokeDispatch(Type type, float time, params object[] parameters) {
+            var options = new DispatcherOptions(this);
+            this.StartCoroutine(this.DispatchByTimer(type, options, time, parameters));
+            return options;
+        }
+
+        /// <summary>
+        /// Dispatches a command by type after a given time in seconds.
+        /// </summary>
+        /// <param name="type">The type of the command to be dispatched.</param>
+        /// <param name="options">Dispatcher options.</param>
+        /// <param name="time">Time to dispatch the command (seconds).</param>
+        /// <param name="parameters">Command parameters.</param>
+        private IEnumerator DispatchByTimer(Type type, DispatcherOptions options, float time, params object[] parameters) {
+            yield return new UnityEngine.WaitForSeconds(time);
+            this.Dispatch(type, options, parameters);
         }
 
         public ICommandDispatcher Release(ICommand command) {
@@ -280,17 +305,6 @@ namespace Adic {
         public void Dispose() {
             this.ReleaseAll();
             this.commands.Clear();
-        }
-
-        /// <summary>
-        /// Dispatches a command by type after a given time in seconds.
-        /// </summary>
-        /// <typeparam name="T">The type of the command to be dispatched.</typeparam>
-        /// <param name="time">Time to dispatch the command (seconds).</param>
-        /// <param name="parameters">Command parameters.</param>
-        private IEnumerator DispatchInvoke(Type type, float time, params object[] parameters) {
-            yield return new UnityEngine.WaitForSeconds(time);
-            this.Dispatch(type, parameters);
         }
 
         /// <summary>
