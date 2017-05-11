@@ -20,9 +20,21 @@ namespace Adic.Tests {
 
             protected override void Evaluate() {
                 for (var index = 0; index <= 35; index++) {
-                    Assert.NotNull(GameObject.Find(string.Format("Cube {0:00}", index)));
+                    this.assertGameObject(string.Format("Cube {0:00}", index));
                 }
                 LogAssert.NoUnexpectedReceived();
+            }
+
+            /// <summary>
+            /// Asserts a game object for the test.
+            /// </summary>
+            /// <param name="path">Game object path on the scene.</param>
+            private void assertGameObject(string path) {
+                GameObject gameObjectToAssert = GameObject.Find(path);
+
+                Assert.NotNull(gameObjectToAssert);
+                Assert.NotNull(gameObjectToAssert.GetComponent<Adic.Examples.Factory.Behaviours.Cube>());
+                Assert.NotNull(gameObjectToAssert.GetComponent<Adic.Examples.Factory.Behaviours.Rotator>());
             }
         }
     }

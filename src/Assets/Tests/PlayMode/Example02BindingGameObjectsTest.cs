@@ -20,7 +20,11 @@ namespace Adic.Tests {
 
             protected override void Evaluate() {
                 Assert.NotNull(GameObject.Find("Cube"));
-                Assert.NotNull(GameObject.Find("GameObjectRotator"));
+
+                GameObject rotator = GameObject.Find("GameObjectRotator");
+                Assert.NotNull(rotator);
+                Assert.NotNull(rotator.GetComponent<Adic.Examples.BindingGameObjects.GameObjectRotator>());
+
                 LogAssert.NoUnexpectedReceived();
             }
         }

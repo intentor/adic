@@ -19,10 +19,21 @@ namespace Adic.Tests {
             }
 
             protected override void Evaluate() {
-                Assert.NotNull(GameObject.Find("CubeA(Clone)"));
-                Assert.NotNull(GameObject.Find("CubeB(Clone)"));
-                Assert.NotNull(GameObject.Find("CubeC(Clone)"));
+                this.assertGameObject("CubeA(Clone)");
+                this.assertGameObject("CubeB(Clone)");
+                this.assertGameObject("CubeC(Clone)");
                 LogAssert.NoUnexpectedReceived();
+            }
+
+            /// <summary>
+            /// Asserts a game object for the test.
+            /// </summary>
+            /// <param name="path">Game object path on the scene.</param>
+            private void assertGameObject(string path) {
+                GameObject gameObjectToAssert = GameObject.Find(path);
+
+                Assert.NotNull(gameObjectToAssert);
+                Assert.NotNull(gameObjectToAssert.GetComponent<Adic.Examples.BindingsSetup.Behaviours.CubeRotator>());
             }
         }
     }

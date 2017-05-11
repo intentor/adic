@@ -21,6 +21,8 @@ namespace Adic.Tests {
             protected override void Evaluate() {
                 Assert.NotNull(GameObject.Find("Plane(Clone)"));
                 Assert.NotNull(GameObject.Find("Cube(Clone)"));
+                Assert.NotNull(GameObject.Find("CubeRotator").GetComponent<Adic.Examples.Prefabs.CubeRotator>().cube);
+
                 LogAssert.NoUnexpectedReceived();
             }
         }

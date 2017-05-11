@@ -14,6 +14,7 @@ Framework
 Unity Binding Extension
 - Added a ToPrefab implementation using GameObject. [Issue #88]
 - Added a ToPrefabSingleton implementation using GameObject. [Issue #88]
+- Updated ToGameObject to add a new GameObject when the given name is not found.
 - Marked all methods that use Resource loading as obsolete to comply with Unity guidelines. [Issue #88]
 
 Version 2.25 (2017-03-10)

@@ -19,10 +19,9 @@ namespace Adic.Examples.UsingConditions {
                 // Bind a Transform component to the two cubes on the scene, using a "AsObjectName" condition.
                 // This condition will use the Unity Object name as identifier. In this case, the Game Object name.
                 .Bind<Transform>().ToGameObject(rightCube).AsObjectName()
-                // Bind the "GameObjectRotator" component to a new game object of the same name.
-                // This component will then receive the reference to the "LeftCube", making only
-                // this cube rotate.
-				.Bind<GameObjectRotator>().ToGameObject();
+                // Bind the "GameObjectRotator" component to a new game object with the name "Rotator".
+                // This component will then receive the reference to the "LeftCube", making only this cube rotate.
+                .Bind<GameObjectRotator>().ToGameObject("Rotator");
         }
 
         public override void Init() {
