@@ -17,9 +17,13 @@ namespace Adic.Tests {
             protected override string SceneToTest {
                 get { return "Commander"; }
             }
+            public override float wait {
+                get { return 1.25f; }
+            }
 
             protected override void Evaluate() {
                 Assert.NotNull(GameObject.Find("Prism(Clone)"));
+                LogAssert.Expect(LogType.Log, "RotateGameObjectCommand released");
                 LogAssert.NoUnexpectedReceived();
             }
         }

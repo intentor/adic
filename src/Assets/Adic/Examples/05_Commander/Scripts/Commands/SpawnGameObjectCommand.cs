@@ -12,7 +12,9 @@ namespace Adic.Examples.Commander.Commands {
 
         public override void Execute(params object[] parameters) {
             var prefab = container.Resolve<Transform>();
-            this.dispatcher.Dispatch<RotateGameObjectCommand>(prefab);
+
+            // Tag the command so it can be released later.
+            this.dispatcher.Dispatch<RotateGameObjectCommand>(prefab).Tag(GameRoot.ROTATOR_COMMAND_TAG);
         }
     }
 }

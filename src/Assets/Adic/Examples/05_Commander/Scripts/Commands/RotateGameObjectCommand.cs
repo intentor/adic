@@ -28,5 +28,10 @@ namespace Adic.Examples.Commander.Commands {
                 this.objectToRotate.Rotate(1.0f, 1.0f, 1.0f);
             }
         }
+
+        public override void Dispose() {
+            base.Dispose();
+            Debug.Log("RotateGameObjectCommand released");
+        }
     }
 }

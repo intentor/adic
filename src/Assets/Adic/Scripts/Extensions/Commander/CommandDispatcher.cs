@@ -7,26 +7,26 @@ using Adic.Commander.Exceptions;
 using Adic.Container;
 
 namespace Adic {
-	/// <summary>
-	/// Dispatches, releases and handles execution of commands.
-	/// </summary>
-	public class CommandDispatcher : IDisposable, ICommandDispatcher, ICommandPool {
-		/// <summary>The available commands, including singletons and pooled.</summary>
-		protected Dictionary<Type, object> commands;
-		/// <summary>The container from which the command dispatcher was created.</summary>
-		protected IInjectionContainer container;
+    /// <summary>
+    /// Dispatches, releases and handles execution of commands.
+    /// </summary>
+    public class CommandDispatcher : IDisposable, ICommandDispatcher, ICommandPool {
+        /// <summary>The available commands, including singletons and pooled.</summary>
+        protected Dictionary<Type, object> commands;
+        /// <summary>The container from which the command dispatcher was created.</summary>
+        protected IInjectionContainer container;
         /// <summary>Underlying behaviour. </summary>
         protected EventCallerContainerExtension eventCallerExtension;
         /// <summary>Commands to be registered during initialization.</summary>
         protected IList<Type> commandsToRegister;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Adic.CommandDispatcher"/> class.
-		/// </summary>
-		/// <param name="container">Dependency injection container that created the command dispatcher.</param>
-		public CommandDispatcher(IInjectionContainer container) {
-			this.commands = new Dictionary<Type, object>();
-			this.container = container;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Adic.CommandDispatcher"/> class.
+        /// </summary>
+        /// <param name="container">Dependency injection container that created the command dispatcher.</param>
+        public CommandDispatcher(IInjectionContainer container) {
+            this.commands = new Dictionary<Type, object>();
+            this.container = container;
             this.commandsToRegister = new List<Type>();
 
             this.eventCallerExtension = this.container.GetExtension<EventCallerContainerExtension>();
@@ -43,109 +43,127 @@ namespace Adic {
         }
 
         public DispatcherOptions Dispatch<T>(params object[] parameters) where T : ICommand {
-			return this.Dispatch(typeof(T), parameters);
-		}
-		
+            return this.Dispatch(typeof(T), parameters);
+        }
+
         public DispatcherOptions Dispatch(Type type, params object[] parameters) {
-			if (this.ContainsRegistration(type)) {
-				ICommand command = null;
+            if (this.ContainsRegistration(type)) {
+                ICommand command = null;
 
-				var item = this.commands[type];
-				if (item is ICommand) {
-					// Singleton.
-					command = (ICommand)item;
-				} else {
-					// Transient.
-					command = this.GetCommandFromPool(type, (List<ICommand>)item);
-					this.container.Inject(command);
-				}
+                var item = this.commands[type];
+                if (item is ICommand) {
+                    // Singleton.
+                    command = (ICommand) item;
+                } else {
+                    // Transient.
+                    command = this.GetCommandFromPool(type, (List<ICommand>) item);
+                    this.container.Inject(command);
+                }
 
-				command.dispatcher = this;
-				command.running = true;
-				command.Execute(parameters);
+                command.dispatcher = this;
+                command.running = true;
+                command.Execute(parameters);
 
-				if (command.keepAlive) {
-                    if (command is IUpdatable && !eventCallerExtension.updateable.Contains((IUpdatable)command)) {
-                        eventCallerExtension.updateable.Add((IUpdatable)command);
+                if (command.keepAlive) {
+                    if (command is IUpdatable && !eventCallerExtension.updateable.Contains((IUpdatable) command)) {
+                        eventCallerExtension.updateable.Add((IUpdatable) command);
                     }
                     return new DispatcherOptions(this, command);
-				} else {
-					this.Release(command);
+                } else {
+                    this.Release(command);
                     return new DispatcherOptions(this);
-				}
-			} else {
-				throw new CommandException(
-					string.Format(CommandException.NO_COMMAND_FOR_TYPE, type));
-			}
-		}
-		
-		public void InvokeDispatch<T>(float time, params object[] parameters) where T : ICommand {
+                }
+            } else {
+                throw new CommandException(
+                    string.Format(CommandException.NO_COMMAND_FOR_TYPE, type));
+            }
+        }
+
+        public void InvokeDispatch<T>(float time, params object[] parameters) where T : ICommand {
             this.StartCoroutine(this.DispatchInvoke(typeof(T), time, parameters));
-		}
-		
-		public void InvokeDispatch(Type type, float time, params object[] parameters) {
+        }
+
+        public void InvokeDispatch(Type type, float time, params object[] parameters) {
             this.StartCoroutine(this.DispatchInvoke(type, time, parameters));
-		}
+        }
 
-		public void Release(ICommand command) {
-			if (!command.running) return;
+        public void Release(ICommand command) {
+            if (!command.running)
+                return;
 
-            if (command is IUpdatable && eventCallerExtension.updateable.Contains((IUpdatable)command)) {
-                eventCallerExtension.updateable.Remove((IUpdatable)command);
-			}
+            if (command is IUpdatable && eventCallerExtension.updateable.Contains((IUpdatable) command)) {
+                eventCallerExtension.updateable.Remove((IUpdatable) command);
+            }
 
-			if (command is IDisposable) {
-				((IDisposable)command).Dispose();
-			}
+            if (command is IDisposable) {
+                ((IDisposable) command).Dispose();
+            }
 
-			command.running = false;
-			command.keepAlive = false;
-		}
+            command.running = false;
+            command.keepAlive = false;
+        }
 
-		public void ReleaseAll() {
-			foreach (var entry in this.commands) {
-				if (entry.Value is ICommand) {
-					this.Release((ICommand)entry.Value);
-				} else {
-					var pool = (List<ICommand>)entry.Value;
-					for (int poolIndex = 0; poolIndex < pool.Count; poolIndex++) {					
-						this.Release((ICommand)pool[poolIndex]);
-					}
-				}
-			}
-		}
+        public void ReleaseAll() {
+            foreach (var entry in this.commands) {
+                if (entry.Value is ICommand) {
+                    this.Release((ICommand) entry.Value);
+                } else {
+                    var pool = (List<ICommand>) entry.Value;
+                    for (int poolIndex = 0; poolIndex < pool.Count; poolIndex++) {					
+                        this.Release((ICommand) pool[poolIndex]);
+                    }
+                }
+            }
+        }
 
-		public void ReleaseAll<T>() where T : ICommand {
-			this.ReleaseAll(typeof(T));
-		}
-		
-		public void ReleaseAll(Type type) {
-			foreach (var entry in this.commands) {
-				if (entry.Value is ICommand && entry.Value.GetType().Equals(type)) {
-					this.Release((ICommand)entry.Value);
-				} else {
-					var pool = (List<ICommand>)entry.Value;
-					for (int poolIndex = 0; poolIndex < pool.Count; poolIndex++) {
-						var command = (ICommand)pool[poolIndex];
+        public void ReleaseAll<T>() where T : ICommand {
+            this.ReleaseAll(typeof(T));
+        }
 
-						if (command.GetType().Equals(type)) {
-							this.Release(command);
-						}
-					}
-				}
-			}
-		}
-		
-		public bool ContainsRegistration<T>() where T : ICommand {
-			return this.commands.ContainsKey(typeof(T));
-		}
+        public void ReleaseAll(Type type) {
+            foreach (var entry in this.commands) {
+                if (entry.Value is ICommand && entry.Value.GetType().Equals(type)) {
+                    this.Release((ICommand) entry.Value);
+                } else if (entry.Value is List<ICommand>) {
+                    var pool = (List<ICommand>) entry.Value;
+                    for (int poolIndex = 0; poolIndex < pool.Count; poolIndex++) {
+                        var command = (ICommand) pool[poolIndex];
 
-		public bool ContainsRegistration(Type type) {
-			return this.commands.ContainsKey(type);
-		}
+                        if (command.GetType().Equals(type)) {
+                            this.Release(command);
+                        }
+                    }
+                }
+            }
+        }
 
-		public Type[] GetAllRegistrations() {
-			return this.commands.Keys.ToArray();
+        public void ReleaseAll(String tag) {
+            foreach (var entry in this.commands) {
+                if (entry.Value is ICommand && tag.Equals(((ICommand) entry.Value).tag)) {
+                    this.Release((ICommand) entry.Value);
+                } else if (entry.Value is List<ICommand>) {
+                    var pool = (List<ICommand>) entry.Value;
+                    for (int poolIndex = 0; poolIndex < pool.Count; poolIndex++) {
+                        var command = (ICommand) pool[poolIndex];
+
+                        if (tag.Equals(command.tag)) {
+                            this.Release(command);
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool ContainsRegistration<T>() where T : ICommand {
+            return this.commands.ContainsKey(typeof(T));
+        }
+
+        public bool ContainsRegistration(Type type) {
+            return this.commands.ContainsKey(type);
+        }
+
+        public Type[] GetAllRegistrations() {
+            return this.commands.Keys.ToArray();
         }
 
         public Coroutine StartCoroutine(IEnumerator routine) {
@@ -164,94 +182,95 @@ namespace Adic {
             commandsToRegister.Add(type);
         }
 
-		/// <summary>
-		/// Pools a command of a given type.
-		/// </summary>
-		/// <param name="commandType">Command type.</param>
-		public void PoolCommand(Type commandType) {
-			var command = (ICommand)container.Resolve(commandType);
+        /// <summary>
+        /// Pools a command of a given type.
+        /// </summary>
+        /// <param name="commandType">Command type.</param>
+        public void PoolCommand(Type commandType) {
+            var command = (ICommand) container.Resolve(commandType);
             
-			if (this.commands.ContainsKey(commandType)) return;
+            if (this.commands.ContainsKey(commandType))
+                return;
 
-			if (command.singleton) {
-				this.commands.Add(commandType, command);
-			} else {
-				var commandPool = new List<ICommand>(command.preloadPoolSize);
+            if (command.singleton) {
+                this.commands.Add(commandType, command);
+            } else {
+                var commandPool = new List<ICommand>(command.preloadPoolSize);
 
-				// Add the currently resolved command.
-				commandPool.Add(command);
+                // Add the currently resolved command.
+                commandPool.Add(command);
 
-				// Add other commands until matches preloadPoolSize.
-				if (command.preloadPoolSize > 1) {
-					for (int itemIndex = 1; itemIndex < command.preloadPoolSize; itemIndex++) {
-						commandPool.Add((ICommand)container.Resolve(commandType));
-					}
-				}
+                // Add other commands until matches preloadPoolSize.
+                if (command.preloadPoolSize > 1) {
+                    for (int itemIndex = 1; itemIndex < command.preloadPoolSize; itemIndex++) {
+                        commandPool.Add((ICommand) container.Resolve(commandType));
+                    }
+                }
 
-				this.commands.Add(commandType, commandPool);
-			}
-		}
-		
-		/// <summary>
-		/// Gets a command from the pool.
-		/// </summary>
-		/// <param name="commandType">Command type.</param>
-		/// <param name="pool">Pool from which the command will be taken.</param>
-		/// <returns>Command or NULL.</returns>
-		public ICommand GetCommandFromPool(Type commandType) {
-			ICommand command = null;
+                this.commands.Add(commandType, commandPool);
+            }
+        }
+
+        /// <summary>
+        /// Gets a command from the pool.
+        /// </summary>
+        /// <param name="commandType">Command type.</param>
+        /// <param name="pool">Pool from which the command will be taken.</param>
+        /// <returns>Command or NULL.</returns>
+        public ICommand GetCommandFromPool(Type commandType) {
+            ICommand command = null;
 			
-			if (this.commands.ContainsKey(commandType)) {
-				var item = this.commands[commandType];
-				command = this.GetCommandFromPool(commandType, (List<ICommand>)item);
-			}
+            if (this.commands.ContainsKey(commandType)) {
+                var item = this.commands[commandType];
+                command = this.GetCommandFromPool(commandType, (List<ICommand>) item);
+            }
 			
-			return command;
-		}
-		
-		/// <summary>
-		/// Gets a command from the pool.
-		/// </summary>
-		/// <param name="commandType">Command type.</param>
-		/// <param name="pool">Pool from which the command will be taken.</param>
-		/// <returns>Command or NULL.</returns>
-		public ICommand GetCommandFromPool(Type commandType, List<ICommand> pool) {
-			ICommand command = null;
+            return command;
+        }
+
+        /// <summary>
+        /// Gets a command from the pool.
+        /// </summary>
+        /// <param name="commandType">Command type.</param>
+        /// <param name="pool">Pool from which the command will be taken.</param>
+        /// <returns>Command or NULL.</returns>
+        public ICommand GetCommandFromPool(Type commandType, List<ICommand> pool) {
+            ICommand command = null;
 			
-			// Find the first available command on the list.
-			for (int cmdIndex = 0; cmdIndex < pool.Count; cmdIndex++) {
-				var commandOnPool = pool[cmdIndex];
+            // Find the first available command on the list.
+            for (int cmdIndex = 0; cmdIndex < pool.Count; cmdIndex++) {
+                var commandOnPool = pool[cmdIndex];
 				
-				if (!commandOnPool.running) {
-					command = commandOnPool;
-					break;
-				}
-			}
+                if (!commandOnPool.running) {
+                    command = commandOnPool;
+                    break;
+                }
+            }
 			
-			// If no command is found, instantiates a new one until command.maxPoolSize is reached.
-			if (command == null) {
-				if (pool.Count > 0 && pool.Count >= pool[0].maxPoolSize) {							
-					throw new CommandException(
-						string.Format(CommandException.MAX_POOL_SIZE, pool[0].ToString()));
-				}
+            // If no command is found, instantiates a new one until command.maxPoolSize is reached.
+            if (command == null) {
+                if (pool.Count > 0 && pool.Count >= pool[0].maxPoolSize) {							
+                    throw new CommandException(
+                        string.Format(CommandException.MAX_POOL_SIZE, pool[0].ToString()));
+                }
 				
-				command = (ICommand)this.container.Resolve(commandType);
-				pool.Add(command);
-			}
+                command = (ICommand) this.container.Resolve(commandType);
+                pool.Add(command);
+            }
 			
-			return command;
-		}
+            return command;
+        }
 
-		/// <summary>
-		/// Releases all resource used by the <see cref="Adic.CommandDispatcher"/> object.
-		/// </summary>
-		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="Adic.CommandDispatcher"/>. The
-		/// <see cref="Dispose"/> method leaves the <see cref="Adic.CommandDispatcher"/> in an unusable state. After calling
-		/// <see cref="Dispose"/>, you must release all references to the <see cref="Adic.CommandDispatcher"/> so the garbage
-		/// collector can reclaim the memory that the <see cref="Adic.CommandDispatcher"/> was occupying.</remarks>
-		public void Dispose() {
-			this.ReleaseAll();
-			this.commands.Clear();
+        /// <summary>
+        /// Releases all resource used by the <see cref="Adic.CommandDispatcher"/> object.
+        /// </summary>
+        /// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="Adic.CommandDispatcher"/>. The
+        /// <see cref="Dispose"/> method leaves the <see cref="Adic.CommandDispatcher"/> in an unusable state. After calling
+        /// <see cref="Dispose"/>, you must release all references to the <see cref="Adic.CommandDispatcher"/> so the garbage
+        /// collector can reclaim the memory that the <see cref="Adic.CommandDispatcher"/> was occupying.</remarks>
+        public void Dispose() {
+            this.ReleaseAll();
+            this.commands.Clear();
         }
 
         /// <summary>
@@ -279,5 +298,5 @@ namespace Adic {
                 this.PoolCommand(commandType);
             }
         }
-	}
+    }
 }

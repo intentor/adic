@@ -7,6 +7,9 @@ namespace Adic.Examples.Commander {
     /// Game context root.
     /// </summary>
     public class GameRoot : ContextRoot {
+        /// <summary>Rotator command tag.</summary>
+        public const string ROTATOR_COMMAND_TAG = "Rotator";
+
         [Tooltip("Prefab for the prism.")]
         public GameObject prismPrefab;
 
@@ -34,6 +37,17 @@ namespace Adic.Examples.Commander {
         public override void Init() {
             // Init the game.
             this.dispatcher.Dispatch<SpawnGameObjectCommand>();
+
+            this.Invoke("StopRotation", 1.0f);
+        }
+
+        /// <summary>
+        /// Stops the rotation.
+        /// 
+        /// <see cref="RotateGameObjectCommand"/> is dispatched with the tag "Rotator", so it can be released.
+        /// </summary>
+        private void StopRotation() {
+            this.dispatcher.ReleaseAll(ROTATOR_COMMAND_TAG);
         }
     }
 }

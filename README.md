@@ -1318,6 +1318,7 @@ namespace MyNamespace {
 				.RegisterCommand<MyCommand>()
 				//...or by type.
 				.RegisterCommand(typeof(MyCommand));
+
 		}
 
 		public override void Init() {
@@ -1359,12 +1360,17 @@ To dispatch a command, just call the `Dispatch()` method on `Adic.ICommandDispat
 /// My method that dispatches a command.
 /// </summary>
 public void MyMethodThatDispatchesCommands() {
-	//Dispatching by generics...
-	dispatcher.Dispatch<MyCommand>();
-	//...or by type.
-	dispatcher.Dispatch(typeof(MyCommand));
+	dispatcher
+		//Dispatching by generics...
+		.Dispatch<MyCommand>();
+		//...or by type...
+		.Dispatch(typeof(MyCommand));
+		//...and it's also possible to tag commands to make it easier to release them later.
+		.Dispatch<MyCommand>().Tag("MyTag");
 }
 ```
+
+**Note:** tags are only added to singleton or alive commands. When tagging singleton commands, any previous tags will be replaced.
 
 It's also possible to dispatch a command after a given period of time by calling the `InvokeDispatch()` method:
 
@@ -1485,13 +1491,16 @@ public void OnSomeActionFinished() {
 }
 ```
 
-It's also possible to manually release all commands of a specified type by calling the `Release()` method of the `CommandDispatcher`:
+It's also possible to manually release all commands of a specified type or tag by calling the `ReleaseAll()` method of the `CommandDispatcher`:
 
 ```cs
 //Releasing all commands of a given type by generics...
-dispatcher.ReleaseAll<SomeCommand>();
-//...or by type instance...
-dispatcher.ReleaseAll(typeof(SomeCommand));
+dispatcher
+	.ReleaseAll<SomeCommand>();
+	//...or by type instance...
+	.ReleaseAll(typeof(SomeCommand));
+	//...or by tag.
+	.ReleaseAll("MyTag");
 ```
 
 #### Timed invoke

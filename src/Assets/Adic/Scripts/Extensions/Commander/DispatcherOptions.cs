@@ -82,6 +82,10 @@ namespace Adic {
             this.dispatcher.ReleaseAll(type);
         }
 
+        public void ReleaseAll(String tag) {
+            this.dispatcher.ReleaseAll(tag);
+        }
+
         public bool ContainsRegistration<T>() where T : ICommand {
             return this.dispatcher.ContainsRegistration<T>();
         }

@@ -69,6 +69,12 @@ namespace Adic {
         void ReleaseAll(Type type);
 
         /// <summary>
+        /// Releases all commands with a given tag.
+        /// </summary>
+        /// <param name="tag">Command tag.</param>
+        void ReleaseAll(String tag);
+
+        /// <summary>
         /// Checks whether a given command of <typeparamref name="T"/> is registered.
         /// </summary>
         /// <typeparam name="T">Command type.</typeparam>
