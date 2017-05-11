@@ -49,30 +49,30 @@ namespace Adic {
         /// Releases a command.
         /// </summary>
         /// <param name="command">Command to be released.</param>
-        void Release(ICommand command);
+        ICommandDispatcher Release(ICommand command);
 
         /// <summary>
         /// Releases all commands that are running.
         /// </summary>
-        void ReleaseAll();
+        ICommandDispatcher ReleaseAll();
 
         /// <summary>
         /// Releases all commands that are running.
         /// </summary>
         /// <typeparam name="T">The type of the commands to be released.</typeparam>
-        void ReleaseAll<T>() where T : ICommand;
+        ICommandDispatcher ReleaseAll<T>() where T : ICommand;
 
         /// <summary>
         /// Releases all commands that are running.
         /// </summary>
         /// <param name="type">The type of the commands to be released.</param>
-        void ReleaseAll(Type type);
+        ICommandDispatcher ReleaseAll(Type type);
 
         /// <summary>
         /// Releases all commands with a given tag.
         /// </summary>
         /// <param name="tag">Command tag.</param>
-        void ReleaseAll(String tag);
+        ICommandDispatcher ReleaseAll(String tag);
 
         /// <summary>
         /// Checks whether a given command of <typeparamref name="T"/> is registered.

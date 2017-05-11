@@ -66,24 +66,24 @@ namespace Adic {
             this.dispatcher.InvokeDispatch(type, time, parameters);
         }
 
-        public void Release(ICommand command) {
-            this.dispatcher.Release(command);
+        public ICommandDispatcher Release(ICommand command) {
+            return this.dispatcher.Release(command);
         }
 
-        public void ReleaseAll() {
-            this.dispatcher.ReleaseAll();
+        public ICommandDispatcher ReleaseAll() {
+            return this.dispatcher.ReleaseAll();
         }
 
-        public void ReleaseAll<T>() where T : ICommand {
-            this.dispatcher.ReleaseAll<T>();
+        public ICommandDispatcher ReleaseAll<T>() where T : ICommand {
+            return this.dispatcher.ReleaseAll<T>();
         }
 
-        public void ReleaseAll(Type type) {
-            this.dispatcher.ReleaseAll(type);
+        public ICommandDispatcher ReleaseAll(Type type) {
+            return this.dispatcher.ReleaseAll(type);
         }
 
-        public void ReleaseAll(String tag) {
-            this.dispatcher.ReleaseAll(tag);
+        public ICommandDispatcher ReleaseAll(String tag) {
+            return this.dispatcher.ReleaseAll(tag);
         }
 
         public bool ContainsRegistration<T>() where T : ICommand {

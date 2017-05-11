@@ -87,9 +87,10 @@ namespace Adic {
             this.StartCoroutine(this.DispatchInvoke(type, time, parameters));
         }
 
-        public void Release(ICommand command) {
-            if (!command.running)
-                return;
+        public ICommandDispatcher Release(ICommand command) {
+            if (!command.running) {
+                return this;
+            }
 
             if (command is IUpdatable && eventCallerExtension.updateable.Contains((IUpdatable) command)) {
                 eventCallerExtension.updateable.Remove((IUpdatable) command);
@@ -101,9 +102,11 @@ namespace Adic {
 
             command.running = false;
             command.keepAlive = false;
+
+            return this;
         }
 
-        public void ReleaseAll() {
+        public ICommandDispatcher ReleaseAll() {
             foreach (var entry in this.commands) {
                 if (entry.Value is ICommand) {
                     this.Release((ICommand) entry.Value);
@@ -114,13 +117,15 @@ namespace Adic {
                     }
                 }
             }
+
+            return this;
         }
 
-        public void ReleaseAll<T>() where T : ICommand {
-            this.ReleaseAll(typeof(T));
+        public ICommandDispatcher ReleaseAll<T>() where T : ICommand {
+            return this.ReleaseAll(typeof(T));
         }
 
-        public void ReleaseAll(Type type) {
+        public ICommandDispatcher ReleaseAll(Type type) {
             foreach (var entry in this.commands) {
                 if (entry.Value is ICommand && entry.Value.GetType().Equals(type)) {
                     this.Release((ICommand) entry.Value);
@@ -135,9 +140,11 @@ namespace Adic {
                     }
                 }
             }
+
+            return this;
         }
 
-        public void ReleaseAll(String tag) {
+        public ICommandDispatcher ReleaseAll(String tag) {
             foreach (var entry in this.commands) {
                 if (entry.Value is ICommand && tag.Equals(((ICommand) entry.Value).tag)) {
                     this.Release((ICommand) entry.Value);
@@ -152,6 +159,8 @@ namespace Adic {
                     }
                 }
             }
+
+            return this;
         }
 
         public bool ContainsRegistration<T>() where T : ICommand {

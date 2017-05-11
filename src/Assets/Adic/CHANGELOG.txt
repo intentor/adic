@@ -14,6 +14,7 @@ Framework
 Commander extension
 - Added tag when dispatching commands. [Issue #52]
 - Added release of commands by tag. [Issue #52]
+- Added chaining of release methods. [Issue #52]
 
 Unity Binding Extension
 - Added a ToPrefab implementation using GameObject. [Issue #88]
