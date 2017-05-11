@@ -1335,11 +1335,11 @@ It's also possible to register all commands under the same namespace by calling 
 ```cs
 public override void SetupContainers() {
 	//Create the container.
-		this.AddContainer<InjectionContainer>()
-			//Register any extensions the container may use.
-			.RegisterExtension<CommanderContainerExtension>()
-			//Register all commands under the namespace "MyNamespace.Commands".
-			.RegisterCommands("MyNamespace.Commands");
+	this.AddContainer<InjectionContainer>()
+		//Register any extensions the container may use.
+		.RegisterExtension<CommanderContainerExtension>()
+		//Register all commands under the namespace "MyNamespace.Commands".
+		.RegisterCommands("MyNamespace.Commands");
 }
 ```
 
@@ -1494,8 +1494,8 @@ public void OnSomeActionFinished() {
 It's also possible to manually release all commands of a specified type or tag by calling the `ReleaseAll()` method of the `CommandDispatcher`:
 
 ```cs
-//Releasing all commands of a given type by generics...
 dispatcher
+	//Releasing all commands of a given type by generics...
 	.ReleaseAll<SomeCommand>();
 	//...or by type instance...
 	.ReleaseAll(typeof(SomeCommand));
