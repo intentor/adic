@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
@@ -14,19 +13,16 @@ namespace Adic.Tests {
             yield return new MonoBehaviourTest<MultiSceneTestBehaviour>();
         }
 
-        public class MultiSceneTestBehaviour : BaseTestBehaviour {
+        public class MultiSceneTestBehaviour : BaseSceneTestBehaviour {
+            protected override string SceneToTest {
+                get { return "TestMultiSceneScene1"; }
+            }
             public override float wait {
                 get { return 0; }
             }
 
-            protected override void Init() {
-                SceneManager.LoadScene("TestMultiSceneScene1", LoadSceneMode.Additive);
-            }
-
             protected override void Evaluate() {
                 LogAssert.Expect(LogType.Log, "Updating...");
-                LogAssert.NoUnexpectedReceived();
-                isFinished = true;
             }
         }
     }

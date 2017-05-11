@@ -17,7 +17,9 @@ namespace Adic.Examples.UsingConditions {
         }
 
         protected void Update() {
-            this.objectToRotate.Rotate(1.0f, 1.0f, 1.0f);
+            if (this.objectToRotate != null) {
+                this.objectToRotate.Rotate(1.0f, 1.0f, 1.0f);
+            }
         }
     }
 }

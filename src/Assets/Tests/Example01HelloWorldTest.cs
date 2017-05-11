@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
@@ -14,15 +13,14 @@ namespace Adic.Tests {
             yield return new MonoBehaviourTest<LogHelloWorldTestBehaviour>();
         }
 
-        public class LogHelloWorldTestBehaviour : BaseTestBehaviour {
-            protected override void Init() {
-                SceneManager.LoadScene("HelloWorld", LoadSceneMode.Additive);
+        public class LogHelloWorldTestBehaviour : BaseSceneTestBehaviour {
+            protected override string SceneToTest {
+                get { return "HelloWorld"; }
             }
 
             protected override void Evaluate() {
                 LogAssert.Expect(LogType.Log, "Hello, world!");
                 LogAssert.NoUnexpectedReceived();
-                isFinished = true;
             }
         }
     }

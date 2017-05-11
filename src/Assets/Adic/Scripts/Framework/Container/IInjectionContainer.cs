@@ -65,5 +65,10 @@ namespace Adic.Container {
         /// <param name="type">The type of the extension.</param>
         /// <returns><c>true</c> if the container has extension; otherwise, <c>false</c>.</returns>
         bool HasExtension(Type type);
+
+        /// <summary>
+        /// Clear the container, removing all its bindings.
+        /// </summary>
+        void Clear();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
@@ -14,9 +13,9 @@ namespace Adic.Tests {
             yield return new MonoBehaviourTest<GameObjectCheckTestBehaviour>();
         }
 
-        public class GameObjectCheckTestBehaviour : BaseTestBehaviour {
-            protected override void Init() {
-                SceneManager.LoadScene("BindingsSetup", LoadSceneMode.Additive);
+        public class GameObjectCheckTestBehaviour : BaseSceneTestBehaviour {
+            protected override string SceneToTest {
+                get { return "BindingsSetup"; }
             }
 
             protected override void Evaluate() {
@@ -24,7 +23,6 @@ namespace Adic.Tests {
                 Assert.NotNull(GameObject.Find("CubeB(Clone)"));
                 Assert.NotNull(GameObject.Find("CubeC(Clone)"));
                 LogAssert.NoUnexpectedReceived();
-                isFinished = true;
             }
         }
     }

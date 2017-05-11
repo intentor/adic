@@ -238,6 +238,14 @@ namespace Adic {
             return GetExtension(type) != null;
         }
 
+        public void Clear() {
+            var bindings = this.binder.GetBindings();
+
+            foreach (var binding in bindings) {
+                this.binder.Unbind(binding.type);
+            }
+        }
+
         /* Container */
 
         /// <summary>
