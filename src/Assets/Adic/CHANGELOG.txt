@@ -5,7 +5,7 @@ Copyright (c) 2014-2017 André "Intentor" Martins
 http://intentor.com.br/
 ------------------------------------------------
 
-Version 2.26 (2017-05-??)
+Version 2.26 (2017-06-05)
 
 Framework
 - Added inject on private members. [Issue #85]
