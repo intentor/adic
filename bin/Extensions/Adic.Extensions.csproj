@@ -71,6 +71,9 @@
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\ICommandDispatcher.cs">
       <Link>Extensions\Commander\ICommandDispatcher.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\DispatcherOptions.cs">
+      <Link>Extensions\Commander\DispatcherOptions.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\Assets\Adic\Scripts\Extensions\Commander\ICommandPool.cs">
       <Link>Extensions\Commander\ICommandPool.cs</Link>
     </Compile>
