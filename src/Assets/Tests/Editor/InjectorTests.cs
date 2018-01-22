@@ -273,9 +273,9 @@ namespace Adic.Tests {
 
             instance = this.injector.Inject<MockClassMultipleMethodInject>(instance);
 
-            Assert.IsTrue(instance.calledMethod1);
-            Assert.IsTrue(instance.calledMethod2);
-            Assert.IsTrue(instance.calledMethod3);
+            Assert.AreEqual(1, instance.calledMethod1);
+            Assert.AreEqual(1, instance.calledMethod2);
+            Assert.AreEqual(1, instance.calledMethod3);
         }
 
         [Test]
@@ -284,18 +284,18 @@ namespace Adic.Tests {
 
             instance = this.containerIdentifierTests.Inject<MockClassMultipleMethodInject>(instance);
 
-            Assert.IsTrue(instance.calledMethod1);
-            Assert.IsTrue(instance.calledMethod2);
-            Assert.IsTrue(instance.calledMethod3);
+            Assert.AreEqual(1, instance.calledMethod1);
+            Assert.AreEqual(1, instance.calledMethod2);
+            Assert.AreEqual(1, instance.calledMethod3);
         }
 
         [Test]
         public void TestResolveMultipleMethodInject() {
             var instance = this.containerIdentifierTests.Resolve<MockClassMultipleMethodInject>();
 
-            Assert.IsTrue(instance.calledMethod1);
-            Assert.IsTrue(instance.calledMethod2);
-            Assert.IsTrue(instance.calledMethod3);
+            Assert.AreEqual(1, instance.calledMethod1);
+            Assert.AreEqual(1, instance.calledMethod2);
+            Assert.AreEqual(1, instance.calledMethod3);
         }
 
         [Test]
@@ -336,7 +336,7 @@ namespace Adic.Tests {
 
             instance = this.injector.Inject<MockClassPrivateInject>(instance);
 
-            Assert.IsTrue(instance.hasCalledMethod);
+            Assert.AreEqual(1, instance.hasCalledMethod);
             Assert.NotNull(instance.fieldValue);
             Assert.NotNull(instance.propertyValue);
         }

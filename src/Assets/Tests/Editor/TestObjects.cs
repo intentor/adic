@@ -264,7 +264,7 @@ namespace Adic.Tests {
         [Inject]
         private IMockInterface propertyMockInterface { get; set; }
 
-        public bool hasCalledMethod { get; set; }
+        public int hasCalledMethod { get; set; }
         public IMockInterface fieldValue {
             get { return this.fieldMockInterface; }
         }
@@ -272,13 +272,9 @@ namespace Adic.Tests {
             get { return this.propertyMockInterface; }
         }
 
-        public MockClassPrivateInject() {
-            this.hasCalledMethod = false;
-        }
-
         [Inject]
         private void PostConstructor() {
-            this.hasCalledMethod = true;
+            this.hasCalledMethod++;
         }
     }
 
@@ -301,25 +297,25 @@ namespace Adic.Tests {
     /// Mock class with multiple method injection.
     /// </summary>
     public class MockClassMultipleMethodInject {
-        public bool calledMethod1 { get; set; }
+        public int calledMethod1 { get; set; }
 
-        public bool calledMethod2 { get; set; }
+        public int calledMethod2 { get; set; }
 
-        public bool calledMethod3 { get; set; }
+        public int calledMethod3 { get; set; }
 
         [Inject]
         protected void Method1() {
-            this.calledMethod1 = true;
+            this.calledMethod1++;
         }
 
         [Inject]
         protected void Method2() {
-            this.calledMethod2 = true;
+            this.calledMethod2++;
         }
 
         [Inject]
         protected void Method3() {
-            this.calledMethod3 = true;
+            this.calledMethod3++;
         }
     }
 
