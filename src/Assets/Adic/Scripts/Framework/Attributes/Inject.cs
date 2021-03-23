@@ -10,7 +10,12 @@ namespace Adic {
     /// </summary>
     [AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Field | AttributeTargets.Property |
         AttributeTargets.Method | AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
-    public class Inject : Attribute {
+#if UNITY_2017_1_OR_NEWER
+    public class Inject : UnityEngine.Scripting.PreserveAttribute    
+#else
+ public class Inject : Attribute  
+#endif
+	{
         /// <summary>The identifier of the binding to inject.</summary>
         public object identifier;
 
