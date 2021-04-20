@@ -1,0 +1,11 @@
+{
+    "name": "com.intentor.adic",
+    "displayName": "adic",
+    "version": "2.26.0",
+    "unity": "2018.4",
+    "description": "Another Dependency Injection Container for Unity and beyond",
+    "keywords": [ "Dependency Injection", "DI"],
+    "license": "MIT",
+    "category": "Dependency Injection",
+    "dependencies": {}
+}
