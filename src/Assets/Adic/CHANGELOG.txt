@@ -1,9 +1,14 @@
 ------------------------------------------------
 Adic
 Another Dependency Injector Container
-Copyright (c) 2014-2017 André "Intentor" Martins
+Copyright (c) 2014-2021 André "Intentor" Martins
 http://intentor.com.br/
 ------------------------------------------------
+
+Version 2.27 (2021-08-08)
+
+- Removed JIT code generation.
+- Added package.json.
 
 Version 2.26 (2017-06-05)
 
