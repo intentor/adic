@@ -5,6 +5,7 @@ src/[Ll]ibrary/
 src/[Tt]emp/
 src/[Oo]bj/
 src/[Bb]uild/
+src/[Ll]ogs/
 bin/Extensions/bin
 bin/Extensions/obj
 bin/Extensions.Editor/bin
